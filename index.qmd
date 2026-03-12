@@ -1,0 +1,69 @@
+---
+title: "Project Home"
+---
+
+::: {.hero-panel}
+<div class="tagline">Visual Analytics · Quarto + Shiny · AY2025/26</div>
+
+# Singapore Tourism Recovery Prototype
+
+## Core Question
+Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?
+
+This site is an integrated workspace for:
+
+1. Take-home Exercise 2 write-up.
+2. Prototype module design and validation.
+3. Team collaboration and onboarding.
+4. Linked Shiny module development.
+
+<div class="quick-links">
+<a href="./take-home-ex2.html">Open Take-home 2</a>
+<a href="./prototype/module-cluster.html">Open Prototype Module</a>
+<a href="./app-guide.html">Open Shiny Guide</a>
+</div>
+:::
+
+## Why This Structure
+
+The information architecture is adapted from the strengths of these references:
+
+1. [Habari Tanzania](https://thehabaritanzania.netlify.app/#team): one-page storytelling with section anchors and team visibility.
+2. [Decoding Chaos](https://decoding-chaos.netlify.app/): Quarto-native multi-page prototype navigation.
+
+## Workstreams
+
+::: {.grid-cards}
+::: {.card-block}
+#### A. Submission-Ready Report
+`take-home-ex2.qmd` is the individual submission page in Quarto HTML format.
+:::
+::: {.card-block}
+#### B. Prototype Module
+`prototype/module-cluster.qmd` defines module logic, parameters, UI, and output behavior.
+:::
+::: {.card-block}
+#### C. Running Shiny App
+`app/app.R` with modular server code in `app/R/`.
+:::
+::: {.card-block}
+#### D. Shared Team Base
+`team/onboarding.qmd` documents setup, roles, and branch workflow.
+:::
+:::
+
+## Data & References Imported
+
+1. `data/raw/tourism_four_part_analysis_ready.xlsx`
+2. `data/references/tourism_analysis_bilingual_plan.txt`
+3. `data/references/tourism_data_cleaning_detailed_report.md`
+
+## Start Development
+
+```bash
+quarto preview
+```
+
+```bash
+Rscript run_app.R 3838
+```

@@ -1,0 +1,10 @@
+"package","purpose","installed","cran_available"
+"shiny","App runtime",TRUE,TRUE
+"bslib","App theming",TRUE,TRUE
+"readxl","Excel ingestion",TRUE,TRUE
+"dplyr","Data wrangling",TRUE,TRUE
+"ggplot2","Charting",TRUE,TRUE
+"cluster","Silhouette metric",TRUE,TRUE
+"DT","Interactive table",TRUE,TRUE
+"rpart","Decision-tree module prep",TRUE,TRUE
+"tidyr","Data reshaping",TRUE,TRUE

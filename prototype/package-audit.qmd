@@ -1,0 +1,30 @@
+---
+title: "Package Audit (CRAN Support)"
+---
+
+## Purpose
+
+This page verifies that required packages for the prototype are available on CRAN and ready for project use.
+
+Audit script:
+
+`scripts/check_cran_support.R`
+
+## Required Package Set
+
+```{r}
+#| echo: false
+path <- "../artifacts/tables/package_audit.csv"
+if (file.exists(path)) {
+  df <- read.csv(path)
+  knitr::kable(df, align = "l")
+} else {
+  cat("Run scripts/check_cran_support.R to generate package_audit.csv.")
+}
+```
+
+## Interpretation
+
+1. Packages marked `cran_available = TRUE` are available from CRAN.
+2. Packages marked `installed = TRUE` are already ready on this machine.
+3. Packages not yet installed can be added via `install.packages()`.

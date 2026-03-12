@@ -1,0 +1,48 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "prototype/*.qmd"
+    - "team/*.qmd"
+    - "!templates/"
+    - "!artifacts/"
+    - "!app/"
+    - "!scripts/"
+    - "!data/"
+
+website:
+  title: "Singapore Tourism Recovery VA Prototype"
+  navbar:
+    background: "#0f3d3e"
+    right:
+      - href: index.qmd
+        text: Home
+      - href: take-home-ex2.qmd
+        text: Take-home 2
+      - text: Prototype
+        menu:
+          - href: prototype/module-cluster.qmd
+            text: Module Prototype
+          - href: prototype/package-audit.qmd
+            text: Package Audit
+          - href: prototype/ui-storyboard.qmd
+            text: UI Storyboard
+      - href: app-guide.qmd
+        text: Shiny App
+      - href: team/onboarding.qmd
+        text: Team
+  page-footer:
+    center: "SMU Visual Analytics Group Project · Updated 2026-03-12"
+
+format:
+  html:
+    theme: [cosmo, styles/theme.scss]
+    toc: true
+    smooth-scroll: true
+    code-copy: true
+
+execute:
+  freeze: auto
+  warning: false
+  message: false

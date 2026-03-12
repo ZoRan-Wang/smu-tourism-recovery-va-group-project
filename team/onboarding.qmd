@@ -1,0 +1,55 @@
+---
+title: "Team Onboarding"
+---
+
+## Collaboration Goal
+
+Set up one shared base where each member can own one prototype module while keeping style and structure consistent.
+
+## Suggested Team Split
+
+1. Member A: EDA + confirmatory module.
+2. Member B: cluster module.
+3. Member C: decision tree module.
+4. Member D (optional): integration, QA, and deployment.
+
+## Branching Convention
+
+1. Create branches as `codex/<module-name>` or `feature/<module-name>`.
+2. Keep pull requests scoped to one module/page at a time.
+3. Merge only after `quarto render` and app smoke-test pass.
+
+## Local Setup
+
+```bash
+git clone <repo-url>
+cd group_project
+quarto preview
+Rscript run_app.R 3838
+```
+
+## Shared Files to Update Carefully
+
+1. `_quarto.yml` (navigation and build behavior)
+2. `styles/theme.scss` (global styling)
+3. `app/app.R` (module registration)
+
+## Team Info Cards
+
+::: {.team-grid}
+::: {.team-card}
+### Member 1
+Role: Module Owner  
+Status: add name/contact
+:::
+::: {.team-card}
+### Member 2
+Role: Module Owner  
+Status: add name/contact
+:::
+::: {.team-card}
+### Member 3
+Role: Module Owner  
+Status: add name/contact
+:::
+:::

@@ -1,0 +1,317 @@
+[
+  {
+    "objectID": "team/onboarding.html",
+    "href": "team/onboarding.html",
+    "title": "Team Onboarding",
+    "section": "",
+    "text": "Set up one shared base where each member can own one prototype module while keeping style and structure consistent."
+  },
+  {
+    "objectID": "team/onboarding.html#collaboration-goal",
+    "href": "team/onboarding.html#collaboration-goal",
+    "title": "Team Onboarding",
+    "section": "",
+    "text": "Set up one shared base where each member can own one prototype module while keeping style and structure consistent."
+  },
+  {
+    "objectID": "team/onboarding.html#suggested-team-split",
+    "href": "team/onboarding.html#suggested-team-split",
+    "title": "Team Onboarding",
+    "section": "Suggested Team Split",
+    "text": "Suggested Team Split\n\nMember A: EDA + confirmatory module.\nMember B: cluster module.\nMember C: decision tree module.\nMember D (optional): integration, QA, and deployment."
+  },
+  {
+    "objectID": "team/onboarding.html#branching-convention",
+    "href": "team/onboarding.html#branching-convention",
+    "title": "Team Onboarding",
+    "section": "Branching Convention",
+    "text": "Branching Convention\n\nCreate branches as codex/&lt;module-name&gt; or feature/&lt;module-name&gt;.\nKeep pull requests scoped to one module/page at a time.\nMerge only after quarto render and app smoke-test pass."
+  },
+  {
+    "objectID": "team/onboarding.html#local-setup",
+    "href": "team/onboarding.html#local-setup",
+    "title": "Team Onboarding",
+    "section": "Local Setup",
+    "text": "Local Setup\ngit clone &lt;repo-url&gt;\ncd group_project\nquarto preview\nRscript run_app.R 3838"
+  },
+  {
+    "objectID": "team/onboarding.html#shared-files-to-update-carefully",
+    "href": "team/onboarding.html#shared-files-to-update-carefully",
+    "title": "Team Onboarding",
+    "section": "Shared Files to Update Carefully",
+    "text": "Shared Files to Update Carefully\n\n_quarto.yml (navigation and build behavior)\nstyles/theme.scss (global styling)\napp/app.R (module registration)"
+  },
+  {
+    "objectID": "team/onboarding.html#team-info-cards",
+    "href": "team/onboarding.html#team-info-cards",
+    "title": "Team Onboarding",
+    "section": "Team Info Cards",
+    "text": "Team Info Cards\n\n\nMember 1\nRole: Module Owner\nStatus: add name/contact\n\n\nMember 2\nRole: Module Owner\nStatus: add name/contact\n\n\nMember 3\nRole: Module Owner\nStatus: add name/contact"
+  },
+  {
+    "objectID": "prototype/ui-storyboard.html",
+    "href": "prototype/ui-storyboard.html",
+    "title": "UI Storyboard",
+    "section": "",
+    "text": "flowchart LR\n    A[\"Load monthly tourism dataset\"] --&gt; B[\"Select period(s)\"]\n    B --&gt; C[\"Set k and seed\"]\n    C --&gt; D[\"Run clustering\"]\n    D --&gt; E[\"View cluster scatter plot\"]\n    D --&gt; F[\"Review cluster profile table\"]\n    D --&gt; G[\"Check silhouette score\"]\n    G --&gt; H{\"Quality acceptable?\"}\n    H -- \"Yes\" --&gt; I[\"Interpret market states\"]\n    H -- \"No\" --&gt; C"
+  },
+  {
+    "objectID": "prototype/ui-storyboard.html#storyboard-cluster-analysis-module",
+    "href": "prototype/ui-storyboard.html#storyboard-cluster-analysis-module",
+    "title": "UI Storyboard",
+    "section": "",
+    "text": "flowchart LR\n    A[\"Load monthly tourism dataset\"] --&gt; B[\"Select period(s)\"]\n    B --&gt; C[\"Set k and seed\"]\n    C --&gt; D[\"Run clustering\"]\n    D --&gt; E[\"View cluster scatter plot\"]\n    D --&gt; F[\"Review cluster profile table\"]\n    D --&gt; G[\"Check silhouette score\"]\n    G --&gt; H{\"Quality acceptable?\"}\n    H -- \"Yes\" --&gt; I[\"Interpret market states\"]\n    H -- \"No\" --&gt; C"
+  },
+  {
+    "objectID": "prototype/ui-storyboard.html#ui-layout-plan",
+    "href": "prototype/ui-storyboard.html#ui-layout-plan",
+    "title": "UI Storyboard",
+    "section": "UI Layout Plan",
+    "text": "UI Layout Plan\n\nLeft Panel (Controls)\n\nPeriod Filter (checkboxes)\nK (Cluster Count) (slider)\nRandom Seed (numeric input)\nScale Features (toggle)\nRun Clustering (button)\n\n\n\nRight Panel (Outputs)\n\nSilhouette Score (KPI card)\nCluster Scatter Plot (main chart)\nCluster Profile Table (interactive table)\nCluster Assignment Preview (download-ready table)"
+  },
+  {
+    "objectID": "prototype/ui-storyboard.html#ui-component-mapping",
+    "href": "prototype/ui-storyboard.html#ui-component-mapping",
+    "title": "UI Storyboard",
+    "section": "UI Component Mapping",
+    "text": "UI Component Mapping\n\n\n\nUI Need\nShiny Component\nReason\n\n\n\n\nMulti-period comparison\ncheckboxGroupInput\nflexible grouping\n\n\nLimited integer tuning\nsliderInput\nfast constrained control\n\n\nReproducibility\nnumericInput\nexplicit seed control\n\n\nTrigger heavy compute\nactionButton\navoid unnecessary reruns\n\n\nFast profile scan\nDT::datatable\nsortable/filterable"
+  },
+  {
+    "objectID": "prototype/ui-storyboard.html#usability-notes",
+    "href": "prototype/ui-storyboard.html#usability-notes",
+    "title": "UI Storyboard",
+    "section": "Usability Notes",
+    "text": "Usability Notes\n\nKeep defaults aligned with assignment baseline (k = 3).\nKeep labels domain-driven (pandemic shock, recovery, high-performance).\nPreserve color semantics across plot and table."
+  },
+  {
+    "objectID": "prototype/module-cluster.html",
+    "href": "prototype/module-cluster.html",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "",
+    "text": "Prototype a Shiny module that groups monthly observations into interpretable tourism market states."
+  },
+  {
+    "objectID": "prototype/module-cluster.html#objective",
+    "href": "prototype/module-cluster.html#objective",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "",
+    "text": "Prototype a Shiny module that groups monthly observations into interpretable tourism market states."
+  },
+  {
+    "objectID": "prototype/module-cluster.html#data-contract",
+    "href": "prototype/module-cluster.html#data-contract",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Data Contract",
+    "text": "Data Contract\nInput dataset: data/raw/tourism_four_part_analysis_ready.xlsx\nSheet: analysis_ready_all\nRequired fields:\n\nvisitor_arrivals\nchina_share\nhotel_occ\navg_stay_monthly_capped\nperiod\ndate"
+  },
+  {
+    "objectID": "prototype/module-cluster.html#analytical-design",
+    "href": "prototype/module-cluster.html#analytical-design",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Analytical Design",
+    "text": "Analytical Design\n\nFilter data by selected period.\nSelect feature set.\nOptionally standardize features.\nRun k-means with user-defined k.\nCompute silhouette score.\nReturn cluster assignments, profile summary, and scatter plot."
+  },
+  {
+    "objectID": "prototype/module-cluster.html#parameter-exposure",
+    "href": "prototype/module-cluster.html#parameter-exposure",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Parameter Exposure",
+    "text": "Parameter Exposure\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nValidation\n\n\n\n\nperiod_filter\ncheckboxGroupInput\nall periods\nat least one selected\n\n\nk_value\nsliderInput\n3\nmin 2, max 6\n\n\nrandom_seed\nnumericInput\n42\ninteger &gt; 0\n\n\nscale_features\ncheckboxInput\nTRUE\nboolean"
+  },
+  {
+    "objectID": "prototype/module-cluster.html#output-exposure",
+    "href": "prototype/module-cluster.html#output-exposure",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Output Exposure",
+    "text": "Output Exposure\n\n\n\nOutput\nFormat\nPurpose\n\n\n\n\nScatter plot\nggplot2\nShow market states visually\n\n\nProfile table\nDT::datatable\nCompare cluster means\n\n\nSilhouette metric\ntext value\nIndicate clustering quality"
+  },
+  {
+    "objectID": "prototype/module-cluster.html#implementation-files",
+    "href": "prototype/module-cluster.html#implementation-files",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Implementation Files",
+    "text": "Implementation Files\n\napp/R/data_utils.R\napp/R/mod_cluster_ui.R\napp/R/mod_cluster_server.R\napp/app.R"
+  },
+  {
+    "objectID": "prototype/module-cluster.html#quality-gates",
+    "href": "prototype/module-cluster.html#quality-gates",
+    "title": "Module Prototype: Cluster Analysis",
+    "section": "Quality Gates",
+    "text": "Quality Gates\n\nNo NA rows in selected features before clustering.\nError message if filtered sample is too small for chosen k.\nStable color palette across outputs.\nReproducible clustering with fixed seed."
+  },
+  {
+    "objectID": "app-guide.html",
+    "href": "app-guide.html",
+    "title": "Shiny App Guide",
+    "section": "",
+    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+  },
+  {
+    "objectID": "app-guide.html#application-structure",
+    "href": "app-guide.html#application-structure",
+    "title": "Shiny App Guide",
+    "section": "",
+    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+  },
+  {
+    "objectID": "app-guide.html#run-commands",
+    "href": "app-guide.html#run-commands",
+    "title": "Shiny App Guide",
+    "section": "Run Commands",
+    "text": "Run Commands\nRscript run_app.R 3838"
+  },
+  {
+    "objectID": "app-guide.html#what-to-expect",
+    "href": "app-guide.html#what-to-expect",
+    "title": "Shiny App Guide",
+    "section": "What to Expect",
+    "text": "What to Expect\nCurrent module available in app:\n\nCluster analysis prototype\nAdjustable k, period filter, and seed\nScatter plot + profile table + silhouette score"
+  },
+  {
+    "objectID": "app-guide.html#one-click-dev-start-powershell",
+    "href": "app-guide.html#one-click-dev-start-powershell",
+    "title": "Shiny App Guide",
+    "section": "One-Click Dev Start (PowerShell)",
+    "text": "One-Click Dev Start (PowerShell)\npowershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1"
+  },
+  {
+    "objectID": "app-guide.html#data-source",
+    "href": "app-guide.html#data-source",
+    "title": "Shiny App Guide",
+    "section": "Data Source",
+    "text": "Data Source\nApp reads:\ndata/raw/tourism_four_part_analysis_ready.xlsx"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Project Home",
+    "section": "",
+    "text": "Visual Analytics · Quarto + Shiny · AY2025/26\n\n\n\n\n\nDid the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+  },
+  {
+    "objectID": "index.html#core-question",
+    "href": "index.html#core-question",
+    "title": "Project Home",
+    "section": "",
+    "text": "Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+  },
+  {
+    "objectID": "index.html#why-this-structure",
+    "href": "index.html#why-this-structure",
+    "title": "Project Home",
+    "section": "Why This Structure",
+    "text": "Why This Structure\nThe information architecture is adapted from the strengths of these references:\n\nHabari Tanzania: one-page storytelling with section anchors and team visibility.\nDecoding Chaos: Quarto-native multi-page prototype navigation."
+  },
+  {
+    "objectID": "index.html#workstreams",
+    "href": "index.html#workstreams",
+    "title": "Project Home",
+    "section": "Workstreams",
+    "text": "Workstreams\n\n\nA. Submission-Ready Report\ntake-home-ex2.qmd is the individual submission page in Quarto HTML format.\n\n\nB. Prototype Module\nprototype/module-cluster.qmd defines module logic, parameters, UI, and output behavior.\n\n\nC. Running Shiny App\napp/app.R with modular server code in app/R/.\n\n\nD. Shared Team Base\nteam/onboarding.qmd documents setup, roles, and branch workflow."
+  },
+  {
+    "objectID": "index.html#data-references-imported",
+    "href": "index.html#data-references-imported",
+    "title": "Project Home",
+    "section": "Data & References Imported",
+    "text": "Data & References Imported\n\ndata/raw/tourism_four_part_analysis_ready.xlsx\ndata/references/tourism_analysis_bilingual_plan.txt\ndata/references/tourism_data_cleaning_detailed_report.md"
+  },
+  {
+    "objectID": "index.html#start-development",
+    "href": "index.html#start-development",
+    "title": "Project Home",
+    "section": "Start Development",
+    "text": "Start Development\nquarto preview\nRscript run_app.R 3838"
+  },
+  {
+    "objectID": "prototype/package-audit.html",
+    "href": "prototype/package-audit.html",
+    "title": "Package Audit (CRAN Support)",
+    "section": "",
+    "text": "This page verifies that required packages for the prototype are available on CRAN and ready for project use.\nAudit script:\nscripts/check_cran_support.R"
+  },
+  {
+    "objectID": "prototype/package-audit.html#purpose",
+    "href": "prototype/package-audit.html#purpose",
+    "title": "Package Audit (CRAN Support)",
+    "section": "",
+    "text": "This page verifies that required packages for the prototype are available on CRAN and ready for project use.\nAudit script:\nscripts/check_cran_support.R"
+  },
+  {
+    "objectID": "prototype/package-audit.html#required-package-set",
+    "href": "prototype/package-audit.html#required-package-set",
+    "title": "Package Audit (CRAN Support)",
+    "section": "Required Package Set",
+    "text": "Required Package Set\n\n\n\n\n\npackage\npurpose\ninstalled\ncran_available\n\n\n\n\nshiny\nApp runtime\nTRUE\nTRUE\n\n\nbslib\nApp theming\nTRUE\nTRUE\n\n\nreadxl\nExcel ingestion\nTRUE\nTRUE\n\n\ndplyr\nData wrangling\nTRUE\nTRUE\n\n\nggplot2\nCharting\nTRUE\nTRUE\n\n\ncluster\nSilhouette metric\nTRUE\nTRUE\n\n\nDT\nInteractive table\nTRUE\nTRUE\n\n\nrpart\nDecision-tree module prep\nTRUE\nTRUE\n\n\ntidyr\nData reshaping\nTRUE\nTRUE"
+  },
+  {
+    "objectID": "prototype/package-audit.html#interpretation",
+    "href": "prototype/package-audit.html#interpretation",
+    "title": "Package Audit (CRAN Support)",
+    "section": "Interpretation",
+    "text": "Interpretation\n\nPackages marked cran_available = TRUE are available from CRAN.\nPackages marked installed = TRUE are already ready on this machine.\nPackages not yet installed can be added via install.packages()."
+  },
+  {
+    "objectID": "take-home-ex2.html",
+    "href": "take-home-ex2.html",
+    "title": "Take-home Exercise 2",
+    "section": "",
+    "text": "This page is structured as an individual Take-home Exercise 2 submission and focuses on one prototype module:\nSelected module: Cluster Analysis for monthly tourism market states.\nThe module uses monthly observations to identify interpretable tourism states:\n\nPandemic shock months.\nRecovery transition months.\nHigh-performance months."
+  },
+  {
+    "objectID": "take-home-ex2.html#submission-scope",
+    "href": "take-home-ex2.html#submission-scope",
+    "title": "Take-home Exercise 2",
+    "section": "",
+    "text": "This page is structured as an individual Take-home Exercise 2 submission and focuses on one prototype module:\nSelected module: Cluster Analysis for monthly tourism market states.\nThe module uses monthly observations to identify interpretable tourism states:\n\nPandemic shock months.\nRecovery transition months.\nHigh-performance months."
+  },
+  {
+    "objectID": "take-home-ex2.html#data-preparation-process",
+    "href": "take-home-ex2.html#data-preparation-process",
+    "title": "Take-home Exercise 2",
+    "section": "1. Data Preparation Process",
+    "text": "1. Data Preparation Process\nData preparation follows the imported bilingual plan and detailed cleaning notes in data/references/.\nKey preparation decisions:\n\nRemove metadata rows and invalid 2015-12-01 record.\nUse monthly variables for model features.\nKeep annual variables only for supplementary visual context.\nCreate china_share, period, and calendar fields (year, month, quarter).\nUse capped stay-length and z-score fields for stable clustering."
+  },
+  {
+    "objectID": "take-home-ex2.html#package-support-cran",
+    "href": "take-home-ex2.html#package-support-cran",
+    "title": "Take-home Exercise 2",
+    "section": "2. Package Support (CRAN)",
+    "text": "2. Package Support (CRAN)\nThe module package audit is documented in Package Audit.\nCore stack for this prototype:\n\n\n\nPackage\nPurpose\nCRAN\n\n\n\n\nshiny\nUI/server runtime\nYes\n\n\nreadxl\nLoad .xlsx data\nYes\n\n\ndplyr\nData wrangling\nYes\n\n\nggplot2\nVisual outputs\nYes\n\n\ncluster\nSilhouette scoring\nYes\n\n\nDT\nInteractive result table\nYes"
+  },
+  {
+    "objectID": "take-home-ex2.html#prototype-code-test-and-expected-visual-output",
+    "href": "take-home-ex2.html#prototype-code-test-and-expected-visual-output",
+    "title": "Take-home Exercise 2",
+    "section": "3. Prototype Code Test and Expected Visual Output",
+    "text": "3. Prototype Code Test and Expected Visual Output\nSmoke-test script: scripts/prototype_smoke_test.R\nGenerated outputs:\n\nElbow curve for candidate K.\nCluster-state scatter visualization.\nCluster profile table.\n\n\n\n\nElbow Plot\n\n\n\n\n\nCluster Scatter"
+  },
+  {
+    "objectID": "take-home-ex2.html#exposed-parameters-and-outputs",
+    "href": "take-home-ex2.html#exposed-parameters-and-outputs",
+    "title": "Take-home Exercise 2",
+    "section": "4. Exposed Parameters and Outputs",
+    "text": "4. Exposed Parameters and Outputs\n\n\n\nType\nItem\nDescription\n\n\n\n\nInput\nperiod_filter\nFilter period: pre-COVID, shock, recovery\n\n\nInput\nk_value\nNumber of clusters (2-6)\n\n\nInput\nscale_features\nEnable/disable z-score standardization\n\n\nInput\nrandom_seed\nReproducible k-means assignment\n\n\nOutput\nCluster scatter plot\n2D visual state map\n\n\nOutput\nCluster profile table\nMean values by cluster\n\n\nOutput\nSilhouette score\nQuick quality indicator"
+  },
+  {
+    "objectID": "take-home-ex2.html#ui-design",
+    "href": "take-home-ex2.html#ui-design",
+    "title": "Take-home Exercise 2",
+    "section": "5. UI Design",
+    "text": "5. UI Design\nUI design principles in this prototype:\n\nProgressive disclosure: show defaults first, advanced controls optional.\nInterpretability-first: output labels use domain terms, not only model terms.\nComparability: consistent color mapping between plot and table.\n\nDetailed storyboard and component mapping are provided at UI Storyboard."
+  },
+  {
+    "objectID": "take-home-ex2.html#visual-design-interactivity-practices",
+    "href": "take-home-ex2.html#visual-design-interactivity-practices",
+    "title": "Take-home Exercise 2",
+    "section": "6. Visual Design & Interactivity Practices",
+    "text": "6. Visual Design & Interactivity Practices\nThis prototype applies:\n\nClear visual hierarchy for decision steps.\nExplicit mapping between controls and outputs.\nResponsive layout for laptop and mobile viewport.\nData-informed defaults to reduce trial-and-error."
+  },
+  {
+    "objectID": "take-home-ex2.html#current-status-and-next-step",
+    "href": "take-home-ex2.html#current-status-and-next-step",
+    "title": "Take-home Exercise 2",
+    "section": "7. Current Status and Next Step",
+    "text": "7. Current Status and Next Step\nCompleted:\n\nModular app skeleton.\nData integration and smoke-test artifacts.\nQuarto write-up scaffold aligned to assignment requirements.\n\nNext:\n\nAdd confirmatory stats module.\nAdd decision-tree module with feature importance panel.\nAdd deployment pipeline for GitHub Pages + hosted Shiny endpoint."
+  }
+]

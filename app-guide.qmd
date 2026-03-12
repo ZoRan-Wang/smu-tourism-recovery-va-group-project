@@ -1,0 +1,38 @@
+---
+title: "Shiny App Guide"
+---
+
+## Application Structure
+
+The app follows a modular structure:
+
+1. `app/app.R` - top-level layout and module wiring.
+2. `app/R/data_utils.R` - dataset loading and preprocessing helpers.
+3. `app/R/mod_cluster_ui.R` - cluster module UI.
+4. `app/R/mod_cluster_server.R` - cluster module logic.
+
+## Run Commands
+
+```bash
+Rscript run_app.R 3838
+```
+
+## What to Expect
+
+Current module available in app:
+
+1. Cluster analysis prototype
+2. Adjustable `k`, period filter, and seed
+3. Scatter plot + profile table + silhouette score
+
+## One-Click Dev Start (PowerShell)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1
+```
+
+## Data Source
+
+App reads:
+
+`data/raw/tourism_four_part_analysis_ready.xlsx`

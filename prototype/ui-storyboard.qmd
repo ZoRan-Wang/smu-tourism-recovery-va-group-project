@@ -1,0 +1,55 @@
+---
+title: "UI Storyboard"
+---
+
+## Storyboard: Cluster Analysis Module
+
+```{mermaid}
+flowchart LR
+    A["Load monthly tourism dataset"] --> B["Select period(s)"]
+    B --> C["Set k and seed"]
+    C --> D["Run clustering"]
+    D --> E["View cluster scatter plot"]
+    D --> F["Review cluster profile table"]
+    D --> G["Check silhouette score"]
+    G --> H{"Quality acceptable?"}
+    H -- "Yes" --> I["Interpret market states"]
+    H -- "No" --> C
+```
+
+## UI Layout Plan
+
+::: {.storyboard-box}
+**Left Panel (Controls)**
+
+1. `Period Filter` (checkboxes)
+2. `K (Cluster Count)` (slider)
+3. `Random Seed` (numeric input)
+4. `Scale Features` (toggle)
+5. `Run Clustering` (button)
+:::
+
+::: {.storyboard-box}
+**Right Panel (Outputs)**
+
+1. `Silhouette Score` (KPI card)
+2. `Cluster Scatter Plot` (main chart)
+3. `Cluster Profile Table` (interactive table)
+4. `Cluster Assignment Preview` (download-ready table)
+:::
+
+## UI Component Mapping
+
+| UI Need | Shiny Component | Reason |
+|---|---|---|
+| Multi-period comparison | `checkboxGroupInput` | flexible grouping |
+| Limited integer tuning | `sliderInput` | fast constrained control |
+| Reproducibility | `numericInput` | explicit seed control |
+| Trigger heavy compute | `actionButton` | avoid unnecessary reruns |
+| Fast profile scan | `DT::datatable` | sortable/filterable |
+
+## Usability Notes
+
+1. Keep defaults aligned with assignment baseline (`k = 3`).
+2. Keep labels domain-driven (`pandemic shock`, `recovery`, `high-performance`).
+3. Preserve color semantics across plot and table.

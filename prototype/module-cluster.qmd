@@ -1,0 +1,61 @@
+---
+title: "Module Prototype: Cluster Analysis"
+---
+
+## Objective
+
+Prototype a Shiny module that groups monthly observations into interpretable tourism market states.
+
+## Data Contract
+
+Input dataset: `data/raw/tourism_four_part_analysis_ready.xlsx`  
+Sheet: `analysis_ready_all`
+
+Required fields:
+
+1. `visitor_arrivals`
+2. `china_share`
+3. `hotel_occ`
+4. `avg_stay_monthly_capped`
+5. `period`
+6. `date`
+
+## Analytical Design
+
+1. Filter data by selected period.
+2. Select feature set.
+3. Optionally standardize features.
+4. Run k-means with user-defined `k`.
+5. Compute silhouette score.
+6. Return cluster assignments, profile summary, and scatter plot.
+
+## Parameter Exposure
+
+| Parameter | UI Component | Default | Validation |
+|---|---|---|---|
+| `period_filter` | `checkboxGroupInput` | all periods | at least one selected |
+| `k_value` | `sliderInput` | 3 | min 2, max 6 |
+| `random_seed` | `numericInput` | 42 | integer > 0 |
+| `scale_features` | `checkboxInput` | TRUE | boolean |
+
+## Output Exposure
+
+| Output | Format | Purpose |
+|---|---|---|
+| Scatter plot | `ggplot2` | Show market states visually |
+| Profile table | `DT::datatable` | Compare cluster means |
+| Silhouette metric | text value | Indicate clustering quality |
+
+## Implementation Files
+
+1. `app/R/data_utils.R`
+2. `app/R/mod_cluster_ui.R`
+3. `app/R/mod_cluster_server.R`
+4. `app/app.R`
+
+## Quality Gates
+
+1. No NA rows in selected features before clustering.
+2. Error message if filtered sample is too small for chosen `k`.
+3. Stable color palette across outputs.
+4. Reproducible clustering with fixed seed.

@@ -1,0 +1,4 @@
+timestamp: 2026-03-12 16:14:13
+rows_used: 110
+k_selected: 3
+silhouette_mean: 0.6317

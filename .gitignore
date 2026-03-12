@@ -1,0 +1,15 @@
+# Quarto output
+/.quarto/
+/_freeze/
+Rplots.pdf
+
+# R artifacts
+/.Rhistory
+/.RData
+/.Rproj.user/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+
+**/*.quarto_ipynb
