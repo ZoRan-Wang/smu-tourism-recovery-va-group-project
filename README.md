@@ -102,3 +102,7 @@ powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1 -DryRun
 
 Team members can clone directly with this link.  
 For write access, add collaborators in repository `Settings -> Collaborators`.
+
+## Live Site
+
+[GitHub Pages](https://zoran-wang.github.io/smu-tourism-recovery-va-group-project/)
