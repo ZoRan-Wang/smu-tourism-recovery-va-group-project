@@ -1,61 +1,358 @@
 ---
-title: "Module Prototype: Cluster Analysis"
+title: "Prototype: Clustering Analysis"
+subtitle: "Monthly tourism market states in Singapore's recovery"
+format:
+  html:
+    fig-width: 8
+    fig-height: 4.8
+execute:
+  echo: false
 ---
 
-## Objective
+```{r}
+#| label: setup
+#| include: false
+suppressPackageStartupMessages({
+  library(readxl)
+  library(dplyr)
+  library(ggplot2)
+  library(cluster)
+  library(knitr)
+})
 
-Prototype a Shiny module that groups monthly observations into interpretable tourism market states.
+data_candidates <- c(
+  file.path("..", "data", "raw", "tourism_four_part_analysis_ready.xlsx"),
+  file.path("data", "raw", "tourism_four_part_analysis_ready.xlsx")
+)
 
-## Data Contract
+data_path <- data_candidates[file.exists(data_candidates)][1]
+if (is.na(data_path)) {
+  stop("Dataset not found. Expected tourism_four_part_analysis_ready.xlsx in data/raw.")
+}
 
-Input dataset: `data/raw/tourism_four_part_analysis_ready.xlsx`  
-Sheet: `analysis_ready_all`
+tourism <- read_excel(data_path, sheet = "analysis_ready_all") |>
+  mutate(date = as.Date(date))
 
-Required fields:
+feature_vars <- c(
+  "visitor_arrivals",
+  "china_share",
+  "hotel_occ",
+  "avg_stay_monthly_capped"
+)
+
+cluster_input <- tourism |>
+  select(
+    date,
+    period,
+    visitor_arrivals,
+    china_share,
+    hotel_occ,
+    avg_stay_monthly,
+    avg_stay_monthly_capped
+  ) |>
+  filter(if_all(all_of(feature_vars), ~ !is.na(.x)))
+
+cluster_matrix <- scale(as.matrix(cluster_input[, feature_vars, drop = FALSE]))
+distance_matrix <- dist(cluster_matrix)
+candidate_k <- 2:6
+
+model_metrics <- do.call(rbind, lapply(candidate_k, function(k) {
+  set.seed(42)
+  fit <- kmeans(cluster_matrix, centers = k, nstart = 25)
+  sil <- silhouette(fit$cluster, distance_matrix)
+  data.frame(
+    k = k,
+    tot_withinss = fit$tot.withinss,
+    silhouette = mean(sil[, "sil_width"], na.rm = TRUE)
+  )
+}))
+
+selected_k <- 3
+set.seed(42)
+cluster_fit <- kmeans(cluster_matrix, centers = selected_k, nstart = 25)
+pca_fit <- prcomp(cluster_matrix)
+
+cluster_results <- cluster_input |>
+  mutate(
+    cluster_id = cluster_fit$cluster,
+    pc1 = pca_fit$x[, 1],
+    pc2 = pca_fit$x[, 2]
+  )
+
+cluster_profile <- cluster_results |>
+  group_by(cluster_id) |>
+  summarise(
+    months = n(),
+    visitor_arrivals = mean(visitor_arrivals),
+    china_share = mean(china_share),
+    hotel_occ = mean(hotel_occ),
+    avg_stay_monthly = mean(avg_stay_monthly),
+    avg_stay_monthly_capped = mean(avg_stay_monthly_capped),
+    .groups = "drop"
+  )
+
+state_levels <- c(
+  "Pandemic shock months",
+  "Recovery transition months",
+  "High-performance months"
+)
+
+label_map <- cluster_profile |>
+  mutate(
+    state_label = case_when(
+      visitor_arrivals == max(visitor_arrivals) ~ state_levels[3],
+      visitor_arrivals == min(visitor_arrivals) ~ state_levels[1],
+      TRUE ~ state_levels[2]
+    )
+  ) |>
+  select(cluster_id, state_label)
+
+cluster_results <- cluster_results |>
+  left_join(label_map, by = "cluster_id") |>
+  mutate(
+    state_label = factor(state_label, levels = state_levels),
+    period = factor(period, levels = c("pre_covid", "covid_shock", "recovery"))
+  )
+
+cluster_profile <- cluster_profile |>
+  left_join(label_map, by = "cluster_id") |>
+  mutate(state_label = factor(state_label, levels = state_levels)) |>
+  arrange(state_label)
+
+period_state_counts <- as.data.frame.matrix(with(cluster_results, table(state_label, period)))
+period_state_counts$state_label <- rownames(period_state_counts)
+rownames(period_state_counts) <- NULL
+period_state_counts <- period_state_counts |>
+  select(state_label, pre_covid, covid_shock, recovery)
+
+metrics_table <- model_metrics |>
+  transmute(
+    K = k,
+    `Total within-cluster SS` = round(tot_withinss, 1),
+    `Mean silhouette` = round(silhouette, 3)
+  )
+
+profile_table <- cluster_profile |>
+  transmute(
+    `Market state` = state_label,
+    Months = months,
+    `Mean visitor arrivals` = round(visitor_arrivals),
+    `Mean China share` = sprintf("%.1f%%", 100 * china_share),
+    `Mean hotel occupancy` = sprintf("%.1f%%", hotel_occ),
+    `Mean stay (raw)` = round(avg_stay_monthly, 1),
+    `Mean stay (capped for model)` = round(avg_stay_monthly_capped, 1)
+  )
+
+state_palette <- c(
+  "Pandemic shock months" = "#b6405d",
+  "Recovery transition months" = "#ef9f23",
+  "High-performance months" = "#0f6b5b"
+)
+```
+
+## Module Focus
+
+This prototype tests whether monthly observations can be grouped into a small number of tourism market states during Singapore's pandemic shock and recovery.
+
+The analytical unit is the **month**, not the individual traveller. The module therefore asks a market-state question:
+
+> Do months naturally separate into recurring states defined by visitor volume, China's market share, hotel occupancy, and length of stay?
+
+## Draft Review And Corrections
+
+The original draft had the right direction, but it needed three corrections before it could become a valid prototype module report.
+
+1. The clustering variable for stay duration should be `avg_stay_monthly_capped`, not the raw monthly series, because extreme pandemic values would otherwise dominate distance calculations.
+2. The method should be described as **k-means on standardized monthly indicators**, not copied too closely from survey-style latent class workflows.
+3. The choice of `k = 3` should be justified as an interpretability decision supported by diagnostics, rather than treated as an unquestioned default.
+
+## Why This Prototype Uses K-Means
+
+The structure of this page is inspired by the clustering workflow shown on the [Habari Tanzania clustering analysis](https://habaritanzania.netlify.app/analysis/clustering): prepare the data, fit the model, append class labels, and visualise the resulting groups.
+
+However, the underlying algorithm is different for a good reason.
+
+- The Habari Tanzania page works with transformed categorical indicators and latent classes.
+- This tourism dataset contains continuous monthly market indicators and only `r nrow(cluster_results)` monthly observations.
+- For this case, standardized k-means is a better prototype because it is transparent, fast to test in Shiny, and easy to explain in a coursework setting.
+
+## Data Preparation For The Module
+
+The clustering input uses the cleaned workbook `tourism_four_part_analysis_ready.xlsx`, covering `r format(min(cluster_results$date), "%Y-%m")` to `r format(max(cluster_results$date), "%Y-%m")`.
+
+The four modeling variables are:
 
 1. `visitor_arrivals`
 2. `china_share`
 3. `hotel_occ`
 4. `avg_stay_monthly_capped`
-5. `period`
-6. `date`
 
-## Analytical Design
+This design follows the project logic closely.
 
-1. Filter data by selected period.
-2. Select feature set.
-3. Optionally standardize features.
-4. Run k-means with user-defined `k`.
-5. Compute silhouette score.
-6. Return cluster assignments, profile summary, and scatter plot.
+- `visitor_arrivals` captures market size.
+- `china_share` captures the structural weight of the Chinese source market.
+- `hotel_occ` captures accommodation market recovery.
+- `avg_stay_monthly_capped` retains the stay signal without letting extreme pandemic months overpower the model.
 
-## Parameter Exposure
+## Cluster Selection
 
-| Parameter | UI Component | Default | Validation |
+The prototype checks candidate solutions from `k = 2` to `k = 6`.
+
+```{r}
+#| label: fig-elbow
+#| fig-cap: "Elbow diagnostic for candidate cluster counts."
+ggplot(model_metrics, aes(x = k, y = tot_withinss)) +
+  geom_line(color = "#0f3d3e", linewidth = 1.1) +
+  geom_point(color = "#d86f45", size = 2.6) +
+  scale_x_continuous(breaks = candidate_k) +
+  labs(
+    x = "Number of clusters (k)",
+    y = "Total within-cluster sum of squares"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
+#| label: fig-silhouette
+#| fig-cap: "Mean silhouette score by candidate k."
+ggplot(model_metrics, aes(x = factor(k), y = silhouette, fill = k == selected_k)) +
+  geom_col(width = 0.68, show.legend = FALSE) +
+  scale_fill_manual(values = c("TRUE" = "#0f6b5b", "FALSE" = "#c7d4cf")) +
+  labs(
+    x = "Number of clusters (k)",
+    y = "Mean silhouette score"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
+kable(metrics_table, align = c("r", "r", "r"))
+```
+
+::: {.callout-important}
+`k = 2` produces the highest mean silhouette (`r round(max(model_metrics$silhouette), 3)`), but the prototype keeps `k = 3`.
+
+This is a deliberate modeling choice. The three-cluster solution separates:
+
+- a low-volume pandemic shock state,
+- a transitional recovery state,
+- and a high-performance market state.
+
+That structure matches the substantive story of the project better than a simpler two-cluster split.
+:::
+
+## Prototype Results
+
+### State Map In Reduced Feature Space
+
+```{r}
+#| label: fig-pca
+#| fig-cap: "Monthly observations projected onto two principal components and coloured by inferred market state."
+ggplot(cluster_results, aes(x = pc1, y = pc2, color = state_label, shape = period)) +
+  geom_point(size = 3.1, alpha = 0.88) +
+  scale_color_manual(values = state_palette) +
+  labs(
+    x = "Principal component 1",
+    y = "Principal component 2",
+    color = "Market state",
+    shape = "Period"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+### State Profiles
+
+```{r}
+kable(profile_table, align = c("l", "r", "r", "r", "r", "r", "r"))
+```
+
+The three states are substantively interpretable.
+
+- **Pandemic shock months** have extremely low arrivals, low occupancy, and unusually long stays even after outlier treatment.
+- **Recovery transition months** still have subdued arrivals and occupancy, but they sit above the most disrupted months.
+- **High-performance months** dominate on visitor volume and hotel occupancy, with short-to-normal stay durations.
+
+One especially important interpretation point is `china_share`. During the deepest shock months, China's *share* can be high even when China's absolute visitor count is low, because the overall market collapsed even more sharply. This is exactly why the report should present both volume and share as complementary signals.
+
+### When Each State Appears
+
+```{r}
+#| label: fig-timeline
+#| fig-cap: "Monthly market states across the full study window."
+ggplot(cluster_results, aes(x = date, y = state_label, color = state_label)) +
+  geom_point(size = 2.8, alpha = 0.9) +
+  scale_color_manual(values = state_palette) +
+  labs(
+    x = "Month",
+    y = "Market state",
+    color = "Market state"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+```{r}
+period_state_view <- period_state_counts |>
+  transmute(
+    `Market state` = state_label,
+    `Pre-COVID` = pre_covid,
+    `COVID shock` = covid_shock,
+    Recovery = recovery
+  )
+
+kable(period_state_view, align = c("l", "r", "r", "r"))
+```
+
+This distribution is useful for storytelling in the final report.
+
+- The **high-performance** state covers all `pre_covid` months and most `recovery` months.
+- The **pandemic shock** state is concentrated entirely inside the `covid_shock` period.
+- The **recovery transition** state bridges the end of the shock period and the earliest recovery months.
+
+That pattern supports the main claim of the module: months are not evenly scattered, but instead cluster into recurring tourism market conditions.
+
+## UI Design For The Shiny Module
+
+This prototype will later become a Shiny module, so the report must define the exposed controls clearly.
+
+### Exposed Parameters
+
+| Parameter | UI component | Default | Design note |
 |---|---|---|---|
-| `period_filter` | `checkboxGroupInput` | all periods | at least one selected |
-| `k_value` | `sliderInput` | 3 | min 2, max 6 |
-| `random_seed` | `numericInput` | 42 | integer > 0 |
-| `scale_features` | `checkboxInput` | TRUE | boolean |
+| `period_filter` | `checkboxGroupInput` | all three periods | supports focused comparison |
+| `k_value` | `sliderInput` | 3 | allows quick sensitivity testing |
+| `random_seed` | `numericInput` | 42 | keeps clustering reproducible |
+| `run_model` | `actionButton` | click to execute | prevents unnecessary recomputation |
+| `download_clusters` | `downloadButton` | hidden until ready | exports month-level assignments |
 
-## Output Exposure
+### Exposed Outputs
 
-| Output | Format | Purpose |
+| Output | Format | Why it matters |
 |---|---|---|
-| Scatter plot | `ggplot2` | Show market states visually |
-| Profile table | `DT::datatable` | Compare cluster means |
-| Silhouette metric | text value | Indicate clustering quality |
+| State scatter plot | `ggplot2` | shows separation between inferred states |
+| State profile table | `DT::datatable` | compares average market conditions |
+| Timeline of assigned states | `ggplot2` | links clusters back to historical phases |
+| Quality metric | value box or text card | shows silhouette score for the selected run |
+| Clustered month table | downloadable CSV | supports follow-up analysis outside the app |
 
-## Implementation Files
+### UI Storyboard Notes
 
-1. `app/R/data_utils.R`
-2. `app/R/mod_cluster_ui.R`
-3. `app/R/mod_cluster_server.R`
-4. `app/app.R`
+1. Keep the left panel for controls and the right panel for results.
+2. Preserve the same state labels and colors across every output.
+3. Keep standardization fixed on in the prototype app, because turning it off would create misleading distance behavior.
+4. Surface a short helper note explaining that `china_share` is a structural measure, not a raw visitor count.
 
-## Quality Gates
+## Implementation Notes
 
-1. No NA rows in selected features before clustering.
-2. Error message if filtered sample is too small for chosen `k`.
-3. Stable color palette across outputs.
-4. Reproducible clustering with fixed seed.
+The module specification now aligns with the current project structure.
+
+1. Data source: `data/raw/tourism_four_part_analysis_ready.xlsx`
+2. Current Shiny entry points: `app/R/data_utils.R`, `app/R/mod_cluster_ui.R`, `app/R/mod_cluster_server.R`
+3. Prototype baseline: monthly k-means with `k = 3`, seed `42`, and standardized features
+
+## Prototype Conclusion
+
+This clustering prototype supports a clear analytical message for the project:
+
+> Monthly tourism conditions in Singapore do not form one smooth continuum. They separate into interpretable market states that combine overall visitor volume, China's market share, hotel occupancy, and length of stay.
+
+That makes the module suitable for both the coursework report and a later interactive Shiny implementation.

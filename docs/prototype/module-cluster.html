@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Module Prototype: Cluster Analysis – Singapore Tourism Recovery VA Prototype</title>
+<title>Prototype: Clustering Analysis – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
- <span class="dropdown-text">Module Prototype</span></a>
+ <span class="dropdown-text">Clustering Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -118,6 +118,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
+ <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -145,13 +149,25 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
-  <li><a href="#data-contract" id="toc-data-contract" class="nav-link" data-scroll-target="#data-contract">Data Contract</a></li>
-  <li><a href="#analytical-design" id="toc-analytical-design" class="nav-link" data-scroll-target="#analytical-design">Analytical Design</a></li>
-  <li><a href="#parameter-exposure" id="toc-parameter-exposure" class="nav-link" data-scroll-target="#parameter-exposure">Parameter Exposure</a></li>
-  <li><a href="#output-exposure" id="toc-output-exposure" class="nav-link" data-scroll-target="#output-exposure">Output Exposure</a></li>
-  <li><a href="#implementation-files" id="toc-implementation-files" class="nav-link" data-scroll-target="#implementation-files">Implementation Files</a></li>
-  <li><a href="#quality-gates" id="toc-quality-gates" class="nav-link" data-scroll-target="#quality-gates">Quality Gates</a></li>
+  <li><a href="#module-focus" id="toc-module-focus" class="nav-link active" data-scroll-target="#module-focus">Module Focus</a></li>
+  <li><a href="#draft-review-and-corrections" id="toc-draft-review-and-corrections" class="nav-link" data-scroll-target="#draft-review-and-corrections">Draft Review And Corrections</a></li>
+  <li><a href="#why-this-prototype-uses-k-means" id="toc-why-this-prototype-uses-k-means" class="nav-link" data-scroll-target="#why-this-prototype-uses-k-means">Why This Prototype Uses K-Means</a></li>
+  <li><a href="#data-preparation-for-the-module" id="toc-data-preparation-for-the-module" class="nav-link" data-scroll-target="#data-preparation-for-the-module">Data Preparation For The Module</a></li>
+  <li><a href="#cluster-selection" id="toc-cluster-selection" class="nav-link" data-scroll-target="#cluster-selection">Cluster Selection</a></li>
+  <li><a href="#prototype-results" id="toc-prototype-results" class="nav-link" data-scroll-target="#prototype-results">Prototype Results</a>
+  <ul class="collapse">
+  <li><a href="#state-map-in-reduced-feature-space" id="toc-state-map-in-reduced-feature-space" class="nav-link" data-scroll-target="#state-map-in-reduced-feature-space">State Map In Reduced Feature Space</a></li>
+  <li><a href="#state-profiles" id="toc-state-profiles" class="nav-link" data-scroll-target="#state-profiles">State Profiles</a></li>
+  <li><a href="#when-each-state-appears" id="toc-when-each-state-appears" class="nav-link" data-scroll-target="#when-each-state-appears">When Each State Appears</a></li>
+  </ul></li>
+  <li><a href="#ui-design-for-the-shiny-module" id="toc-ui-design-for-the-shiny-module" class="nav-link" data-scroll-target="#ui-design-for-the-shiny-module">UI Design For The Shiny Module</a>
+  <ul class="collapse">
+  <li><a href="#exposed-parameters" id="toc-exposed-parameters" class="nav-link" data-scroll-target="#exposed-parameters">Exposed Parameters</a></li>
+  <li><a href="#exposed-outputs" id="toc-exposed-outputs" class="nav-link" data-scroll-target="#exposed-outputs">Exposed Outputs</a></li>
+  <li><a href="#ui-storyboard-notes" id="toc-ui-storyboard-notes" class="nav-link" data-scroll-target="#ui-storyboard-notes">UI Storyboard Notes</a></li>
+  </ul></li>
+  <li><a href="#implementation-notes" id="toc-implementation-notes" class="nav-link" data-scroll-target="#implementation-notes">Implementation Notes</a></li>
+  <li><a href="#prototype-conclusion" id="toc-prototype-conclusion" class="nav-link" data-scroll-target="#prototype-conclusion">Prototype Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -160,7 +176,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Module Prototype: Cluster Analysis</h1>
+<h1 class="title">Prototype: Clustering Analysis</h1>
+<p class="subtitle lead">Monthly tourism market states in Singapore’s recovery</p>
 </div>
 
 
@@ -177,37 +194,291 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="objective" class="level2">
-<h2 class="anchored" data-anchor-id="objective">Objective</h2>
-<p>Prototype a Shiny module that groups monthly observations into interpretable tourism market states.</p>
+<section id="module-focus" class="level2">
+<h2 class="anchored" data-anchor-id="module-focus">Module Focus</h2>
+<p>This prototype tests whether monthly observations can be grouped into a small number of tourism market states during Singapore’s pandemic shock and recovery.</p>
+<p>The analytical unit is the <strong>month</strong>, not the individual traveller. The module therefore asks a market-state question:</p>
+<blockquote class="blockquote">
+<p>Do months naturally separate into recurring states defined by visitor volume, China’s market share, hotel occupancy, and length of stay?</p>
+</blockquote>
 </section>
-<section id="data-contract" class="level2">
-<h2 class="anchored" data-anchor-id="data-contract">Data Contract</h2>
-<p>Input dataset: <code>data/raw/tourism_four_part_analysis_ready.xlsx</code><br>
-Sheet: <code>analysis_ready_all</code></p>
-<p>Required fields:</p>
+<section id="draft-review-and-corrections" class="level2">
+<h2 class="anchored" data-anchor-id="draft-review-and-corrections">Draft Review And Corrections</h2>
+<p>The original draft had the right direction, but it needed three corrections before it could become a valid prototype module report.</p>
+<ol type="1">
+<li>The clustering variable for stay duration should be <code>avg_stay_monthly_capped</code>, not the raw monthly series, because extreme pandemic values would otherwise dominate distance calculations.</li>
+<li>The method should be described as <strong>k-means on standardized monthly indicators</strong>, not copied too closely from survey-style latent class workflows.</li>
+<li>The choice of <code>k = 3</code> should be justified as an interpretability decision supported by diagnostics, rather than treated as an unquestioned default.</li>
+</ol>
+</section>
+<section id="why-this-prototype-uses-k-means" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-prototype-uses-k-means">Why This Prototype Uses K-Means</h2>
+<p>The structure of this page is inspired by the clustering workflow shown on the <a href="https://habaritanzania.netlify.app/analysis/clustering">Habari Tanzania clustering analysis</a>: prepare the data, fit the model, append class labels, and visualise the resulting groups.</p>
+<p>However, the underlying algorithm is different for a good reason.</p>
+<ul>
+<li>The Habari Tanzania page works with transformed categorical indicators and latent classes.</li>
+<li>This tourism dataset contains continuous monthly market indicators and only 110 monthly observations.</li>
+<li>For this case, standardized k-means is a better prototype because it is transparent, fast to test in Shiny, and easy to explain in a coursework setting.</li>
+</ul>
+</section>
+<section id="data-preparation-for-the-module" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation-for-the-module">Data Preparation For The Module</h2>
+<p>The clustering input uses the cleaned workbook <code>tourism_four_part_analysis_ready.xlsx</code>, covering 2016-12 to 2026-01.</p>
+<p>The four modeling variables are:</p>
 <ol type="1">
 <li><code>visitor_arrivals</code></li>
 <li><code>china_share</code></li>
 <li><code>hotel_occ</code></li>
 <li><code>avg_stay_monthly_capped</code></li>
-<li><code>period</code></li>
-<li><code>date</code></li>
 </ol>
+<p>This design follows the project logic closely.</p>
+<ul>
+<li><code>visitor_arrivals</code> captures market size.</li>
+<li><code>china_share</code> captures the structural weight of the Chinese source market.</li>
+<li><code>hotel_occ</code> captures accommodation market recovery.</li>
+<li><code>avg_stay_monthly_capped</code> retains the stay signal without letting extreme pandemic months overpower the model.</li>
+</ul>
 </section>
-<section id="analytical-design" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-design">Analytical Design</h2>
-<ol type="1">
-<li>Filter data by selected period.</li>
-<li>Select feature set.</li>
-<li>Optionally standardize features.</li>
-<li>Run k-means with user-defined <code>k</code>.</li>
-<li>Compute silhouette score.</li>
-<li>Return cluster assignments, profile summary, and scatter plot.</li>
-</ol>
+<section id="cluster-selection" class="level2">
+<h2 class="anchored" data-anchor-id="cluster-selection">Cluster Selection</h2>
+<p>The prototype checks candidate solutions from <code>k = 2</code> to <code>k = 6</code>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-elbow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-elbow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="module-cluster_files/figure-html/fig-elbow-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-elbow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Elbow diagnostic for candidate cluster counts.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-silhouette" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-silhouette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="module-cluster_files/figure-html/fig-silhouette-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-silhouette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Mean silhouette score by candidate k.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">K</th>
+<th style="text-align: right;">Total within-cluster SS</th>
+<th style="text-align: right;">Mean silhouette</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">166.4</td>
+<td style="text-align: right;">0.665</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">109.6</td>
+<td style="text-align: right;">0.632</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">74.9</td>
+<td style="text-align: right;">0.544</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">55.7</td>
+<td style="text-align: right;">0.514</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">48.1</td>
+<td style="text-align: right;">0.381</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>k = 2</code> produces the highest mean silhouette (0.665), but the prototype keeps <code>k = 3</code>.</p>
+<p>This is a deliberate modeling choice. The three-cluster solution separates:</p>
+<ul>
+<li>a low-volume pandemic shock state,</li>
+<li>a transitional recovery state,</li>
+<li>and a high-performance market state.</li>
+</ul>
+<p>That structure matches the substantive story of the project better than a simpler two-cluster split.</p>
+</div>
+</div>
 </section>
-<section id="parameter-exposure" class="level2">
-<h2 class="anchored" data-anchor-id="parameter-exposure">Parameter Exposure</h2>
+<section id="prototype-results" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-results">Prototype Results</h2>
+<section id="state-map-in-reduced-feature-space" class="level3">
+<h3 class="anchored" data-anchor-id="state-map-in-reduced-feature-space">State Map In Reduced Feature Space</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-pca" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="module-cluster_files/figure-html/fig-pca-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Monthly observations projected onto two principal components and coloured by inferred market state.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="state-profiles" class="level3">
+<h3 class="anchored" data-anchor-id="state-profiles">State Profiles</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Market state</th>
+<th style="text-align: right;">Months</th>
+<th style="text-align: right;">Mean visitor arrivals</th>
+<th style="text-align: right;">Mean China share</th>
+<th style="text-align: right;">Mean hotel occupancy</th>
+<th style="text-align: right;">Mean stay (raw)</th>
+<th style="text-align: right;">Mean stay (capped for model)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pandemic shock months</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">17788</td>
+<td style="text-align: right;">38.1%</td>
+<td style="text-align: right;">56.2%</td>
+<td style="text-align: right;">28.4</td>
+<td style="text-align: right;">27.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recovery transition months</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">159791</td>
+<td style="text-align: right;">4.6%</td>
+<td style="text-align: right;">60.4%</td>
+<td style="text-align: right;">23.1</td>
+<td style="text-align: right;">18.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High-performance months</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">1367457</td>
+<td style="text-align: right;">15.7%</td>
+<td style="text-align: right;">83.3%</td>
+<td style="text-align: right;">3.6</td>
+<td style="text-align: right;">3.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The three states are substantively interpretable.</p>
+<ul>
+<li><strong>Pandemic shock months</strong> have extremely low arrivals, low occupancy, and unusually long stays even after outlier treatment.</li>
+<li><strong>Recovery transition months</strong> still have subdued arrivals and occupancy, but they sit above the most disrupted months.</li>
+<li><strong>High-performance months</strong> dominate on visitor volume and hotel occupancy, with short-to-normal stay durations.</li>
+</ul>
+<p>One especially important interpretation point is <code>china_share</code>. During the deepest shock months, China’s <em>share</em> can be high even when China’s absolute visitor count is low, because the overall market collapsed even more sharply. This is exactly why the report should present both volume and share as complementary signals.</p>
+</section>
+<section id="when-each-state-appears" class="level3">
+<h3 class="anchored" data-anchor-id="when-each-state-appears">When Each State Appears</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-timeline" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="module-cluster_files/figure-html/fig-timeline-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Monthly market states across the full study window.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Market state</th>
+<th style="text-align: right;">Pre-COVID</th>
+<th style="text-align: right;">COVID shock</th>
+<th style="text-align: right;">Recovery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pandemic shock months</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recovery transition months</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High-performance months</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">44</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This distribution is useful for storytelling in the final report.</p>
+<ul>
+<li>The <strong>high-performance</strong> state covers all <code>pre_covid</code> months and most <code>recovery</code> months.</li>
+<li>The <strong>pandemic shock</strong> state is concentrated entirely inside the <code>covid_shock</code> period.</li>
+<li>The <strong>recovery transition</strong> state bridges the end of the shock period and the earliest recovery months.</li>
+</ul>
+<p>That pattern supports the main claim of the module: months are not evenly scattered, but instead cluster into recurring tourism market conditions.</p>
+</section>
+</section>
+<section id="ui-design-for-the-shiny-module" class="level2">
+<h2 class="anchored" data-anchor-id="ui-design-for-the-shiny-module">UI Design For The Shiny Module</h2>
+<p>This prototype will later become a Shiny module, so the report must define the exposed controls clearly.</p>
+<section id="exposed-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="exposed-parameters">Exposed Parameters</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -218,85 +489,115 @@ Sheet: <code>analysis_ready_all</code></p>
 <thead>
 <tr class="header">
 <th>Parameter</th>
-<th>UI Component</th>
+<th>UI component</th>
 <th>Default</th>
-<th>Validation</th>
+<th>Design note</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>period_filter</code></td>
 <td><code>checkboxGroupInput</code></td>
-<td>all periods</td>
-<td>at least one selected</td>
+<td>all three periods</td>
+<td>supports focused comparison</td>
 </tr>
 <tr class="even">
 <td><code>k_value</code></td>
 <td><code>sliderInput</code></td>
 <td>3</td>
-<td>min 2, max 6</td>
+<td>allows quick sensitivity testing</td>
 </tr>
 <tr class="odd">
 <td><code>random_seed</code></td>
 <td><code>numericInput</code></td>
 <td>42</td>
-<td>integer &gt; 0</td>
+<td>keeps clustering reproducible</td>
 </tr>
 <tr class="even">
-<td><code>scale_features</code></td>
-<td><code>checkboxInput</code></td>
-<td>TRUE</td>
-<td>boolean</td>
+<td><code>run_model</code></td>
+<td><code>actionButton</code></td>
+<td>click to execute</td>
+<td>prevents unnecessary recomputation</td>
+</tr>
+<tr class="odd">
+<td><code>download_clusters</code></td>
+<td><code>downloadButton</code></td>
+<td>hidden until ready</td>
+<td>exports month-level assignments</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="output-exposure" class="level2">
-<h2 class="anchored" data-anchor-id="output-exposure">Output Exposure</h2>
+<section id="exposed-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="exposed-outputs">Exposed Outputs</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Output</th>
 <th>Format</th>
-<th>Purpose</th>
+<th>Why it matters</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Scatter plot</td>
+<td>State scatter plot</td>
 <td><code>ggplot2</code></td>
-<td>Show market states visually</td>
+<td>shows separation between inferred states</td>
 </tr>
 <tr class="even">
-<td>Profile table</td>
+<td>State profile table</td>
 <td><code>DT::datatable</code></td>
-<td>Compare cluster means</td>
+<td>compares average market conditions</td>
 </tr>
 <tr class="odd">
-<td>Silhouette metric</td>
-<td>text value</td>
-<td>Indicate clustering quality</td>
+<td>Timeline of assigned states</td>
+<td><code>ggplot2</code></td>
+<td>links clusters back to historical phases</td>
+</tr>
+<tr class="even">
+<td>Quality metric</td>
+<td>value box or text card</td>
+<td>shows silhouette score for the selected run</td>
+</tr>
+<tr class="odd">
+<td>Clustered month table</td>
+<td>downloadable CSV</td>
+<td>supports follow-up analysis outside the app</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="implementation-files" class="level2">
-<h2 class="anchored" data-anchor-id="implementation-files">Implementation Files</h2>
+<section id="ui-storyboard-notes" class="level3">
+<h3 class="anchored" data-anchor-id="ui-storyboard-notes">UI Storyboard Notes</h3>
 <ol type="1">
-<li><code>app/R/data_utils.R</code></li>
-<li><code>app/R/mod_cluster_ui.R</code></li>
-<li><code>app/R/mod_cluster_server.R</code></li>
-<li><code>app/app.R</code></li>
+<li>Keep the left panel for controls and the right panel for results.</li>
+<li>Preserve the same state labels and colors across every output.</li>
+<li>Keep standardization fixed on in the prototype app, because turning it off would create misleading distance behavior.</li>
+<li>Surface a short helper note explaining that <code>china_share</code> is a structural measure, not a raw visitor count.</li>
 </ol>
 </section>
-<section id="quality-gates" class="level2">
-<h2 class="anchored" data-anchor-id="quality-gates">Quality Gates</h2>
+</section>
+<section id="implementation-notes" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-notes">Implementation Notes</h2>
+<p>The module specification now aligns with the current project structure.</p>
 <ol type="1">
-<li>No NA rows in selected features before clustering.</li>
-<li>Error message if filtered sample is too small for chosen <code>k</code>.</li>
-<li>Stable color palette across outputs.</li>
-<li>Reproducible clustering with fixed seed.</li>
+<li>Data source: <code>data/raw/tourism_four_part_analysis_ready.xlsx</code></li>
+<li>Current Shiny entry points: <code>app/R/data_utils.R</code>, <code>app/R/mod_cluster_ui.R</code>, <code>app/R/mod_cluster_server.R</code></li>
+<li>Prototype baseline: monthly k-means with <code>k = 3</code>, seed <code>42</code>, and standardized features</li>
 </ol>
+</section>
+<section id="prototype-conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="prototype-conclusion">Prototype Conclusion</h2>
+<p>This clustering prototype supports a clear analytical message for the project:</p>
+<blockquote class="blockquote">
+<p>Monthly tourism conditions in Singapore do not form one smooth continuum. They separate into interpretable market states that combine overall visitor volume, China’s market share, hotel occupancy, and length of stay.</p>
+</blockquote>
+<p>That makes the module suitable for both the coursework report and a later interactive Shiny implementation.</p>
 
 
 </section>

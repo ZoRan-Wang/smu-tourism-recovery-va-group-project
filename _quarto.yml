@@ -27,11 +27,13 @@ website:
       - text: Prototype
         menu:
           - href: prototype/module-cluster.qmd
-            text: Module Prototype
+            text: Clustering Prototype
           - href: prototype/package-audit.qmd
             text: Package Audit
           - href: prototype/ui-storyboard.qmd
             text: UI Storyboard
+          - href: prototype/wang-zhuoran-review-report.qmd
+            text: Review Report
       - href: app-guide.qmd
         text: Shiny App
       - href: team/onboarding.qmd

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>UI Storyboard – Singapore Tourism Recovery VA Prototype</title>
+<title>Review Report: Clustering Prototype – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,9 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -152,10 +149,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#storyboard-cluster-analysis-module" id="toc-storyboard-cluster-analysis-module" class="nav-link active" data-scroll-target="#storyboard-cluster-analysis-module">Storyboard: Cluster Analysis Module</a></li>
-  <li><a href="#ui-layout-plan" id="toc-ui-layout-plan" class="nav-link" data-scroll-target="#ui-layout-plan">UI Layout Plan</a></li>
-  <li><a href="#ui-component-mapping" id="toc-ui-component-mapping" class="nav-link" data-scroll-target="#ui-component-mapping">UI Component Mapping</a></li>
-  <li><a href="#usability-notes" id="toc-usability-notes" class="nav-link" data-scroll-target="#usability-notes">Usability Notes</a></li>
+  <li><a href="#review-scope" id="toc-review-scope" class="nav-link active" data-scroll-target="#review-scope">Review Scope</a></li>
+  <li><a href="#findings-in-the-original-draft" id="toc-findings-in-the-original-draft" class="nav-link" data-scroll-target="#findings-in-the-original-draft">Findings In The Original Draft</a>
+  <ul class="collapse">
+  <li><a href="#finding-1-the-stay-duration-feature-was-underspecified" id="toc-finding-1-the-stay-duration-feature-was-underspecified" class="nav-link" data-scroll-target="#finding-1-the-stay-duration-feature-was-underspecified">Finding 1: The stay-duration feature was underspecified</a></li>
+  <li><a href="#finding-2-the-method-rationale-was-too-thin" id="toc-finding-2-the-method-rationale-was-too-thin" class="nav-link" data-scroll-target="#finding-2-the-method-rationale-was-too-thin">Finding 2: The method rationale was too thin</a></li>
+  <li><a href="#finding-3-the-choice-of-k-3-needed-evidence" id="toc-finding-3-the-choice-of-k-3-needed-evidence" class="nav-link" data-scroll-target="#finding-3-the-choice-of-k-3-needed-evidence">Finding 3: The choice of <code>k = 3</code> needed evidence</a></li>
+  <li><a href="#finding-4-the-page-was-not-yet-submission-ready" id="toc-finding-4-the-page-was-not-yet-submission-ready" class="nav-link" data-scroll-target="#finding-4-the-page-was-not-yet-submission-ready">Finding 4: The page was not yet submission-ready</a></li>
+  </ul></li>
+  <li><a href="#fixes-implemented" id="toc-fixes-implemented" class="nav-link" data-scroll-target="#fixes-implemented">Fixes Implemented</a></li>
+  <li><a href="#verification-checklist" id="toc-verification-checklist" class="nav-link" data-scroll-target="#verification-checklist">Verification Checklist</a></li>
+  <li><a href="#residual-risks" id="toc-residual-risks" class="nav-link" data-scroll-target="#residual-risks">Residual Risks</a></li>
+  <li><a href="#review-outcome" id="toc-review-outcome" class="nav-link" data-scroll-target="#review-outcome">Review Outcome</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">UI Storyboard</h1>
+<h1 class="title">Review Report: Clustering Prototype</h1>
 </div>
 
 
@@ -181,98 +186,106 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="storyboard-cluster-analysis-module" class="level2">
-<h2 class="anchored" data-anchor-id="storyboard-cluster-analysis-module">Storyboard: Cluster Analysis Module</h2>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart LR
-    A["Load monthly tourism dataset"] --&gt; B["Select period(s)"]
-    B --&gt; C["Set k and seed"]
-    C --&gt; D["Run clustering"]
-    D --&gt; E["View cluster scatter plot"]
-    D --&gt; F["Review cluster profile table"]
-    D --&gt; G["Check silhouette score"]
-    G --&gt; H{"Quality acceptable?"}
-    H -- "Yes" --&gt; I["Interpret market states"]
-    H -- "No" --&gt; C
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
+<section id="review-scope" class="level2">
+<h2 class="anchored" data-anchor-id="review-scope">Review Scope</h2>
+<p>This review covers the clustering prototype draft in <code>prototype/module-cluster.qmd</code>, the supporting cleaned dataset, and the renderability of the updated Quarto page inside the full project.</p>
 </section>
-<section id="ui-layout-plan" class="level2">
-<h2 class="anchored" data-anchor-id="ui-layout-plan">UI Layout Plan</h2>
-<div class="storyboard-box">
-<p><strong>Left Panel (Controls)</strong></p>
-<ol type="1">
-<li><code>Period Filter</code> (checkboxes)</li>
-<li><code>K (Cluster Count)</code> (slider)</li>
-<li><code>Random Seed</code> (numeric input)</li>
-<li><code>Scale Features</code> (toggle)</li>
-<li><code>Run Clustering</code> (button)</li>
-</ol>
-</div>
-<div class="storyboard-box">
-<p><strong>Right Panel (Outputs)</strong></p>
-<ol type="1">
-<li><code>Silhouette Score</code> (KPI card)</li>
-<li><code>Cluster Scatter Plot</code> (main chart)</li>
-<li><code>Cluster Profile Table</code> (interactive table)</li>
-<li><code>Cluster Assignment Preview</code> (download-ready table)</li>
-</ol>
-</div>
+<section id="findings-in-the-original-draft" class="level2">
+<h2 class="anchored" data-anchor-id="findings-in-the-original-draft">Findings In The Original Draft</h2>
+<section id="finding-1-the-stay-duration-feature-was-underspecified" class="level3">
+<h3 class="anchored" data-anchor-id="finding-1-the-stay-duration-feature-was-underspecified">Finding 1: The stay-duration feature was underspecified</h3>
+<p>The draft proposed <code>avg_stay_monthly</code> directly for clustering, but the cleaned data preparation already created <code>avg_stay_monthly_capped</code> for modeling. Using the uncapped series would let a small number of pandemic months dominate Euclidean distances.</p>
 </section>
-<section id="ui-component-mapping" class="level2">
-<h2 class="anchored" data-anchor-id="ui-component-mapping">UI Component Mapping</h2>
+<section id="finding-2-the-method-rationale-was-too-thin" class="level3">
+<h3 class="anchored" data-anchor-id="finding-2-the-method-rationale-was-too-thin">Finding 2: The method rationale was too thin</h3>
+<p>The draft listed k-means steps, but it did not explain why this project should use k-means rather than reuse a latent-class workflow too literally from the reference site.</p>
+</section>
+<section id="finding-3-the-choice-of-k-3-needed-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="finding-3-the-choice-of-k-3-needed-evidence">Finding 3: The choice of <code>k = 3</code> needed evidence</h3>
+<p>The draft said “start with K = 3”, but it did not show the elbow pattern, silhouette diagnostics, or the interpretability tradeoff behind the final selection.</p>
+</section>
+<section id="finding-4-the-page-was-not-yet-submission-ready" class="level3">
+<h3 class="anchored" data-anchor-id="finding-4-the-page-was-not-yet-submission-ready">Finding 4: The page was not yet submission-ready</h3>
+<p>The original file was a short module note, not a full prototype report. It lacked executable analysis, visual outputs, a results narrative, and a proper UI design section.</p>
+</section>
+</section>
+<section id="fixes-implemented" class="level2">
+<h2 class="anchored" data-anchor-id="fixes-implemented">Fixes Implemented</h2>
+<ol type="1">
+<li>Rewrote <code>prototype/module-cluster.qmd</code> as a full executable prototype page.</li>
+<li>Switched the modeling stay variable to <code>avg_stay_monthly_capped</code>.</li>
+<li>Added an explicit “Why This Prototype Uses K-Means” section tied to the Habari Tanzania reference structure.</li>
+<li>Added elbow and silhouette diagnostics.</li>
+<li>Added state-profile, timeline, and reduced-space visualisations.</li>
+<li>Added a dedicated UI design section with exposed parameters and outputs.</li>
+<li>Updated the project navigation label from <code>Module Prototype</code> to <code>Clustering Prototype</code>.</li>
+</ol>
+</section>
+<section id="verification-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="verification-checklist">Verification Checklist</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>UI Need</th>
-<th>Shiny Component</th>
-<th>Reason</th>
+<th>Check item</th>
+<th>Result</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Multi-period comparison</td>
-<td><code>checkboxGroupInput</code></td>
-<td>flexible grouping</td>
+<td>Dataset path resolves inside project</td>
+<td>PASS</td>
+<td>page reads <code>data/raw/tourism_four_part_analysis_ready.xlsx</code> through relative-path candidates</td>
 </tr>
 <tr class="even">
-<td>Limited integer tuning</td>
-<td><code>sliderInput</code></td>
-<td>fast constrained control</td>
+<td>Modeling variables match cleaned data design</td>
+<td>PASS</td>
+<td>uses <code>visitor_arrivals</code>, <code>china_share</code>, <code>hotel_occ</code>, <code>avg_stay_monthly_capped</code></td>
 </tr>
 <tr class="odd">
-<td>Reproducibility</td>
-<td><code>numericInput</code></td>
-<td>explicit seed control</td>
+<td>Prototype includes executable outputs</td>
+<td>PASS</td>
+<td>diagnostics, profile table, and visualisations are embedded in the page</td>
 </tr>
 <tr class="even">
-<td>Trigger heavy compute</td>
-<td><code>actionButton</code></td>
-<td>avoid unnecessary reruns</td>
+<td>UI design section included</td>
+<td>PASS</td>
+<td>parameter and output exposure are documented</td>
 </tr>
 <tr class="odd">
-<td>Fast profile scan</td>
-<td><code>DT::datatable</code></td>
-<td>sortable/filterable</td>
+<td>Quarto page renders successfully</td>
+<td>PASS</td>
+<td>verified with <code>quarto render prototype/module-cluster.qmd</code></td>
+</tr>
+<tr class="even">
+<td>Review report page renders successfully</td>
+<td>PASS</td>
+<td>verified with <code>quarto render prototype/wang-zhuoran-review-report.qmd</code></td>
+</tr>
+<tr class="odd">
+<td>Full project render succeeds after update</td>
+<td>PASS</td>
+<td>verified with <code>quarto render</code> from project root</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="usability-notes" class="level2">
-<h2 class="anchored" data-anchor-id="usability-notes">Usability Notes</h2>
+<section id="residual-risks" class="level2">
+<h2 class="anchored" data-anchor-id="residual-risks">Residual Risks</h2>
 <ol type="1">
-<li>Keep defaults aligned with assignment baseline (<code>k = 3</code>).</li>
-<li>Keep labels domain-driven (<code>pandemic shock</code>, <code>recovery</code>, <code>high-performance</code>).</li>
-<li>Preserve color semantics across plot and table.</li>
+<li>The selected <code>k = 3</code> solution is substantively stronger than the <code>k = 2</code> solution, but the silhouette score is slightly lower. This tradeoff should be acknowledged in the final coursework report.</li>
+<li><code>china_share</code> can look high during collapse months because it is a relative measure. The final narrative should always pair it with absolute arrivals.</li>
+<li>If additional monthly indicators are added later, the cluster labels may need to be recalibrated.</li>
 </ol>
+</section>
+<section id="review-outcome" class="level2">
+<h2 class="anchored" data-anchor-id="review-outcome">Review Outcome</h2>
+<p>No blocking issues remain in the updated clustering prototype. The page is now suitable as an English-language prototype module under the project site and is ready to be shared on the <code>codex/WANG-ZHUORAN</code> branch.</p>
 
 
 </section>
