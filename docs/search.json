@@ -35,6 +35,13 @@
     "text": "Local Setup\ngit clone &lt;repo-url&gt;\ncd group_project\nquarto preview\nRscript run_app.R 3838"
   },
   {
+    "objectID": "team/onboarding.html#meeting-records",
+    "href": "team/onboarding.html#meeting-records",
+    "title": "Team Onboarding",
+    "section": "Meeting Records",
+    "text": "Meeting Records\n\nFirst Meeting Record"
+  },
+  {
     "objectID": "team/onboarding.html#shared-files-to-update-carefully",
     "href": "team/onboarding.html#shared-files-to-update-carefully",
     "title": "Team Onboarding",
@@ -140,46 +147,88 @@
     "text": "Interpretation\n\nPackages marked cran_available = TRUE are available from CRAN.\nPackages marked installed = TRUE are already ready on this machine.\nPackages not yet installed can be added via install.packages()."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Project Home",
+    "objectID": "meeting-records/first-meeting-record.html",
+    "href": "meeting-records/first-meeting-record.html",
+    "title": "First Meeting Record",
     "section": "",
-    "text": "Visual Analytics · Quarto + Shiny · AY2025/26\n\n\n\n\n\nDid the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+    "text": "This record documents the team’s early coordination work, code review outcomes, and ownership alignment. It intentionally avoids listing specific timestamps."
   },
   {
-    "objectID": "index.html#core-question",
-    "href": "index.html#core-question",
-    "title": "Project Home",
+    "objectID": "meeting-records/first-meeting-record.html#meeting-purpose",
+    "href": "meeting-records/first-meeting-record.html#meeting-purpose",
+    "title": "First Meeting Record",
     "section": "",
-    "text": "Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+    "text": "This record documents the team’s early coordination work, code review outcomes, and ownership alignment. It intentionally avoids listing specific timestamps."
   },
   {
-    "objectID": "index.html#why-this-structure",
-    "href": "index.html#why-this-structure",
-    "title": "Project Home",
-    "section": "Why This Structure",
-    "text": "Why This Structure\nThe information architecture is adapted from the strengths of these references:\n\nHabari Tanzania: one-page storytelling with section anchors and team visibility.\nDecoding Chaos: Quarto-native multi-page prototype navigation."
+    "objectID": "meeting-records/first-meeting-record.html#jin-qinghaos-contributions",
+    "href": "meeting-records/first-meeting-record.html#jin-qinghaos-contributions",
+    "title": "First Meeting Record",
+    "section": "Jin Qinghao’s Contributions",
+    "text": "Jin Qinghao’s Contributions\n\nAdded the personal coursework page at team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd.\nContributed supporting data files, scripts, and model outputs for the classification tree and random forest analysis workflow.\nAdded the Proposal/ draft materials so the project site could keep a proposal page as a shared working draft.\nProvided the analytical baseline for decision-tree and random-forest modeling, including exported figures and result tables for later team integration."
   },
   {
-    "objectID": "index.html#workstreams",
-    "href": "index.html#workstreams",
-    "title": "Project Home",
-    "section": "Workstreams",
-    "text": "Workstreams\n\n\nA. Submission-Ready Report\ntake-home-ex2.qmd is the individual submission page in Quarto HTML format.\n\n\nB. Prototype Module\nprototype/module-cluster.qmd defines module logic, parameters, UI, and output behavior.\n\n\nC. Running Shiny App\napp/app.R with modular server code in app/R/.\n\n\nD. Shared Team Base\nteam/onboarding.qmd documents setup, roles, and branch workflow."
+    "objectID": "meeting-records/first-meeting-record.html#wang-zhuorans-review-work",
+    "href": "meeting-records/first-meeting-record.html#wang-zhuorans-review-work",
+    "title": "First Meeting Record",
+    "section": "Wang Zhuoran’s Review Work",
+    "text": "Wang Zhuoran’s Review Work\n\nReviewed the jin-qinhao branch against main and confirmed that the uppercase JIN-QINHAO branch was an erroneous branch.\nIdentified the portability issue caused by hardcoded local paths in Jin Qinghao’s coursework page and scripts.\nRefactored the coursework page and scripts to use project-root discovery and repository-relative paths so they can run in the shared repo and in RStudio.\nVerified the required dependencies and reran the Quarto render, the data-preparation script, and the decision-tree script in the current project environment.\nCompleted the corrected branch integration work and ensured that main remained a usable baseline for continued team collaboration."
   },
   {
-    "objectID": "index.html#data-references-imported",
-    "href": "index.html#data-references-imported",
-    "title": "Project Home",
-    "section": "Data & References Imported",
-    "text": "Data & References Imported\n\ndata/raw/tourism_four_part_analysis_ready.xlsx\ndata/references/tourism_analysis_bilingual_plan.txt\ndata/references/tourism_data_cleaning_detailed_report.md"
+    "objectID": "meeting-records/first-meeting-record.html#meeting-outcomes",
+    "href": "meeting-records/first-meeting-record.html#meeting-outcomes",
+    "title": "First Meeting Record",
+    "section": "Meeting Outcomes",
+    "text": "Meeting Outcomes\n\nThe Proposal page remains in place as a draft reference for the team.\nJin Qinghao’s coursework materials were corrected and validated in the shared repository environment.\nThe current main branch is ready for continued development in Quarto and RStudio."
   },
   {
-    "objectID": "index.html#start-development",
-    "href": "index.html#start-development",
-    "title": "Project Home",
-    "section": "Start Development",
-    "text": "Start Development\nquarto preview\nRscript run_app.R 3838"
+    "objectID": "meeting-records/first-meeting-record.html#follow-up-guidelines",
+    "href": "meeting-records/first-meeting-record.html#follow-up-guidelines",
+    "title": "First Meeting Record",
+    "section": "Follow-up Guidelines",
+    "text": "Follow-up Guidelines\n\nAll new pages, scripts, and folders should use English names.\nAll analysis code should use repository-relative paths instead of machine-specific local paths.\nTeam members should run quarto render before submitting merge-ready changes."
+  },
+  {
+    "objectID": "app-guide.html",
+    "href": "app-guide.html",
+    "title": "Shiny App Guide",
+    "section": "",
+    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+  },
+  {
+    "objectID": "app-guide.html#application-structure",
+    "href": "app-guide.html#application-structure",
+    "title": "Shiny App Guide",
+    "section": "",
+    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+  },
+  {
+    "objectID": "app-guide.html#run-commands",
+    "href": "app-guide.html#run-commands",
+    "title": "Shiny App Guide",
+    "section": "Run Commands",
+    "text": "Run Commands\nRscript run_app.R 3838"
+  },
+  {
+    "objectID": "app-guide.html#what-to-expect",
+    "href": "app-guide.html#what-to-expect",
+    "title": "Shiny App Guide",
+    "section": "What to Expect",
+    "text": "What to Expect\nCurrent module available in app:\n\nCluster analysis prototype\nAdjustable k, period filter, and seed\nScatter plot + profile table + silhouette score"
+  },
+  {
+    "objectID": "app-guide.html#one-click-dev-start-powershell",
+    "href": "app-guide.html#one-click-dev-start-powershell",
+    "title": "Shiny App Guide",
+    "section": "One-Click Dev Start (PowerShell)",
+    "text": "One-Click Dev Start (PowerShell)\npowershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1"
+  },
+  {
+    "objectID": "app-guide.html#data-source",
+    "href": "app-guide.html#data-source",
+    "title": "Shiny App Guide",
+    "section": "Data Source",
+    "text": "Data Source\nApp reads:\ndata/raw/tourism_four_part_analysis_ready.xlsx"
   },
   {
     "objectID": "Proposal/Proposal.html",
@@ -252,46 +301,46 @@
     "text": "9 R Packages\n\n\n\n\n\n\n\nPackage\nDescription\n\n\n\n\ntidyverse\nUsed for data cleaning, transformation, filtering, summarisation, and general data manipulation.\n\n\nreadxl\nUsed to import the original Excel dataset into R.\n\n\nlubridate\nUsed to process date variables and create year, month, and quarter fields.\n\n\nwritexl\nUsed to export cleaned data into Excel format.\n\n\nggplot2\nUsed to create core statistical graphics such as line charts, boxplots, scatterplots, and bar charts.\n\n\nplotly\nUsed to add interactivity to selected visualisations.\n\n\nDT\nUsed to display interactive data tables in the prototype.\n\n\ncorrplot\nUsed to visualise correlation matrices among tourism variables.\n\n\ncluster\nUsed for clustering analysis and cluster quality assessment such as silhouette scores.\n\n\nfactoextra\nUsed to visualise clustering results, elbow plots, and cluster profiles.\n\n\nrpart\nUsed to build decision tree classification models.\n\n\nrpart.plot\nUsed to create clear static decision tree visualisations for reporting.\n\n\nvisNetwork\nUsed to create interactive tree visualisations.\n\n\ncaret\nUsed for model training, tuning, resampling, confusion matrix evaluation, and workflow standardisation.\n\n\nranger\nUsed to build random forest classification models efficiently.\n\n\npatchwork\nUsed to combine multiple ggplot charts into one display layout.\n\n\nhtmlwidgets\nUsed to save and render interactive HTML-based outputs.\n\n\nsparkline\nUsed to support the interactive decision tree visualisation built with visNetwork."
   },
   {
-    "objectID": "app-guide.html",
-    "href": "app-guide.html",
-    "title": "Shiny App Guide",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Project Home",
     "section": "",
-    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+    "text": "Visual Analytics · Quarto + Shiny · AY2025/26\n\n\n\n\n\nDid the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
   },
   {
-    "objectID": "app-guide.html#application-structure",
-    "href": "app-guide.html#application-structure",
-    "title": "Shiny App Guide",
+    "objectID": "index.html#core-question",
+    "href": "index.html#core-question",
+    "title": "Project Home",
     "section": "",
-    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+    "text": "Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
   },
   {
-    "objectID": "app-guide.html#run-commands",
-    "href": "app-guide.html#run-commands",
-    "title": "Shiny App Guide",
-    "section": "Run Commands",
-    "text": "Run Commands\nRscript run_app.R 3838"
+    "objectID": "index.html#why-this-structure",
+    "href": "index.html#why-this-structure",
+    "title": "Project Home",
+    "section": "Why This Structure",
+    "text": "Why This Structure\nThe information architecture is adapted from the strengths of these references:\n\nHabari Tanzania: one-page storytelling with section anchors and team visibility.\nDecoding Chaos: Quarto-native multi-page prototype navigation."
   },
   {
-    "objectID": "app-guide.html#what-to-expect",
-    "href": "app-guide.html#what-to-expect",
-    "title": "Shiny App Guide",
-    "section": "What to Expect",
-    "text": "What to Expect\nCurrent module available in app:\n\nCluster analysis prototype\nAdjustable k, period filter, and seed\nScatter plot + profile table + silhouette score"
+    "objectID": "index.html#workstreams",
+    "href": "index.html#workstreams",
+    "title": "Project Home",
+    "section": "Workstreams",
+    "text": "Workstreams\n\n\nA. Submission-Ready Report\ntake-home-ex2.qmd is the individual submission page in Quarto HTML format.\n\n\nB. Prototype Module\nprototype/module-cluster.qmd defines module logic, parameters, UI, and output behavior.\n\n\nC. Running Shiny App\napp/app.R with modular server code in app/R/.\n\n\nD. Shared Team Base\nteam/onboarding.qmd documents setup, roles, and branch workflow."
   },
   {
-    "objectID": "app-guide.html#one-click-dev-start-powershell",
-    "href": "app-guide.html#one-click-dev-start-powershell",
-    "title": "Shiny App Guide",
-    "section": "One-Click Dev Start (PowerShell)",
-    "text": "One-Click Dev Start (PowerShell)\npowershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1"
+    "objectID": "index.html#data-references-imported",
+    "href": "index.html#data-references-imported",
+    "title": "Project Home",
+    "section": "Data & References Imported",
+    "text": "Data & References Imported\n\ndata/raw/tourism_four_part_analysis_ready.xlsx\ndata/references/tourism_analysis_bilingual_plan.txt\ndata/references/tourism_data_cleaning_detailed_report.md"
   },
   {
-    "objectID": "app-guide.html#data-source",
-    "href": "app-guide.html#data-source",
-    "title": "Shiny App Guide",
-    "section": "Data Source",
-    "text": "Data Source\nApp reads:\ndata/raw/tourism_four_part_analysis_ready.xlsx"
+    "objectID": "index.html#start-development",
+    "href": "index.html#start-development",
+    "title": "Project Home",
+    "section": "Start Development",
+    "text": "Start Development\nquarto preview\nRscript run_app.R 3838"
   },
   {
     "objectID": "prototype/module-cluster.html",
@@ -459,7 +508,7 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#install-and-launch-the-required-r-packages-1",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.1Install and launch the required R packages",
-    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\npackage 'ranger' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\Hasee\\AppData\\Local\\Temp\\Rtmpwdqxr9\\downloaded_packages\n\n\npackage 'sparkline' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\Hasee\\AppData\\Local\\Temp\\Rtmpwdqxr9\\downloaded_packages\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
+    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#reading-data",
@@ -487,7 +536,7 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#check-the-complexity-parameter-table.",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.5Check the complexity parameter table.",
-    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.17544 0.070151\n2 0.21053      1   0.50877 0.52632 0.078011\n3 0.04386      2   0.29825 0.38596 0.071263\n4 0.00500      4   0.21053 0.42105 0.073296\n\n\nShow the code\nplotcp(fit_tree)"
+    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.15789 0.071263\n2 0.21053      1   0.50877 0.54386 0.078614\n3 0.04386      2   0.29825 0.49123 0.076655\n4 0.00500      4   0.21053 0.49123 0.076655\n\n\nShow the code\nplotcp(fit_tree)"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#prune-the-tree",
@@ -536,7 +585,7 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#export-results",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.12Export results",
-    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project_review_jin/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project/team/jin-qinhao/Take-Home-Exercise2/outputs"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#predict-on-test-set-1",
@@ -592,6 +641,6 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#export-results-1",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "3.8Export results",
-    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project_review_jin/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project/team/jin-qinhao/Take-Home-Exercise2/outputs"
   }
 ]

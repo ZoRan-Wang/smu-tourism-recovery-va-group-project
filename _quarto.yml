@@ -6,6 +6,7 @@ project:
     - "prototype/*.qmd"
     - "team/*.qmd"
     - "team/jin-qinhao/**/*.qmd"
+    - "meeting-records/*.qmd"
     - "!templates/"
     - "!artifacts/"
     - "!app/"

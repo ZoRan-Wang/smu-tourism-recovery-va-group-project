@@ -28,6 +28,10 @@ quarto preview
 Rscript run_app.R 3838
 ```
 
+## Meeting Records
+
+1. [First Meeting Record](../meeting-records/first-meeting-record.html)
+
 ## Shared Files to Update Carefully
 
 1. `_quarto.yml` (navigation and build behavior)
