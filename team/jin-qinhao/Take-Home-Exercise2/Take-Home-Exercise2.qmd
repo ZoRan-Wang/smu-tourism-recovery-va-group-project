@@ -21,6 +21,10 @@ execute:
 ## 1.1Install and launch the required R packages
 
 ```{r}
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", repos = "https://cloud.r-project.org")
+}
+
 pacman::p_load(
   tidyverse,
   readxl,
@@ -32,9 +36,28 @@ pacman::p_load(
 ## 1.2Importing Data
 
 ```{r}
-base_dir <- "D:/GitHub/Qinhao/ISSS608-VAA/Take-home-exercise/Take-Home-Exercise2"
-raw_path <- file.path(base_dir, "data", "Name your insight (2).xlsx")
-processed_dir <- file.path(base_dir, "data")
+find_project_root <- function(start = getwd()) {
+  current <- normalizePath(start, winslash = "/", mustWork = TRUE)
+
+  repeat {
+    if (file.exists(file.path(current, "_quarto.yml"))) {
+      return(current)
+    }
+
+    parent <- dirname(current)
+    if (identical(parent, current)) {
+      stop("Project root not found. Expected to locate _quarto.yml.")
+    }
+
+    current <- parent
+  }
+}
+
+project_root <- find_project_root()
+module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2")
+data_dir <- file.path(module_dir, "data")
+raw_path <- file.path(data_dir, "Name your insight (2).xlsx")
+processed_dir <- data_dir
 
 dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
 ```
@@ -196,11 +219,16 @@ cat("Hotel occupancy cut points:", round(occ_cuts[[1]], 6), "and", round(occ_cut
 ## 2.1Install and launch the required R packages
 
 ```{r}
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", repos = "https://cloud.r-project.org")
+}
+
 pacman::p_load(
   tidyverse,
   rpart,
   rpart.plot,
   caret,
+  ranger,
   visNetwork,
   htmlwidgets,
   sparkline
@@ -208,9 +236,8 @@ pacman::p_load(
 ```
 
 ```{r}
-base_dir <- "D:/GitHub/Qinhao/ISSS608-VAA/Take-home-exercise/Take-Home-Exercise2"
-data_path <- file.path(base_dir, "data", "tourism_decision_tree_ready.csv")
-output_dir <- file.path(base_dir, "outputs")
+data_path <- file.path(data_dir, "tourism_decision_tree_ready.csv")
+output_dir <- file.path(module_dir, "outputs")
 
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 

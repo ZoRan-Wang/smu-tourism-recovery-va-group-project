@@ -1,4 +1,6 @@
-if (!require("pacman")) install.packages("pacman")
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", repos = "https://cloud.r-project.org")
+}
 
 pacman::p_load(
   tidyverse,
@@ -7,9 +9,27 @@ pacman::p_load(
   caret
 )
 
-base_dir <- "D:/GitHub/Qinhao/ISSS608-VAA/Take-home-exercise/Take-Home-Exercise2"
-data_path <- file.path(base_dir, "data", "tourism_decision_tree_ready.csv")
-output_dir <- file.path(base_dir, "outputs")
+find_project_root <- function(start = getwd()) {
+  current <- normalizePath(start, winslash = "/", mustWork = TRUE)
+
+  repeat {
+    if (file.exists(file.path(current, "_quarto.yml"))) {
+      return(current)
+    }
+
+    parent <- dirname(current)
+    if (identical(parent, current)) {
+      stop("Project root not found. Expected to locate _quarto.yml.")
+    }
+
+    current <- parent
+  }
+}
+
+project_root <- find_project_root()
+module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2")
+data_path <- file.path(module_dir, "data", "tourism_decision_tree_ready.csv")
+output_dir <- file.path(module_dir, "outputs")
 
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 

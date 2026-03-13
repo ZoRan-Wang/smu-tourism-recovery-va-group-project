@@ -5,6 +5,7 @@ project:
     - "*.qmd"
     - "prototype/*.qmd"
     - "team/*.qmd"
+    - "team/jin-qinhao/**/*.qmd"
     - "!templates/"
     - "!artifacts/"
     - "!app/"
@@ -20,6 +21,8 @@ website:
         text: Home
       - href: Proposal/Proposal.qmd
         text: Proposal
+      - href: take-home-ex2.qmd
+        text: Take-home 2
       - text: Prototype
         menu:
           - href: prototype/module-cluster.qmd
@@ -33,7 +36,7 @@ website:
       - href: team/onboarding.qmd
         text: Team
   page-footer:
-    center: "SMU Visual Analytics Group Project · Updated 2026-03-12"
+    center: "SMU Visual Analytics Group Project | Updated 2026-03-12"
 
 format:
   html:
