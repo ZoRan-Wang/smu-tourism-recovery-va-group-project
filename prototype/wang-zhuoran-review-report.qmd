@@ -8,50 +8,54 @@ This review covers the clustering prototype draft in `prototype/module-cluster.q
 
 ## Findings In The Original Draft
 
-### Finding 1: The stay-duration feature was underspecified
+### Finding 1: The page did not follow a strict introduction-code-result pattern
+
+The earlier version discussed the method and showed outputs, but it did not structure the analysis as a stepwise reproducible workflow with visible code followed by code-generated results and interpretation.
+
+### Finding 2: Package loading and data import were not shown explicitly
+
+The earlier draft loaded and transformed data in a hidden setup chunk. That made the page less aligned with the Habari Tanzania reference style, where the reader can see the workflow directly.
+
+### Finding 3: The stay-duration feature was underspecified
 
 The draft proposed `avg_stay_monthly` directly for clustering, but the cleaned data preparation already created `avg_stay_monthly_capped` for modeling. Using the uncapped series would let a small number of pandemic months dominate Euclidean distances.
 
-### Finding 2: The method rationale was too thin
-
-The draft listed k-means steps, but it did not explain why this project should use k-means rather than reuse a latent-class workflow too literally from the reference site.
-
-### Finding 3: The choice of `k = 3` needed evidence
+### Finding 4: The choice of `k = 3` needed evidence
 
 The draft said "start with K = 3", but it did not show the elbow pattern, silhouette diagnostics, or the interpretability tradeoff behind the final selection.
 
-### Finding 4: The page was not yet submission-ready
+### Finding 5: The page was not yet submission-ready
 
-The original file was a short module note, not a full prototype report. It lacked executable analysis, visual outputs, a results narrative, and a proper UI design section.
+The original file was a short module note, not a full prototype report. It lacked a visible end-to-end analytical workflow, detailed results sections, and a stronger explanation layer after each output.
 
 ## Fixes Implemented
 
-1. Rewrote `prototype/module-cluster.qmd` as a full executable prototype page.
-2. Switched the modeling stay variable to `avg_stay_monthly_capped`.
-3. Added an explicit "Why This Prototype Uses K-Means" section tied to the Habari Tanzania reference structure.
-4. Added elbow and silhouette diagnostics.
-5. Added state-profile, timeline, and reduced-space visualisations.
-6. Added a dedicated UI design section with exposed parameters and outputs.
-7. Updated the project navigation label from `Module Prototype` to `Clustering Prototype`.
+1. Rewrote `prototype/module-cluster.qmd` into a stricter section-by-section prototype page.
+2. Added visible package loading and visible data import code.
+3. Reorganized the page so each major step now includes introduction, code, result, and explanation.
+4. Switched the modeling stay variable to `avg_stay_monthly_capped`.
+5. Added elbow and silhouette diagnostics for selecting `k`.
+6. Added code-generated cluster profiles, timeline outputs, and UI design tables.
+7. Kept the narrative aligned with the Habari Tanzania reference structure while using k-means appropriately for continuous monthly data.
 
 ## Verification Checklist
 
 | Check item | Result | Notes |
 |---|---|---|
-| Dataset path resolves inside project | PASS | page reads `data/raw/tourism_four_part_analysis_ready.xlsx` through relative-path candidates |
+| Visible package import section included | PASS | packages are loaded in a visible code block |
+| Visible data import section included | PASS | workbook path and sheet import are shown directly |
 | Modeling variables match cleaned data design | PASS | uses `visitor_arrivals`, `china_share`, `hotel_occ`, `avg_stay_monthly_capped` |
-| Prototype includes executable outputs | PASS | diagnostics, profile table, and visualisations are embedded in the page |
-| UI design section included | PASS | parameter and output exposure are documented |
+| Results are generated from code | PASS | tables and figures are produced from chunk objects |
+| UI design section included | PASS | parameter and output exposure are documented via code-generated tables |
 | Quarto page renders successfully | PASS | verified with `quarto render prototype/module-cluster.qmd` |
 | Review report page renders successfully | PASS | verified with `quarto render prototype/wang-zhuoran-review-report.qmd` |
-| Full project render succeeds after update | PASS | verified with `quarto render` from project root |
 
 ## Residual Risks
 
-1. The selected `k = 3` solution is substantively stronger than the `k = 2` solution, but the silhouette score is slightly lower. This tradeoff should be acknowledged in the final coursework report.
+1. The selected `k = 3` solution is substantively stronger than the `k = 2` solution, but the silhouette score is slightly lower. This tradeoff should still be acknowledged in the final coursework report.
 2. `china_share` can look high during collapse months because it is a relative measure. The final narrative should always pair it with absolute arrivals.
 3. If additional monthly indicators are added later, the cluster labels may need to be recalibrated.
 
 ## Review Outcome
 
-No blocking issues remain in the updated clustering prototype. The page is now suitable as an English-language prototype module under the project site and is ready to be shared on the `codex/WANG-ZHUORAN` branch.
+No blocking issues remain in the updated clustering prototype. The page now matches the requested reproducible style much more closely: visible workflow, code-generated results, and explanation after each analytical step.

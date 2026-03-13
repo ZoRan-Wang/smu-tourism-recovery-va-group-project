@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -149,25 +184,57 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#module-focus" id="toc-module-focus" class="nav-link active" data-scroll-target="#module-focus">Module Focus</a></li>
-  <li><a href="#draft-review-and-corrections" id="toc-draft-review-and-corrections" class="nav-link" data-scroll-target="#draft-review-and-corrections">Draft Review And Corrections</a></li>
-  <li><a href="#why-this-prototype-uses-k-means" id="toc-why-this-prototype-uses-k-means" class="nav-link" data-scroll-target="#why-this-prototype-uses-k-means">Why This Prototype Uses K-Means</a></li>
-  <li><a href="#data-preparation-for-the-module" id="toc-data-preparation-for-the-module" class="nav-link" data-scroll-target="#data-preparation-for-the-module">Data Preparation For The Module</a></li>
-  <li><a href="#cluster-selection" id="toc-cluster-selection" class="nav-link" data-scroll-target="#cluster-selection">Cluster Selection</a></li>
-  <li><a href="#prototype-results" id="toc-prototype-results" class="nav-link" data-scroll-target="#prototype-results">Prototype Results</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a></li>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link" data-scroll-target="#load-packages">2. Load Packages</a>
   <ul class="collapse">
-  <li><a href="#state-map-in-reduced-feature-space" id="toc-state-map-in-reduced-feature-space" class="nav-link" data-scroll-target="#state-map-in-reduced-feature-space">State Map In Reduced Feature Space</a></li>
-  <li><a href="#state-profiles" id="toc-state-profiles" class="nav-link" data-scroll-target="#state-profiles">State Profiles</a></li>
-  <li><a href="#when-each-state-appears" id="toc-when-each-state-appears" class="nav-link" data-scroll-target="#when-each-state-appears">When Each State Appears</a></li>
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
+  <li><a href="#code" id="toc-code" class="nav-link" data-scroll-target="#code">Code</a></li>
+  <li><a href="#result" id="toc-result" class="nav-link" data-scroll-target="#result">Result</a></li>
+  <li><a href="#explanation" id="toc-explanation" class="nav-link" data-scroll-target="#explanation">Explanation</a></li>
   </ul></li>
-  <li><a href="#ui-design-for-the-shiny-module" id="toc-ui-design-for-the-shiny-module" class="nav-link" data-scroll-target="#ui-design-for-the-shiny-module">UI Design For The Shiny Module</a>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">3. Import Data</a>
   <ul class="collapse">
-  <li><a href="#exposed-parameters" id="toc-exposed-parameters" class="nav-link" data-scroll-target="#exposed-parameters">Exposed Parameters</a></li>
-  <li><a href="#exposed-outputs" id="toc-exposed-outputs" class="nav-link" data-scroll-target="#exposed-outputs">Exposed Outputs</a></li>
-  <li><a href="#ui-storyboard-notes" id="toc-ui-storyboard-notes" class="nav-link" data-scroll-target="#ui-storyboard-notes">UI Storyboard Notes</a></li>
+  <li><a href="#introduction-2" id="toc-introduction-2" class="nav-link" data-scroll-target="#introduction-2">Introduction</a></li>
+  <li><a href="#code-1" id="toc-code-1" class="nav-link" data-scroll-target="#code-1">Code</a></li>
+  <li><a href="#result-1" id="toc-result-1" class="nav-link" data-scroll-target="#result-1">Result</a></li>
+  <li><a href="#explanation-1" id="toc-explanation-1" class="nav-link" data-scroll-target="#explanation-1">Explanation</a></li>
   </ul></li>
-  <li><a href="#implementation-notes" id="toc-implementation-notes" class="nav-link" data-scroll-target="#implementation-notes">Implementation Notes</a></li>
-  <li><a href="#prototype-conclusion" id="toc-prototype-conclusion" class="nav-link" data-scroll-target="#prototype-conclusion">Prototype Conclusion</a></li>
+  <li><a href="#prepare-the-clustering-dataset" id="toc-prepare-the-clustering-dataset" class="nav-link" data-scroll-target="#prepare-the-clustering-dataset">4. Prepare The Clustering Dataset</a>
+  <ul class="collapse">
+  <li><a href="#introduction-3" id="toc-introduction-3" class="nav-link" data-scroll-target="#introduction-3">Introduction</a></li>
+  <li><a href="#code-2" id="toc-code-2" class="nav-link" data-scroll-target="#code-2">Code</a></li>
+  <li><a href="#result-2" id="toc-result-2" class="nav-link" data-scroll-target="#result-2">Result</a></li>
+  <li><a href="#explanation-2" id="toc-explanation-2" class="nav-link" data-scroll-target="#explanation-2">Explanation</a></li>
+  </ul></li>
+  <li><a href="#determine-the-number-of-clusters" id="toc-determine-the-number-of-clusters" class="nav-link" data-scroll-target="#determine-the-number-of-clusters">5. Determine The Number Of Clusters</a>
+  <ul class="collapse">
+  <li><a href="#introduction-4" id="toc-introduction-4" class="nav-link" data-scroll-target="#introduction-4">Introduction</a></li>
+  <li><a href="#code-3" id="toc-code-3" class="nav-link" data-scroll-target="#code-3">Code</a></li>
+  <li><a href="#result-3" id="toc-result-3" class="nav-link" data-scroll-target="#result-3">Result</a></li>
+  <li><a href="#explanation-3" id="toc-explanation-3" class="nav-link" data-scroll-target="#explanation-3">Explanation</a></li>
+  </ul></li>
+  <li><a href="#fit-the-final-k-means-model" id="toc-fit-the-final-k-means-model" class="nav-link" data-scroll-target="#fit-the-final-k-means-model">6. Fit The Final K-Means Model</a>
+  <ul class="collapse">
+  <li><a href="#introduction-5" id="toc-introduction-5" class="nav-link" data-scroll-target="#introduction-5">Introduction</a></li>
+  <li><a href="#code-4" id="toc-code-4" class="nav-link" data-scroll-target="#code-4">Code</a></li>
+  <li><a href="#result-4" id="toc-result-4" class="nav-link" data-scroll-target="#result-4">Result</a></li>
+  <li><a href="#explanation-4" id="toc-explanation-4" class="nav-link" data-scroll-target="#explanation-4">Explanation</a></li>
+  </ul></li>
+  <li><a href="#visualise-and-interpret-the-results" id="toc-visualise-and-interpret-the-results" class="nav-link" data-scroll-target="#visualise-and-interpret-the-results">7. Visualise And Interpret The Results</a>
+  <ul class="collapse">
+  <li><a href="#introduction-6" id="toc-introduction-6" class="nav-link" data-scroll-target="#introduction-6">Introduction</a></li>
+  <li><a href="#code-5" id="toc-code-5" class="nav-link" data-scroll-target="#code-5">Code</a></li>
+  <li><a href="#result-5" id="toc-result-5" class="nav-link" data-scroll-target="#result-5">Result</a></li>
+  <li><a href="#explanation-5" id="toc-explanation-5" class="nav-link" data-scroll-target="#explanation-5">Explanation</a></li>
+  </ul></li>
+  <li><a href="#ui-design-for-the-shiny-module" id="toc-ui-design-for-the-shiny-module" class="nav-link" data-scroll-target="#ui-design-for-the-shiny-module">8. UI Design For The Shiny Module</a>
+  <ul class="collapse">
+  <li><a href="#introduction-7" id="toc-introduction-7" class="nav-link" data-scroll-target="#introduction-7">Introduction</a></li>
+  <li><a href="#code-6" id="toc-code-6" class="nav-link" data-scroll-target="#code-6">Code</a></li>
+  <li><a href="#result-6" id="toc-result-6" class="nav-link" data-scroll-target="#result-6">Result</a></li>
+  <li><a href="#explanation-6" id="toc-explanation-6" class="nav-link" data-scroll-target="#explanation-6">Explanation</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">9. Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -194,54 +261,488 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="module-focus" class="level2">
-<h2 class="anchored" data-anchor-id="module-focus">Module Focus</h2>
-<p>This prototype tests whether monthly observations can be grouped into a small number of tourism market states during Singapore’s pandemic shock and recovery.</p>
-<p>The analytical unit is the <strong>month</strong>, not the individual traveller. The module therefore asks a market-state question:</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
+<p>This prototype follows the same broad storytelling logic as the reference clustering page from Habari Tanzania: introduce the analytical objective, show the code that prepares the data, fit the clustering model, generate the results directly from code, and then explain what those results mean.</p>
+<p>The difference is methodological. The Habari Tanzania example works with transformed categorical indicators for latent classes, while this project uses continuous monthly tourism indicators. For that reason, this page uses <strong>standardized k-means clustering</strong> at the <strong>monthly</strong> level.</p>
+<p>The analytical question is:</p>
 <blockquote class="blockquote">
-<p>Do months naturally separate into recurring states defined by visitor volume, China’s market share, hotel occupancy, and length of stay?</p>
+<p>Can the monthly tourism observations be grouped into a few interpretable market states defined by visitor arrivals, China’s market share, hotel occupancy, and length of stay?</p>
 </blockquote>
+<p>All tables and figures below are generated directly from the code chunks in this document.</p>
 </section>
-<section id="draft-review-and-corrections" class="level2">
-<h2 class="anchored" data-anchor-id="draft-review-and-corrections">Draft Review And Corrections</h2>
-<p>The original draft had the right direction, but it needed three corrections before it could become a valid prototype module report.</p>
-<ol type="1">
-<li>The clustering variable for stay duration should be <code>avg_stay_monthly_capped</code>, not the raw monthly series, because extreme pandemic values would otherwise dominate distance calculations.</li>
-<li>The method should be described as <strong>k-means on standardized monthly indicators</strong>, not copied too closely from survey-style latent class workflows.</li>
-<li>The choice of <code>k = 3</code> should be justified as an interpretability decision supported by diagnostics, rather than treated as an unquestioned default.</li>
-</ol>
+<section id="load-packages" class="level2">
+<h2 class="anchored" data-anchor-id="load-packages">2. Load Packages</h2>
+<section id="introduction-1" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-1">Introduction</h3>
+<p>The first step is to load the packages needed for Excel import, data transformation, clustering, visualisation, and reporting.</p>
 </section>
-<section id="why-this-prototype-uses-k-means" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-prototype-uses-k-means">Why This Prototype Uses K-Means</h2>
-<p>The structure of this page is inspired by the clustering workflow shown on the <a href="https://habaritanzania.netlify.app/analysis/clustering">Habari Tanzania clustering analysis</a>: prepare the data, fit the model, append class labels, and visualise the resulting groups.</p>
-<p>However, the underlying algorithm is different for a good reason.</p>
-<ul>
-<li>The Habari Tanzania page works with transformed categorical indicators and latent classes.</li>
-<li>This tourism dataset contains continuous monthly market indicators and only 110 monthly observations.</li>
-<li>For this case, standardized k-means is a better prototype because it is transparent, fast to test in Shiny, and easy to explain in a coursework setting.</li>
-</ul>
+<section id="code" class="level3">
+<h3 class="anchored" data-anchor-id="code">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"readxl"</span>, <span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>, <span class="st">"cluster"</span>, <span class="st">"knitr"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">lapply</span>(packages, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>package_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Package =</span> packages,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Version =</span> <span class="fu">vapply</span>(packages, <span class="cf">function</span>(pkg) <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(pkg)), <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="data-preparation-for-the-module" class="level2">
-<h2 class="anchored" data-anchor-id="data-preparation-for-the-module">Data Preparation For The Module</h2>
-<p>The clustering input uses the cleaned workbook <code>tourism_four_part_analysis_ready.xlsx</code>, covering 2016-12 to 2026-01.</p>
-<p>The four modeling variables are:</p>
+<section id="result" class="level3">
+<h3 class="anchored" data-anchor-id="result">Result</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Package</th>
+<th style="text-align: left;">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">readxl</td>
+<td style="text-align: left;">readxl</td>
+<td style="text-align: left;">1.4.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dplyr</td>
+<td style="text-align: left;">dplyr</td>
+<td style="text-align: left;">1.2.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ggplot2</td>
+<td style="text-align: left;">ggplot2</td>
+<td style="text-align: left;">4.0.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cluster</td>
+<td style="text-align: left;">cluster</td>
+<td style="text-align: left;">2.1.8.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">knitr</td>
+<td style="text-align: left;">knitr</td>
+<td style="text-align: left;">1.51</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="explanation" class="level3">
+<h3 class="anchored" data-anchor-id="explanation">Explanation</h3>
+<p>The required packages loaded successfully, so the page can proceed with a fully reproducible workflow.</p>
+</section>
+</section>
+<section id="import-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-data">3. Import Data</h2>
+<section id="introduction-2" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-2">Introduction</h3>
+<p>The clustering module uses the cleaned workbook created for the project. The relevant sheet is <code>analysis_ready_all</code>, which already contains the derived variables needed for month-level analysis.</p>
+</section>
+<section id="code-1" class="level3">
+<h3 class="anchored" data-anchor-id="code-1">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_candidates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">".."</span>, <span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"tourism_four_part_analysis_ready.xlsx"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"tourism_four_part_analysis_ready.xlsx"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> data_candidates[<span class="fu">file.exists</span>(data_candidates)][<span class="dv">1</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.na</span>(data_path)) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Dataset not found. Expected tourism_four_part_analysis_ready.xlsx in data/raw."</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tourism_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(data_path, <span class="at">sheet =</span> <span class="st">"analysis_ready_all"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as.Date</span>(date))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>data_import_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metric =</span> <span class="fu">c</span>(</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Workbook path"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sheet name"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Number of rows"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Number of columns"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"First month"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Last month"</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    data_path,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"analysis_ready_all"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(tourism_raw),</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ncol</span>(tourism_raw),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(<span class="fu">min</span>(tourism_raw<span class="sc">$</span>date), <span class="st">"%Y-%m"</span>),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(<span class="fu">max</span>(tourism_raw<span class="sc">$</span>date), <span class="st">"%Y-%m"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>data_preview <span class="ot">&lt;-</span> tourism_raw <span class="sc">|&gt;</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    date,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    period,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    visitor_arrivals,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    visitor_arrivals_china,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    china_share,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    hotel_occ,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    avg_stay_monthly_capped</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="result-1" class="level3">
+<h3 class="anchored" data-anchor-id="result-1">Result</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Workbook path</td>
+<td style="text-align: left;">../data/raw/tourism_four_part_analysis_ready.xlsx</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sheet name</td>
+<td style="text-align: left;">analysis_ready_all</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">First month</td>
+<td style="text-align: left;">2016-12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Last month</td>
+<td style="text-align: left;">2026-01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">date</th>
+<th style="text-align: left;">period</th>
+<th style="text-align: right;">visitor_arrivals</th>
+<th style="text-align: right;">visitor_arrivals_china</th>
+<th style="text-align: right;">china_share</th>
+<th style="text-align: right;">hotel_occ</th>
+<th style="text-align: right;">avg_stay_monthly_capped</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2016-12-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1506134</td>
+<td style="text-align: right;">226020</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">79.612</td>
+<td style="text-align: right;">3.214</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-01-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1480479</td>
+<td style="text-align: right;">316805</td>
+<td style="text-align: right;">0.214</td>
+<td style="text-align: right;">81.767</td>
+<td style="text-align: right;">3.517</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017-02-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1361010</td>
+<td style="text-align: right;">268993</td>
+<td style="text-align: right;">0.198</td>
+<td style="text-align: right;">88.028</td>
+<td style="text-align: right;">3.424</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-03-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1480161</td>
+<td style="text-align: right;">264711</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: right;">84.672</td>
+<td style="text-align: right;">3.151</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017-04-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1470750</td>
+<td style="text-align: right;">252135</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">85.068</td>
+<td style="text-align: right;">3.281</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017-05-01</td>
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">1363897</td>
+<td style="text-align: right;">232361</td>
+<td style="text-align: right;">0.170</td>
+<td style="text-align: right;">82.279</td>
+<td style="text-align: right;">3.549</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="explanation-1" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-1">Explanation</h3>
+<p>The imported dataset contains 110 monthly observations from 2016-12 to 2026-01. The preview confirms that the cleaned sheet already includes the period label, China’s market share, and the capped version of monthly stay duration.</p>
+</section>
+</section>
+<section id="prepare-the-clustering-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-clustering-dataset">4. Prepare The Clustering Dataset</h2>
+<section id="introduction-3" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-3">Introduction</h3>
+<p>The clustering unit must be the month. Following the project plan, the feature set contains:</p>
 <ol type="1">
 <li><code>visitor_arrivals</code></li>
 <li><code>china_share</code></li>
 <li><code>hotel_occ</code></li>
 <li><code>avg_stay_monthly_capped</code></li>
 </ol>
-<p>This design follows the project logic closely.</p>
-<ul>
-<li><code>visitor_arrivals</code> captures market size.</li>
-<li><code>china_share</code> captures the structural weight of the Chinese source market.</li>
-<li><code>hotel_occ</code> captures accommodation market recovery.</li>
-<li><code>avg_stay_monthly_capped</code> retains the stay signal without letting extreme pandemic months overpower the model.</li>
-</ul>
+<p>The raw <code>avg_stay_monthly</code> is kept for interpretation, but the capped version is used for modeling to reduce the influence of extreme pandemic months.</p>
 </section>
-<section id="cluster-selection" class="level2">
-<h2 class="anchored" data-anchor-id="cluster-selection">Cluster Selection</h2>
-<p>The prototype checks candidate solutions from <code>k = 2</code> to <code>k = 6</code>.</p>
+<section id="code-2" class="level3">
+<h3 class="anchored" data-anchor-id="code-2">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>feature_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"visitor_arrivals"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"china_share"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"hotel_occ"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"avg_stay_monthly_capped"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>cluster_input <span class="ot">&lt;-</span> tourism_raw <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    date,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    period,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    visitor_arrivals,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    china_share,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    hotel_occ,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    avg_stay_monthly,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    avg_stay_monthly_capped</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_all</span>(<span class="fu">all_of</span>(feature_vars), <span class="sc">~</span> <span class="sc">!</span><span class="fu">is.na</span>(.x)))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>missing_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> feature_vars,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Missing_values =</span> <span class="fu">vapply</span>(feature_vars, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(cluster_input[[x]])), <span class="fu">integer</span>(<span class="dv">1</span>))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>period_table <span class="ot">&lt;-</span> cluster_input <span class="sc">|&gt;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(period, <span class="at">name =</span> <span class="st">"Months"</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>cluster_matrix <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">as.matrix</span>(cluster_input[, feature_vars, <span class="at">drop =</span> <span class="cn">FALSE</span>]))</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>standardization_check <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> <span class="fu">colnames</span>(cluster_matrix),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean_after_scaling =</span> <span class="fu">round</span>(<span class="fu">colMeans</span>(cluster_matrix), <span class="dv">3</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">SD_after_scaling =</span> <span class="fu">round</span>(<span class="fu">apply</span>(cluster_matrix, <span class="dv">2</span>, sd), <span class="dv">3</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="result-2" class="level3">
+<h3 class="anchored" data-anchor-id="result-2">Result</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Missing_values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">visitor_arrivals</td>
+<td style="text-align: left;">visitor_arrivals</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">china_share</td>
+<td style="text-align: left;">china_share</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hotel_occ</td>
+<td style="text-align: left;">hotel_occ</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">avg_stay_monthly_capped</td>
+<td style="text-align: left;">avg_stay_monthly_capped</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">period</th>
+<th style="text-align: right;">Months</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">covid_shock</td>
+<td style="text-align: right;">23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pre_covid</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">recovery</td>
+<td style="text-align: right;">49</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 22%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Mean_after_scaling</th>
+<th style="text-align: right;">SD_after_scaling</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">visitor_arrivals</td>
+<td style="text-align: left;">visitor_arrivals</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">china_share</td>
+<td style="text-align: left;">china_share</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hotel_occ</td>
+<td style="text-align: left;">hotel_occ</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">avg_stay_monthly_capped</td>
+<td style="text-align: left;">avg_stay_monthly_capped</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="explanation-2" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-2">Explanation</h3>
+<p>The selected modeling fields have no missing values after filtering, leaving 110 usable months. The period distribution also shows that the dataset spans all three project phases, and the standardization check confirms that each modeling variable now contributes on a comparable scale to the distance calculation.</p>
+</section>
+</section>
+<section id="determine-the-number-of-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="determine-the-number-of-clusters">5. Determine The Number Of Clusters</h2>
+<section id="introduction-4" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-4">Introduction</h3>
+<p>The draft suggested starting with <code>k = 3</code>, but that decision still needs evidence. To evaluate the candidate cluster counts, the page computes:</p>
+<ol type="1">
+<li>the total within-cluster sum of squares for the elbow pattern, and</li>
+<li>the mean silhouette score for separation quality.</li>
+</ol>
+</section>
+<section id="code-3" class="level3">
+<h3 class="anchored" data-anchor-id="code-3">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>candidate_k <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>distance_matrix <span class="ot">&lt;-</span> <span class="fu">dist</span>(cluster_matrix)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>model_metrics <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">lapply</span>(candidate_k, <span class="cf">function</span>(k) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(cluster_matrix, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(fit<span class="sc">$</span>cluster, distance_matrix)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">k =</span> k,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">tot_withinss =</span> fit<span class="sc">$</span>tot.withinss,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">silhouette =</span> <span class="fu">mean</span>(sil[, <span class="st">"sil_width"</span>], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>elbow_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(model_metrics, <span class="fu">aes</span>(<span class="at">x =</span> k, <span class="at">y =</span> tot_withinss)) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#0f3d3e"</span>, <span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#d86f45"</span>, <span class="at">size =</span> <span class="fl">2.6</span>) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> candidate_k) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of clusters (k)"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total within-cluster sum of squares"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>silhouette_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(model_metrics, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(k), <span class="at">y =</span> silhouette, <span class="at">fill =</span> k <span class="sc">==</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.68</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRUE"</span> <span class="ot">=</span> <span class="st">"#0f6b5b"</span>, <span class="st">"FALSE"</span> <span class="ot">=</span> <span class="st">"#c7d4cf"</span>)) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Number of clusters (k)"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Mean silhouette score"</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>metrics_table <span class="ot">&lt;-</span> model_metrics <span class="sc">|&gt;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">K =</span> k,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Total within-cluster SS</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(tot_withinss, <span class="dv">1</span>),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean silhouette</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(silhouette, <span class="dv">3</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="result-3" class="level3">
+<h3 class="anchored" data-anchor-id="result-3">Result</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-elbow" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -264,7 +765,7 @@ Figure&nbsp;1: Elbow diagnostic for candidate cluster counts.
 <img src="module-cluster_files/figure-html/fig-silhouette-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-silhouette-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Mean silhouette score by candidate k.
+Figure&nbsp;2: Mean silhouette score by candidate cluster count.
 </figcaption>
 </figure>
 </div>
@@ -310,31 +811,242 @@ Figure&nbsp;2: Mean silhouette score by candidate k.
 </table>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+</section>
+<section id="explanation-3" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-3">Explanation</h3>
+<p>The highest silhouette score occurs at <code>k = r model_metrics$k[which.max(model_metrics$silhouette)]</code>, with a mean silhouette of 0.665. However, the elbow pattern bends noticeably by <code>k = 3</code>, and the three-cluster solution gives a more useful market narrative than a simple two-way split. For that reason, the prototype keeps <code>k = 3</code> as the final setting while acknowledging that the choice prioritises interpretability over the absolute best silhouette value.</p>
+</section>
+</section>
+<section id="fit-the-final-k-means-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-the-final-k-means-model">6. Fit The Final K-Means Model</h2>
+<section id="introduction-5" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-5">Introduction</h3>
+<p>With <code>k = 3</code> selected, the next step is to fit the final k-means model, assign each month to a cluster, and then translate the technical clusters into market-state labels.</p>
+</section>
+<section id="code-4" class="level3">
+<h3 class="anchored" data-anchor-id="code-4">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>selected_k <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>cluster_fit <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(cluster_matrix, <span class="at">centers =</span> selected_k, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>pca_fit <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(cluster_matrix)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>cluster_results <span class="ot">&lt;-</span> cluster_input <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">cluster_id =</span> cluster_fit<span class="sc">$</span>cluster,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">pc1 =</span> pca_fit<span class="sc">$</span>x[, <span class="dv">1</span>],</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pc2 =</span> pca_fit<span class="sc">$</span>x[, <span class="dv">2</span>]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>cluster_profile_raw <span class="ot">&lt;-</span> cluster_results <span class="sc">|&gt;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster_id) <span class="sc">|&gt;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">months =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">visitor_arrivals =</span> <span class="fu">mean</span>(visitor_arrivals),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">china_share =</span> <span class="fu">mean</span>(china_share),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">hotel_occ =</span> <span class="fu">mean</span>(hotel_occ),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_stay_monthly =</span> <span class="fu">mean</span>(avg_stay_monthly),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_stay_monthly_capped =</span> <span class="fu">mean</span>(avg_stay_monthly_capped),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>label_map <span class="ot">&lt;-</span> cluster_profile_raw <span class="sc">|&gt;</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(visitor_arrivals) <span class="sc">|&gt;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_label =</span> <span class="fu">c</span>(</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Pandemic shock months"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Recovery transition months"</span>,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">"High-performance months"</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cluster_id, state_label)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>cluster_results <span class="ot">&lt;-</span> cluster_results <span class="sc">|&gt;</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(label_map, <span class="at">by =</span> <span class="st">"cluster_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_label =</span> <span class="fu">factor</span>(</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>      state_label,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Pandemic shock months"</span>,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Recovery transition months"</span>,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">"High-performance months"</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="fu">factor</span>(period, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"pre_covid"</span>, <span class="st">"covid_shock"</span>, <span class="st">"recovery"</span>))</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>cluster_profile <span class="ot">&lt;-</span> cluster_profile_raw <span class="sc">|&gt;</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(label_map, <span class="at">by =</span> <span class="st">"cluster_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">state_label =</span> <span class="fu">factor</span>(</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>      state_label,</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Pandemic shock months"</span>,</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Recovery transition months"</span>,</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        <span class="st">"High-performance months"</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(state_label)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>cluster_size_table <span class="ot">&lt;-</span> cluster_results <span class="sc">|&gt;</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(state_label, <span class="at">name =</span> <span class="st">"Months"</span>)</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>center_table <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(cluster_fit<span class="sc">$</span>centers) <span class="sc">|&gt;</span></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cluster_id =</span> <span class="fu">as.integer</span>(<span class="fu">rownames</span>(cluster_fit<span class="sc">$</span>centers))) <span class="sc">|&gt;</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(label_map, <span class="at">by =</span> <span class="st">"cluster_id"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Market state</span><span class="st">`</span> <span class="ot">=</span> state_label,</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Center: visitor arrivals</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(visitor_arrivals, <span class="dv">3</span>),</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Center: China share</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(china_share, <span class="dv">3</span>),</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Center: hotel occupancy</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(hotel_occ, <span class="dv">3</span>),</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Center: stay length</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(avg_stay_monthly_capped, <span class="dv">3</span>)</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">match</span>(<span class="st">`</span><span class="at">Market state</span><span class="st">`</span>, <span class="fu">levels</span>(cluster_results<span class="sc">$</span>state_label)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-title-container flex-fill">
-Important
+</section>
+<section id="result-4" class="level3">
+<h3 class="anchored" data-anchor-id="result-4">Result</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">state_label</th>
+<th style="text-align: right;">Months</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pandemic shock months</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recovery transition months</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High-performance months</td>
+<td style="text-align: right;">82</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p><code>k = 2</code> produces the highest mean silhouette (0.665), but the prototype keeps <code>k = 3</code>.</p>
-<p>This is a deliberate modeling choice. The three-cluster solution separates:</p>
-<ul>
-<li>a low-volume pandemic shock state,</li>
-<li>a transitional recovery state,</li>
-<li>and a high-performance market state.</li>
-</ul>
-<p>That structure matches the substantive story of the project better than a simpler two-cluster split.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 21%">
+<col style="width: 17%">
+<col style="width: 20%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Market state</th>
+<th style="text-align: right;">Center: visitor arrivals</th>
+<th style="text-align: right;">Center: China share</th>
+<th style="text-align: right;">Center: hotel occupancy</th>
+<th style="text-align: right;">Center: stay length</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pandemic shock months</td>
+<td style="text-align: right;">-1.677</td>
+<td style="text-align: right;">1.721</td>
+<td style="text-align: right;">-1.634</td>
+<td style="text-align: right;">1.926</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Recovery transition months</td>
+<td style="text-align: right;">-1.444</td>
+<td style="text-align: right;">-1.071</td>
+<td style="text-align: right;">-1.308</td>
+<td style="text-align: right;">0.979</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">High-performance months</td>
+<td style="text-align: right;">0.536</td>
+<td style="text-align: right;">-0.145</td>
+<td style="text-align: right;">0.506</td>
+<td style="text-align: right;">-0.507</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
-<section id="prototype-results" class="level2">
-<h2 class="anchored" data-anchor-id="prototype-results">Prototype Results</h2>
-<section id="state-map-in-reduced-feature-space" class="level3">
-<h3 class="anchored" data-anchor-id="state-map-in-reduced-feature-space">State Map In Reduced Feature Space</h3>
+<section id="explanation-4" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-4">Explanation</h3>
+<p>The final model produces three clearly different groups. The largest group is the <strong>high-performance</strong> state with 82 months, while the <strong>pandemic shock</strong> and <strong>recovery transition</strong> states capture the disrupted and transitional months that differ strongly from normal market conditions.</p>
+<p>The centroid table is shown on the standardized scale, so the signs matter more than the raw magnitudes. Positive values indicate above-average conditions on a feature, while negative values indicate below-average conditions.</p>
+</section>
+</section>
+<section id="visualise-and-interpret-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="visualise-and-interpret-the-results">7. Visualise And Interpret The Results</h2>
+<section id="introduction-6" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-6">Introduction</h3>
+<p>The next step is to turn the cluster assignments into interpretable outputs: a reduced-dimension scatter plot, a business-friendly profile table, and a timeline showing when each market state appears.</p>
+</section>
+<section id="code-5" class="level3">
+<h3 class="anchored" data-anchor-id="code-5">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>state_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Pandemic shock months"</span> <span class="ot">=</span> <span class="st">"#b6405d"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Recovery transition months"</span> <span class="ot">=</span> <span class="st">"#ef9f23"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"High-performance months"</span> <span class="ot">=</span> <span class="st">"#0f6b5b"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>pca_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_results, <span class="fu">aes</span>(<span class="at">x =</span> pc1, <span class="at">y =</span> pc2, <span class="at">color =</span> state_label, <span class="at">shape =</span> period)) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">3.1</span>, <span class="at">alpha =</span> <span class="fl">0.88</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> state_palette) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Principal component 1"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Principal component 2"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Market state"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Period"</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>timeline_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cluster_results, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> state_label, <span class="at">color =</span> state_label)) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> state_palette) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Market state"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Market state"</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>profile_table <span class="ot">&lt;-</span> cluster_profile <span class="sc">|&gt;</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Market state</span><span class="st">`</span> <span class="ot">=</span> state_label,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">Months =</span> months,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean visitor arrivals</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">format</span>(<span class="fu">round</span>(visitor_arrivals), <span class="at">big.mark =</span> <span class="st">","</span>),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean China share</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, <span class="dv">100</span> <span class="sc">*</span> china_share),</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean hotel occupancy</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sprintf</span>(<span class="st">"%.1f%%"</span>, hotel_occ),</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean stay (raw)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(avg_stay_monthly, <span class="dv">1</span>),</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mean stay (capped for model)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">round</span>(avg_stay_monthly_capped, <span class="dv">1</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>period_state_view <span class="ot">&lt;-</span> <span class="fu">as.data.frame.matrix</span>(<span class="fu">with</span>(cluster_results, <span class="fu">table</span>(state_label, period)))</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>period_state_view<span class="sc">$</span>state_label <span class="ot">&lt;-</span> <span class="fu">rownames</span>(period_state_view)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(period_state_view) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>period_state_view <span class="ot">&lt;-</span> period_state_view <span class="sc">|&gt;</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(state_label, pre_covid, covid_shock, recovery) <span class="sc">|&gt;</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Market state</span><span class="st">`</span> <span class="ot">=</span> state_label,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Pre-COVID</span><span class="st">`</span> <span class="ot">=</span> pre_covid,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">COVID shock</span><span class="st">`</span> <span class="ot">=</span> covid_shock,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">Recovery =</span> recovery</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="result-5" class="level3">
+<h3 class="anchored" data-anchor-id="result-5">Result</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-pca" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -343,15 +1055,12 @@ Important
 <img src="module-cluster_files/figure-html/fig-pca-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Monthly observations projected onto two principal components and coloured by inferred market state.
+Figure&nbsp;3: Monthly observations projected into two principal components and colored by the inferred market states.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="state-profiles" class="level3">
-<h3 class="anchored" data-anchor-id="state-profiles">State Profiles</h3>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -379,7 +1088,7 @@ Figure&nbsp;3: Monthly observations projected onto two principal components and 
 <tr class="odd">
 <td style="text-align: left;">Pandemic shock months</td>
 <td style="text-align: right;">15</td>
-<td style="text-align: right;">17788</td>
+<td style="text-align: right;">17,788</td>
 <td style="text-align: right;">38.1%</td>
 <td style="text-align: right;">56.2%</td>
 <td style="text-align: right;">28.4</td>
@@ -388,7 +1097,7 @@ Figure&nbsp;3: Monthly observations projected onto two principal components and 
 <tr class="even">
 <td style="text-align: left;">Recovery transition months</td>
 <td style="text-align: right;">13</td>
-<td style="text-align: right;">159791</td>
+<td style="text-align: right;">159,791</td>
 <td style="text-align: right;">4.6%</td>
 <td style="text-align: right;">60.4%</td>
 <td style="text-align: right;">23.1</td>
@@ -397,7 +1106,7 @@ Figure&nbsp;3: Monthly observations projected onto two principal components and 
 <tr class="odd">
 <td style="text-align: left;">High-performance months</td>
 <td style="text-align: right;">82</td>
-<td style="text-align: right;">1367457</td>
+<td style="text-align: right;">1,367,457</td>
 <td style="text-align: right;">15.7%</td>
 <td style="text-align: right;">83.3%</td>
 <td style="text-align: right;">3.6</td>
@@ -407,16 +1116,6 @@ Figure&nbsp;3: Monthly observations projected onto two principal components and 
 </table>
 </div>
 </div>
-<p>The three states are substantively interpretable.</p>
-<ul>
-<li><strong>Pandemic shock months</strong> have extremely low arrivals, low occupancy, and unusually long stays even after outlier treatment.</li>
-<li><strong>Recovery transition months</strong> still have subdued arrivals and occupancy, but they sit above the most disrupted months.</li>
-<li><strong>High-performance months</strong> dominate on visitor volume and hotel occupancy, with short-to-normal stay durations.</li>
-</ul>
-<p>One especially important interpretation point is <code>china_share</code>. During the deepest shock months, China’s <em>share</em> can be high even when China’s absolute visitor count is low, because the overall market collapsed even more sharply. This is exactly why the report should present both volume and share as complementary signals.</p>
-</section>
-<section id="when-each-state-appears" class="level3">
-<h3 class="anchored" data-anchor-id="when-each-state-appears">When Each State Appears</h3>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-timeline" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -425,7 +1124,7 @@ Figure&nbsp;3: Monthly observations projected onto two principal components and 
 <img src="module-cluster_files/figure-html/fig-timeline-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-timeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Monthly market states across the full study window.
+Figure&nbsp;4: Timeline of inferred market states across the study window.
 </figcaption>
 </figure>
 </div>
@@ -465,139 +1164,186 @@ Figure&nbsp;4: Monthly market states across the full study window.
 </table>
 </div>
 </div>
-<p>This distribution is useful for storytelling in the final report.</p>
+</section>
+<section id="explanation-5" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-5">Explanation</h3>
+<p>The three-state solution is substantively interpretable.</p>
 <ul>
-<li>The <strong>high-performance</strong> state covers all <code>pre_covid</code> months and most <code>recovery</code> months.</li>
-<li>The <strong>pandemic shock</strong> state is concentrated entirely inside the <code>covid_shock</code> period.</li>
-<li>The <strong>recovery transition</strong> state bridges the end of the shock period and the earliest recovery months.</li>
+<li><strong>Pandemic shock months</strong> average only 17,788 arrivals, with mean hotel occupancy around 56.2%.</li>
+<li><strong>Recovery transition months</strong> average 159,791 arrivals, showing a partial rebound but not a full return to pre-pandemic market performance.</li>
+<li><strong>High-performance months</strong> average 1,367,457 arrivals and 83.3% hotel occupancy, making them the closest to normal or strong tourism conditions.</li>
 </ul>
-<p>That pattern supports the main claim of the module: months are not evenly scattered, but instead cluster into recurring tourism market conditions.</p>
+<p>One important nuance is that <strong>China’s share can be high even when China’s absolute arrival count is still low</strong>. This happens because the share is relative to the whole market. During the most disrupted months, the overall tourism market shrank so sharply that China’s proportion could remain elevated despite low absolute volumes. That is why the prototype keeps both volume and share in the interpretation.</p>
+<p>The period table also shows the temporal logic of the clusters:</p>
+<ul>
+<li>the <strong>high-performance</strong> state contains all <code>pre_covid</code> months and most <code>recovery</code> months,</li>
+<li>the <strong>pandemic shock</strong> state is concentrated entirely in the <code>covid_shock</code> phase,</li>
+<li>and the <strong>recovery transition</strong> state bridges the end of the shock period and the earliest recovery months.</li>
+</ul>
 </section>
 </section>
 <section id="ui-design-for-the-shiny-module" class="level2">
-<h2 class="anchored" data-anchor-id="ui-design-for-the-shiny-module">UI Design For The Shiny Module</h2>
-<p>This prototype will later become a Shiny module, so the report must define the exposed controls clearly.</p>
-<section id="exposed-parameters" class="level3">
-<h3 class="anchored" data-anchor-id="exposed-parameters">Exposed Parameters</h3>
-<table class="caption-top table">
+<h2 class="anchored" data-anchor-id="ui-design-for-the-shiny-module">8. UI Design For The Shiny Module</h2>
+<section id="introduction-7" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-7">Introduction</h3>
+<p>The assignment requires the prototype to define the user interface that will later expose the clustering logic in the Shiny app.</p>
+</section>
+<section id="code-6" class="level3">
+<h3 class="anchored" data-anchor-id="code-6">Code</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ui_parameter_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(<span class="st">"period_filter"</span>, <span class="st">"k_value"</span>, <span class="st">"random_seed"</span>, <span class="st">"run_model"</span>, <span class="st">"download_clusters"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">UI_component =</span> <span class="fu">c</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"checkboxGroupInput"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sliderInput"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numericInput"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"actionButton"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"downloadButton"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Default =</span> <span class="fu">c</span>(<span class="st">"all periods"</span>, <span class="st">"3"</span>, <span class="st">"42"</span>, <span class="st">"click to run"</span>, <span class="st">"shown after model run"</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"filter months by study period"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare alternative cluster counts"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"keep the result reproducible"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"avoid unnecessary recomputation"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"export month-level state assignments"</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>ui_output_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">Output =</span> <span class="fu">c</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_scatter_plot"</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_profile_table"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_timeline_plot"</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"silhouette_value"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cluster_assignment_export"</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">Format =</span> <span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"DT::datatable"</span>, <span class="st">"ggplot2"</span>, <span class="st">"value box / text"</span>, <span class="st">"CSV download"</span>),</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"show separation between market states"</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare cluster averages"</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"link states back to the historical timeline"</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"report model quality"</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"support downstream analysis"</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="result-6" class="level3">
+<h3 class="anchored" data-anchor-id="result-6">Result</h3>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 19%">
+<col style="width: 22%">
+<col style="width: 38%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Parameter</th>
-<th>UI component</th>
-<th>Default</th>
-<th>Design note</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">UI_component</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>period_filter</code></td>
-<td><code>checkboxGroupInput</code></td>
-<td>all three periods</td>
-<td>supports focused comparison</td>
+<td style="text-align: left;">period_filter</td>
+<td style="text-align: left;">checkboxGroupInput</td>
+<td style="text-align: left;">all periods</td>
+<td style="text-align: left;">filter months by study period</td>
 </tr>
 <tr class="even">
-<td><code>k_value</code></td>
-<td><code>sliderInput</code></td>
-<td>3</td>
-<td>allows quick sensitivity testing</td>
+<td style="text-align: left;">k_value</td>
+<td style="text-align: left;">sliderInput</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">compare alternative cluster counts</td>
 </tr>
 <tr class="odd">
-<td><code>random_seed</code></td>
-<td><code>numericInput</code></td>
-<td>42</td>
-<td>keeps clustering reproducible</td>
+<td style="text-align: left;">random_seed</td>
+<td style="text-align: left;">numericInput</td>
+<td style="text-align: left;">42</td>
+<td style="text-align: left;">keep the result reproducible</td>
 </tr>
 <tr class="even">
-<td><code>run_model</code></td>
-<td><code>actionButton</code></td>
-<td>click to execute</td>
-<td>prevents unnecessary recomputation</td>
+<td style="text-align: left;">run_model</td>
+<td style="text-align: left;">actionButton</td>
+<td style="text-align: left;">click to run</td>
+<td style="text-align: left;">avoid unnecessary recomputation</td>
 </tr>
 <tr class="odd">
-<td><code>download_clusters</code></td>
-<td><code>downloadButton</code></td>
-<td>hidden until ready</td>
-<td>exports month-level assignments</td>
+<td style="text-align: left;">download_clusters</td>
+<td style="text-align: left;">downloadButton</td>
+<td style="text-align: left;">shown after model run</td>
+<td style="text-align: left;">export month-level state assignments</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="exposed-outputs" class="level3">
-<h3 class="anchored" data-anchor-id="exposed-outputs">Exposed Outputs</h3>
-<table class="caption-top table">
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 29%">
+<col style="width: 19%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Output</th>
-<th>Format</th>
-<th>Why it matters</th>
+<th style="text-align: left;">Output</th>
+<th style="text-align: left;">Format</th>
+<th style="text-align: left;">Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>State scatter plot</td>
-<td><code>ggplot2</code></td>
-<td>shows separation between inferred states</td>
+<td style="text-align: left;">state_scatter_plot</td>
+<td style="text-align: left;">ggplot2</td>
+<td style="text-align: left;">show separation between market states</td>
 </tr>
 <tr class="even">
-<td>State profile table</td>
-<td><code>DT::datatable</code></td>
-<td>compares average market conditions</td>
+<td style="text-align: left;">state_profile_table</td>
+<td style="text-align: left;">DT::datatable</td>
+<td style="text-align: left;">compare cluster averages</td>
 </tr>
 <tr class="odd">
-<td>Timeline of assigned states</td>
-<td><code>ggplot2</code></td>
-<td>links clusters back to historical phases</td>
+<td style="text-align: left;">state_timeline_plot</td>
+<td style="text-align: left;">ggplot2</td>
+<td style="text-align: left;">link states back to the historical timeline</td>
 </tr>
 <tr class="even">
-<td>Quality metric</td>
-<td>value box or text card</td>
-<td>shows silhouette score for the selected run</td>
+<td style="text-align: left;">silhouette_value</td>
+<td style="text-align: left;">value box / text</td>
+<td style="text-align: left;">report model quality</td>
 </tr>
 <tr class="odd">
-<td>Clustered month table</td>
-<td>downloadable CSV</td>
-<td>supports follow-up analysis outside the app</td>
+<td style="text-align: left;">cluster_assignment_export</td>
+<td style="text-align: left;">CSV download</td>
+<td style="text-align: left;">support downstream analysis</td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
 </section>
-<section id="ui-storyboard-notes" class="level3">
-<h3 class="anchored" data-anchor-id="ui-storyboard-notes">UI Storyboard Notes</h3>
+<section id="explanation-6" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-6">Explanation</h3>
+<p>This UI design keeps the module focused and interpretable. The controls expose only the parameters that matter for a prototype, while the outputs preserve the analytical story developed in the code above.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">9. Conclusion</h2>
+<p>This prototype now follows a stricter reproducible pattern:</p>
 <ol type="1">
-<li>Keep the left panel for controls and the right panel for results.</li>
-<li>Preserve the same state labels and colors across every output.</li>
-<li>Keep standardization fixed on in the prototype app, because turning it off would create misleading distance behavior.</li>
-<li>Surface a short helper note explaining that <code>china_share</code> is a structural measure, not a raw visitor count.</li>
+<li>introduce the analytical objective,</li>
+<li>show the code,</li>
+<li>let the code generate the result,</li>
+<li>and then explain the meaning of that result.</li>
 </ol>
-</section>
-</section>
-<section id="implementation-notes" class="level2">
-<h2 class="anchored" data-anchor-id="implementation-notes">Implementation Notes</h2>
-<p>The module specification now aligns with the current project structure.</p>
-<ol type="1">
-<li>Data source: <code>data/raw/tourism_four_part_analysis_ready.xlsx</code></li>
-<li>Current Shiny entry points: <code>app/R/data_utils.R</code>, <code>app/R/mod_cluster_ui.R</code>, <code>app/R/mod_cluster_server.R</code></li>
-<li>Prototype baseline: monthly k-means with <code>k = 3</code>, seed <code>42</code>, and standardized features</li>
-</ol>
-</section>
-<section id="prototype-conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="prototype-conclusion">Prototype Conclusion</h2>
-<p>This clustering prototype supports a clear analytical message for the project:</p>
-<blockquote class="blockquote">
-<p>Monthly tourism conditions in Singapore do not form one smooth continuum. They separate into interpretable market states that combine overall visitor volume, China’s market share, hotel occupancy, and length of stay.</p>
-</blockquote>
-<p>That makes the module suitable for both the coursework report and a later interactive Shiny implementation.</p>
+<p>The main conclusion remains the same, but it is now supported more transparently: monthly tourism observations in Singapore do not form one uniform sequence. They separate into interpretable market states associated with visitor volume, China’s market share, hotel occupancy, and stay duration.</p>
 
 
 </section>

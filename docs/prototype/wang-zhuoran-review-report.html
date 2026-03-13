@@ -152,10 +152,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#review-scope" id="toc-review-scope" class="nav-link active" data-scroll-target="#review-scope">Review Scope</a></li>
   <li><a href="#findings-in-the-original-draft" id="toc-findings-in-the-original-draft" class="nav-link" data-scroll-target="#findings-in-the-original-draft">Findings In The Original Draft</a>
   <ul class="collapse">
-  <li><a href="#finding-1-the-stay-duration-feature-was-underspecified" id="toc-finding-1-the-stay-duration-feature-was-underspecified" class="nav-link" data-scroll-target="#finding-1-the-stay-duration-feature-was-underspecified">Finding 1: The stay-duration feature was underspecified</a></li>
-  <li><a href="#finding-2-the-method-rationale-was-too-thin" id="toc-finding-2-the-method-rationale-was-too-thin" class="nav-link" data-scroll-target="#finding-2-the-method-rationale-was-too-thin">Finding 2: The method rationale was too thin</a></li>
-  <li><a href="#finding-3-the-choice-of-k-3-needed-evidence" id="toc-finding-3-the-choice-of-k-3-needed-evidence" class="nav-link" data-scroll-target="#finding-3-the-choice-of-k-3-needed-evidence">Finding 3: The choice of <code>k = 3</code> needed evidence</a></li>
-  <li><a href="#finding-4-the-page-was-not-yet-submission-ready" id="toc-finding-4-the-page-was-not-yet-submission-ready" class="nav-link" data-scroll-target="#finding-4-the-page-was-not-yet-submission-ready">Finding 4: The page was not yet submission-ready</a></li>
+  <li><a href="#finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" id="toc-finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" class="nav-link" data-scroll-target="#finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern">Finding 1: The page did not follow a strict introduction-code-result pattern</a></li>
+  <li><a href="#finding-2-package-loading-and-data-import-were-not-shown-explicitly" id="toc-finding-2-package-loading-and-data-import-were-not-shown-explicitly" class="nav-link" data-scroll-target="#finding-2-package-loading-and-data-import-were-not-shown-explicitly">Finding 2: Package loading and data import were not shown explicitly</a></li>
+  <li><a href="#finding-3-the-stay-duration-feature-was-underspecified" id="toc-finding-3-the-stay-duration-feature-was-underspecified" class="nav-link" data-scroll-target="#finding-3-the-stay-duration-feature-was-underspecified">Finding 3: The stay-duration feature was underspecified</a></li>
+  <li><a href="#finding-4-the-choice-of-k-3-needed-evidence" id="toc-finding-4-the-choice-of-k-3-needed-evidence" class="nav-link" data-scroll-target="#finding-4-the-choice-of-k-3-needed-evidence">Finding 4: The choice of <code>k = 3</code> needed evidence</a></li>
+  <li><a href="#finding-5-the-page-was-not-yet-submission-ready" id="toc-finding-5-the-page-was-not-yet-submission-ready" class="nav-link" data-scroll-target="#finding-5-the-page-was-not-yet-submission-ready">Finding 5: The page was not yet submission-ready</a></li>
   </ul></li>
   <li><a href="#fixes-implemented" id="toc-fixes-implemented" class="nav-link" data-scroll-target="#fixes-implemented">Fixes Implemented</a></li>
   <li><a href="#verification-checklist" id="toc-verification-checklist" class="nav-link" data-scroll-target="#verification-checklist">Verification Checklist</a></li>
@@ -192,33 +193,37 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="findings-in-the-original-draft" class="level2">
 <h2 class="anchored" data-anchor-id="findings-in-the-original-draft">Findings In The Original Draft</h2>
-<section id="finding-1-the-stay-duration-feature-was-underspecified" class="level3">
-<h3 class="anchored" data-anchor-id="finding-1-the-stay-duration-feature-was-underspecified">Finding 1: The stay-duration feature was underspecified</h3>
+<section id="finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern">Finding 1: The page did not follow a strict introduction-code-result pattern</h3>
+<p>The earlier version discussed the method and showed outputs, but it did not structure the analysis as a stepwise reproducible workflow with visible code followed by code-generated results and interpretation.</p>
+</section>
+<section id="finding-2-package-loading-and-data-import-were-not-shown-explicitly" class="level3">
+<h3 class="anchored" data-anchor-id="finding-2-package-loading-and-data-import-were-not-shown-explicitly">Finding 2: Package loading and data import were not shown explicitly</h3>
+<p>The earlier draft loaded and transformed data in a hidden setup chunk. That made the page less aligned with the Habari Tanzania reference style, where the reader can see the workflow directly.</p>
+</section>
+<section id="finding-3-the-stay-duration-feature-was-underspecified" class="level3">
+<h3 class="anchored" data-anchor-id="finding-3-the-stay-duration-feature-was-underspecified">Finding 3: The stay-duration feature was underspecified</h3>
 <p>The draft proposed <code>avg_stay_monthly</code> directly for clustering, but the cleaned data preparation already created <code>avg_stay_monthly_capped</code> for modeling. Using the uncapped series would let a small number of pandemic months dominate Euclidean distances.</p>
 </section>
-<section id="finding-2-the-method-rationale-was-too-thin" class="level3">
-<h3 class="anchored" data-anchor-id="finding-2-the-method-rationale-was-too-thin">Finding 2: The method rationale was too thin</h3>
-<p>The draft listed k-means steps, but it did not explain why this project should use k-means rather than reuse a latent-class workflow too literally from the reference site.</p>
-</section>
-<section id="finding-3-the-choice-of-k-3-needed-evidence" class="level3">
-<h3 class="anchored" data-anchor-id="finding-3-the-choice-of-k-3-needed-evidence">Finding 3: The choice of <code>k = 3</code> needed evidence</h3>
+<section id="finding-4-the-choice-of-k-3-needed-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="finding-4-the-choice-of-k-3-needed-evidence">Finding 4: The choice of <code>k = 3</code> needed evidence</h3>
 <p>The draft said “start with K = 3”, but it did not show the elbow pattern, silhouette diagnostics, or the interpretability tradeoff behind the final selection.</p>
 </section>
-<section id="finding-4-the-page-was-not-yet-submission-ready" class="level3">
-<h3 class="anchored" data-anchor-id="finding-4-the-page-was-not-yet-submission-ready">Finding 4: The page was not yet submission-ready</h3>
-<p>The original file was a short module note, not a full prototype report. It lacked executable analysis, visual outputs, a results narrative, and a proper UI design section.</p>
+<section id="finding-5-the-page-was-not-yet-submission-ready" class="level3">
+<h3 class="anchored" data-anchor-id="finding-5-the-page-was-not-yet-submission-ready">Finding 5: The page was not yet submission-ready</h3>
+<p>The original file was a short module note, not a full prototype report. It lacked a visible end-to-end analytical workflow, detailed results sections, and a stronger explanation layer after each output.</p>
 </section>
 </section>
 <section id="fixes-implemented" class="level2">
 <h2 class="anchored" data-anchor-id="fixes-implemented">Fixes Implemented</h2>
 <ol type="1">
-<li>Rewrote <code>prototype/module-cluster.qmd</code> as a full executable prototype page.</li>
+<li>Rewrote <code>prototype/module-cluster.qmd</code> into a stricter section-by-section prototype page.</li>
+<li>Added visible package loading and visible data import code.</li>
+<li>Reorganized the page so each major step now includes introduction, code, result, and explanation.</li>
 <li>Switched the modeling stay variable to <code>avg_stay_monthly_capped</code>.</li>
-<li>Added an explicit “Why This Prototype Uses K-Means” section tied to the Habari Tanzania reference structure.</li>
-<li>Added elbow and silhouette diagnostics.</li>
-<li>Added state-profile, timeline, and reduced-space visualisations.</li>
-<li>Added a dedicated UI design section with exposed parameters and outputs.</li>
-<li>Updated the project navigation label from <code>Module Prototype</code> to <code>Clustering Prototype</code>.</li>
+<li>Added elbow and silhouette diagnostics for selecting <code>k</code>.</li>
+<li>Added code-generated cluster profiles, timeline outputs, and UI design tables.</li>
+<li>Kept the narrative aligned with the Habari Tanzania reference structure while using k-means appropriately for continuous monthly data.</li>
 </ol>
 </section>
 <section id="verification-checklist" class="level2">
@@ -238,39 +243,39 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Dataset path resolves inside project</td>
+<td>Visible package import section included</td>
 <td>PASS</td>
-<td>page reads <code>data/raw/tourism_four_part_analysis_ready.xlsx</code> through relative-path candidates</td>
+<td>packages are loaded in a visible code block</td>
 </tr>
 <tr class="even">
+<td>Visible data import section included</td>
+<td>PASS</td>
+<td>workbook path and sheet import are shown directly</td>
+</tr>
+<tr class="odd">
 <td>Modeling variables match cleaned data design</td>
 <td>PASS</td>
 <td>uses <code>visitor_arrivals</code>, <code>china_share</code>, <code>hotel_occ</code>, <code>avg_stay_monthly_capped</code></td>
 </tr>
-<tr class="odd">
-<td>Prototype includes executable outputs</td>
-<td>PASS</td>
-<td>diagnostics, profile table, and visualisations are embedded in the page</td>
-</tr>
 <tr class="even">
+<td>Results are generated from code</td>
+<td>PASS</td>
+<td>tables and figures are produced from chunk objects</td>
+</tr>
+<tr class="odd">
 <td>UI design section included</td>
 <td>PASS</td>
-<td>parameter and output exposure are documented</td>
+<td>parameter and output exposure are documented via code-generated tables</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Quarto page renders successfully</td>
 <td>PASS</td>
 <td>verified with <code>quarto render prototype/module-cluster.qmd</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Review report page renders successfully</td>
 <td>PASS</td>
 <td>verified with <code>quarto render prototype/wang-zhuoran-review-report.qmd</code></td>
-</tr>
-<tr class="odd">
-<td>Full project render succeeds after update</td>
-<td>PASS</td>
-<td>verified with <code>quarto render</code> from project root</td>
 </tr>
 </tbody>
 </table>
@@ -278,14 +283,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="residual-risks" class="level2">
 <h2 class="anchored" data-anchor-id="residual-risks">Residual Risks</h2>
 <ol type="1">
-<li>The selected <code>k = 3</code> solution is substantively stronger than the <code>k = 2</code> solution, but the silhouette score is slightly lower. This tradeoff should be acknowledged in the final coursework report.</li>
+<li>The selected <code>k = 3</code> solution is substantively stronger than the <code>k = 2</code> solution, but the silhouette score is slightly lower. This tradeoff should still be acknowledged in the final coursework report.</li>
 <li><code>china_share</code> can look high during collapse months because it is a relative measure. The final narrative should always pair it with absolute arrivals.</li>
 <li>If additional monthly indicators are added later, the cluster labels may need to be recalibrated.</li>
 </ol>
 </section>
 <section id="review-outcome" class="level2">
 <h2 class="anchored" data-anchor-id="review-outcome">Review Outcome</h2>
-<p>No blocking issues remain in the updated clustering prototype. The page is now suitable as an English-language prototype module under the project site and is ready to be shared on the <code>codex/WANG-ZHUORAN</code> branch.</p>
+<p>No blocking issues remain in the updated clustering prototype. The page now matches the requested reproducible style much more closely: visible workflow, code-generated results, and explanation after each analytical step.</p>
 
 
 </section>
