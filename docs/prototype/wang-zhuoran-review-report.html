@@ -152,8 +152,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#review-scope" id="toc-review-scope" class="nav-link active" data-scroll-target="#review-scope">Review Scope</a></li>
   <li><a href="#findings-in-the-original-draft" id="toc-findings-in-the-original-draft" class="nav-link" data-scroll-target="#findings-in-the-original-draft">Findings In The Original Draft</a>
   <ul class="collapse">
-  <li><a href="#finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" id="toc-finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" class="nav-link" data-scroll-target="#finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern">Finding 1: The page did not follow a strict introduction-code-result pattern</a></li>
-  <li><a href="#finding-2-package-loading-and-data-import-were-not-shown-explicitly" id="toc-finding-2-package-loading-and-data-import-were-not-shown-explicitly" class="nav-link" data-scroll-target="#finding-2-package-loading-and-data-import-were-not-shown-explicitly">Finding 2: Package loading and data import were not shown explicitly</a></li>
+  <li><a href="#finding-1-the-page-still-grouped-too-much-code-into-single-blocks" id="toc-finding-1-the-page-still-grouped-too-much-code-into-single-blocks" class="nav-link" data-scroll-target="#finding-1-the-page-still-grouped-too-much-code-into-single-blocks">Finding 1: The page still grouped too much code into single blocks</a></li>
+  <li><a href="#finding-2-package-loading-and-data-import-were-not-shown-explicitly-in-the-first-draft" id="toc-finding-2-package-loading-and-data-import-were-not-shown-explicitly-in-the-first-draft" class="nav-link" data-scroll-target="#finding-2-package-loading-and-data-import-were-not-shown-explicitly-in-the-first-draft">Finding 2: Package loading and data import were not shown explicitly in the first draft</a></li>
   <li><a href="#finding-3-the-stay-duration-feature-was-underspecified" id="toc-finding-3-the-stay-duration-feature-was-underspecified" class="nav-link" data-scroll-target="#finding-3-the-stay-duration-feature-was-underspecified">Finding 3: The stay-duration feature was underspecified</a></li>
   <li><a href="#finding-4-the-choice-of-k-3-needed-evidence" id="toc-finding-4-the-choice-of-k-3-needed-evidence" class="nav-link" data-scroll-target="#finding-4-the-choice-of-k-3-needed-evidence">Finding 4: The choice of <code>k = 3</code> needed evidence</a></li>
   <li><a href="#finding-5-the-page-was-not-yet-submission-ready" id="toc-finding-5-the-page-was-not-yet-submission-ready" class="nav-link" data-scroll-target="#finding-5-the-page-was-not-yet-submission-ready">Finding 5: The page was not yet submission-ready</a></li>
@@ -193,12 +193,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="findings-in-the-original-draft" class="level2">
 <h2 class="anchored" data-anchor-id="findings-in-the-original-draft">Findings In The Original Draft</h2>
-<section id="finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern" class="level3">
-<h3 class="anchored" data-anchor-id="finding-1-the-page-did-not-follow-a-strict-introduction-code-result-pattern">Finding 1: The page did not follow a strict introduction-code-result pattern</h3>
-<p>The earlier version discussed the method and showed outputs, but it did not structure the analysis as a stepwise reproducible workflow with visible code followed by code-generated results and interpretation.</p>
+<section id="finding-1-the-page-still-grouped-too-much-code-into-single-blocks" class="level3">
+<h3 class="anchored" data-anchor-id="finding-1-the-page-still-grouped-too-much-code-into-single-blocks">Finding 1: The page still grouped too much code into single blocks</h3>
+<p>The earlier revision improved reproducibility, but several sections still bundled too many steps together. That made the page harder to read in presentation mode and less faithful to the “one code block, one result, one explanation” rhythm requested for this prototype.</p>
 </section>
-<section id="finding-2-package-loading-and-data-import-were-not-shown-explicitly" class="level3">
-<h3 class="anchored" data-anchor-id="finding-2-package-loading-and-data-import-were-not-shown-explicitly">Finding 2: Package loading and data import were not shown explicitly</h3>
+<section id="finding-2-package-loading-and-data-import-were-not-shown-explicitly-in-the-first-draft" class="level3">
+<h3 class="anchored" data-anchor-id="finding-2-package-loading-and-data-import-were-not-shown-explicitly-in-the-first-draft">Finding 2: Package loading and data import were not shown explicitly in the first draft</h3>
 <p>The earlier draft loaded and transformed data in a hidden setup chunk. That made the page less aligned with the Habari Tanzania reference style, where the reader can see the workflow directly.</p>
 </section>
 <section id="finding-3-the-stay-duration-feature-was-underspecified" class="level3">
@@ -217,12 +217,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="fixes-implemented" class="level2">
 <h2 class="anchored" data-anchor-id="fixes-implemented">Fixes Implemented</h2>
 <ol type="1">
-<li>Rewrote <code>prototype/module-cluster.qmd</code> into a stricter section-by-section prototype page.</li>
-<li>Added visible package loading and visible data import code.</li>
-<li>Reorganized the page so each major step now includes introduction, code, result, and explanation.</li>
-<li>Switched the modeling stay variable to <code>avg_stay_monthly_capped</code>.</li>
-<li>Added elbow and silhouette diagnostics for selecting <code>k</code>.</li>
-<li>Added code-generated cluster profiles, timeline outputs, and UI design tables.</li>
+<li>Rewrote <code>prototype/module-cluster.qmd</code> again into smaller analytical blocks.</li>
+<li>Changed the structure so one focused code chunk now produces one immediate figure or table.</li>
+<li>Added a short explanation directly after each output instead of collecting explanations too late.</li>
+<li>Kept package loading and data import visible.</li>
+<li>Retained <code>avg_stay_monthly_capped</code> as the modeling stay variable.</li>
+<li>Preserved the code-generated elbow, silhouette, cluster profile, and timeline outputs.</li>
 <li>Kept the narrative aligned with the Habari Tanzania reference structure while using k-means appropriately for continuous monthly data.</li>
 </ol>
 </section>
@@ -243,36 +243,41 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Small code-output-explanation rhythm implemented</td>
+<td>PASS</td>
+<td>the page now uses many smaller analytical chunks</td>
+</tr>
+<tr class="even">
 <td>Visible package import section included</td>
 <td>PASS</td>
 <td>packages are loaded in a visible code block</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Visible data import section included</td>
 <td>PASS</td>
 <td>workbook path and sheet import are shown directly</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Modeling variables match cleaned data design</td>
 <td>PASS</td>
 <td>uses <code>visitor_arrivals</code>, <code>china_share</code>, <code>hotel_occ</code>, <code>avg_stay_monthly_capped</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Results are generated from code</td>
 <td>PASS</td>
 <td>tables and figures are produced from chunk objects</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>UI design section included</td>
 <td>PASS</td>
 <td>parameter and output exposure are documented via code-generated tables</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Quarto page renders successfully</td>
 <td>PASS</td>
 <td>verified with <code>quarto render prototype/module-cluster.qmd</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Review report page renders successfully</td>
 <td>PASS</td>
 <td>verified with <code>quarto render prototype/wang-zhuoran-review-report.qmd</code></td>
