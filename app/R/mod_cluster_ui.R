@@ -50,8 +50,18 @@ mod_cluster_ui <- function(id) {
         card_body(DT::DTOutput(ns("profile_table")))
       ),
       card(
+        card_header("State Timeline"),
+        card_body(plotOutput(ns("timeline_plot"), height = "340px"))
+      ),
+      card(
         card_header("Assignment Preview"),
-        card_body(DT::DTOutput(ns("assignment_table")))
+        card_body(
+          div(
+            class = "d-flex justify-content-end mb-3",
+            downloadButton(ns("download_clusters"), "Download Assignments")
+          ),
+          DT::DTOutput(ns("assignment_table"))
+        )
       )
     )
   )

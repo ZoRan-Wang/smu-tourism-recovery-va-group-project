@@ -449,19 +449,39 @@ The prototype also needs to specify the controls that should be exposed later in
 
 ```{r}
 ui_parameter_table <- data.frame(
-  Parameter = c("period_filter", "k_value", "random_seed", "run_model", "download_clusters"),
+  Parameter = c(
+    "period_filter",
+    "feature_cols",
+    "k_value",
+    "random_seed",
+    "scale_features",
+    "run_cluster",
+    "download_clusters"
+  ),
   UI_component = c(
+    "checkboxGroupInput",
     "checkboxGroupInput",
     "sliderInput",
     "numericInput",
+    "checkboxInput",
     "actionButton",
     "downloadButton"
   ),
-  Default = c("all periods", "3", "42", "click to run", "shown after model run"),
+  Default = c(
+    "all periods",
+    "all default cluster features",
+    "3",
+    "42",
+    "TRUE",
+    "click to run",
+    "shown after model run"
+  ),
   Purpose = c(
     "filter months by study period",
+    "choose the variables used for clustering",
     "compare alternative cluster counts",
     "keep the result reproducible",
+    "toggle z-score standardization",
     "avoid unnecessary recomputation",
     "export month-level state assignments"
   )
@@ -479,18 +499,27 @@ The last step is to specify what the Shiny module should return to the user.
 ```{r}
 ui_output_table <- data.frame(
   Output = c(
-    "state_scatter_plot",
-    "state_profile_table",
-    "state_timeline_plot",
+    "cluster_plot",
+    "profile_table",
+    "timeline_plot",
     "silhouette_value",
-    "cluster_assignment_export"
+    "assignment_table",
+    "download_clusters"
   ),
-  Format = c("ggplot2", "DT::datatable", "ggplot2", "value box / text", "CSV download"),
+  Format = c(
+    "ggplot2",
+    "DT::datatable",
+    "ggplot2",
+    "value box / text",
+    "DT::datatable",
+    "CSV download"
+  ),
   Purpose = c(
     "show separation between market states",
     "compare cluster averages",
     "link states back to the historical timeline",
     "report model quality",
+    "preview month-level assignments in the app",
     "support downstream analysis"
   )
 )

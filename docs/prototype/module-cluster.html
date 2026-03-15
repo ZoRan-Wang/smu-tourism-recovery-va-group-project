@@ -1133,31 +1133,51 @@ Figure&nbsp;4
 <p>The prototype also needs to specify the controls that should be exposed later in the Shiny module.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ui_parameter_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(<span class="st">"period_filter"</span>, <span class="st">"k_value"</span>, <span class="st">"random_seed"</span>, <span class="st">"run_model"</span>, <span class="st">"download_clusters"</span>),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">UI_component =</span> <span class="fu">c</span>(</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"checkboxGroupInput"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sliderInput"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numericInput"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"actionButton"</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"downloadButton"</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Default =</span> <span class="fu">c</span>(<span class="st">"all periods"</span>, <span class="st">"3"</span>, <span class="st">"42"</span>, <span class="st">"click to run"</span>, <span class="st">"shown after model run"</span>),</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"filter months by study period"</span>,</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare alternative cluster counts"</span>,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"keep the result reproducible"</span>,</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"avoid unnecessary recomputation"</span>,</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"export month-level state assignments"</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ui_parameter_table, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"period_filter"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"feature_cols"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"k_value"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"random_seed"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scale_features"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"run_cluster"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"download_clusters"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">UI_component =</span> <span class="fu">c</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"checkboxGroupInput"</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"checkboxGroupInput"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sliderInput"</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"numericInput"</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"checkboxInput"</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"actionButton"</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"downloadButton"</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Default =</span> <span class="fu">c</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"all periods"</span>,</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"all default cluster features"</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"3"</span>,</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"42"</span>,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TRUE"</span>,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"click to run"</span>,</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"shown after model run"</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"filter months by study period"</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"choose the variables used for clustering"</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare alternative cluster counts"</span>,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"keep the result reproducible"</span>,</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"toggle z-score standardization"</span>,</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"avoid unnecessary recomputation"</span>,</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"export month-level state assignments"</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ui_parameter_table, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 18%">
-<col style="width: 19%">
-<col style="width: 22%">
+<col style="width: 16%">
+<col style="width: 17%">
+<col style="width: 27%">
 <col style="width: 38%">
 </colgroup>
 <thead>
@@ -1176,19 +1196,31 @@ Figure&nbsp;4
 <td style="text-align: left;">filter months by study period</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">feature_cols</td>
+<td style="text-align: left;">checkboxGroupInput</td>
+<td style="text-align: left;">all default cluster features</td>
+<td style="text-align: left;">choose the variables used for clustering</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">k_value</td>
 <td style="text-align: left;">sliderInput</td>
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">compare alternative cluster counts</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">random_seed</td>
 <td style="text-align: left;">numericInput</td>
 <td style="text-align: left;">42</td>
 <td style="text-align: left;">keep the result reproducible</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">scale_features</td>
+<td style="text-align: left;">checkboxInput</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">toggle z-score standardization</td>
+</tr>
 <tr class="even">
-<td style="text-align: left;">run_model</td>
+<td style="text-align: left;">run_cluster</td>
 <td style="text-align: left;">actionButton</td>
 <td style="text-align: left;">click to run</td>
 <td style="text-align: left;">avoid unnecessary recomputation</td>
@@ -1211,29 +1243,38 @@ Figure&nbsp;4
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ui_output_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Output =</span> <span class="fu">c</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_scatter_plot"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_profile_table"</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state_timeline_plot"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cluster_plot"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"profile_table"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"timeline_plot"</span>,</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"silhouette_value"</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cluster_assignment_export"</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Format =</span> <span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"DT::datatable"</span>, <span class="st">"ggplot2"</span>, <span class="st">"value box / text"</span>, <span class="st">"CSV download"</span>),</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"show separation between market states"</span>,</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare cluster averages"</span>,</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"link states back to the historical timeline"</span>,</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"report model quality"</span>,</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"support downstream analysis"</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ui_output_table, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"assignment_table"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"download_clusters"</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Format =</span> <span class="fu">c</span>(</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ggplot2"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DT::datatable"</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ggplot2"</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"value box / text"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"DT::datatable"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"CSV download"</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Purpose =</span> <span class="fu">c</span>(</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"show separation between market states"</span>,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"compare cluster averages"</span>,</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"link states back to the historical timeline"</span>,</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"report model quality"</span>,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"preview month-level assignments in the app"</span>,</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"support downstream analysis"</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ui_output_table, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 29%">
-<col style="width: 19%">
-<col style="width: 50%">
+<col style="width: 22%">
+<col style="width: 21%">
+<col style="width: 55%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1244,17 +1285,17 @@ Figure&nbsp;4
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">state_scatter_plot</td>
+<td style="text-align: left;">cluster_plot</td>
 <td style="text-align: left;">ggplot2</td>
 <td style="text-align: left;">show separation between market states</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">state_profile_table</td>
+<td style="text-align: left;">profile_table</td>
 <td style="text-align: left;">DT::datatable</td>
 <td style="text-align: left;">compare cluster averages</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">state_timeline_plot</td>
+<td style="text-align: left;">timeline_plot</td>
 <td style="text-align: left;">ggplot2</td>
 <td style="text-align: left;">link states back to the historical timeline</td>
 </tr>
@@ -1264,7 +1305,12 @@ Figure&nbsp;4
 <td style="text-align: left;">report model quality</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">cluster_assignment_export</td>
+<td style="text-align: left;">assignment_table</td>
+<td style="text-align: left;">DT::datatable</td>
+<td style="text-align: left;">preview month-level assignments in the app</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">download_clusters</td>
 <td style="text-align: left;">CSV download</td>
 <td style="text-align: left;">support downstream analysis</td>
 </tr>
