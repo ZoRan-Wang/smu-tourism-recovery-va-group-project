@@ -58,8 +58,22 @@ module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2
 data_dir <- file.path(module_dir, "data")
 raw_path <- file.path(data_dir, "Name your insight (2).xlsx")
 processed_dir <- data_dir
+artifact_export_enabled <- identical(
+  tolower(Sys.getenv("WRITE_TAKE_HOME_EX2_ARTIFACTS", "false")),
+  "true"
+)
 
-dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
+export_note <- function(path_label) {
+  message(
+    "Artifact export skipped during render. ",
+    "Set WRITE_TAKE_HOME_EX2_ARTIFACTS=true to regenerate tracked files under: ",
+    path_label
+  )
+}
+
+if (artifact_export_enabled) {
+  dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
+}
 ```
 
 ## 1.3Read the original data
@@ -186,18 +200,22 @@ decision_tree_ready <- analysis_ready %>%
 ## 1.9Export the cleaned data
 
 ```{r}
-readr::write_csv(monthly_clean, file.path(processed_dir, "tourism_monthly_clean.csv"))
-readr::write_csv(decision_tree_ready, file.path(processed_dir, "tourism_decision_tree_ready.csv"))
-readr::write_csv(analysis_ready, file.path(processed_dir, "tourism_four_part_analysis_ready.csv"))
+if (artifact_export_enabled) {
+  readr::write_csv(monthly_clean, file.path(processed_dir, "tourism_monthly_clean.csv"))
+  readr::write_csv(decision_tree_ready, file.path(processed_dir, "tourism_decision_tree_ready.csv"))
+  readr::write_csv(analysis_ready, file.path(processed_dir, "tourism_four_part_analysis_ready.csv"))
 
-writexl::write_xlsx(
-  list(
-    monthly_clean = monthly_clean,
-    decision_tree_ready = decision_tree_ready,
-    analysis_ready_all = analysis_ready
-  ),
-  path = file.path(processed_dir, "tourism_four_part_analysis_ready.xlsx")
-)
+  writexl::write_xlsx(
+    list(
+      monthly_clean = monthly_clean,
+      decision_tree_ready = decision_tree_ready,
+      analysis_ready_all = analysis_ready
+    ),
+    path = file.path(processed_dir, "tourism_four_part_analysis_ready.xlsx")
+  )
+} else {
+  export_note(processed_dir)
+}
 
 
 ```
@@ -236,17 +254,18 @@ pacman::p_load(
 ```
 
 ```{r}
-data_path <- file.path(data_dir, "tourism_decision_tree_ready.csv")
 output_dir <- file.path(module_dir, "outputs")
 
-dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+if (artifact_export_enabled) {
+  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+}
 
 ```
 
 ## 2.2Reading data
 
 ```{r}
-df <- readr::read_csv(data_path, show_col_types = FALSE) %>%
+df <- decision_tree_ready %>%
   mutate(
     date = as.Date(date),
     month = factor(
@@ -358,36 +377,44 @@ tree_vis
 ```
 
 ```{r}
-htmlwidgets::saveWidget(
-  tree_vis,
-  file.path(output_dir, "decision_tree_visual.html"),
-  selfcontained = FALSE
-)
+if (artifact_export_enabled) {
+  htmlwidgets::saveWidget(
+    tree_vis,
+    file.path(output_dir, "decision_tree_visual.html"),
+    selfcontained = FALSE
+  )
+} else {
+  export_note(output_dir)
+}
 
 ```
 
 ## 2.8Static tree visualization for report
 
 ```{r}
-png(
-  filename = file.path(output_dir, "decision_tree_static.png"),
-  width = 1800,
-  height = 1200,
-  res = 180
-)
+if (artifact_export_enabled) {
+  png(
+    filename = file.path(output_dir, "decision_tree_static.png"),
+    width = 1800,
+    height = 1200,
+    res = 180
+  )
 
-rpart.plot::rpart.plot(
-  pruned_tree,
-  type = 2,
-  extra = 104,
-  under = TRUE,
-  fallen.leaves = TRUE,
-  faclen = 0,
-  tweak = 1.15,
-  main = "Decision Tree for Hotel Occupancy Level"
-)
+  rpart.plot::rpart.plot(
+    pruned_tree,
+    type = 2,
+    extra = 104,
+    under = TRUE,
+    fallen.leaves = TRUE,
+    faclen = 0,
+    tweak = 1.15,
+    main = "Decision Tree for Hotel Occupancy Level"
+  )
 
-dev.off()
+  dev.off()
+} else {
+  export_note(output_dir)
+}
 
 ```
 
@@ -441,38 +468,43 @@ print(importance_tbl)
 ## 2.12Export results
 
 ```{r}
-write.csv(
-  as.data.frame(cm$table),
-  file.path(output_dir, "decision_tree_confusion_matrix.csv"),
-  row.names = FALSE
-)
-
-write.csv(
-  metrics_tbl,
-  file.path(output_dir, "decision_tree_metrics.csv"),
-  row.names = FALSE
-)
-
-write.csv(
-  importance_tbl,
-  file.path(output_dir, "decision_tree_variable_importance.csv"),
-  row.names = FALSE
-)
-
 prediction_tbl <- bind_cols(
   test_df %>% select(date, hotel_occ, hotel_occ_level_tertile),
   tibble(predicted_class = pred_class),
   pred_prob
 )
 
-write.csv(
-  prediction_tbl,
-  file.path(output_dir, "decision_tree_test_predictions.csv"),
-  row.names = FALSE
-)
+if (artifact_export_enabled) {
+  write.csv(
+    as.data.frame(cm$table),
+    file.path(output_dir, "decision_tree_confusion_matrix.csv"),
+    row.names = FALSE
+  )
 
-cat("Decision tree analysis complete.\n")
-cat("Outputs saved to:", output_dir, "\n")
+  write.csv(
+    metrics_tbl,
+    file.path(output_dir, "decision_tree_metrics.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    importance_tbl,
+    file.path(output_dir, "decision_tree_variable_importance.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    prediction_tbl,
+    file.path(output_dir, "decision_tree_test_predictions.csv"),
+    row.names = FALSE
+  )
+
+  cat("Decision tree analysis complete.\n")
+  cat("Outputs saved to:", output_dir, "\n")
+} else {
+  cat("Decision tree analysis complete.\n")
+  export_note(output_dir)
+}
 ```
 
 # 3Random Forest Analysis Hyperparameter tuning
@@ -568,13 +600,17 @@ conf_plot <- ggplot(conf_tbl, aes(x = Reference, y = Prediction, fill = Freq)) +
 
 print(conf_plot)
 
-ggsave(
-  filename = file.path(output_dir, "random_forest_confusion_heatmap.png"),
-  plot = conf_plot,
-  width = 8,
-  height = 6,
-  dpi = 200
-)
+if (artifact_export_enabled) {
+  ggsave(
+    filename = file.path(output_dir, "random_forest_confusion_heatmap.png"),
+    plot = conf_plot,
+    width = 8,
+    height = 6,
+    dpi = 200
+  )
+} else {
+  export_note(output_dir)
+}
 ```
 
 ## 3.5Variable importance plot
@@ -594,13 +630,17 @@ importance_plot <- importance_tbl %>%
 
 print(importance_plot)
 
-ggsave(
-  filename = file.path(output_dir, "random_forest_importance.png"),
-  plot = importance_plot,
-  width = 8,
-  height = 6,
-  dpi = 200
-)
+if (artifact_export_enabled) {
+  ggsave(
+    filename = file.path(output_dir, "random_forest_importance.png"),
+    plot = importance_plot,
+    width = 8,
+    height = 6,
+    dpi = 200
+  )
+} else {
+  export_note(output_dir)
+}
 
 ```
 
@@ -642,13 +682,17 @@ oob_plot <- ggplot(oob_tbl, aes(x = num_trees, y = oob_accuracy)) +
 
 print(oob_plot)
 
-ggsave(
-  filename = file.path(output_dir, "random_forest_oob_accuracy.png"),
-  plot = oob_plot,
-  width = 8,
-  height = 6,
-  dpi = 200
-)
+if (artifact_export_enabled) {
+  ggsave(
+    filename = file.path(output_dir, "random_forest_oob_accuracy.png"),
+    plot = oob_plot,
+    width = 8,
+    height = 6,
+    dpi = 200
+  )
+} else {
+  export_note(output_dir)
+}
 ```
 
 ## 3.7Actual vs predicted over time
@@ -678,54 +722,63 @@ pred_plot <- ggplot(pred_plot_df, aes(x = date, y = level, color = series, shape
 
 print(pred_plot)
 
-ggsave(
-  filename = file.path(output_dir, "random_forest_actual_vs_predicted.png"),
-  plot = pred_plot,
-  width = 9,
-  height = 5,
-  dpi = 200
-)
+if (artifact_export_enabled) {
+  ggsave(
+    filename = file.path(output_dir, "random_forest_actual_vs_predicted.png"),
+    plot = pred_plot,
+    width = 9,
+    height = 5,
+    dpi = 200
+  )
+} else {
+  export_note(output_dir)
+}
 ```
 
 ## 3.8Export results
 
 ```{r}
-write.csv(
-  metrics_tbl,
-  file.path(output_dir, "random_forest_metrics.csv"),
-  row.names = FALSE
-)
-
-write.csv(
-  conf_tbl,
-  file.path(output_dir, "random_forest_confusion_matrix.csv"),
-  row.names = FALSE
-)
-
-write.csv(
-  importance_tbl,
-  file.path(output_dir, "random_forest_variable_importance.csv"),
-  row.names = FALSE
-)
-
-write.csv(
-  oob_tbl,
-  file.path(output_dir, "random_forest_oob_accuracy.csv"),
-  row.names = FALSE
-)
-
 prediction_tbl <- bind_cols(
   test_df %>% select(date, hotel_occ_level_tertile),
   tibble(predicted_class = pred_class),
   pred_prob
 )
 
-write.csv(
-  prediction_tbl,
-  file.path(output_dir, "random_forest_test_predictions.csv"),
-  row.names = FALSE
-)
+if (artifact_export_enabled) {
+  write.csv(
+    metrics_tbl,
+    file.path(output_dir, "random_forest_metrics.csv"),
+    row.names = FALSE
+  )
 
-cat("Random forest analysis complete.\n")
-cat("Outputs saved to:", output_dir, "\n")
+  write.csv(
+    conf_tbl,
+    file.path(output_dir, "random_forest_confusion_matrix.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    importance_tbl,
+    file.path(output_dir, "random_forest_variable_importance.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    oob_tbl,
+    file.path(output_dir, "random_forest_oob_accuracy.csv"),
+    row.names = FALSE
+  )
+
+  write.csv(
+    prediction_tbl,
+    file.path(output_dir, "random_forest_test_predictions.csv"),
+    row.names = FALSE
+  )
+
+  cat("Random forest analysis complete.\n")
+  cat("Outputs saved to:", output_dir, "\n")
+} else {
+  cat("Random forest analysis complete.\n")
+  export_note(output_dir)
+}
 ```
