@@ -1,88 +1,179 @@
 ---
 title: "Singapore Tourism Recovery Visual Analytics Prototype"
-subtitle: "Proposal"
-author: "Group Project Starter"
-date: "2026-03-12"
+subtitle: "Project Proposal"
+author: "SMU Visual Analytics Group Project"
+date: "2026-03-15"
 ---
 
-## 1. Overview & Motivation
+## 1. Overview and Motivation
 
-Singapore’s tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and the share of the Chinese source market all suggest distinct recovery stages. Static charts alone are insufficient for users who need to explore these structural shifts from multiple perspectives. This project therefore proposes an interactive visual analytics prototype to help users understand how Singapore’s tourism market moved from pandemic shock toward recovery and high-performance states.
+Singapore's tourism recovery should not be read as a simple question of whether total arrivals have returned to their pre-pandemic level. The monthly tourism record shows a more layered story: visitor arrivals collapsed during the COVID shock, hotel occupancy recovered at a different pace, the Chinese source market did not rebound in exactly the same pattern as total arrivals, and some months behave like distinct market states rather than points on one smooth trajectory.
 
-## 2. Problem Statement 
+This proposal draws directly on the team's completed prototype work in [EDA](../prototype/EDA.qmd), [CDA](../prototype/CDA.qmd), and [Clustering](../prototype/module-cluster.qmd). Together, these modules show that Singapore's recovery is best understood as a monthly market-condition problem rather than a traveller-profile problem. The proposed visual analytics application will therefore focus on state changes over time, cross-variable relationships, and interpretable analytical modules that help users explain both disruption and recovery.
 
-Current discussions on tourism recovery often focus narrowly on whether visitor numbers have returned, without adequately examining market structure, seasonality, or stage-specific differences in recovery. In particular, there is a lack of an interpretable and interactive analytical framework to show how the Chinese source market contributed to Singapore’s overall tourism recovery and whether hotel recovery was mainly driven by total demand volume.
+## 2. Problem Statement
+
+Public discussion of tourism recovery often reduces the issue to a single volume indicator: whether arrivals are up or down. That framing is too narrow for this project. For Singapore, recovery also involves:
+
+- shifts in the contribution of the Chinese source market,
+- differences between tourism demand and hotel utilisation,
+- possible structural breaks between pre-COVID, shock, and recovery periods, and
+- the emergence of different tourism market states across months.
+
+Without an integrated visual analytics workflow, these relationships remain fragmented across disconnected charts and summary tables. The project therefore needs a coordinated prototype that combines descriptive views, confirmatory analysis, clustering, and predictive modeling in one coherent interface.
 
 ## 3. Project Aim
 
-The project aims to develop a visual analytics prototype based on monthly tourism data, enabling users to understand tourism recovery at descriptive, statistical, and model-based levels. The prototype will integrate exploratory data analysis, confirmatory analysis, clustering, decision tree analysis, and random forest analysis to explain how tourism market states evolve over time.
+The project aims to develop a visual analytics prototype that allows users to:
 
-## 4. The Data
+1. compare tourism conditions across the pre-COVID, COVID shock, and recovery periods;
+2. evaluate how the Chinese source market changed relative to total visitor arrivals;
+3. examine how visitor arrivals, hotel occupancy, and stay duration move together;
+4. group monthly observations into interpretable tourism market states; and
+5. explain hotel occupancy outcomes using rule-based and ensemble models.
 
-The project data is sourced from the CEIC website and is guaranteed to be reliable in terms of data origin. We selected the following sets of data for our research.
+## 4. Data and Preparation
 
--   Average Length of Stay
+The project uses a cleaned monthly tourism workbook sourced from CEIC. The main analytical sheet spans **December 2016 to January 2026** and treats each month as one observation.
 
--   Hotel Room Occupancy Rate
+### Core monthly variables
 
--   Tourist Expenditure Per Capit
+- `date`
+- `visitor_arrivals`
+- `visitor_arrivals_china`
+- `hotel_occ`
+- `avg_stay_monthly`
 
--   Tourism Receipts
+### Derived monthly variables
 
--   Average Length of Stay
+- `china_share`
+- `year`
+- `month`
+- `quarter`
+- `period`
+- `avg_stay_monthly_capped`
 
--   Visitor Arrivals
+### Supplementary contextual variables
 
--   Visitor Arrivals: China
+- `spend_per_capita`
+- `tourism_receipts`
+- `avg_stay_annual`
 
-The project uses a cleaned monthly tourism dataset spanning **December 2016 to January 2026**. Core variables include total visitor arrivals, visitor arrivals from China, hotel room occupancy rate, monthly average length of stay, and derived fields such as China’s visitor share, quarter, year, and COVID-stage labels. Annual variables such as tourism receipts and expenditure per capita will be used only as supplementary context rather than as direct inputs for the monthly classification models.
+The analytical workflow prioritizes monthly variables because the main research questions focus on tourism market conditions over time. Annual variables are retained as supporting context but are not treated as the core inputs for clustering or occupancy classification.
 
-## 5Research Questions
+The project also adopts a period-based interpretation of the timeline:
 
-The project focuses on the following questions:
+- `pre_covid`: December 2016 to January 2020
+- `covid_shock`: February 2020 to December 2021
+- `recovery`: January 2022 to January 2026
 
-1.  How did Singapore’s tourism market differ across the pre-COVID, shock, and recovery periods?
+## 5. Research Questions
 
-2.  Did the recovery of the Chinese source market move in tandem with the broader tourism market?
+The proposal is guided by four project-level questions:
 
-3.  Which factors best determine whether a month falls into a low, medium, or high hotel occupancy state?
+1. How did Singapore's tourism market differ across the pre-COVID, COVID shock, and recovery periods?
+2. Did the Chinese source market recover in step with the broader inbound tourism market?
+3. Can monthly observations be grouped into a small number of interpretable tourism market states?
+4. Which indicators are most useful for explaining low, medium, and high hotel occupancy outcomes?
 
-4.  Can monthly tourism observations be grouped into meaningful market-state clusters?
+## 6. Analytical Approach
 
-## 6. Methodology and Analytical Approach
+The current proposal is no longer a purely conceptual plan. It is informed by working prototypes that already define the analytical logic of the application.
 
-The project adopts four main analytical modules. First, exploratory analysis will reveal trends, seasonality, and unusual shifts. Second, confirmatory analysis will validate stage differences through correlation analysis, group comparisons, and significance testing. Third, clustering will classify months into interpretable market states such as “pandemic shock,” “recovery transition,” and “high-performance.” Finally, tree-based models, including decision trees and random forests, will identify the main drivers of hotel occupancy levels.
+### 6.1 Exploratory Data Analysis
 
-## 7. Decision Tree and Random Forest
+The exploratory module establishes the descriptive backbone of the project. It uses interactive line charts, layered time-series views, and relationship plots to answer four practical questions:
 
-The decision tree module emphasizes interpretability by translating complex relationships into clear rules, such as identifying thresholds below which months are likely to fall into low occupancy states. The random forest module serves as a more robust nonlinear classifier for assessing variable importance and testing model stability on unseen data. Together, the two approaches support both explanation and validation. Preliminary prototype testing suggests that total visitor volume is the most stable key variable, while seasonality, length of stay, and China’s visitor share provide additional discriminating power.
+1. How did total visitor arrivals change across the three major periods?
+2. How did Chinese visitor arrivals and China's visitor share move through the recovery?
+3. How closely did hotel occupancy track total tourism demand?
+4. Did spending behavior move in the same direction as visitor volume?
 
-![Decision Tree Visualization](picture/P2.png){width="75%"} ![Random Forest Confusion Matrix](picture/P1.png){width="75%"} ![Random Forest Variable Importance](picture/P3.png){width="75%"}
+The completed EDA prototype already suggests three important patterns. First, the COVID period created a sharp break in total arrivals. Second, total arrivals recovered faster than Chinese arrivals after 2022, which implies that Singapore's rebound was supported by multiple markets rather than by China alone. Third, hotel occupancy shows a positive relationship with visitor arrivals, although occupancy did not collapse fully to zero during the shock period, indicating additional sources of hotel demand.
 
-## 8Data Visualisation Methods
+### 6.2 Confirmatory Data Analysis
 
-The prototype will include time-series line charts, period-based boxplots, correlation heatmaps, cluster scatter plots, cluster profile charts, decision tree visualizations, random forest variable importance plots, confusion-matrix heatmaps, and model-performance-versus-tree-count plots. These visualizations are designed not merely to display results, but to reveal the layered logic, threshold effects, and state transitions underlying tourism recovery.
+The confirmatory module translates these descriptive patterns into testable analytical questions. It focuses on:
 
-## 9 R Packages
+- period-level differences in visitor arrivals,
+- the relationship between China's visitor share and total arrivals, and
+- the extent of month-to-month seasonality once the most distorted shock period is handled separately.
 
-| **Package** | **Description** |
-|:-----------------------------------|:-----------------------------------|
-| tidyverse | Used for data cleaning, transformation, filtering, summarisation, and general data manipulation. |
-| readxl | Used to import the original Excel dataset into R. |
-| lubridate | Used to process date variables and create year, month, and quarter fields. |
-| writexl | Used to export cleaned data into Excel format. |
-| ggplot2 | Used to create core statistical graphics such as line charts, boxplots, scatterplots, and bar charts. |
-| plotly | Used to add interactivity to selected visualisations. |
-| DT | Used to display interactive data tables in the prototype. |
-| corrplot | Used to visualise correlation matrices among tourism variables. |
-| cluster | Used for clustering analysis and cluster quality assessment such as silhouette scores. |
-| factoextra | Used to visualise clustering results, elbow plots, and cluster profiles. |
-| rpart | Used to build decision tree classification models. |
-| rpart.plot | Used to create clear static decision tree visualisations for reporting. |
-| visNetwork | Used to create interactive tree visualisations. |
-| caret | Used for model training, tuning, resampling, confusion matrix evaluation, and workflow standardisation. |
-| ranger | Used to build random forest classification models efficiently. |
-| patchwork | Used to combine multiple ggplot charts into one display layout. |
-| htmlwidgets | Used to save and render interactive HTML-based outputs. |
-| sparkline | Used to support the interactive decision tree visualisation built with visNetwork. |
-| GGally | extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with |
+The current CDA prototype uses boxplots, ANOVA, regression-style scatterplots, and monthly comparison views to move from visual suggestion to statistical evaluation. This module is important because it helps the final application separate what is visually interesting from what is analytically defensible. In the current prototype direction, period differences are a primary explanatory factor, while China-share effects and seasonality require more careful interpretation.
+
+### 6.3 Clustering Analysis
+
+The clustering module, developed from Wang Zhuoran's prototype work, treats each month as the unit of analysis and uses four variables:
+
+- `visitor_arrivals`
+- `china_share`
+- `hotel_occ`
+- `avg_stay_monthly_capped`
+
+These variables are standardized before modeling so that the clustering is not dominated by visitor counts alone. The prototype uses elbow and silhouette diagnostics to compare candidate values of `k`, then fits a final k-means solution with `k = 3`.
+
+The three resulting market states are interpreted as:
+
+- **Pandemic shock months**
+- **Recovery transition months**
+- **High-performance months**
+
+This module adds an important structural layer to the project. Instead of assuming that recovery is one continuous upward line, it shows that months naturally separate into distinct tourism states shaped jointly by volume, source-market composition, occupancy, and stay duration.
+
+### 6.4 Decision Tree and Random Forest
+
+The decision tree and random forest module focuses on hotel occupancy classification. The goal is to identify which tourism indicators best explain whether a month belongs to a low, medium, or high occupancy state.
+
+The decision tree component emphasizes interpretability by expressing model logic as explicit branching rules. The random forest component strengthens the analysis by testing the same question with a more robust ensemble method, allowing the team to compare predictive stability and variable importance. Together, these methods support both explanation and validation.
+
+![Decision Tree Visualization](picture/P2.png){width="75%"}
+
+![Random Forest Confusion Matrix](picture/P1.png){width="75%"}
+
+![Random Forest Variable Importance](picture/P3.png){width="75%"}
+
+## 7. Proposed Visual and Interaction Design
+
+The final prototype is designed as a modular visual analytics system rather than a single static report. The interaction design is built around the analytical work already completed by Xi Zixun and Wang Zhuoran:
+
+- interactive time-series charts for tracking visitor arrivals and China's market share,
+- scatterplots and boxplots for period comparison and relationship checks,
+- clustering diagnostics such as elbow and silhouette views,
+- state maps and timelines that anchor cluster assignments back to historical months,
+- interactive data tables for cluster profiles and month-level assignments, and
+- model interpretation views for decision tree and random forest outputs.
+
+The Shiny application will expose a focused set of controls, such as period filters, cluster parameters, random seeds, and export functions, so that users can test alternative settings without losing the interpretability of the workflow. The design principle is to keep each module analytically meaningful, visually legible, and easy to compare with the written coursework narrative.
+
+## 8. R Packages
+
+The proposal relies on a set of packages that support data import, transformation, visualization, clustering, and modeling.
+
+| Package | Purpose |
+|---|---|
+| `readxl` | Import the cleaned Excel workbook and project sheets. |
+| `dplyr` | Filter, transform, summarize, and reshape monthly tourism data. |
+| `lubridate` | Parse dates and derive time-based fields such as year, month, and quarter. |
+| `ggplot2` | Build the core statistical graphics used across all modules. |
+| `plotly` | Add interactivity to selected EDA and CDA charts. |
+| `patchwork` | Combine multiple `ggplot2` charts into shared analytical views. |
+| `GGally` | Support paired visual exploration and relationship checks. |
+| `corrplot` | Visualize correlation structures among tourism indicators. |
+| `cluster` | Estimate k-means diagnostics and silhouette scores. |
+| `DT` | Present interactive tables in the Quarto pages and Shiny application. |
+| `rpart` | Train the decision tree classification model. |
+| `rpart.plot` | Render readable static decision tree diagrams. |
+| `caret` | Standardize model training, evaluation, and confusion-matrix reporting. |
+| `ranger` | Fit the random forest classification model efficiently. |
+| `visNetwork` | Support interactive tree-style model visualization. |
+| `htmlwidgets` | Preserve interactive outputs inside the website. |
+
+## 9. Expected Contribution of the Prototype
+
+The proposed system contributes more than a set of charts. It offers a structured way to understand tourism recovery through three linked ideas:
+
+1. recovery should be compared across historically meaningful periods;
+2. the Chinese source market matters, but it does not fully explain overall tourism performance; and
+3. monthly tourism conditions can be grouped into interpretable states that support both exploration and modeling.
+
+By combining Xi Zixun's descriptive and confirmatory work with Wang Zhuoran's clustering module and the occupancy-classification module, the project moves from a general tourism dashboard toward a more analytical visual system for explaining recovery dynamics in Singapore.
