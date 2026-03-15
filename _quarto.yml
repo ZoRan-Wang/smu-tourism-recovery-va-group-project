@@ -26,6 +26,10 @@ website:
         text: Take-home 2
       - text: Prototype
         menu:
+          - href: prototype/EDA.qmd
+            text: EDA
+          - href: prototype/CDA.qmd
+            text: CDA
           - href: prototype/module-cluster.qmd
             text: Module Prototype
           - href: prototype/package-audit.qmd

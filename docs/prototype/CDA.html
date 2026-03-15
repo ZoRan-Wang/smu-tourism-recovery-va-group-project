@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Xi Zixun">
+
+<title>Singapore Tourism Recovery Visual Analytics CDA – Singapore Tourism Recovery VA Prototype</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dbb47fbb1ef265d4a223f863a788238f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../site_libs/plotly-binding-4.12.0/plotly.js"></script>
+
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<link href="../site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Singapore Tourism Recovery VA Prototype</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../Proposal/Proposal.html"> 
+<span class="menu-text">Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../take-home-ex2.html"> 
+<span class="menu-text">Take-home 2</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Prototype</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
+        <li>
+    <a class="dropdown-item" href="../prototype/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/CDA.html">
+ <span class="dropdown-text">CDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/module-cluster.html">
+ <span class="dropdown-text">Module Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/package-audit.html">
+ <span class="dropdown-text">Package Audit</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/ui-storyboard.html">
+ <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../app-guide.html"> 
+<span class="menu-text">Shiny App</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../team/onboarding.html"> 
+<span class="menu-text">Team</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#preperation" id="toc-preperation" class="nav-link active" data-scroll-target="#preperation">Preperation</a>
+  <ul class="collapse">
+  <li><a href="#package-installation-loading" id="toc-package-installation-loading" class="nav-link" data-scroll-target="#package-installation-loading">Package Installation &amp; Loading</a></li>
+  <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data Loading</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a></li>
+  </ul></li>
+  <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">Descriptive Analysis</a></li>
+  <li><a href="#cda-confirmatory-data-analysis" id="toc-cda-confirmatory-data-analysis" class="nav-link" data-scroll-target="#cda-confirmatory-data-analysis">CDA (Confirmatory Data Analysis)</a>
+  <ul class="collapse">
+  <li><a href="#cda-1---statistical-impact-of-covid-19-on-visitor-arrivals" id="toc-cda-1---statistical-impact-of-covid-19-on-visitor-arrivals" class="nav-link" data-scroll-target="#cda-1---statistical-impact-of-covid-19-on-visitor-arrivals">CDA 1 - Statistical Impact of COVID-19 on Visitor Arrivals</a></li>
+  <li><a href="#cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" id="toc-cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" class="nav-link" data-scroll-target="#cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals">CDA 2 - Influence of Chinese Visitor Share on Total Visitor Arrivals</a></li>
+  <li><a href="#cda-3---seasonal-variation-in-visitor-arrivals" id="toc-cda-3---seasonal-variation-in-visitor-arrivals" class="nav-link" data-scroll-target="#cda-3---seasonal-variation-in-visitor-arrivals">CDA 3 - Seasonal Variation in Visitor Arrivals</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Singapore Tourism Recovery Visual Analytics CDA</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Xi Zixun </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The exploratory data analysis (EDA) identified several key patterns in Singapore’s tourism data, including the sharp decline in visitor arrivals during the COVID-19 period and potential relationships between tourism indicators. Based on these observations, confirmatory data analysis (CDA) is conducted to statistically test these relationships.</p>
+<section id="preperation" class="level2">
+<h2 class="anchored" data-anchor-id="preperation">Preperation</h2>
+<p>Within This analysis, a factor to be consider is periods. <strong>pre_covid</strong> represents the year 2017 to 2019 (End). <strong>Covid_shock</strong> Represents 2020-2021 (End), <strong>recovery</strong> represents Year 2022 - 2025(End)</p>
+<section id="package-installation-loading" class="level3">
+<h3 class="anchored" data-anchor-id="package-installation-loading">Package Installation &amp; Loading</h3>
+<ul>
+<li><code>tidyverse</code>- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.</li>
+<li><code>plotly</code> - R library for plotting interactive statistical graphs.</li>
+<li><code>patchwork</code> - combining multiple ggplot2 graphs into one figure.</li>
+<li><code>GGally</code> - ‘GGally’ extends ‘ggplot2’ by adding several functions to reduce the complexity of combining geometric objects with transformed data</li>
+<li><code>corrplot</code> - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.</li>
+<li><code>readx1</code> - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.</li>
+<li><code>lubridate</code> - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="data-loading" class="level3">
+<h3 class="anchored" data-anchor-id="data-loading">Data Loading</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tour <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"../data/raw/tourism_four_part_analysis_ready.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(tour)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 110
+Columns: 22
+$ date                              &lt;dttm&gt; 2016-12-01, 2017-01-01, 2017-02-01,…
+$ year                              &lt;dbl&gt; 2016, 2017, 2017, 2017, 2017, 2017, …
+$ month                             &lt;dbl&gt; 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1…
+$ quarter                           &lt;dbl&gt; 4, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, …
+$ period                            &lt;chr&gt; "pre_covid", "pre_covid", "pre_covid…
+$ visitor_arrivals                  &lt;dbl&gt; 1506134, 1480479, 1361010, 1480161, …
+$ visitor_arrivals_china            &lt;dbl&gt; 226020, 316805, 268993, 264711, 2521…
+$ china_share                       &lt;dbl&gt; 0.1500663, 0.2139882, 0.1976422, 0.1…
+$ china_share_pct                   &lt;dbl&gt; 15.00663, 21.39882, 19.76422, 17.883…
+$ hotel_occ                         &lt;dbl&gt; 79.61207, 81.76737, 88.02775, 84.672…
+$ avg_stay_monthly                  &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.1505…
+$ avg_stay_monthly_capped           &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.1505…
+$ spend_per_capita                  &lt;dbl&gt; 1569.697, NA, NA, NA, NA, NA, NA, NA…
+$ tourism_receipts                  &lt;dbl&gt; 25748.45, NA, NA, NA, NA, NA, NA, NA…
+$ avg_stay_annual                   &lt;dbl&gt; 3.429859, NA, NA, NA, NA, NA, NA, NA…
+$ cluster_z_visitor_arrivals        &lt;dbl&gt; 0.7664648, 0.7242180, 0.5274850, 0.7…
+$ cluster_z_china_share             &lt;dbl&gt; -0.203934931, 0.330691932, 0.1939780…
+$ cluster_z_hotel_occ               &lt;dbl&gt; 0.2159389, 0.3872237, 0.8847433, 0.6…
+$ cluster_z_avg_stay_monthly_capped &lt;dbl&gt; -0.5471336, -0.5161057, -0.5257146, …
+$ hotel_occ_level_tertile           &lt;chr&gt; "medium", "medium", "high", "high", …
+$ hotel_occ_level_business          &lt;chr&gt; "medium", "medium", "high", "medium"…
+$ dataset_split                     &lt;chr&gt; "train", "train", "train", "train", …</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">excel_sheets</span>(<span class="st">"../data/raw/tourism_four_part_analysis_ready.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "analysis_ready_all"</code></pre>
+</div>
+</div>
+</section>
+<section id="data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> tour <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2016</span>, <span class="dv">2026</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(year, month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 108 × 3
+    year month     n
+   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+ 1  2017     1     1
+ 2  2017     2     1
+ 3  2017     3     1
+ 4  2017     4     1
+ 5  2017     5     1
+ 6  2017     6     1
+ 7  2017     7     1
+ 8  2017     8     1
+ 9  2017     9     1
+10  2017    10     1
+# ℹ 98 more rows</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      date                          year          month          quarter    
+ Min.   :2017-01-01 00:00:00   Min.   :2017   Min.   : 1.00   Min.   :1.00  
+ 1st Qu.:2019-03-24 06:00:00   1st Qu.:2019   1st Qu.: 3.75   1st Qu.:1.75  
+ Median :2021-06-16 00:00:00   Median :2021   Median : 6.50   Median :2.50  
+ Mean   :2021-06-16 08:26:40   Mean   :2021   Mean   : 6.50   Mean   :2.50  
+ 3rd Qu.:2023-09-08 12:00:00   3rd Qu.:2023   3rd Qu.: 9.25   3rd Qu.:3.25  
+ Max.   :2025-12-01 00:00:00   Max.   :2025   Max.   :12.00   Max.   :4.00  
+                                                                            
+    period          visitor_arrivals  visitor_arrivals_china  china_share    
+ Length:108         Min.   :    750   Min.   :    18         Min.   :0.0062  
+ Class :character   1st Qu.: 512414   1st Qu.:  9907         1st Qu.:0.1082  
+ Mode  :character   Median :1313593   Median :213296         Median :0.1697  
+                    Mean   :1032111   Mean   :170309         Mean   :0.1746  
+                    3rd Qu.:1488836   3rd Qu.:265128         3rd Qu.:0.2147  
+                    Max.   :1802593   Max.   :414488         Max.   :0.6963  
+                                                                             
+ china_share_pct   hotel_occ     avg_stay_monthly avg_stay_monthly_capped
+ Min.   : 0.62   Min.   :40.16   Min.   : 3.096   Min.   : 3.096         
+ 1st Qu.:10.82   1st Qu.:73.65   1st Qu.: 3.423   1st Qu.: 3.423         
+ Median :16.97   Median :81.45   Median : 3.559   Median : 3.559         
+ Mean   :17.46   Mean   :76.83   Mean   : 9.372   Mean   : 8.654         
+ 3rd Qu.:21.47   3rd Qu.:85.11   3rd Qu.: 5.723   3rd Qu.: 5.723         
+ Max.   :69.63   Max.   :93.90   Max.   :55.339   Max.   :33.832         
+                                                                         
+ spend_per_capita tourism_receipts avg_stay_annual  cluster_z_visitor_arrivals
+ Min.   :1449     Min.   : 1894    Min.   : 3.330   Min.   :-1.71249          
+ 1st Qu.:1518     1st Qu.:11841    1st Qu.: 3.376   1st Qu.:-0.86992          
+ Median :1782     Median :26875    Median : 3.558   Median : 0.44940          
+ Mean   :2249     Mean   :19909    Mean   : 5.849   Mean   :-0.01412          
+ 3rd Qu.:2059     3rd Qu.:27289    3rd Qu.: 4.287   3rd Qu.: 0.73798          
+ Max.   :5737     Max.   :29781    Max.   :22.416   Max.   : 1.25465          
+ NA's   :100      NA's   :100      NA's   :99                                 
+ cluster_z_china_share cluster_z_hotel_occ cluster_z_avg_stay_monthly_capped
+ Min.   :-1.407198     Min.   :-2.919187   Min.   :-0.559303                
+ 1st Qu.:-0.554144     1st Qu.:-0.257488   1st Qu.:-0.525796                
+ Median :-0.040104     Median : 0.361707   Median :-0.511814                
+ Mean   : 0.001371     Mean   :-0.005146   Mean   : 0.009926                
+ 3rd Qu.: 0.336588     3rd Qu.: 0.652784   3rd Qu.:-0.290255                
+ Max.   : 4.364471     Max.   : 1.351528   Max.   : 2.588077                
+                                                                            
+ hotel_occ_level_tertile hotel_occ_level_business dataset_split     
+ Length:108              Length:108               Length:108        
+ Class :character        Class :character         Class :character  
+ Mode  :character        Mode  :character         Mode  :character  
+                                                                    
+                                                                    
+                                                                    
+                                                                    </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(data_clean<span class="sc">$</span>date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(year, month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 108 × 3
+    year month     n
+   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+ 1  2017     1     1
+ 2  2017     2     1
+ 3  2017     3     1
+ 4  2017     4     1
+ 5  2017     5     1
+ 6  2017     6     1
+ 7  2017     7     1
+ 8  2017     8     1
+ 9  2017     9     1
+10  2017    10     1
+# ℹ 98 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="descriptive-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-analysis">Descriptive Analysis</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  vars   n       mean        sd     median
+date                                 1 108        NaN        NA         NA
+year                                 2 108    2021.00      2.59    2021.00
+month                                3 108       6.50      3.47       6.50
+quarter                              4 108       2.50      1.12       2.50
+period*                              5 108       2.23      0.78       2.00
+visitor_arrivals                     6 108 1032111.31 612394.34 1313593.00
+visitor_arrivals_china               7 108  170309.17 134822.73  213296.00
+china_share                          8 108       0.17      0.12       0.17
+china_share_pct                      9 108      17.46     12.12      16.97
+hotel_occ                           10 108      76.83     12.75      81.45
+avg_stay_monthly                    11 108       9.37     12.09       3.56
+avg_stay_monthly_capped             12 108       8.65      9.88       3.56
+spend_per_capita                    13   8    2248.54   1436.41    1781.90
+tourism_receipts                    14   8   19909.43  11290.41   26874.52
+avg_stay_annual                     15   9       5.85      6.24       3.56
+cluster_z_visitor_arrivals          16 108      -0.01      1.01       0.45
+cluster_z_china_share               17 108       0.00      1.01      -0.04
+cluster_z_hotel_occ                 18 108      -0.01      1.01       0.36
+cluster_z_avg_stay_monthly_capped   19 108       0.01      1.01      -0.51
+hotel_occ_level_tertile*            20 108       1.97      0.81       2.00
+hotel_occ_level_business*           21 108       2.23      0.85       2.50
+dataset_split*                      22 108       1.80      0.40       2.00
+                                     trimmed       mad     min        max
+date                                     NaN        NA     Inf       -Inf
+year                                 2021.00      2.97 2017.00    2025.00
+month                                   6.50      4.45    1.00      12.00
+quarter                                 2.50      1.48    1.00       4.00
+period*                                 2.28      1.48    1.00       3.00
+visitor_arrivals                  1073270.78 375908.78  750.00 1802593.00
+visitor_arrivals_china             164503.35 169991.21   18.00  414488.00
+china_share                             0.16      0.08    0.01       0.70
+china_share_pct                        16.15      7.85    0.62      69.63
+hotel_occ                              78.43      6.84   40.16      93.90
+avg_stay_monthly                        6.59      0.42    3.10      55.34
+avg_stay_monthly_capped                 6.59      0.42    3.10      33.83
+spend_per_capita                     2248.54    421.78 1448.80    5737.25
+tourism_receipts                    19909.43   2758.03 1893.63   29781.07
+avg_stay_annual                         5.85      0.34    3.33      22.42
+cluster_z_visitor_arrivals              0.05      0.62   -1.71       1.25
+cluster_z_china_share                  -0.11      0.66   -1.41       4.36
+cluster_z_hotel_occ                     0.12      0.54   -2.92       1.35
+cluster_z_avg_stay_monthly_capped      -0.20      0.04   -0.56       2.59
+hotel_occ_level_tertile*                1.97      1.48    1.00       3.00
+hotel_occ_level_business*               2.28      0.74    1.00       3.00
+dataset_split*                          1.86      0.00    1.00       2.00
+                                       range  skew kurtosis       se
+date                                    -Inf    NA       NA       NA
+year                                    8.00  0.00    -1.26     0.25
+month                                  11.00  0.00    -1.25     0.33
+quarter                                 3.00  0.00    -1.39     0.11
+period*                                 2.00 -0.42    -1.26     0.08
+visitor_arrivals                  1801843.00 -0.75    -1.06 58927.67
+visitor_arrivals_china             414470.00  0.01    -1.38 12973.32
+china_share                             0.69  1.81     5.52     0.01
+china_share_pct                        69.01  1.81     5.52     1.17
+hotel_occ                              53.74 -1.18     0.46     1.23
+avg_stay_monthly                       52.24  2.15     3.93     1.16
+avg_stay_monthly_capped                30.74  1.62     0.96     0.95
+spend_per_capita                     4288.45  1.72     1.38   507.85
+tourism_receipts                    27887.44 -0.61    -1.62  3991.76
+avg_stay_annual                        19.09  2.04     2.54     2.08
+cluster_z_visitor_arrivals              2.97 -0.75    -1.06     0.10
+cluster_z_china_share                   5.77  1.81     5.52     0.10
+cluster_z_hotel_occ                     4.27 -1.18     0.46     0.10
+cluster_z_avg_stay_monthly_capped       3.15  1.62     0.96     0.10
+hotel_occ_level_tertile*                2.00  0.05    -1.50     0.08
+hotel_occ_level_business*               2.00 -0.45    -1.48     0.08
+dataset_split*                          1.00 -1.45     0.11     0.04</code></pre>
+</div>
+</div>
+</section>
+<section id="cda-confirmatory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="cda-confirmatory-data-analysis">CDA (Confirmatory Data Analysis)</h2>
+<section id="cda-1---statistical-impact-of-covid-19-on-visitor-arrivals" class="level3">
+<h3 class="anchored" data-anchor-id="cda-1---statistical-impact-of-covid-19-on-visitor-arrivals">CDA 1 - Statistical Impact of COVID-19 on Visitor Arrivals</h3>
+<p>Did the COVID-19 pandemic significantly affect visitor arrivals to Singapore?</p>
+<p><strong>Hypothesis</strong></p>
+<p>H₀ (Null Hypothesis) There is no significant difference in visitor arrivals across the tourism periods.</p>
+<p>H₁ (Alternative Hypothesis) Visitor arrivals differ significantly across the tourism periods.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_clean,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="sc">~</span>period,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="sc">~</span>visitor_arrivals,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="sc">~</span>period,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"box"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">boxpoints =</span> <span class="st">"outliers"</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visitor Arrivals Across Tourism Periods"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Period"</span>),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Visitor Arrivals (Millions)"</span>),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">showlegend =</span> <span class="cn">FALSE</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ad03c4dc46a9bb03049b" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ad03c4dc46a9bb03049b">{"x":{"visdat":{"894cfb13eed":["function () ","plotlyVisDat"]},"cur_data":"894cfb13eed","attrs":{"894cfb13eed":{"x":{},"y":{},"boxpoints":"outliers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visitor Arrivals Across Tourism Periods","xaxis":{"domain":[0,1],"automargin":true,"title":"Period","type":"category","categoryorder":"array","categoryarray":["covid_shock","pre_covid","recovery"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Visitor Arrivals (Millions)"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock"],"y":[732966,240001,750,880,2171,6843,8912,9500,13399,14749,24170,23366,18141,27202,25737,14190,10029,18517,15887,19009,24006,41179,92796],"boxpoints":"outliers","type":"box","name":"covid_shock","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid"],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,1688102],"boxpoints":"outliers","type":"box","name":"pre_covid","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery"],"y":[57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"boxpoints":"outliers","type":"box","name":"recovery","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>anova_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> period, <span class="at">data =</span> data_clean)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Df    Sum Sq   Mean Sq F value Pr(&gt;F)    
+period        2 3.133e+13 1.566e+13   186.9 &lt;2e-16 ***
+Residuals   105 8.801e+12 8.382e+10                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The boxplot compares the distribution of visitor arrivals across different tourism periods. A substantial decline in the median visitor arrivals is observed during the COVID-19 period compared to the pre-COVID period, indicating a significant disruption to tourism demand. The interquartile range also shifts downward during the pandemic, suggesting that the overall level of visitor arrivals was consistently lower across most observations. In contrast, the recovery period shows an upward shift in the distribution, reflecting the gradual rebound of tourism activity after travel restrictions were lifted. Overall, the distributional differences across periods support the conclusion that the COVID-19 pandemic had a significant impact on Singapore’s tourism sector.</p>
+</div>
+</div>
+</section>
+<section id="cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" class="level3">
+<h3 class="anchored" data-anchor-id="cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals">CDA 2 - Influence of Chinese Visitor Share on Total Visitor Arrivals</h3>
+<p>Does the share of Chinese visitors significantly influence total visitor arrivals to Singapore?</p>
+<p><strong>Hypothesis</strong></p>
+<p>H₀ (Null Hypothesis) China visitor share has no significant relationship with total visitor arrivals.</p>
+<p>H₁ (Alternative Hypothesis) China visitor share significantly influences total visitor arrivals.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> china_share, <span class="at">y =</span> visitor_arrivals)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between China Visitor Share and Total Visitor Arrivals"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"China Visitor Share"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="CDA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The scatter plot shows the relationship between China visitor share and total visitor arrivals. The regression line indicates a slight negative trend, suggesting that higher proportions of Chinese visitors are not associated with higher overall visitor arrivals. This pattern is likely influenced by periods of extremely low tourism demand during the COVID-19 pandemic. Based on the visual evidence, there is no clear positive relationship between China visitor share and total visitor arrivals, and the null hypothesis cannot be rejected.</p>
+</section>
+<section id="cda-3---seasonal-variation-in-visitor-arrivals" class="level3">
+<h3 class="anchored" data-anchor-id="cda-3---seasonal-variation-in-visitor-arrivals">CDA 3 - Seasonal Variation in Visitor Arrivals</h3>
+<p>Do visitor arrivals vary significantly across different months?</p>
+<p><strong>Hypothesis</strong></p>
+<p>H₀ (Null Hypothesis) Visitor arrivals do not differ significantly across months.</p>
+<p>H₁ (Alternative Hypothesis) Visitor arrivals vary significantly across months, indicating seasonal tourism patterns.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>data_no_covid <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  data_no_covid,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> month,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> visitor_arrivals,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">paste</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Month:"</span>, month,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;br&gt;Visitor Arrivals:"</span>, <span class="fu">format</span>(visitor_arrivals, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Variation in Visitor Arrivals"</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f8aa78d28b5b000bb2a7" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f8aa78d28b5b000bb2a7">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"hoverinfo":"y","type":"box","fillcolor":"rgba(135,206,235,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":66.484018264840202},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Seasonal Variation in Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30096.950000000012,1889863.95],"tickmode":"array","ticktext":["0","500000","1000000","1500000"],"tickvals":[-3.637978807091713e-12,499999.99999999994,1000000,1500000],"categoryorder":"array","categoryarray":["0","500000","1000000","1500000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"894ce034a6f":{"x":{},"y":{},"text":{},"type":"box"}},"cur_data":"894ce034a6f","visdat":{"894ce034a6f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>anova_month <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> month, <span class="at">data =</span> data_no_covid)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Df    Sum Sq   Mean Sq F value Pr(&gt;F)
+month       11 8.784e+11 7.986e+10   0.525  0.881
+Residuals   72 1.096e+13 1.522e+11               </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>The monthly distributions are based on observations from 2017–2025, with the COVID shock years (2020–2021) excluded to avoid distortion in seasonal patterns.</p></li>
+<li><p>Pr(&gt;F): Probability of observing an F value greater than the calculated F-statistic under the null hypothesis. (It is the p-value associated with the F-statistic.)</p></li>
+</ul>
+</div>
+</div>
+<p>A one-way ANOVA test was conducted to examine whether visitor arrivals differ significantly across months. The analysis was performed using observations from 2017–2025, excluding the COVID shock years (2020–2021) to avoid distortion in seasonal patterns. The boxplot illustrates the distribution of visitor arrivals for each month, allowing potential seasonal variation to be visually assessed. However, the ANOVA results indicate that the effect of month on visitor arrivals is not statistically significant (F = 0.525, p = 0.881). Since the p-value is greater than the significance level of 0.05, the null hypothesis cannot be rejected. This suggests that visitor arrivals do not vary significantly across months in the dataset, indicating limited evidence of strong seasonal patterns in tourism demand during the analyzed period.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

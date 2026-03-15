@@ -108,6 +108,14 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
+    <a class="dropdown-item" href="../prototype/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/CDA.html">
+ <span class="dropdown-text">CDA</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
  <span class="dropdown-text">Module Prototype</span></a>
   </li>  
@@ -146,8 +154,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#meeting-purpose" id="toc-meeting-purpose" class="nav-link active" data-scroll-target="#meeting-purpose">Meeting Purpose</a></li>
-  <li><a href="#jin-qinghaos-contributions" id="toc-jin-qinghaos-contributions" class="nav-link" data-scroll-target="#jin-qinghaos-contributions">Jin Qinghao’s Contributions</a></li>
-  <li><a href="#wang-zhuorans-review-work" id="toc-wang-zhuorans-review-work" class="nav-link" data-scroll-target="#wang-zhuorans-review-work">Wang Zhuoran’s Review Work</a></li>
+  <li><a href="#jin-qinhao-contribution" id="toc-jin-qinhao-contribution" class="nav-link" data-scroll-target="#jin-qinhao-contribution">Jin Qinhao Contribution</a></li>
+  <li><a href="#wang-zhuoran-review-work" id="toc-wang-zhuoran-review-work" class="nav-link" data-scroll-target="#wang-zhuoran-review-work">Wang Zhuoran Review Work</a></li>
   <li><a href="#meeting-outcomes" id="toc-meeting-outcomes" class="nav-link" data-scroll-target="#meeting-outcomes">Meeting Outcomes</a></li>
   <li><a href="#follow-up-guidelines" id="toc-follow-up-guidelines" class="nav-link" data-scroll-target="#follow-up-guidelines">Follow-up Guidelines</a></li>
   </ul>
@@ -179,8 +187,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="meeting-purpose">Meeting Purpose</h2>
 <p>This record documents the team’s early coordination work, code review outcomes, and ownership alignment. It intentionally avoids listing specific timestamps.</p>
 </section>
-<section id="jin-qinghaos-contributions" class="level2">
-<h2 class="anchored" data-anchor-id="jin-qinghaos-contributions">Jin Qinghao’s Contributions</h2>
+<section id="jin-qinhao-contribution" class="level2">
+<h2 class="anchored" data-anchor-id="jin-qinhao-contribution">Jin Qinhao Contribution</h2>
 <ol type="1">
 <li>Added the personal coursework page at <code>team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd</code>.</li>
 <li>Contributed supporting data files, scripts, and model outputs for the classification tree and random forest analysis workflow.</li>
@@ -188,11 +196,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Provided the analytical baseline for decision-tree and random-forest modeling, including exported figures and result tables for later team integration.</li>
 </ol>
 </section>
-<section id="wang-zhuorans-review-work" class="level2">
-<h2 class="anchored" data-anchor-id="wang-zhuorans-review-work">Wang Zhuoran’s Review Work</h2>
+<section id="wang-zhuoran-review-work" class="level2">
+<h2 class="anchored" data-anchor-id="wang-zhuoran-review-work">Wang Zhuoran Review Work</h2>
 <ol type="1">
 <li>Reviewed the <code>jin-qinhao</code> branch against <code>main</code> and confirmed that the uppercase <code>JIN-QINHAO</code> branch was an erroneous branch.</li>
-<li>Identified the portability issue caused by hardcoded local paths in Jin Qinghao’s coursework page and scripts.</li>
+<li>Identified the portability issue caused by hardcoded local paths in Jin Qinhao’s coursework page and scripts.</li>
 <li>Refactored the coursework page and scripts to use project-root discovery and repository-relative paths so they can run in the shared repo and in RStudio.</li>
 <li>Verified the required dependencies and reran the Quarto render, the data-preparation script, and the decision-tree script in the current project environment.</li>
 <li>Completed the corrected branch integration work and ensured that <code>main</code> remained a usable baseline for continued team collaboration.</li>

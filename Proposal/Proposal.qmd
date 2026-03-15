@@ -85,3 +85,4 @@ The prototype will include time-series line charts, period-based boxplots, corre
 | patchwork | Used to combine multiple ggplot charts into one display layout. |
 | htmlwidgets | Used to save and render interactive HTML-based outputs. |
 | sparkline | Used to support the interactive decision tree visualisation built with visNetwork. |
+| GGally | extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with |
