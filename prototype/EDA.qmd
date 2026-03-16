@@ -1,0 +1,278 @@
+---
+title: "Singapore Tourism Recovery Visual Analytics EDA"
+format: html
+author: "Xi Zixun"
+---
+
+## Background
+
+Singapore’s tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and the share of the Chinese source market all suggest distinct recovery stages. Static charts alone are insufficient for users who need to explore these structural shifts from multiple perspectives. This project therefore proposes an interactive visual analytics prototype to help users understand how Singapore’s tourism market moved from pandemic shock toward recovery and high-performance states.
+
+## Preparation
+
+### Package Insatllation & Loading
+
+-   `tidyverse`- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+-   `plotly` - R library for plotting interactive statistical graphs.
+-   `patchwork` - combining multiple ggplot2 graphs into one figure.
+-   `GGally` - 'GGally' extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with transformed data
+-   `corrplot` - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.
+-   `readx1` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.
+-   `lubridate` - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones
+
+```{r}
+pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl)
+```
+
+## Data Exploration
+
+```{r}
+#| message: false
+tour <- read_excel("../data/raw/tourism_four_part_analysis_ready.xlsx")
+```
+
+```{r}
+glimpse(tour)
+```
+
+::: callout-tip
+`glimpse()` is used for checking columns, rows and variable types for the data sheet
+
+`excel_sheets()` is used for checking how many data sheet are in the excel workbook
+:::
+
+```{r}
+excel_sheets("../data/raw/tourism_four_part_analysis_ready.xlsx")
+```
+
+### Data Cleaning
+
+We will now check on the the year from 2016 - 2026, to make sure that all years are a full year from Jan to Dec, and remove years that are not
+
+```{r}
+tour %>% count(year, month)
+```
+
+```{r}
+data_clean <- tour %>%
+  filter(!year %in% c(2016, 2026))
+
+data_clean %>% count(year, month)
+summary(data_clean)
+```
+
+## EDA
+
+### EDA 1 - Tourism Trends in Singapore
+
+```{r}
+data_clean$date <- as.Date(data_clean$date)
+
+eda1 <- ggplot(
+  data_clean,
+  aes(
+    x = date,
+    y = visitor_arrivals / 1e6,
+    color = period,
+    group = period
+  )
+) +
+  geom_line(
+    aes(
+      text = paste0(
+        "Date: ", format(date, "%Y-%m-%d"),
+        "<br>Visitor Arrivals: ", round(visitor_arrivals / 1e6, 2), "M",
+        "<br>Tourism Phase: ", period
+      )
+    ),
+    linewidth = 1.1,
+    alpha = 0.9
+  ) +
+  scale_color_manual(values = c(
+    "pre_covid" = "#2E8B57",
+    "covid_shock" = "#E63946",
+    "recovery" = "#457B9D"
+  )) +
+  labs(
+    title = "Singapore Visitor Arrivals Trend",
+    x = "Date",
+    y = "Visitor Arrivals (Millions)",
+    color = "Tourism Phase"
+  ) +
+  theme_minimal()
+
+ggplotly(eda1, tooltip = "text") %>%
+  layout(
+    xaxis = list(
+      title = "Date",
+      tickformat = "%Y-%m"
+    )
+  )
+```
+
+Before the COVID-19 pandemic, the average number of visitors arriving in Singapore was around 1.5 million per month. However, due to lockdowns and international travel restrictions during the pandemic period, tourism dropped sharply to nearly zero. Since 2022, the tourism sector has gradually recovered. Nevertheless, possibly due to broader economic conditions, the number of visitors arriving in Singapore remains slightly lower than the pre-pandemic level.
+
+### EDA 2 - China Market Dynamics in Singapore Tourism Recovery
+
+```{r}
+data_clean$date <- as.Date(data_clean$date)
+
+p1 <- ggplot(data_clean, aes(x = date)) +
+  geom_line(
+    aes(
+      y = visitor_arrivals / 1e6,
+      color = "Total Visitors",
+      group = "Total Visitors",
+      text = paste0(
+        "Date: ", format(date, "%Y-%m-%d"),
+        "<br>Total Visitors: ", round(visitor_arrivals / 1e6, 2), "M"
+      )
+    ),
+    linewidth = 1
+  ) +
+  geom_line(
+    aes(
+      y = visitor_arrivals_china / 1e6,
+      color = "China Visitors",
+      group = "China Visitors",
+      text = paste0(
+        "Date: ", format(date, "%Y-%m-%d"),
+        "<br>China Visitors: ", round(visitor_arrivals_china / 1e6, 2), "M"
+      )
+    ),
+    linewidth = 1
+  ) +
+  scale_color_manual(values = c(
+    "Total Visitors" = "#457B9D",
+    "China Visitors" = "#E63946"
+  )) +
+  labs(
+    title = "China Market Contribution to Singapore Tourism Recovery",
+    x = "Date",
+    y = "Visitor Arrivals (Millions)",
+    color = "Series"
+  ) +
+  theme_minimal()
+
+ggplotly(p1, tooltip = "text") %>%
+  layout(
+    xaxis = list(
+      title = "Date",
+      tickformat = "%Y-%m"
+    )
+  )
+
+p2 <- ggplot(data_clean, aes(x = date)) +
+  geom_line(
+    aes(
+      y = china_share_pct,
+      group = 1,
+      text = paste0(
+        "Date: ", format(date, "%Y-%m-%d"),
+        "<br>China Visitor Share: ", round(china_share_pct, 2), "%"
+      )
+    ),
+    color = "#2E8B57",
+    linewidth = 1
+  ) +
+  labs(
+    title = "China Visitor Share Over Time",
+    x = "Date",
+    y = "China Visitor Share (%)"
+  ) +
+  theme_minimal()
+
+
+ggplotly(p2, tooltip = "text") %>%
+  layout(
+    xaxis = list(
+      title = "Date",
+      tickformat = "%Y-%m"
+    )
+  )
+
+eda2_combined <- p1 / p2
+
+eda2_combined
+
+
+```
+
+This analysis compares total visitor arrivals with Chinese visitor arrivals and examines the share of Chinese visitors over time. Prior to the pandemic, Chinese visitors consistently accounted for a substantial portion of Singapore’s tourism demand and moved closely with overall visitor trends. During the COVID-19 shock in 2020–2021, both total and Chinese visitor arrivals declined sharply due to global travel restrictions. In the recovery period after 2022, total visitor arrivals rebounded more rapidly than Chinese visitor arrivals, indicating that Singapore’s tourism recovery was supported by multiple international markets rather than relying solely on the Chinese market.
+
+### EDA 3 - Tourism Demand and Hotel Utilisation
+
+```{r}
+ggplot(
+  data_clean,
+  aes(x = visitor_arrivals/1e6, y = hotel_occ, color = period)
+) +
+  geom_point(size = 3, alpha = 0.8) +
+
+  geom_smooth(
+    aes(group = 1),
+    method = "lm",
+    se = FALSE,
+    color = "black",
+    linewidth = 1.2
+  ) +
+
+  theme_minimal() +
+  labs(
+    title = "Relationship Between Tourism Demand and Hotel Utilisation",
+    x = "Visitor Arrivals (Millions)",
+    y = "Hotel Occupancy (%)",
+    color = "Tourism Phase"
+  ) 
+
+```
+
+This analysis examines the relationship between visitor arrivals and hotel occupancy in Singapore. The scatter plot shows a clear positive relationship, where higher visitor arrivals are generally associated with higher hotel occupancy rates. During the COVID-19 shock period, visitor arrivals dropped sharply to near zero due to travel restrictions, while hotel occupancy declined but remained above 40–60%. This suggests that hotel demand was partially supported by domestic staycations or essential travel. As tourism gradually recovered after 2022, both visitor arrivals and hotel occupancy increased, moving closer to pre-pandemic levels. Overall, the results indicate that hotel utilisation closely follows tourism demand.
+
+### EDA 4 - Tourism Demand and Visitor Spending Behaviour
+
+```{r}
+eda4 <- ggplot(
+  data_clean,
+  aes(
+    x = visitor_arrivals/1e6,
+    y = spend_per_capita,
+    color = period,
+    text = paste0(
+      "Date: ", format(date, "%Y-%m-%d"),
+      "<br>Visitor Arrivals: ", round(visitor_arrivals/1e6,2), "M",
+      "<br>Spend Per Capita: $", round(spend_per_capita,0)
+    )
+  )
+) +
+
+geom_point(size = 3, alpha = 0.8) +
+
+geom_smooth(
+  aes(group = 1),
+  method = "lm",
+  se = FALSE,
+  color = "black",
+  linewidth = 1.2
+) +
+
+scale_color_manual(values = c(
+  "pre_covid" = "#2E8B57",
+  "covid_shock" = "#E63946",
+  "recovery" = "#457B9D"
+)) +
+
+labs(
+  title = "Tourism Demand and Visitor Spending Behaviour",
+  x = "Visitor Arrivals (Millions)",
+  y = "Spend Per Capita (SGD)",
+  color = "Tourism Phase"
+) +
+
+theme_minimal()
+
+ggplotly(eda4, tooltip = "text")
+
+```
+
+This analysis explores the relationship between visitor arrivals and tourism spending behaviour. The results indicate that higher visitor arrivals are generally associated with higher tourism spending levels. However, the recovery period shows variations in spending behaviour, suggesting that tourism recovery may not only depend on visitor volume but also on visitor spending patterns. Understanding these patterns is important for evaluating whether tourism recovery reflects a return to high-value tourism or simply an increase in visitor numbers.

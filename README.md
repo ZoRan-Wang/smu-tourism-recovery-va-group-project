@@ -21,9 +21,11 @@ group_project/
 ├─ take-home-ex2.qmd
 ├─ app-guide.qmd
 ├─ prototype/
+│  ├─ CDA.qmd
+│  ├─ EDA.qmd
 │  ├─ module-cluster.qmd
-│  ├─ package-audit.qmd
-│  └─ ui-storyboard.qmd
+   ├─ package-audit.qmd
+   └─ ui-storyboard.qmd
 ├─ team/
 │  └─ onboarding.qmd
 ├─ styles/
