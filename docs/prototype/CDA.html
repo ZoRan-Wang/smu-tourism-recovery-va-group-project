@@ -124,6 +124,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -171,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
- <span class="dropdown-text">Module Prototype</span></a>
+ <span class="dropdown-text">Clustering Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -180,6 +209,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
+ <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -513,8 +546,8 @@ dataset_split*                          1.00 -1.45     0.11     0.04</code></pre
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">showlegend =</span> <span class="cn">FALSE</span></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-ad03c4dc46a9bb03049b" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-ad03c4dc46a9bb03049b">{"x":{"visdat":{"894cfb13eed":["function () ","plotlyVisDat"]},"cur_data":"894cfb13eed","attrs":{"894cfb13eed":{"x":{},"y":{},"boxpoints":"outliers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visitor Arrivals Across Tourism Periods","xaxis":{"domain":[0,1],"automargin":true,"title":"Period","type":"category","categoryorder":"array","categoryarray":["covid_shock","pre_covid","recovery"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Visitor Arrivals (Millions)"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock"],"y":[732966,240001,750,880,2171,6843,8912,9500,13399,14749,24170,23366,18141,27202,25737,14190,10029,18517,15887,19009,24006,41179,92796],"boxpoints":"outliers","type":"box","name":"covid_shock","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid"],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,1688102],"boxpoints":"outliers","type":"box","name":"pre_covid","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery"],"y":[57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"boxpoints":"outliers","type":"box","name":"recovery","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5d9134cadf81a79e435b" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5d9134cadf81a79e435b">{"x":{"visdat":{"191a828becc9":["function () ","plotlyVisDat"]},"cur_data":"191a828becc9","attrs":{"191a828becc9":{"x":{},"y":{},"boxpoints":"outliers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visitor Arrivals Across Tourism Periods","xaxis":{"domain":[0,1],"automargin":true,"title":"Period","type":"category","categoryorder":"array","categoryarray":["covid_shock","pre_covid","recovery"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Visitor Arrivals (Millions)"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock"],"y":[732966,240001,750,880,2171,6843,8912,9500,13399,14749,24170,23366,18141,27202,25737,14190,10029,18517,15887,19009,24006,41179,92796],"boxpoints":"outliers","type":"box","name":"covid_shock","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid"],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,1688102],"boxpoints":"outliers","type":"box","name":"pre_covid","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery"],"y":[57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"boxpoints":"outliers","type":"box","name":"recovery","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
@@ -566,7 +599,44 @@ Note
 </div>
 </div>
 </div>
-<p>The scatter plot shows the relationship between China visitor share and total visitor arrivals. The regression line indicates a slight negative trend, suggesting that higher proportions of Chinese visitors are not associated with higher overall visitor arrivals. This pattern is likely influenced by periods of extremely low tourism demand during the COVID-19 pandemic. Based on the visual evidence, there is no clear positive relationship between China visitor share and total visitor arrivals, and the null hypothesis cannot be rejected.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_cda2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(visitor_arrivals <span class="sc">~</span> china_share, <span class="at">data =</span> data_clean)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_cda2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = visitor_arrivals ~ china_share, data = data_clean)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1133928  -612539   279205   479648   798720 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1151022     103205   11.15   &lt;2e-16 ***
+china_share  -680992     486276   -1.40    0.164    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 609700 on 106 degrees of freedom
+Multiple R-squared:  0.01817,   Adjusted R-squared:  0.008903 
+F-statistic: 1.961 on 1 and 106 DF,  p-value: 0.1643</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>p-value &gt; 0.05, H₀ (Null Hypothesis) Cannot be rejected</p>
+</div>
+</div>
+<p>A linear regression analysis was conducted to examine the relationship between China’s visitor share and total visitor arrivals. The results indicate that the relationship is not statistically significant, as the coefficient for China’s visitor share is negative but insignificant (β = -680,992, p = 0.164). Since the p-value is greater than the 0.05 significance level, the null hypothesis cannot be rejected. This suggests that variations in China’s visitor share do not have a statistically significant impact on total visitor arrivals. Additionally, the low R-squared value ( <span class="math inline">\(R^2\)</span> = 0.018) indicates that China’s visitor share explains only a small proportion of the variation in overall tourism demand.</p>
 </section>
 <section id="cda-3---seasonal-variation-in-visitor-arrivals" class="level3">
 <h3 class="anchored" data-anchor-id="cda-3---seasonal-variation-in-visitor-arrivals">CDA 3 - Seasonal Variation in Visitor Arrivals</h3>
@@ -575,41 +645,41 @@ Note
 <p>H₀ (Null Hypothesis) Visitor arrivals do not differ significantly across months.</p>
 <p>H₁ (Alternative Hypothesis) Visitor arrivals vary significantly across months, indicating seasonal tourism patterns.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>data_no_covid <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>data_no_covid <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  data_no_covid,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> month,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> visitor_arrivals,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">paste</span>(</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Month:"</span>, month,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;br&gt;Visitor Arrivals:"</span>, <span class="fu">format</span>(visitor_arrivals, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Variation in Visitor Arrivals"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  data_no_covid,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> month,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> visitor_arrivals,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">paste</span>(</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Month:"</span>, month,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;br&gt;Visitor Arrivals:"</span>, <span class="fu">format</span>(visitor_arrivals, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Variation in Visitor Arrivals"</span>,</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-f8aa78d28b5b000bb2a7" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-f8aa78d28b5b000bb2a7">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"hoverinfo":"y","type":"box","fillcolor":"rgba(135,206,235,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":66.484018264840202},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Seasonal Variation in Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30096.950000000012,1889863.95],"tickmode":"array","ticktext":["0","500000","1000000","1500000"],"tickvals":[-3.637978807091713e-12,499999.99999999994,1000000,1500000],"categoryorder":"array","categoryarray":["0","500000","1000000","1500000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"894ce034a6f":{"x":{},"y":{},"text":{},"type":"box"}},"cur_data":"894ce034a6f","visdat":{"894ce034a6f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5fcaa0c03d23ecad7766" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5fcaa0c03d23ecad7766">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"hoverinfo":"y","type":"box","fillcolor":"rgba(135,206,235,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":66.484018264840202},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Seasonal Variation in Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30096.950000000012,1889863.95],"tickmode":"array","ticktext":["0","500000","1000000","1500000"],"tickvals":[-3.637978807091713e-12,499999.99999999994,1000000,1500000],"categoryorder":"array","categoryarray":["0","500000","1000000","1500000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"191a816742d04":{"x":{},"y":{},"text":{},"type":"box"}},"cur_data":"191a816742d04","visdat":{"191a816742d04":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>anova_month <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> month, <span class="at">data =</span> data_no_covid)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>anova_month <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> month, <span class="at">data =</span> data_no_covid)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df    Sum Sq   Mean Sq F value Pr(&gt;F)
 month       11 8.784e+11 7.986e+10   0.525  0.881
