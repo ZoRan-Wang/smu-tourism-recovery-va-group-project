@@ -125,8 +125,16 @@ ggplot(data_clean, aes(x = china_share, y = visitor_arrivals)) +
   ) +
   theme_minimal()
 ```
+```{r}
+model_cda2 <- lm(visitor_arrivals ~ china_share, data = data_clean)
+summary(model_cda2)
+```
 
-The scatter plot shows the relationship between China visitor share and total visitor arrivals. The regression line indicates a slight negative trend, suggesting that higher proportions of Chinese visitors are not associated with higher overall visitor arrivals. This pattern is likely influenced by periods of extremely low tourism demand during the COVID-19 pandemic. Based on the visual evidence, there is no clear positive relationship between China visitor share and total visitor arrivals, and the null hypothesis cannot be rejected.
+::: callout-tip
+p-value > 0.05, H₀ (Null Hypothesis) Cannot be rejected
+:::
+
+A linear regression analysis was conducted to examine the relationship between China’s visitor share and total visitor arrivals. The results indicate that the relationship is not statistically significant, as the coefficient for China’s visitor share is negative but insignificant (β = -680,992, p = 0.164). Since the p-value is greater than the 0.05 significance level, the null hypothesis cannot be rejected. This suggests that variations in China’s visitor share do not have a statistically significant impact on total visitor arrivals. Additionally, the low R-squared value ( $R^2$ = 0.018) indicates that China’s visitor share explains only a small proportion of the variation in overall tourism demand.
 
 
 ### CDA 3 - Seasonal Variation in Visitor Arrivals
@@ -175,6 +183,7 @@ ggplotly(p, tooltip = "text")
 anova_month <- aov(visitor_arrivals ~ month, data = data_no_covid)
 
 summary(anova_month)
+
 ```
 
 ::: callout-tip
