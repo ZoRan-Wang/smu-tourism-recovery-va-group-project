@@ -2,41 +2,24 @@
 title: "First Meeting Record"
 ---
 
-## Meeting Purpose
+## Meeting Description
 
-This record documents the team's early coordination work, code review outcomes, and ownership alignment. It intentionally avoids listing specific timestamps.
+Date / Time: 12 March 2026 (11.30pm) – 13 March 2026 (12am)
 
-## Jin Qinhao Contribution
+Location: Online Meeting
 
-1. Added the personal coursework page at `team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd`.
-2. Contributed supporting data files, scripts, and model outputs for the classification tree and random forest analysis workflow.
-3. Added the `Proposal/` draft materials so the project site could keep a proposal page as a shared working draft.
-4. Provided the analytical baseline for decision-tree and random-forest modeling, including exported figures and result tables for later team integration.
+Attendees: Xi Zixun, Wang Zhuoran, Jin Qinhao
 
-## Xi Zixun's Contributions
+## Meeting Notes
 
-1. Contributed the exploratory data analysis and confirmatory data analysis materials that were later incorporated into the project site.
-2. Added branch content that expanded the analytical coverage of the prototype beyond clustering and tree-based modeling.
-3. Helped strengthen the team's project structure by contributing coursework-ready analysis pages that align with the group storyline on tourism recovery.
-4. Provided additional visual and statistical analysis outputs that support the project's interpretation of tourism trends across the study periods.
+-   Decided on Research / Analysis Topic Related To Singapore Tourism. Selected Dataset related to Singapore Tourism Recovery from (CEIC)\[(https://insights-ceicdata-com.libproxy.smu.edu.sg/)\]
 
-## Wang Zhuoran Review Work
+-   Distribution of work (EDA & CDA, Classification Tree & Random Forest, Cluster Analysis)
 
-1. Reviewed the `jin-qinhao` branch against `main` and confirmed that the uppercase `JIN-QINHAO` branch was an erroneous branch.
-2. Identified the portability issue caused by hardcoded local paths in Jin Qinhao's coursework page and scripts.
-3. Refactored the coursework page and scripts to use project-root discovery and repository-relative paths so they can run in the shared repo and in RStudio.
-4. Verified the required dependencies and reran the Quarto render, the data-preparation script, and the decision-tree script in the current project environment.
-5. Completed the corrected branch integration work and ensured that `main` remained a usable baseline for continued team collaboration.
+### ACTION ITEMS (Owner and deadline)
 
-## Meeting Outcomes
+-   EDA, CDA – Xi Zixun (Sunday, 15 March 2026)
 
-1. The `Proposal` page remains in place as a draft reference for the team.
-2. Jin Qinghao's coursework materials were corrected and validated in the shared repository environment.
-3. Xi Zixun's analysis contributions were incorporated into the shared project history and recognized as part of the team's analytical development.
-4. The current `main` branch is ready for continued development in Quarto and RStudio.
+-   Classification Tree, Random Forest -Jin Qinhao (Sunday, 15 March 2026)
 
-## Follow-up Guidelines
-
-1. All new pages, scripts, and folders should use English names.
-2. All analysis code should use repository-relative paths instead of machine-specific local paths.
-3. Team members should run `quarto render` before submitting merge-ready changes.
+-   Cluster Analysis – Wang Zhuoran (Sunday, 15 March 2026)
