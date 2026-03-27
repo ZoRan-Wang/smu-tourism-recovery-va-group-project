@@ -346,7 +346,7 @@ print(pruned_tree)
 
 ```{r}
 tree_vis <- visNetwork::visTree(
-  pruned_tree,
+  fit_tree,
   data = as.data.frame(train_df),
   main = "Decision Tree for Hotel Occupancy Level",
   submain = "Target: low / medium / high",
@@ -375,6 +375,8 @@ htmlwidgets::saveWidget(
 )
 
 ```
+
+The prototype page keeps the full `fit_tree` in the interactive view so the deeper split path remains visible. The smaller tree shown previously came from `pruned_tree`, which removes the later `arrivals_million` split after cross-validation pruning.
 
 ## 2.8Static tree visualization for report
 

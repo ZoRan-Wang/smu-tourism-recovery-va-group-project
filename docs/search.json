@@ -845,5 +845,215 @@
     "title": "Visualization of classification trees and random forest analysis",
     "section": "3.8Export results",
     "text": "3.8Export results\n\n\nShow the code\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nif (artifact_export_enabled) {\n  write.csv(\n    metrics_tbl,\n    file.path(output_dir, \"random_forest_metrics.csv\"),\n    row.names = FALSE\n  )\n\n  write.csv(\n    conf_tbl,\n    file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n    row.names = FALSE\n  )\n\n  write.csv(\n    importance_tbl,\n    file.path(output_dir, \"random_forest_variable_importance.csv\"),\n    row.names = FALSE\n  )\n\n  write.csv(\n    oob_tbl,\n    file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n    row.names = FALSE\n  )\n\n  write.csv(\n    prediction_tbl,\n    file.path(output_dir, \"random_forest_test_predictions.csv\"),\n    row.names = FALSE\n  )\n\n  cat(\"Random forest analysis complete.\\n\")\n  cat(\"Outputs saved to:\", output_dir, \"\\n\")\n} else {\n  cat(\"Random forest analysis complete.\\n\")\n  export_note(output_dir)\n}\n\n\nRandom forest analysis complete."
+  },
+  {
+    "objectID": "prototype/decision-tree.html#install-and-launch-the-required-r-packages",
+    "href": "prototype/decision-tree.html#install-and-launch-the-required-r-packages",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.1Install and launch the required R packages",
+    "text": "1.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  readxl,\n  lubridate,\n  writexl\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#importing-data",
+    "href": "prototype/decision-tree.html#importing-data",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.2Importing Data",
+    "text": "1.2Importing Data\n\n\nShow the code\nfind_project_root &lt;- function(start = getwd()) {\n  current &lt;- normalizePath(start, winslash = \"/\", mustWork = TRUE)\n\n  repeat {\n    if (file.exists(file.path(current, \"_quarto.yml\"))) {\n      return(current)\n    }\n\n    parent &lt;- dirname(current)\n    if (identical(parent, current)) {\n      stop(\"Project root not found. Expected to locate _quarto.yml.\")\n    }\n\n    current &lt;- parent\n  }\n}\n\nproject_root &lt;- find_project_root()\nmodule_dir &lt;- file.path(project_root, \"team\", \"jin-qinhao\", \"Take-Home-Exercise2\")\ndata_dir &lt;- file.path(module_dir, \"data\")\nraw_path &lt;- file.path(data_dir, \"Name your insight (2).xlsx\")\nprocessed_dir &lt;- data_dir\n\ndir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#read-the-original-data",
+    "href": "prototype/decision-tree.html#read-the-original-data",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.3Read the original data",
+    "text": "1.3Read the original data\n\n\nShow the code\ncol_names &lt;- c(\n  \"date\",\n  \"avg_stay_monthly\",\n  \"hotel_occ\",\n  \"spend_per_capita\",\n  \"tourism_receipts\",\n  \"avg_stay_annual\",\n  \"visitor_arrivals\",\n  \"visitor_arrivals_china\"\n)\n\nraw_tbl &lt;- readxl::read_excel(\n  path = raw_path,\n  sheet = \"My Series\",\n  skip = 29,\n  col_names = FALSE\n) %&gt;%\n  select(\n    1,   # date\n    6,   # avg_stay_monthly\n    10,  # hotel_occ\n    7,   # spend_per_capita\n    4,   # tourism_receipts\n    11,  # avg_stay_annual\n    2,   # visitor_arrivals\n    5    # visitor_arrivals_china\n  ) %&gt;%\n  setNames(col_names) %&gt;%\n  mutate(\n    date = as.Date(date),\n    across(-date, as.numeric)\n  ) %&gt;%\n  arrange(date)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#view-the-original-data-structure",
+    "href": "prototype/decision-tree.html#view-the-original-data-structure",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.4View the original data structure",
+    "text": "1.4View the original data structure\n\n\nShow the code\nglimpse(raw_tbl)\n\n\nRows: 112\nColumns: 8\n$ date                   &lt;date&gt; 2015-12-01, 2016-12-01, 2017-01-01, 2017-02-01…\n$ avg_stay_monthly       &lt;dbl&gt; NA, 3.214346, 3.517353, 3.423516, 3.150551, 3.2…\n$ hotel_occ              &lt;dbl&gt; NA, 79.61207, 81.76737, 88.02775, 84.67201, 85.…\n$ spend_per_capita       &lt;dbl&gt; 1429.751, 1569.697, NA, NA, NA, NA, NA, NA, NA,…\n$ tourism_receipts       &lt;dbl&gt; NA, 25748.452, NA, NA, 6724.568, NA, NA, 13404.…\n$ avg_stay_annual        &lt;dbl&gt; NA, 3.429859, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ visitor_arrivals       &lt;dbl&gt; NA, 1506134, 1480479, 1361010, 1480161, 1470750…\n$ visitor_arrivals_china &lt;dbl&gt; NA, 226020, 316805, 268993, 264711, 252135, 232…\n\n\nShow the code\ncolSums(is.na(raw_tbl))\n\n\n                  date       avg_stay_monthly              hotel_occ \n                     0                      1                      2 \n      spend_per_capita       tourism_receipts        avg_stay_annual \n                   102                     76                    102 \n      visitor_arrivals visitor_arrivals_china \n                     1                      1"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#retain-the-valid-data-suitable-for-monthly-analysis",
+    "href": "prototype/decision-tree.html#retain-the-valid-data-suitable-for-monthly-analysis",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.5Retain the valid data suitable for monthly analysis",
+    "text": "1.5Retain the valid data suitable for monthly analysis\n\n\nShow the code\nmonthly_clean &lt;- raw_tbl %&gt;%\n  filter(\n    !is.na(date),\n    !is.na(avg_stay_monthly),\n    !is.na(hotel_occ),\n    !is.na(visitor_arrivals),\n    !is.na(visitor_arrivals_china)\n  ) %&gt;%\n  mutate(\n    year = lubridate::year(date),\n    month = lubridate::month(date),\n    quarter = lubridate::quarter(date),\n    period = case_when(\n      date &lt;= as.Date(\"2020-01-01\") ~ \"pre_covid\",\n      date &lt;= as.Date(\"2021-12-01\") ~ \"covid_shock\",\n      TRUE ~ \"recovery\"\n    ),\n    china_share = visitor_arrivals_china / visitor_arrivals,\n    china_share_pct = china_share * 100\n  )"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#handling-extreme-values",
+    "href": "prototype/decision-tree.html#handling-extreme-values",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.6Handling extreme values",
+    "text": "1.6Handling extreme values\n\n\nShow the code\nstay_cap &lt;- quantile(monthly_clean$avg_stay_monthly, probs = 0.95, na.rm = TRUE)\n\nmonthly_clean &lt;- monthly_clean %&gt;%\n  mutate(\n    avg_stay_monthly_capped = pmin(avg_stay_monthly, stay_cap),\n    visitor_arrivals_millions = visitor_arrivals / 1000000,\n    visitor_arrivals_china_thousands = visitor_arrivals_china / 1000\n  )"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#generate-analysis-fields",
+    "href": "prototype/decision-tree.html#generate-analysis-fields",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.7Generate analysis fields",
+    "text": "1.7Generate analysis fields\n\n\nShow the code\nocc_cuts &lt;- quantile(monthly_clean$hotel_occ, probs = c(1/3, 2/3), na.rm = TRUE)\n\nanalysis_ready &lt;- monthly_clean %&gt;%\n  mutate(\n    cluster_z_visitor_arrivals = as.numeric(scale(visitor_arrivals)),\n    cluster_z_china_share = as.numeric(scale(china_share)),\n    cluster_z_hotel_occ = as.numeric(scale(hotel_occ)),\n    cluster_z_avg_stay_monthly_capped = as.numeric(scale(avg_stay_monthly_capped)),\n    hotel_occ_level_tertile = case_when(\n      hotel_occ &lt;= occ_cuts[[1]] ~ \"low\",\n      hotel_occ &lt;= occ_cuts[[2]] ~ \"medium\",\n      TRUE ~ \"high\"\n    ),\n    hotel_occ_level_business = case_when(\n      hotel_occ &lt; 70 ~ \"low\",\n      hotel_occ &lt;= 85 ~ \"medium\",\n      TRUE ~ \"high\"\n    )\n  ) %&gt;%\n  mutate(\n    hotel_occ_level_tertile = factor(hotel_occ_level_tertile, levels = c(\"low\", \"medium\", \"high\")),\n    hotel_occ_level_business = factor(hotel_occ_level_business, levels = c(\"low\", \"medium\", \"high\"))\n  ) %&gt;%\n  mutate(\n    dataset_split = if_else(row_number() &lt;= floor(n() * 0.8), \"train\", \"test\")\n  )"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#generate-data-specifically-for-classification-tree-construction",
+    "href": "prototype/decision-tree.html#generate-data-specifically-for-classification-tree-construction",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.8Generate data specifically for classification tree construction",
+    "text": "1.8Generate data specifically for classification tree construction\n\n\nShow the code\ndecision_tree_ready &lt;- analysis_ready %&gt;%\n  select(\n    date, year, month, quarter, period,\n    visitor_arrivals, visitor_arrivals_china,\n    china_share, china_share_pct,\n    hotel_occ, avg_stay_monthly, avg_stay_monthly_capped,\n    hotel_occ_level_tertile, hotel_occ_level_business,\n    dataset_split\n  )"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#export-the-cleaned-data",
+    "href": "prototype/decision-tree.html#export-the-cleaned-data",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.9Export the cleaned data",
+    "text": "1.9Export the cleaned data\n\n\nShow the code\nreadr::write_csv(monthly_clean, file.path(processed_dir, \"tourism_monthly_clean.csv\"))\nreadr::write_csv(decision_tree_ready, file.path(processed_dir, \"tourism_decision_tree_ready.csv\"))\nreadr::write_csv(analysis_ready, file.path(processed_dir, \"tourism_four_part_analysis_ready.csv\"))\n\nwritexl::write_xlsx(\n  list(\n    monthly_clean = monthly_clean,\n    decision_tree_ready = decision_tree_ready,\n    analysis_ready_all = analysis_ready\n  ),\n  path = file.path(processed_dir, \"tourism_four_part_analysis_ready.xlsx\")\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#output-summary",
+    "href": "prototype/decision-tree.html#output-summary",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "1.10Output summary",
+    "text": "1.10Output summary\n\n\nShow the code\ncat(\"Data preparation complete.\\n\")\n\n\nData preparation complete.\n\n\nShow the code\ncat(\"Rows in monthly_clean:\", nrow(monthly_clean), \"\\n\")\n\n\nRows in monthly_clean: 110 \n\n\nShow the code\ncat(\"Rows in analysis_ready:\", nrow(analysis_ready), \"\\n\")\n\n\nRows in analysis_ready: 110 \n\n\nShow the code\ncat(\"Date range:\", min(analysis_ready$date), \"to\", max(analysis_ready$date), \"\\n\")\n\n\nDate range: 17136 to 20454 \n\n\nShow the code\ncat(\"95% cap for avg_stay_monthly:\", round(stay_cap, 6), \"\\n\")\n\n\n95% cap for avg_stay_monthly: 33.83166 \n\n\nShow the code\ncat(\"Hotel occupancy cut points:\", round(occ_cuts[[1]], 6), \"and\", round(occ_cuts[[2]], 6), \"\\n\")\n\n\nHotel occupancy cut points: 77.98317 and 84.15092"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#install-and-launch-the-required-r-packages-1",
+    "href": "prototype/decision-tree.html#install-and-launch-the-required-r-packages-1",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.1Install and launch the required R packages",
+    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#reading-data",
+    "href": "prototype/decision-tree.html#reading-data",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.2Reading data",
+    "text": "2.2Reading data\n\n\nShow the code\ndf &lt;- readr::read_csv(data_path, show_col_types = FALSE) %&gt;%\n  mutate(\n    date = as.Date(date),\n    month = factor(\n      month,\n      levels = 1:12,\n      labels = c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n                 \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n    ),\n    quarter = factor(quarter),\n    period = factor(period, levels = c(\"pre_covid\", \"covid_shock\", \"recovery\")),\n    dataset_split = factor(dataset_split, levels = c(\"train\", \"test\")),\n    hotel_occ_level_tertile = factor(\n      hotel_occ_level_tertile,\n      levels = c(\"low\", \"medium\", \"high\")\n    ),\n\n    # 为了让树图上的阈值更易读，创建展示型变量\n    arrivals_million = visitor_arrivals / 1000000,\n    china_share_pct = china_share * 100,\n    stay_days = avg_stay_monthly_capped\n  )\n\nglimpse(df)\n\n\nRows: 110\nColumns: 17\n$ date                     &lt;date&gt; 2016-12-01, 2017-01-01, 2017-02-01, 2017-03-…\n$ year                     &lt;dbl&gt; 2016, 2017, 2017, 2017, 2017, 2017, 2017, 201…\n$ month                    &lt;fct&gt; Dec, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, …\n$ quarter                  &lt;fct&gt; 4, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 1, 1, …\n$ period                   &lt;fct&gt; pre_covid, pre_covid, pre_covid, pre_covid, p…\n$ visitor_arrivals         &lt;dbl&gt; 1506134, 1480479, 1361010, 1480161, 1470750, …\n$ visitor_arrivals_china   &lt;dbl&gt; 226020, 316805, 268993, 264711, 252135, 23236…\n$ china_share              &lt;dbl&gt; 0.1500663, 0.2139882, 0.1976422, 0.1788393, 0…\n$ china_share_pct          &lt;dbl&gt; 15.00663, 21.39882, 19.76422, 17.88393, 17.14…\n$ hotel_occ                &lt;dbl&gt; 79.61207, 81.76737, 88.02775, 84.67201, 85.06…\n$ avg_stay_monthly         &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…\n$ avg_stay_monthly_capped  &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…\n$ hotel_occ_level_tertile  &lt;fct&gt; medium, medium, high, high, high, medium, med…\n$ hotel_occ_level_business &lt;chr&gt; \"medium\", \"medium\", \"high\", \"medium\", \"high\",…\n$ dataset_split            &lt;fct&gt; train, train, train, train, train, train, tra…\n$ arrivals_million         &lt;dbl&gt; 1.506134, 1.480479, 1.361010, 1.480161, 1.470…\n$ stay_days                &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#split-the-dataset-into-training-and-testing-sets",
+    "href": "prototype/decision-tree.html#split-the-dataset-into-training-and-testing-sets",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.3Split the dataset into training and testing sets",
+    "text": "2.3Split the dataset into training and testing sets\n\n\nShow the code\ntrain_df &lt;- df %&gt;% filter(dataset_split == \"train\")\ntest_df  &lt;- df %&gt;% filter(dataset_split == \"test\")\n\ncat(\"Train rows:\", nrow(train_df), \"\\n\")\n\n\nTrain rows: 88 \n\n\nShow the code\ncat(\"Test rows:\", nrow(test_df), \"\\n\")\n\n\nTest rows: 22"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#build-classification-tree",
+    "href": "prototype/decision-tree.html#build-classification-tree",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.4Build classification tree",
+    "text": "2.4Build classification tree\nTarget variable: Hotel occupancy rate level (low / medium / high)\nIndependent variables: # arrivals_million = Total inbound tourists (in millions)\nchina_share_pct = Proportion of Chinese tourists (percentage)\nstay_days = Truncated average length of stay\nmonth = Month (seasonality)\n\n\nShow the code\nfit_tree &lt;- rpart::rpart(\n  hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,\n  data = train_df,\n  method = \"class\",\n  parms = list(split = \"gini\"),\n  control = rpart::rpart.control(\n    cp = 0.005,\n    maxdepth = 4,\n    minsplit = 10,\n    minbucket = 5,\n    xval = 10\n  )\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#check-the-complexity-parameter-table.",
+    "href": "prototype/decision-tree.html#check-the-complexity-parameter-table.",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.5Check the complexity parameter table.",
+    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.15789 0.071263\n2 0.21053      1   0.50877 0.52632 0.078011\n3 0.04386      2   0.29825 0.40351 0.072311\n4 0.00500      4   0.21053 0.31579 0.066385\n\n\nShow the code\nplotcp(fit_tree)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#prune-the-tree",
+    "href": "prototype/decision-tree.html#prune-the-tree",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.6Prune the tree",
+    "text": "2.6Prune the tree\n\n\nShow the code\nbestcp &lt;- fit_tree$cptable[which.min(fit_tree$cptable[, \"xerror\"]), \"CP\"]\npruned_tree &lt;- prune(fit_tree, cp = bestcp)\n\ncat(\"Best cp:\", bestcp, \"\\n\")\n\n\nBest cp: 0.005 \n\n\nShow the code\nprint(pruned_tree)\n\n\nn= 88 \n\nnode), split, n, loss, yval, (yprob)\n      * denotes terminal node\n\n 1) root 88 57 low (0.35227273 0.29545455 0.35227273)  \n   2) arrivals_million&lt; 0.7575905 31  3 low (0.90322581 0.09677419 0.00000000) *\n   3) arrivals_million&gt;=0.7575905 57 26 high (0.05263158 0.40350877 0.54385965)  \n     6) month=Jan,May,Dec 16  3 medium (0.12500000 0.81250000 0.06250000) *\n     7) month=Feb,Mar,Apr,Jun,Jul,Aug,Sep,Oct,Nov 41 11 high (0.02439024 0.24390244 0.73170732)  \n      14) arrivals_million&lt; 1.466122 22 11 high (0.04545455 0.45454545 0.50000000)  \n        28) month=Mar,Apr,Jun 5  0 medium (0.00000000 1.00000000 0.00000000) *\n        29) month=Feb,Jul,Aug,Sep,Oct,Nov 17  6 high (0.05882353 0.29411765 0.64705882) *\n      15) arrivals_million&gt;=1.466122 19  0 high (0.00000000 0.00000000 1.00000000) *"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#interactive-tree-visualization",
+    "href": "prototype/decision-tree.html#interactive-tree-visualization",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.7Interactive tree visualization",
+    "text": "2.7Interactive tree visualization\n\n\nShow the code\ntree_vis &lt;- visNetwork::visTree(\n  fit_tree,\n  data = as.data.frame(train_df),\n  main = \"Decision Tree for Hotel Occupancy Level\",\n  submain = \"Target: low / medium / high\",\n  width = \"100%\",\n  height = \"700px\",\n  nodesFontSize = 16,\n  edgesFontSize = 14,\n  fallenLeaves = TRUE,\n  legend = TRUE,\n  nodesPopSize = TRUE,\n  minNodeSize = 14,\n  maxNodeSize = 32,\n  highlightNearest = list(enabled = TRUE, hover = TRUE),\n  export = TRUE\n)\n\ntree_vis\n\n\n\n\n\n\n\n\nShow the code\nhtmlwidgets::saveWidget(\n  tree_vis,\n  file.path(output_dir, \"decision_tree_visual.html\"),\n  selfcontained = FALSE\n)\n\n\nThe prototype page keeps the full fit_tree in the interactive view so the deeper split path remains visible. The smaller tree shown previously came from pruned_tree, which removes the later arrivals_million split after cross-validation pruning."
+  },
+  {
+    "objectID": "prototype/decision-tree.html#static-tree-visualization-for-report",
+    "href": "prototype/decision-tree.html#static-tree-visualization-for-report",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.8Static tree visualization for report",
+    "text": "2.8Static tree visualization for report\n\n\nShow the code\npng(\n  filename = file.path(output_dir, \"decision_tree_static.png\"),\n  width = 1800,\n  height = 1200,\n  res = 180\n)\n\nrpart.plot::rpart.plot(\n  pruned_tree,\n  type = 2,\n  extra = 104,\n  under = TRUE,\n  fallen.leaves = TRUE,\n  faclen = 0,\n  tweak = 1.15,\n  main = \"Decision Tree for Hotel Occupancy Level\"\n)\n\ndev.off()\n\n\npng \n  2"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#predict-on-test-set",
+    "href": "prototype/decision-tree.html#predict-on-test-set",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.9Predict on test set",
+    "text": "2.9Predict on test set\n\n\nShow the code\npred_class &lt;- predict(pruned_tree, newdata = test_df, type = \"class\")\npred_prob  &lt;- predict(pruned_tree, newdata = test_df, type = \"prob\") %&gt;%\n  as.data.frame()\n\n# 统一 levels，避免 confusionMatrix 报错\npred_class &lt;- factor(pred_class, levels = c(\"low\", \"medium\", \"high\"))\ntest_df$hotel_occ_level_tertile &lt;- factor(\n  test_df$hotel_occ_level_tertile,\n  levels = c(\"low\", \"medium\", \"high\")\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#evaluate-model-performance",
+    "href": "prototype/decision-tree.html#evaluate-model-performance",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.10Evaluate model performance",
+    "text": "2.10Evaluate model performance\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   6      5    0\n    high     0      5    6\n\nOverall Statistics\n                                          \n               Accuracy : 0.5             \n                 95% CI : (0.2822, 0.7178)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.4131          \n                                          \n                  Kappa : 0.2143          \n                                          \n Mcnemar's Test P-Value : NA              \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.5000      1.0000\nSpecificity              1.0000        0.5000      0.6875\nPos Pred Value              NaN        0.4545      0.5455\nNeg Pred Value           0.7273        0.5455      1.0000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.2273      0.2727\nDetection Prevalence     0.0000        0.5000      0.5000\nBalanced Accuracy        0.5000        0.5000      0.8438\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.5  \n2 kappa    0.214"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#variable-importance",
+    "href": "prototype/decision-tree.html#variable-importance",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.11Variable importance",
+    "text": "2.11Variable importance\n\n\nShow the code\nimportance_tbl &lt;- tibble(\n  variable = names(pruned_tree$variable.importance),\n  importance = as.numeric(pruned_tree$variable.importance)\n) %&gt;%\n  arrange(desc(importance))\n\nprint(importance_tbl)\n\n\n# A tibble: 4 × 2\n  variable         importance\n  &lt;chr&gt;                 &lt;dbl&gt;\n1 arrivals_million       27.0\n2 stay_days              23.4\n3 month                  14.3\n4 china_share_pct        12.6"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#export-results",
+    "href": "prototype/decision-tree.html#export-results",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "2.12Export results",
+    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#predict-on-test-set-1",
+    "href": "prototype/decision-tree.html#predict-on-test-set-1",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.1Predict on test set",
+    "text": "3.1Predict on test set\n\n\nShow the code\npred_class &lt;- predict(rf_model, newdata = test_df)\npred_prob  &lt;- predict(rf_model, newdata = test_df, type = \"prob\")\n\npred_class &lt;- factor(pred_class, levels = c(\"low\", \"medium\", \"high\"))\ntest_df$hotel_occ_level_tertile &lt;- factor(\n  test_df$hotel_occ_level_tertile,\n  levels = c(\"low\", \"medium\", \"high\")\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#model-evaluation",
+    "href": "prototype/decision-tree.html#model-evaluation",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.2Model evaluation",
+    "text": "3.2Model evaluation\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   4      5    1\n    high     2      5    5\n\nOverall Statistics\n                                          \n               Accuracy : 0.4545          \n                 95% CI : (0.2439, 0.6779)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.58197         \n                                          \n                  Kappa : 0.1538          \n                                          \n Mcnemar's Test P-Value : 0.03407         \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.5000      0.8333\nSpecificity              1.0000        0.5833      0.5625\nPos Pred Value              NaN        0.5000      0.4167\nNeg Pred Value           0.7273        0.5833      0.9000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.2273      0.2273\nDetection Prevalence     0.0000        0.4545      0.5455\nBalanced Accuracy        0.5000        0.5417      0.6979\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.455\n2 kappa    0.154"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#variable-importance-1",
+    "href": "prototype/decision-tree.html#variable-importance-1",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.3Variable importance",
+    "text": "3.3Variable importance\n\n\nShow the code\nimportance_tbl &lt;- varImp(rf_model)$importance %&gt;%\n  tibble::rownames_to_column(\"variable\") %&gt;%\n  arrange(desc(Overall))\n\nprint(importance_tbl)\n\n\n           variable    Overall\n1  arrivals_million 100.000000\n2         stay_days  98.474771\n3   china_share_pct  75.164831\n4          monthDec   9.978753\n5          monthMay   7.612103\n6          monthNov   7.266777\n7          monthOct   5.054497\n8          monthFeb   4.548187\n9          monthAug   4.084512\n10         monthJul   3.908262\n11         monthJun   1.531650\n12         monthSep   1.491992\n13         monthMar   1.009493\n14         monthApr   0.000000"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#confusion-matrix-heatmap",
+    "href": "prototype/decision-tree.html#confusion-matrix-heatmap",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.4Confusion matrix heatmap",
+    "text": "3.4Confusion matrix heatmap\n\n\nShow the code\nconf_tbl &lt;- as.data.frame(cm$table)\n\nconf_plot &lt;- ggplot(conf_tbl, aes(x = Reference, y = Prediction, fill = Freq)) +\n  geom_tile(color = \"white\") +\n  geom_text(aes(label = Freq), size = 5) +\n  scale_fill_gradient(low = \"#f7fbff\", high = \"#08519c\") +\n  labs(\n    title = \"Random Forest Confusion Matrix\",\n    x = \"Actual class\",\n    y = \"Predicted class\",\n    fill = \"Count\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(conf_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_confusion_heatmap.png\"),\n  plot = conf_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#variable-importance-plot",
+    "href": "prototype/decision-tree.html#variable-importance-plot",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.5Variable importance plot",
+    "text": "3.5Variable importance plot\n\n\nShow the code\nimportance_plot &lt;- importance_tbl %&gt;%\n  slice_max(order_by = Overall, n = 10) %&gt;%\n  ggplot(aes(x = reorder(variable, Overall), y = Overall)) +\n  geom_col(fill = \"#2c7fb8\") +\n  coord_flip() +\n  labs(\n    title = \"Random Forest Variable Importance\",\n    x = NULL,\n    y = \"Importance\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(importance_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_importance.png\"),\n  plot = importance_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#oob-accuracy-vs-number-of-trees",
+    "href": "prototype/decision-tree.html#oob-accuracy-vs-number-of-trees",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.6OOB accuracy vs number of trees",
+    "text": "3.6OOB accuracy vs number of trees\n\n\nShow the code\ntree_grid &lt;- seq(50, 300, by = 25)\n\noob_tbl &lt;- purrr::map_dfr(tree_grid, function(nt) {\n  mod &lt;- ranger::ranger(\n    hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,\n    data = train_df,\n    num.trees = nt,\n    mtry = rf_model$bestTune$mtry,\n    min.node.size = rf_model$bestTune$min.node.size,\n    splitrule = as.character(rf_model$bestTune$splitrule),\n    importance = \"impurity\",\n    seed = 1234\n  )\n\n  tibble(\n    num_trees = nt,\n    oob_error = mod$prediction.error,\n    oob_accuracy = 1 - mod$prediction.error\n  )\n})\n\nprint(oob_tbl)\n\n\n# A tibble: 11 × 3\n   num_trees oob_error oob_accuracy\n       &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n 1        50     0.318        0.682\n 2        75     0.318        0.682\n 3       100     0.307        0.693\n 4       125     0.295        0.705\n 5       150     0.284        0.716\n 6       175     0.284        0.716\n 7       200     0.295        0.705\n 8       225     0.295        0.705\n 9       250     0.295        0.705\n10       275     0.341        0.659\n11       300     0.330        0.670\n\n\nShow the code\noob_plot &lt;- ggplot(oob_tbl, aes(x = num_trees, y = oob_accuracy)) +\n  geom_line(color = \"#238b45\", linewidth = 1) +\n  geom_point(color = \"#238b45\", size = 2) +\n  labs(\n    title = \"OOB Accuracy vs Number of Trees\",\n    x = \"Number of trees\",\n    y = \"OOB accuracy\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(oob_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_oob_accuracy.png\"),\n  plot = oob_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#actual-vs-predicted-over-time",
+    "href": "prototype/decision-tree.html#actual-vs-predicted-over-time",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.7Actual vs predicted over time",
+    "text": "3.7Actual vs predicted over time\n\n\nShow the code\npred_plot_df &lt;- test_df %&gt;%\n  transmute(\n    date,\n    actual = hotel_occ_level_tertile,\n    predicted = pred_class\n  ) %&gt;%\n  pivot_longer(\n    cols = c(actual, predicted),\n    names_to = \"series\",\n    values_to = \"level\"\n  )\n\npred_plot &lt;- ggplot(pred_plot_df, aes(x = date, y = level, color = series, shape = series)) +\n  geom_point(size = 3) +\n  labs(\n    title = \"Actual vs Predicted Hotel Occupancy Level\",\n    x = \"Date\",\n    y = \"Occupancy level\"\n  ) +\n  scale_color_manual(values = c(actual = \"#d95f0e\", predicted = \"#3182bd\")) +\n  theme_minimal(base_size = 13)\n\nprint(pred_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_actual_vs_predicted.png\"),\n  plot = pred_plot,\n  width = 9,\n  height = 5,\n  dpi = 200\n)"
+  },
+  {
+    "objectID": "prototype/decision-tree.html#export-results-1",
+    "href": "prototype/decision-tree.html#export-results-1",
+    "title": "Visualization of classification trees and random forest analysis",
+    "section": "3.8Export results",
+    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
   }
 ]
