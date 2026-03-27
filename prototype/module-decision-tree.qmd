@@ -1,0 +1,79 @@
+---
+title: "Module Prototype: Decision Tree Analysis"
+---
+
+## Objective
+
+Prototype a Shiny module that explains hotel occupancy classification with an interpretable decision tree and supporting diagnostics.
+
+## Data Contract
+
+Input dataset: `team/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv`
+
+Required fields:
+
+1. `date`
+2. `month`
+3. `quarter`
+4. `period`
+5. `visitor_arrivals`
+6. `visitor_arrivals_china`
+7. `china_share`
+8. `hotel_occ`
+9. `avg_stay_monthly_capped`
+10. `hotel_occ_level_tertile`
+11. `dataset_split`
+
+Derived fields used by the module:
+
+1. `arrivals_million`
+2. `china_share_pct`
+3. `stay_days`
+
+## Analytical Design
+
+1. Load the prepared classification dataset.
+2. Split observations into training and testing sets with `dataset_split`.
+3. Derive presentation-friendly predictors for the tree view.
+4. Train a classification tree to predict `hotel_occ_level_tertile`.
+5. Tune and prune the tree using the minimum cross-validation error.
+6. Generate an interpretable tree image and an interactive HTML tree.
+7. Score the test set and compute confusion matrix, accuracy, kappa, and variable importance.
+8. Return visuals and summary cards for the Shiny page.
+
+## Parameter Exposure
+
+| Parameter | UI Component | Default | Validation |
+|---|---|---|---|
+| `tree_view_mode` | `radioButtons` | static image | one of static / interactive |
+| `prediction_rows` | `sliderInput` | 10 | min 5, max 20 |
+| `prediction_filter` | `selectInput` | all rows | valid option only |
+| `actual_class_filter` | `selectInput` | all classes | valid occupancy label |
+| `top_variables` | `sliderInput` | 4 | min 1, max 6 |
+
+## Output Exposure
+
+| Output | Format | Purpose |
+|---|---|---|
+| Decision tree visual | image / HTML widget | Explain the split path and occupancy classes |
+| Complexity parameter table | `DT::datatable` | Show pruning path and selected CP |
+| Confusion matrix | `ggplot2` heatmap | Show where classes are mixed up |
+| Prediction preview | `DT::datatable` | Inspect actual vs predicted records |
+| KPI cards | styled value boxes | Highlight accuracy, kappa, chosen CP, leaf nodes |
+| Key message card | text block | Summarize main split and hardest class |
+
+## Implementation Files
+
+1. `shiny/app.R`
+2. `team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd`
+3. `team/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv`
+4. `team/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_visual.html`
+5. `team/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_static.png`
+
+## Quality Gates
+
+1. No missing target labels in the training or testing sets.
+2. Tree rendering must work even when the source workbook changes column order.
+3. Occupancy labels must be shown consistently as `Low Occupancy`, `Medium Occupancy`, and `High Occupancy` in the app.
+4. The published Quarto page and the Shiny module must point to the same analysis outputs.
+5. Rendered assets must be committed under `docs/prototype/` before review.
