@@ -2,54 +2,135 @@
 title: "UI Storyboard"
 ---
 
-## Storyboard: Cluster Analysis Module
+## App Flow
 
 ```{mermaid}
 flowchart LR
-    A["Load monthly tourism dataset"] --> B["Select period(s)"]
-    B --> C["Set k and seed"]
-    C --> D["Run clustering"]
-    D --> E["View cluster scatter plot"]
-    D --> F["Review cluster profile table"]
-    D --> G["Check silhouette score"]
-    G --> H{"Quality acceptable?"}
-    H -- "Yes" --> I["Interpret market states"]
-    H -- "No" --> C
+    A["Open the app"] --> B["Choose a module"]
+    B --> C["Configure inputs"]
+    C --> D["Render outputs"]
+    D --> E["Interpret results"]
+    E --> F["Download or compare"]
+
+    B --> M1["Time Series Visual Analysis"]
+    B --> M2["Time Series Clustering"]
+    B --> M3["Forecasting"]
 ```
 
-## UI Layout Plan
+## Module 1: Time Series Visual Analysis
+
+```{mermaid}
+flowchart LR
+    A["Select countries or transport series"] --> B["Choose a time window"]
+    B --> C["Toggle raw, indexed, or share view"]
+    C --> D["Render comparison charts"]
+    D --> E["Inspect summary table"]
+```
+
+### UI Layout
 
 ::: {.storyboard-box}
-**Left Panel (Controls)**
+**Left Panel**
 
-1. `Period Filter` (checkboxes)
-2. `K (Cluster Count)` (slider)
-3. `Random Seed` (numeric input)
-4. `Scale Features` (toggle)
-5. `Run Clustering` (button)
+1. Country or mode selector
+2. Time window selector
+3. View mode toggle
+4. Period highlight switch
+5. Update button
 :::
 
 ::: {.storyboard-box}
-**Right Panel (Outputs)**
+**Right Panel**
 
-1. `Silhouette Score` (KPI card)
-2. `Cluster Scatter Plot` (main chart)
-3. `Cluster Profile Table` (interactive table)
-4. `Cluster Assignment Preview` (download-ready table)
+1. Multi-series line chart
+2. Indexed comparison chart
+3. Share or growth chart
+4. Summary table
+:::
+
+## Module 2: Time Series Clustering
+
+```{mermaid}
+flowchart LR
+    A["Select a set of country series"] --> B["Set normalization"]
+    B --> C["Choose clustering method and k"]
+    C --> D["Run clustering"]
+    D --> E["Review membership table"]
+    D --> F["Review representative patterns"]
+    D --> G["Download assignments"]
+```
+
+### UI Layout
+
+::: {.storyboard-box}
+**Left Panel**
+
+1. Series family selector
+2. Country multi-select
+3. Time window selector
+4. Normalization mode
+5. Distance or linkage setting
+6. Cluster count slider
+7. Run clustering button
+:::
+
+::: {.storyboard-box}
+**Right Panel**
+
+1. Cluster diagnostic chart
+2. Cluster membership table
+3. Representative pattern plot
+4. Assignment download button
+:::
+
+## Module 3: Forecasting
+
+```{mermaid}
+flowchart LR
+    A["Select a target series"] --> B["Set training cutoff and horizon"]
+    B --> C["Choose a forecasting model"]
+    C --> D["Run forecast"]
+    D --> E["Review forecast plot"]
+    D --> F["Review accuracy table"]
+    D --> G["Download forecast output"]
+```
+
+### UI Layout
+
+::: {.storyboard-box}
+**Left Panel**
+
+1. Target series selector
+2. Training cutoff input
+3. Forecast horizon slider
+4. Model selection
+5. Confidence interval setting
+6. Run forecast button
+:::
+
+::: {.storyboard-box}
+**Right Panel**
+
+1. Forecast plot
+2. Accuracy table
+3. Residual diagnostics
+4. Forecast download button
 :::
 
 ## UI Component Mapping
 
 | UI Need | Shiny Component | Reason |
 |---|---|---|
-| Multi-period comparison | `checkboxGroupInput` | flexible grouping |
-| Limited integer tuning | `sliderInput` | fast constrained control |
-| Reproducibility | `numericInput` | explicit seed control |
-| Trigger heavy compute | `actionButton` | avoid unnecessary reruns |
-| Fast profile scan | `DT::datatable` | sortable/filterable |
+| Multi-series comparison | `selectInput` / `pickerInput` | flexible series selection |
+| Time window control | `dateRangeInput` | clear start and end selection |
+| Raw vs indexed vs share view | `radioButtons` | mutually exclusive display modes |
+| Clustering parameter tuning | `sliderInput` | fast constrained control |
+| Model execution | `actionButton` | avoid unnecessary reruns |
+| Output tables | `DT::datatable` | sortable and filterable |
 
 ## Usability Notes
 
-1. Keep defaults aligned with assignment baseline (`k = 3`).
-2. Keep labels domain-driven (`pandemic shock`, `recovery`, `high-performance`).
-3. Preserve color semantics across plot and table.
+1. Keep the module order aligned with the final website: visual analysis, clustering, forecasting.
+2. Keep the labels domain-driven and consistent across Proposal, storyboard, and app.
+3. Use the same country names, date windows, and color semantics in all modules.
+4. Make the interaction flow simple enough that users can move from exploration to comparison to forecasting without losing context.

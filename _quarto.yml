@@ -6,7 +6,7 @@ project:
     - "prototype/*.qmd"
     - "team/*.qmd"
     - "team/jin-qinhao/**/*.qmd"
-    - "meeting-records/*.qmd"
+    - "Meeting Minutes/*.qmd"
     - "!templates/"
     - "!artifacts/"
     - "!app/"
@@ -14,7 +14,7 @@ project:
     - "!data/"
 
 website:
-  title: "Singapore Tourism Recovery VA Prototype"
+  title: "Singapore Tourism Time-Series Visual Analytics"
   navbar:
     background: "#0f3d3e"
     right:
@@ -22,24 +22,22 @@ website:
         text: Home
       - href: Proposal/Proposal.qmd
         text: Proposal
-      - href: take-home-ex2.qmd
-        text: Take-home 2
       - text: Prototype
         menu:
+          - href: prototype/EDA.qmd
+            text: Time Series Visual Analysis
           - href: prototype/module-cluster.qmd
-            text: Clustering Prototype
-          - href: prototype/package-audit.qmd
-            text: Package Audit
+            text: Time Series Clustering
+          - href: Proposal/Proposal.qmd#time-series-forecasting
+            text: Forecasting
           - href: prototype/ui-storyboard.qmd
             text: UI Storyboard
-          - href: prototype/wang-zhuoran-review-report.qmd
-            text: Review Report
       - href: app-guide.qmd
         text: Shiny App
       - href: team/onboarding.qmd
         text: Team
   page-footer:
-    center: "SMU Visual Analytics Group Project | Updated 2026-03-12"
+    center: "SMU Visual Analytics Group Project | Updated 2026-03-29"
 
 format:
   html:

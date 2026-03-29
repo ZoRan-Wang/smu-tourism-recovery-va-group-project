@@ -4,20 +4,20 @@ title: "Team Onboarding"
 
 ## Collaboration Goal
 
-Set up one shared base where each member can own one prototype module while keeping style and structure consistent.
+Build one shared final-project base with three aligned modules: time series visual analysis, time series clustering, and forecasting.
 
 ## Suggested Team Split
 
-1. Member A: EDA + confirmatory module.
-2. Member B: cluster module.
-3. Member C: decision tree module.
-4. Member D (optional): integration, QA, and deployment.
+1. Member A: Time Series Visual Analysis and common data prep.
+2. Member B: Time Series Clustering and clustering module integration.
+3. Member C: Forecasting module and forecast evaluation.
+4. Member D: Integration, proposal alignment, storyboard, QA, and deployment.
 
 ## Branching Convention
 
 1. Create branches as `codex/<module-name>` or `feature/<module-name>`.
-2. Keep pull requests scoped to one module/page at a time.
-3. Merge only after `quarto render` and app smoke-test pass.
+2. Keep pull requests scoped to one module or one documentation layer at a time.
+3. Merge only after `quarto render` and app smoke tests pass.
 
 ## Local Setup
 
@@ -30,30 +30,38 @@ Rscript run_app.R 3838
 
 ## Meeting Records
 
-1. [First Meeting Record](../meeting-records/first-meeting-record.html)
+1. [First Meeting Record](../Meeting%20Minutes/first-meeting-record.html)
+2. Add a second meeting record after the instructor-directed pivot to the time-series direction.
 
 ## Shared Files to Update Carefully
 
-1. `_quarto.yml` (navigation and build behavior)
-2. `styles/theme.scss` (global styling)
-3. `app/app.R` (module registration)
+1. `_quarto.yml` for navigation and build behavior
+2. `Proposal/Proposal.qmd` for the shared project narrative
+3. `prototype/ui-storyboard.qmd` for the final app design
+4. `app/app.R` for module registration
+5. `styles/theme.scss` for global styling
 
 ## Team Info Cards
 
 ::: {.team-grid}
 ::: {.team-card}
 ### Member 1
-Role: Module Owner  
+Role: Visual Analysis Owner
 Status: add name/contact
 :::
 ::: {.team-card}
 ### Member 2
-Role: Module Owner  
+Role: Clustering Owner
 Status: add name/contact
 :::
 ::: {.team-card}
 ### Member 3
-Role: Module Owner  
+Role: Forecasting Owner
+Status: add name/contact
+:::
+::: {.team-card}
+### Member 4
+Role: Integration Owner
 Status: add name/contact
 :::
 :::
