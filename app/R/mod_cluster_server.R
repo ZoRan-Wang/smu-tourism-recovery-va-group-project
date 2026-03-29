@@ -28,89 +28,18 @@ mod_cluster_server <- function(id, data) {
 
       hc <- stats::hclust(d, method = "ward.D2")
       cluster_id <- stats::cutree(hc, k = input$k_value)
-      sil <- as.data.frame(cluster::silhouette(cluster_id, d))
-      sil_width <- as.numeric(sil$sil_width)
-
-      membership <- data.frame(
-        series = rownames(mat),
-        cluster = paste0("Cluster ", cluster_id),
-        silhouette = round(sil_width, 3),
-        stringsAsFactors = FALSE
-      ) |>
-        arrange(cluster, desc(silhouette), series)
-
-      diagnostics <- lapply(
-        seq_len(min(8, nrow(mat) - 1)),
-        function(k) {
-          cl <- stats::cutree(hc, k = k)
-          sil_k <- as.data.frame(cluster::silhouette(cl, d))
-          sil_k_width <- as.numeric(sil_k$sil_width)
-          data.frame(
-            k = k,
-            mean_silhouette = mean(sil_k_width, na.rm = TRUE)
-          )
-        }
-      ) |>
-        bind_rows() |>
-        mutate(mean_silhouette = round(mean_silhouette, 3))
-
-      dmat <- as.matrix(d)
-      cluster_levels <- sort(unique(cluster_id))
-
-      cluster_summary <- lapply(cluster_levels, function(cl) {
-        members <- membership$series[membership$cluster == paste0("Cluster ", cl)]
-        cluster_dmat <- dmat[members, members, drop = FALSE]
-        medoid <- if (length(members) == 1) {
-          members[[1]]
-        } else {
-          members[which.min(rowSums(cluster_dmat))]
-        }
-        data.frame(
-          cluster = paste0("Cluster ", cl),
-          n_series = length(members),
-          representative_series = medoid,
-          mean_silhouette = round(mean(membership$silhouette[membership$cluster == paste0("Cluster ", cl)], na.rm = TRUE), 3),
-          stringsAsFactors = FALSE
-        )
-      }) |>
-        bind_rows() |>
-        arrange(cluster)
-
-      member_plot_long <- lapply(seq_along(panel$series), function(i) {
-        series_name <- panel$series[i]
-        tibble::tibble(
-          date = panel$normalized_wide$date,
-          value = panel$normalized_wide[[series_name]],
-          series = series_name,
-          cluster = paste0("Cluster ", cluster_id[i]),
-          type = "Series"
-        )
-      }) |>
-        bind_rows()
-
-      cluster_mean_long <- lapply(cluster_levels, function(cl) {
-        members <- membership$series[membership$cluster == paste0("Cluster ", cl)]
-        cluster_mean <- rowMeans(panel$normalized_wide[, members, drop = FALSE], na.rm = TRUE)
-        tibble::tibble(
-          date = panel$normalized_wide$date,
-          value = cluster_mean,
-          series = paste0("Cluster mean ", cl),
-          cluster = paste0("Cluster ", cl),
-          type = "Cluster mean"
-        )
-      }) |>
-        bind_rows()
-
-      plot_data <- bind_rows(member_plot_long, cluster_mean_long) |>
-        mutate(cluster = factor(cluster, levels = paste0("Cluster ", cluster_levels)))
+      solution <- summarize_cluster_solution(panel, cluster_id, d, china_series = "china")
 
       list(
         panel = panel,
-        silhouette = mean(sil_width, na.rm = TRUE),
-        membership = membership,
-        diagnostics = diagnostics,
-        summary = cluster_summary,
-        plot_data = plot_data,
+        silhouette = solution$silhouette,
+        membership = solution$membership,
+        diagnostics = solution$diagnostics,
+        summary = solution$summary,
+        plot_data = solution$plot_data,
+        series_features = solution$series_features,
+        china_context = solution$china_context,
+        china_note = solution$china_note,
         hc = hc
       )
     }, ignoreNULL = FALSE)
@@ -158,6 +87,15 @@ mod_cluster_server <- function(id, data) {
       )
     })
 
+    output$recovery_metrics_table <- DT::renderDT({
+      res <- cluster_results()
+      DT::datatable(
+        res$series_features,
+        rownames = FALSE,
+        options = list(pageLength = 8, scrollX = TRUE)
+      )
+    })
+
     output$cluster_pattern_plot <- renderPlot({
       res <- cluster_results()
 
@@ -185,6 +123,44 @@ mod_cluster_server <- function(id, data) {
         ) +
         theme_minimal(base_size = 13) +
         theme(legend.position = "none")
+    })
+
+    output$recovery_position_plot <- renderPlot({
+      res <- cluster_results()
+
+      ggplot(
+        res$series_features,
+        aes(x = trough_index, y = end_index, color = cluster, label = series)
+      ) +
+        geom_point(size = 3.2, alpha = 0.9) +
+        geom_text(vjust = -0.8, size = 3.3, show.legend = FALSE) +
+        labs(
+          title = "Recovery Position Map",
+          subtitle = "Lower trough values indicate deeper shocks; higher end values indicate stronger rebound",
+          x = "Lowest normalized level during the selected window",
+          y = "Final normalized level in the selected window",
+          color = "Cluster"
+        ) +
+        theme_minimal(base_size = 13)
+    })
+
+    output$cluster_narrative <- renderText({
+      res <- cluster_results()
+      strongest <- res$summary |>
+        arrange(desc(avg_end_index)) |>
+        slice(1)
+
+      sprintf(
+        "%s is the strongest rebound group in the current selection. It ends around %.1f on the normalized scale and is represented by %s.",
+        strongest$cluster_label,
+        strongest$avg_end_index,
+        strongest$representative_series
+      )
+    })
+
+    output$china_narrative <- renderText({
+      res <- cluster_results()
+      res$china_note
     })
 
     output$download_clusters <- downloadHandler(

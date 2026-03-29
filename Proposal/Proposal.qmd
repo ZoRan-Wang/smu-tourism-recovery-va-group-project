@@ -105,8 +105,10 @@ The output should include:
 
 1. a cluster membership table,
 2. a representative pattern plot,
-3. a cluster diagnostic graphic, and
-4. a downloadable assignment table.
+3. a cluster diagnostic graphic,
+4. a recovery position map,
+5. a short cluster insight block that explains the strongest rebound group and China's placement, and
+6. a downloadable assignment table.
 
 ### 6.3 Time Series Forecasting
 

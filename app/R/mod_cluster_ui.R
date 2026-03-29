@@ -59,6 +59,17 @@ mod_cluster_ui <- function(id) {
         card_body(plotOutput(ns("cluster_pattern_plot"), height = "420px"))
       ),
       card(
+        card_header("Recovery Position Map"),
+        card_body(plotOutput(ns("recovery_position_plot"), height = "360px"))
+      ),
+      card(
+        card_header("Cluster Insights"),
+        card_body(
+          p(class = "mb-2", textOutput(ns("cluster_narrative"))),
+          p(class = "mb-0", textOutput(ns("china_narrative")))
+        )
+      ),
+      card(
         card_header("Membership Table"),
         card_body(
           div(
@@ -71,6 +82,10 @@ mod_cluster_ui <- function(id) {
       card(
         card_header("Cluster Summary"),
         card_body(DT::DTOutput(ns("cluster_summary_table")))
+      ),
+      card(
+        card_header("Recovery Metrics By Series"),
+        card_body(DT::DTOutput(ns("recovery_metrics_table")))
       )
     )
   )

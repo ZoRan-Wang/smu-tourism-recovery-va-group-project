@@ -93,6 +93,7 @@ coerce_series_numeric <- function(df, cols) {
 }
 
 project_root <- find_project_root()
+source(file.path(project_root, "app", "R", "data_utils.R"))
 analysis_start <- as.Date("2017-01-01")
 analysis_end <- as.Date("2025-12-01")
 
@@ -321,65 +322,82 @@ With the diagnostics in hand, the final clustering model can be fitted using thr
 selected_k <- 3
 final_labels <- cutree(cluster_tree, k = selected_k)
 
-cluster_assignments <- data.frame(
-  country = series_cols,
-  cluster = paste0("Cluster ", final_labels),
-  stringsAsFactors = FALSE
-) |>
-  dplyr::arrange(cluster, country)
+prototype_panel <- list(
+  raw_wide = country_wide[, c("date", series_cols)],
+  normalized_wide = country_indexed[, c("date", series_cols)],
+  matrix = series_matrix,
+  dates = country_wide$date,
+  series = series_cols,
+  normalization = "indexed"
+)
 
-cluster_summary <- cluster_assignments |>
-  dplyr::group_by(cluster) |>
-  dplyr::summarise(
-    cluster_size = dplyr::n(),
-    countries = paste(country, collapse = ", "),
-    .groups = "drop"
-  )
+cluster_solution <- summarize_cluster_solution(
+  panel = prototype_panel,
+  cluster_id = final_labels,
+  distance_matrix = cluster_distance,
+  china_series = china_series
+)
 
-knitr::kable(cluster_summary, align = c("l", "r", "l"))
+knitr::kable(
+  cluster_solution$summary |>
+    dplyr::select(
+      cluster,
+      cluster_label,
+      n_series,
+      representative_series,
+      avg_end_index,
+      avg_trough_index,
+      avg_rebound_multiple
+    ),
+  align = c("l", "l", "r", "l", "r", "r", "r")
+)
 ```
 
-The final solution produces three interpretable blocks: one short-haul Asia-Pacific cluster, one long-haul Europe cluster, and one North Asia cluster centered on China.
+The final solution produces three interpretable blocks, but the richer point is that they are not just different groups of countries. They also reflect different recovery strengths. The summary table now shows which cluster rebounds furthest, which one experienced the deepest trough, and which country acts as the representative pattern for each group.
 
 ## 8. Show Cluster Membership
 
 The next table lists every country and its final cluster assignment.
 
 ```{r}
-membership_table <- cluster_assignments |>
-  dplyr::arrange(cluster, country)
+membership_table <- cluster_solution$membership |>
+  dplyr::select(
+    series,
+    cluster,
+    cluster_label,
+    silhouette,
+    end_index,
+    trough_index,
+    rebound_multiple
+  ) |>
+  dplyr::arrange(cluster, dplyr::desc(end_index), series)
 
-knitr::kable(membership_table, align = c("l", "l"))
+knitr::kable(membership_table, align = c("l", "l", "l", "r", "r", "r", "r"))
 ```
 
-This membership view is the direct model output that the Shiny app should expose. It lets the user see the grouping instantly and makes the clustering result auditable.
+This membership view is the direct model output that the Shiny app should expose. It now does more than list cluster IDs: it also shows whether each country finishes the window strongly, how deep its trough becomes, and how much it rebounds from that trough.
 
 ## 9. Show Representative Cluster Profiles
 
 To make the clusters easier to interpret, the next plot shows the average indexed trajectory of each cluster over time, with China highlighted on top of its cluster profile.
 
 ```{r}
-cluster_profile_long <- do.call(
-  rbind,
-  lapply(sort(unique(cluster_assignments$cluster)), function(cl) {
-    members <- cluster_assignments$country[cluster_assignments$cluster == cl]
-    data.frame(
-      date = country_indexed$date,
-      cluster = cl,
-      indexed_value = rowMeans(country_indexed[, members, drop = FALSE], na.rm = TRUE)
-    )
-  })
-)
-
-china_cluster <- cluster_assignments$cluster[cluster_assignments$country == china_series][1]
 china_line <- data.frame(
   date = country_indexed$date,
   indexed_value = country_indexed[[china_series]],
   series = china_series
 )
 
-ggplot(cluster_profile_long, aes(x = date, y = indexed_value, color = cluster)) +
-  geom_line(linewidth = 1.05) +
+ggplot(cluster_solution$plot_data, aes(x = date, y = value, color = cluster, group = interaction(series, type))) +
+  geom_line(
+    data = subset(cluster_solution$plot_data, type == "Series"),
+    alpha = 0.14,
+    linewidth = 0.35
+  ) +
+  geom_line(
+    data = subset(cluster_solution$plot_data, type == "Cluster mean"),
+    linewidth = 1.15
+  ) +
   geom_line(
     data = china_line,
     aes(x = date, y = indexed_value),
@@ -395,30 +413,53 @@ ggplot(cluster_profile_long, aes(x = date, y = indexed_value, color = cluster)) 
     y = "Indexed arrivals (first month = 100)",
     color = "Cluster"
   ) +
+  facet_wrap(~cluster, ncol = 1, scales = "free_y") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "none")
+```
+
+This plot is now closer to what the final app should show: all member trajectories sit faintly in the background, the cluster mean gives the dominant pattern, and China is highlighted as a dashed reference line. That makes it much easier to tell whether China is representative of its group or slightly offset from it.
+
+## 10. Compare Recovery Strength Across Countries
+
+The next chart turns the clustering result into a recovery comparison. Countries that fell lower on the x-axis experienced a deeper trough, while countries that sit higher on the y-axis end the window from a stronger position.
+
+```{r}
+ggplot(
+  cluster_solution$series_features,
+  aes(x = trough_index, y = end_index, color = cluster, label = series)
+) +
+  geom_point(size = 3.2, alpha = 0.9) +
+  geom_text(vjust = -0.8, size = 3.3, show.legend = FALSE) +
+  labs(
+    title = "Recovery Position Map",
+    subtitle = "Lower trough values indicate deeper shocks, while higher final values indicate stronger rebound",
+    x = "Lowest indexed level in the window",
+    y = "Final indexed level in the window",
+    color = "Cluster"
+  ) +
   theme_minimal(base_size = 12)
 ```
 
-This plot is the clearest visual summary of the clustering output. It shows the trajectory shape of each cluster and makes it easy to see where China sits relative to its peers.
+This view adds analytical depth because it separates two ideas that line charts often blur together: how hard each market was hit, and how strongly it recovered by the end of the selected window. The clusters are not just visually different; they also occupy different recovery positions.
 
-## 10. Interpret China's Placement
+## 11. Interpret China's Placement
 
 China belongs to the North Asia cluster, together with Japan and Hong Kong SAR (China). The next table shows that cluster and orders the members by their distance to China in the standardized trajectory space.
 
 ```{r}
-dist_to_china <- as.matrix(cluster_distance)[china_series, ]
-china_context <- cluster_assignments |>
-  dplyr::filter(cluster == china_cluster) |>
-  dplyr::mutate(
-    distance_to_china = round(dist_to_china[country], 3)
-  ) |>
-  dplyr::arrange(distance_to_china)
-
-knitr::kable(china_context, align = c("l", "l", "r"))
+knitr::kable(
+  cluster_solution$china_context |>
+    dplyr::select(series, cluster, cluster_label, distance_to_china, end_index, trough_index),
+  align = c("l", "l", "l", "r", "r", "r")
+)
 ```
 
-China is grouped with Japan and Hong Kong SAR (China), which suggests a shared North Asia recovery trajectory rather than a broad global pattern. This is the key interpretive point: China is important, but its recovery shape is more similar to nearby North Asia markets than to the broader Southeast Asia or Europe clusters.
+`r cluster_solution$china_note`
 
-## 11. UI Design Implications
+This is the most important interpretive message in the clustering module. China remains central to the story, but the model does not treat it as a standalone exception. Instead, it places China inside a specific recovery family, which helps the final application compare it to the right peers rather than to every market at once.
+
+## 12. UI Design Implications
 
 The clustering prototype should expose controls that let the user change the country set, the normalization choice, and the number of clusters without breaking the workflow.
 
@@ -429,25 +470,31 @@ ui_map <- data.frame(
     "Year window",
     "Normalization mode",
     "Cluster count k",
-    "Run button"
+    "Run button",
+    "Insight cards",
+    "Recovery position map"
   ),
   Purpose = c(
     "Choose the series that will be treated as trajectories",
     "Keep the analysis window aligned with the monthly data",
     "Switch between raw, indexed, and z-scored trajectories",
     "Test whether the grouping should be more or less granular",
-    "Trigger clustering only when the user is ready"
+    "Trigger clustering only when the user is ready",
+    "Explain cluster quality and China's placement in plain language",
+    "Compare shock depth and end-of-window recovery strength"
   ),
   Output = c(
     "Membership table",
     "Comparable time-series matrix",
     "Diagnostic table and profile plot",
     "Cluster summary and China placement",
-    "Updated cluster assignments and representative profiles"
+    "Updated cluster assignments and representative profiles",
+    "Cluster narrative and China narrative",
+    "Recovery metrics table and position plot"
   )
 )
 
 knitr::kable(ui_map, align = c("l", "l", "l"))
 ```
 
-This UI mapping is the bridge from the prototype page to the final Shiny module. It tells us exactly which controls need to be exposed and which outputs need to be kept visible for interpretation.
+This UI mapping is the bridge from the prototype page to the final Shiny module. The refinement here is that the app should not stop at showing a cluster ID. It should also explain what the cluster means, how China fits into it, and how recovery strength differs across the grouped markets.

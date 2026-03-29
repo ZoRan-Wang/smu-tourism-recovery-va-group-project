@@ -25,7 +25,7 @@ source(file.path(project_root, "app", "R", "mod_cluster_ui.R"))
 source(file.path(project_root, "app", "R", "mod_cluster_server.R"))
 
 ui <- page_navbar(
-  title = "Singapore Tourism Recovery Prototype",
+  title = "Singapore Tourism Time-Series VA Prototype",
   theme = bs_theme(
     bg = "#f4f2eb",
     fg = "#1f2a2e",
@@ -80,7 +80,8 @@ ui <- page_navbar(
           tags$ul(
             tags$li("Data: visitor_arrivals_full_dataset.xlsx"),
             tags$li("Clustering unit: country or market series across time."),
-            tags$li("Controls: series subset, year window, normalization, cluster count.")
+            tags$li("Controls: series subset, year window, normalization, cluster count."),
+            tags$li("Insights: recovery position map, cluster narratives, and China placement summary.")
           )
         )
       ),

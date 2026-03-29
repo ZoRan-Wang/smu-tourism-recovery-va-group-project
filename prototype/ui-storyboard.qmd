@@ -80,7 +80,10 @@ flowchart LR
 1. Cluster diagnostic chart
 2. Cluster membership table
 3. Representative pattern plot
-4. Assignment download button
+4. Recovery position map
+5. Cluster insight narrative
+6. China placement narrative
+7. Assignment download button
 :::
 
 ## Module 3: Forecasting
