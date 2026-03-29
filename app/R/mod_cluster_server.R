@@ -2,13 +2,16 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(cluster)
+library(plotly)
 
 cluster_palette <- function(cluster_values) {
   levels <- unique(as.character(cluster_values))
-  stats::setNames(
-    grDevices::hcl.colors(length(levels), palette = "Green-Brown"),
-    levels
+  palette_values <- c(
+    "#0f766e", "#2cb5a7", "#b6e3dd", "#d2b07a",
+    "#8e6438", "#274346", "#d87a59", "#7f99c2"
   )
+  palette_values <- rep(palette_values, length.out = length(levels))
+  stats::setNames(palette_values, levels)
 }
 
 cluster_reference_value <- function(normalization) {
@@ -41,8 +44,62 @@ axis_limits_with_padding <- function(x, center = NULL, prop = 0.16) {
   limits
 }
 
-cluster_pattern_plot_object <- function(res) {
-  palette <- cluster_palette(res$plot_data$cluster_view)
+format_cluster_value <- function(x, normalization) {
+  if (identical(normalization, "raw")) {
+    out <- format(round(x, 0), big.mark = ",", trim = TRUE)
+  } else {
+    out <- format(round(x, 2), nsmall = 2, trim = TRUE)
+  }
+
+  out[!is.finite(x)] <- "NA"
+  out
+}
+
+build_pattern_tooltip <- function(df, normalization) {
+  value_label <- switch(
+    normalization,
+    indexed = "Indexed level",
+    zscore = "Z-score",
+    raw = "Arrivals",
+    "Value"
+  )
+
+  paste0(
+    "<b>", df$series_name, "</b><br>",
+    "Pattern: ", df$cluster_label, "<br>",
+    "Month: ", format(df$date, "%Y-%m"), "<br>",
+    value_label, ": ", format_cluster_value(df$value, normalization)
+  )
+}
+
+build_recovery_tooltip <- function(df, normalization) {
+  x_label <- switch(
+    normalization,
+    indexed = "Lowest indexed level",
+    zscore = "Lowest z-score",
+    raw = "Lowest monthly arrivals",
+    "Lowest level"
+  )
+  y_label <- switch(
+    normalization,
+    indexed = "Final indexed level",
+    zscore = "Final z-score",
+    raw = "Final monthly arrivals",
+    "Final level"
+  )
+
+  paste0(
+    "<b>", df$series_name, "</b><br>",
+    "Pattern: ", df$cluster_label, "<br>",
+    x_label, ": ", format_cluster_value(df$trough_index, normalization), "<br>",
+    y_label, ": ", format_cluster_value(df$end_index, normalization), "<br>",
+    "Rebound multiple: ", format(round(df$rebound_multiple, 3), nsmall = 3), "<br>",
+    "Volatility: ", format(round(df$volatility, 3), nsmall = 3)
+  )
+}
+
+cluster_pattern_plot_object <- function(res, focus_series = NULL) {
+  palette <- cluster_palette(res$summary$cluster_label)
   normalization <- res$panel$normalization
   ref_value <- cluster_reference_value(normalization)
   n_clusters <- length(unique(as.character(res$plot_data$cluster_view)))
@@ -62,30 +119,42 @@ cluster_pattern_plot_object <- function(res) {
     "Value"
   )
 
-  plot <- ggplot(
-    res$plot_data,
-    aes(x = date, y = value, group = interaction(series, type), color = cluster_view)
-  ) +
+  series_df <- res$plot_data |>
+    filter(type == "Series")
+  series_df$text <- build_pattern_tooltip(series_df, normalization)
+
+  mean_df <- res$plot_data |>
+    filter(type == "Cluster mean")
+  mean_df$text <- paste0(
+    "<b>", mean_df$cluster_label, " mean</b><br>",
+    "Month: ", format(mean_df$date, "%Y-%m"), "<br>",
+    y_axis_label, ": ", format_cluster_value(mean_df$value, normalization)
+  )
+
+  focus_df <- series_df |>
+    filter(series == focus_series)
+
+  other_df <- series_df |>
+    filter(series != focus_series)
+
+  plot <- ggplot() +
     geom_line(
-      data = subset(res$plot_data, type == "Series"),
-      alpha = 0.22,
-      linewidth = 0.5
+      data = other_df,
+      aes(x = date, y = value, group = series, text = text),
+      color = "#bcc8ca",
+      alpha = 0.34,
+      linewidth = 0.48
     ) +
     geom_line(
-      data = subset(res$plot_data, type == "Cluster mean"),
-      linewidth = 1.55
+      data = mean_df,
+      aes(x = date, y = value, group = cluster_view, color = cluster_label, text = text),
+      linewidth = 1.75
     ) +
     facet_wrap(~cluster_view, ncol = facet_cols, scales = "free_y") +
     labs(
-      title = "Representative Time-Series Patterns by Cluster",
-      subtitle = paste(
-        "Selected country series clustered by trajectory similarity using",
-        normalization,
-        "normalization"
-      ),
       x = "Month",
       y = y_axis_label,
-      color = "Cluster"
+      color = "Pattern"
     ) +
     scale_color_manual(values = palette) +
     theme_minimal(base_size = 13) +
@@ -93,12 +162,25 @@ cluster_pattern_plot_object <- function(res) {
       legend.position = "none",
       panel.grid.minor = element_blank(),
       strip.text = element_text(face = "bold"),
-      panel.spacing = unit(1, "lines")
+      panel.spacing = grid::unit(1.1, "lines"),
+      axis.title.x = element_text(margin = margin(t = 10)),
+      axis.title.y = element_text(margin = margin(r = 10))
     )
+
+  if (nrow(focus_df) > 0) {
+    plot <- plot +
+      geom_line(
+        data = focus_df,
+        aes(x = date, y = value, group = series, text = text),
+        color = "#d86f45",
+        linewidth = 1.1,
+        alpha = 0.98
+      )
+  }
 
   if (is.finite(ref_value)) {
     plot <- plot +
-      geom_hline(yintercept = ref_value, linetype = "dashed", color = "#c9b79d", linewidth = 0.45)
+      geom_hline(yintercept = ref_value, linetype = "dashed", color = "#ccb79a", linewidth = 0.45)
   }
 
   if (identical(normalization, "raw")) {
@@ -106,11 +188,22 @@ cluster_pattern_plot_object <- function(res) {
       scale_y_continuous(labels = scales::label_number(big.mark = ",", accuracy = 1))
   }
 
-  plot
+  suppressWarnings(
+    plotly::ggplotly(plot, tooltip = "text") |>
+      plotly::layout(
+        hovermode = "closest",
+        margin = list(l = 70, r = 20, t = 20, b = 70),
+        paper_bgcolor = "rgba(0,0,0,0)",
+        plot_bgcolor = "rgba(0,0,0,0)"
+      ) |>
+      plotly::config(displayModeBar = FALSE)
+  )
 }
 
-recovery_position_plot_object <- function(res) {
+recovery_position_plot_object <- function(res, focus_series = NULL) {
   df <- res$series_features
+  df$text <- build_recovery_tooltip(df, res$panel$normalization)
+
   normalization <- res$panel$normalization
   ref_value <- cluster_reference_value(normalization)
   palette <- cluster_palette(df$cluster_label)
@@ -130,42 +223,74 @@ recovery_position_plot_object <- function(res) {
     "Final level"
   )
 
-  label_series <- unique(c("china", res$summary$representative_series))
+  highlight_series <- unique(c("china", focus_series, res$summary$representative_series))
   label_df <- df |>
-    filter(series %in% label_series) |>
+    filter(series %in% highlight_series) |>
     distinct(series, .keep_all = TRUE)
 
-  plot <- ggplot(df, aes(x = trough_index, y = end_index)) +
+  base_df <- df |>
+    filter(!series %in% unique(c("china", focus_series)))
+
+  focus_df <- df |>
+    filter(series == focus_series)
+
+  china_df <- df |>
+    filter(series == "china")
+
+  plot <- ggplot() +
     geom_point(
-      aes(fill = cluster_label),
-      shape = 21,
-      size = 4.2,
-      alpha = 0.95,
-      colour = "#fffaf3",
-      stroke = 0.9
-    ) +
-    geom_text(
-      data = label_df,
-      aes(label = series_name, color = cluster_label),
-      vjust = -1,
-      size = 3.4,
-      show.legend = FALSE,
-      check_overlap = TRUE
+      data = base_df,
+      aes(x = trough_index, y = end_index, color = cluster_label, text = text),
+      size = 3.9,
+      alpha = 0.92
     ) +
     labs(
-      title = "Recovery Position Map",
-      subtitle = "Only China and one representative series per cluster are labelled to avoid overlap",
       x = x_axis_label,
       y = y_axis_label,
-      fill = "Cluster pattern"
+      color = "Pattern"
     ) +
-    scale_fill_manual(values = palette) +
-    scale_color_manual(values = palette, guide = "none") +
+    scale_color_manual(values = palette) +
     theme_minimal(base_size = 13) +
     theme(
+      legend.position = "none",
       panel.grid.minor = element_blank(),
-      legend.position = "right"
+      axis.title.x = element_text(margin = margin(t = 10)),
+      axis.title.y = element_text(margin = margin(r = 10))
     )
+
+  if (nrow(focus_df) > 0) {
+    plot <- plot +
+      geom_point(
+        data = focus_df,
+        aes(x = trough_index, y = end_index, text = text),
+        color = "#d86f45",
+        size = 5.2,
+        alpha = 1
+      )
+  }
+
+  if (nrow(china_df) > 0) {
+    plot <- plot +
+      geom_point(
+        data = china_df,
+        aes(x = trough_index, y = end_index, text = text),
+        color = "#0f5f62",
+        size = 5.8,
+        alpha = 1
+      )
+  }
+
+  if (nrow(label_df) > 0) {
+    plot <- plot +
+      geom_text(
+        data = label_df,
+        aes(x = trough_index, y = end_index, label = series_name),
+        vjust = -1.05,
+        size = 3.6,
+        color = "#435256",
+        check_overlap = TRUE
+      )
+  }
 
   if (identical(normalization, "raw")) {
     plot <- plot +
@@ -186,7 +311,7 @@ recovery_position_plot_object <- function(res) {
 
     if (is.finite(ref_value)) {
       plot <- plot +
-        geom_hline(yintercept = ref_value, linetype = "dashed", color = "#c9b79d", linewidth = 0.45)
+        geom_hline(yintercept = ref_value, linetype = "dashed", color = "#ccb79a", linewidth = 0.45)
     }
   } else {
     x_limits <- axis_limits_with_padding(df$trough_index, center = ref_value)
@@ -197,16 +322,44 @@ recovery_position_plot_object <- function(res) {
 
     if (is.finite(ref_value)) {
       plot <- plot +
-        geom_hline(yintercept = ref_value, linetype = "dashed", color = "#c9b79d", linewidth = 0.45) +
-        geom_vline(xintercept = ref_value, linetype = "dashed", color = "#c9b79d", linewidth = 0.45)
+        geom_hline(yintercept = ref_value, linetype = "dashed", color = "#ccb79a", linewidth = 0.45) +
+        geom_vline(xintercept = ref_value, linetype = "dashed", color = "#ccb79a", linewidth = 0.45)
     }
   }
 
-  plot
+  suppressWarnings(
+    plotly::ggplotly(plot, tooltip = "text") |>
+      plotly::layout(
+        hovermode = "closest",
+        margin = list(l = 70, r = 20, t = 20, b = 70),
+        paper_bgcolor = "rgba(0,0,0,0)",
+        plot_bgcolor = "rgba(0,0,0,0)"
+      ) |>
+      plotly::config(displayModeBar = FALSE)
+  )
 }
 
 mod_cluster_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
+    observeEvent(input$series_subset, {
+      selected_series <- input$series_subset
+      if (is.null(selected_series) || length(selected_series) == 0) {
+        return()
+      }
+
+      choices <- stats::setNames(selected_series, display_names_for_series(selected_series))
+      current_focus <- isolate(input$focus_series)
+      default_focus <- if ("china" %in% selected_series) "china" else selected_series[[1]]
+      next_focus <- if (!is.null(current_focus) && current_focus %in% selected_series) current_focus else default_focus
+
+      updateSelectInput(
+        session,
+        "focus_series",
+        choices = choices,
+        selected = next_focus
+      )
+    }, ignoreNULL = FALSE)
+
     cluster_results <- eventReactive(input$run_cluster, {
       validate(
         need(length(input$series_subset) >= 2, "Select at least two series."),
@@ -257,6 +410,9 @@ mod_cluster_server <- function(id, data) {
       selected_row <- res$diagnostics |>
         filter(k == input$k_value) |>
         slice(1)
+      recommended_row <- res$diagnostics |>
+        arrange(desc(mean_silhouette), k) |>
+        slice(1)
 
       tags$div(
         class = "va-stat-grid",
@@ -269,6 +425,11 @@ mod_cluster_server <- function(id, data) {
           class = "va-stat",
           tags$div(class = "va-stat-label", "Selected k"),
           tags$div(class = "va-stat-value", input$k_value)
+        ),
+        tags$div(
+          class = "va-stat",
+          tags$div(class = "va-stat-label", "Recommended k"),
+          tags$div(class = "va-stat-value", recommended_row$k)
         ),
         tags$div(
           class = "va-stat",
@@ -291,6 +452,41 @@ mod_cluster_server <- function(id, data) {
       )
     })
 
+    output$cluster_chip_bar <- renderUI({
+      res <- cluster_results()
+      palette <- cluster_palette(res$summary$cluster_label)
+      ordered_summary <- res$summary |>
+        arrange(desc(avg_end_index))
+
+      tags$div(
+        class = "cluster-chip-grid",
+        lapply(seq_len(nrow(ordered_summary)), function(i) {
+          row <- ordered_summary[i, ]
+          tags$div(
+            class = "cluster-summary-chip",
+            style = sprintf("border-color:%s33;", palette[[row$cluster_label]]),
+            tags$span(
+              class = "cluster-summary-dot",
+              style = sprintf("background:%s;", palette[[row$cluster_label]])
+            ),
+            tags$div(
+              class = "cluster-summary-copy",
+              tags$div(class = "cluster-summary-title", row$cluster_label),
+              tags$div(
+                class = "cluster-summary-meta",
+                sprintf(
+                  "%s series | rep. %s | mean end %.1f",
+                  row$n_series,
+                  row$representative_series_name,
+                  row$avg_end_index
+                )
+              )
+            )
+          )
+        })
+      )
+    })
+
     output$diagnostics_table <- DT::renderDT({
       res <- cluster_results()
       diagnostics <- res$diagnostics |>
@@ -307,7 +503,7 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         diagnostics,
         rownames = FALSE,
-        options = list(pageLength = 8, dom = "tip", ordering = FALSE, autoWidth = TRUE)
+        options = list(pageLength = 6, dom = "tip", ordering = FALSE, autoWidth = TRUE)
       )
     })
 
@@ -372,20 +568,23 @@ mod_cluster_server <- function(id, data) {
       )
     })
 
-    output$cluster_pattern_plot <- renderPlot({
+    output$cluster_pattern_plot <- plotly::renderPlotly({
       res <- cluster_results()
-      cluster_pattern_plot_object(res)
+      cluster_pattern_plot_object(res, focus_series = input$focus_series)
     })
 
-    output$recovery_position_plot <- renderPlot({
+    output$recovery_position_plot <- plotly::renderPlotly({
       res <- cluster_results()
-      recovery_position_plot_object(res)
+      recovery_position_plot_object(res, focus_series = input$focus_series)
     })
 
     output$insight_panel <- renderUI({
       res <- cluster_results()
       strongest <- res$summary |>
         arrange(desc(avg_end_index)) |>
+        slice(1)
+      recommended_row <- res$diagnostics |>
+        arrange(desc(mean_silhouette), k) |>
         slice(1)
 
       tags$div(
@@ -397,15 +596,99 @@ mod_cluster_server <- function(id, data) {
         tags$p(
           class = "va-insight-main",
           sprintf(
-            "%s is the strongest rebound group in the current selection. It ends around %.1f on the normalized scale and is represented by %s.",
+            "%s currently leads the rebound picture. Its representative market is %s and its average ending level is %.1f.",
             strongest$cluster_label,
-            strongest$avg_end_index,
-            strongest$representative_series_name
+            strongest$representative_series_name,
+            strongest$avg_end_index
           )
         ),
         tags$p(
           class = "va-insight-secondary",
-          res$china_note
+          sprintf(
+            "The best silhouette in the current country set appears at k = %s. You are currently reading k = %s.",
+            recommended_row$k,
+            input$k_value
+          )
+        )
+      )
+    })
+
+    output$focus_series_panel <- renderUI({
+      res <- cluster_results()
+      focus_series <- input$focus_series
+      focus_row <- res$membership |>
+        filter(series == focus_series) |>
+        slice(1)
+
+      validate(need(nrow(focus_row) == 1, "Select a focus series to see a closer reading."))
+
+      tags$div(
+        class = "cluster-context-grid",
+        tags$div(
+          class = "cluster-context-card",
+          tags$div(class = "cluster-context-label", "Focus series"),
+          tags$div(class = "cluster-context-value", focus_row$series_name),
+          tags$p(
+            class = "cluster-context-copy",
+            sprintf("%s sits in %s and ends the selected window at %.1f.", focus_row$series_name, focus_row$cluster_label, focus_row$end_index)
+          )
+        ),
+        tags$div(
+          class = "cluster-context-card",
+          tags$div(class = "cluster-context-label", "Shock and rebound"),
+          tags$div(
+            class = "cluster-context-metrics",
+            tags$span(sprintf("Trough %.1f", focus_row$trough_index)),
+            tags$span(sprintf("Rebound %.3f", focus_row$rebound_multiple))
+          ),
+          tags$p(
+            class = "cluster-context-copy",
+            "Use the hover state on the chart to compare the focus path against the cluster mean month by month."
+          )
+        )
+      )
+    })
+
+    output$china_context_panel <- renderUI({
+      res <- cluster_results()
+      if (is.null(res$china_context) || nrow(res$china_context) == 0) {
+        return(tags$p("China is not included in the current country selection."))
+      }
+
+      china_row <- res$china_context |>
+        filter(series == "china") |>
+        slice(1)
+      peer_rows <- res$china_context |>
+        filter(series != "china") |>
+        slice_head(n = 4)
+
+      tags$div(
+        class = "cluster-context-grid",
+        tags$div(
+          class = "cluster-context-card cluster-context-card-wide",
+          tags$div(class = "cluster-context-label", "China summary"),
+          tags$div(class = "cluster-context-value", china_row$cluster_label),
+          tags$p(class = "cluster-context-copy", res$china_note)
+        ),
+        tags$div(
+          class = "cluster-context-card",
+          tags$div(class = "cluster-context-label", "Closest peers"),
+          if (nrow(peer_rows) == 0) {
+            tags$p(class = "cluster-context-copy", "No peer series are available in the current subset.")
+          } else {
+            tags$ul(
+              class = "cluster-context-list",
+              lapply(seq_len(nrow(peer_rows)), function(i) {
+                tags$li(
+                  sprintf(
+                    "%s (distance %.3f)",
+                    peer_rows$peer_name[i],
+                    peer_rows$distance_to_china[i]
+                  )
+                )
+              })
+            )
+          }
         )
       )
     })

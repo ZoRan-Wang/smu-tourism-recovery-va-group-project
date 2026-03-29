@@ -5,6 +5,8 @@ mod_cluster_ui <- function(id) {
   ns <- NS(id)
   series_choices <- available_clustering_series()
   default_choices <- default_clustering_series(n = min(8, length(series_choices)))
+  focus_choices <- stats::setNames(default_choices, display_names_for_series(default_choices))
+  default_focus <- if ("china" %in% default_choices) "china" else default_choices[[1]]
 
   tagList(
     div(
@@ -13,13 +15,7 @@ mod_cluster_ui <- function(id) {
         class = "cluster-header-copy",
         div(class = "cluster-kicker", "Module 2"),
         h2("Time Series Clustering"),
-        p("Compare country recovery trajectories, check cluster quality, then read China’s placement in a cleaner step-by-step workspace.")
-      ),
-      div(
-        class = "cluster-header-meta",
-        span(class = "cluster-meta-chip", "Country series"),
-        span(class = "cluster-meta-chip", "2017-2025"),
-        span(class = "cluster-meta-chip", "Trajectory comparison")
+        p("Read the clustering result as a guided workspace: start with fit quality, inspect the dominant trajectory patterns, then focus on China's placement and the final assignments.")
       )
     ),
     div(
@@ -29,7 +25,7 @@ mod_cluster_ui <- function(id) {
         h3("Controls"),
         p(
           class = "cluster-controls-intro",
-          "Choose a focused market set first. Then normalize, set the number of groups, and run the module."
+          "Keep the country set focused. Then choose the normalization, pick a working k, and use the focus selector to follow one series across the whole module."
         ),
         selectizeInput(
           ns("series_subset"),
@@ -38,6 +34,12 @@ mod_cluster_ui <- function(id) {
           selected = default_choices,
           multiple = TRUE,
           options = list(plugins = list("remove_button"))
+        ),
+        selectInput(
+          ns("focus_series"),
+          "Focus series",
+          choices = focus_choices,
+          selected = default_focus
         ),
         sliderInput(
           ns("year_window"),
@@ -72,9 +74,10 @@ mod_cluster_ui <- function(id) {
           class = "cluster-controls-note",
           h4("Reading guide"),
           tags$ul(
-            tags$li("Overview: check fit quality and China’s placement."),
-            tags$li("Patterns: inspect each cluster trajectory without compression."),
-            tags$li("Tables: review assignments and export results.")
+            tags$li("Start Here: confirm whether the clustering is stable and what the lead patterns are."),
+            tags$li("Pattern Explorer: hover a line to inspect a country path, then compare it against the cluster mean."),
+            tags$li("China in Context: use the position map after narrowing the market set."),
+            tags$li("Assignments: export the final cluster labels after the picture is clear.")
           )
         )
       ),
@@ -82,8 +85,9 @@ mod_cluster_ui <- function(id) {
         class = "cluster-main",
         navset_card_tab(
           id = ns("cluster_pages"),
+          selected = "Start Here",
           nav_panel(
-            "Overview",
+            "Start Here",
             div(
               class = "cluster-tab-stack",
               layout_columns(
@@ -101,8 +105,8 @@ mod_cluster_ui <- function(id) {
               ),
               card(
                 class = "cluster-panel",
-                card_header("Recovery Position Map"),
-                card_body(plotOutput(ns("recovery_position_plot"), height = "430px"))
+                card_header("Pattern Summary"),
+                card_body(uiOutput(ns("cluster_chip_bar")))
               ),
               card(
                 class = "cluster-panel",
@@ -112,11 +116,41 @@ mod_cluster_ui <- function(id) {
             )
           ),
           nav_panel(
-            "Patterns",
-            card(
-              class = "cluster-panel cluster-panel-plot",
-              card_header("Representative Patterns"),
-              card_body(plotOutput(ns("cluster_pattern_plot"), height = "680px"))
+            "Pattern Explorer",
+            div(
+              class = "cluster-tab-stack",
+              card(
+                class = "cluster-panel cluster-panel-plot",
+                card_header("Representative Patterns"),
+                card_body(
+                  div(class = "cluster-helper-text", "Hover a line to see the country, cluster, month, and value. The focus series is highlighted across its cluster panel."),
+                  plotly::plotlyOutput(ns("cluster_pattern_plot"), height = "720px")
+                )
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("Focus Series Note"),
+                card_body(uiOutput(ns("focus_series_panel")))
+              )
+            )
+          ),
+          nav_panel(
+            "China in Context",
+            div(
+              class = "cluster-tab-stack",
+              card(
+                class = "cluster-panel",
+                card_header("Recovery Position Map"),
+                card_body(
+                  div(class = "cluster-helper-text", "Hover a point to inspect the trough level, latest level, rebound multiple, and volatility. China and the focus series stay labelled."),
+                  plotly::plotlyOutput(ns("recovery_position_plot"), height = "560px")
+                )
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("China Placement"),
+                card_body(uiOutput(ns("china_context_panel")))
+              )
             )
           ),
           nav_panel(
@@ -138,15 +172,12 @@ mod_cluster_ui <- function(id) {
                 class = "cluster-panel",
                 card_header("Cluster Summary"),
                 card_body(DT::DTOutput(ns("cluster_summary_table")))
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("Series Metrics"),
+                card_body(DT::DTOutput(ns("recovery_metrics_table")))
               )
-            )
-          ),
-          nav_panel(
-            "Series Metrics",
-            card(
-              class = "cluster-panel",
-              card_header("Recovery Metrics By Series"),
-              card_body(DT::DTOutput(ns("recovery_metrics_table")))
             )
           )
         )

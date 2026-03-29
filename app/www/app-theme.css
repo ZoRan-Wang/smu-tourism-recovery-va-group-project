@@ -84,6 +84,18 @@
   box-shadow: 0 10px 26px rgba(27, 41, 45, 0.06);
 }
 
+.cluster-controls .form-group,
+.cluster-controls .shiny-input-radiogroup {
+  margin-bottom: 1rem;
+}
+
+.cluster-controls .selectize-input,
+.cluster-controls .form-control {
+  border-radius: 14px;
+  border-color: #e0d4c3;
+  box-shadow: none;
+}
+
 .cluster-controls h3 {
   margin: 0 0 0.35rem;
   color: #20373a;
@@ -153,6 +165,13 @@
   gap: 1rem;
 }
 
+.cluster-helper-text {
+  margin: 0 0 0.85rem;
+  color: #617174;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .cluster-panel {
   border: 1px solid #e6dccd;
   border-radius: 18px;
@@ -183,7 +202,7 @@
 
 .va-stat-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.8rem;
 }
 
@@ -247,6 +266,113 @@
 
 .va-insight-secondary {
   color: #5d696d;
+}
+
+.cluster-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.cluster-summary-chip {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid #e5d9c9;
+  border-radius: 16px;
+  background: #fffdf8;
+}
+
+.cluster-summary-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  margin-top: 0.35rem;
+}
+
+.cluster-summary-copy {
+  min-width: 0;
+}
+
+.cluster-summary-title {
+  font-weight: 700;
+  color: #1f3236;
+  line-height: 1.3;
+}
+
+.cluster-summary-meta {
+  margin-top: 0.15rem;
+  color: #607074;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.cluster-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.9rem;
+}
+
+.cluster-context-card {
+  padding: 0.95rem 1rem;
+  border: 1px solid #eadfce;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffdf9 0%, #fff9f2 100%);
+}
+
+.cluster-context-card-wide {
+  grid-column: 1 / -1;
+}
+
+.cluster-context-label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  color: #728083;
+  margin-bottom: 0.35rem;
+}
+
+.cluster-context-value {
+  color: #183338;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cluster-context-copy {
+  margin: 0.5rem 0 0;
+  color: #59686b;
+  line-height: 1.6;
+}
+
+.cluster-context-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+}
+
+.cluster-context-metrics span {
+  display: inline-flex;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: #edf5f2;
+  color: #18575b;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.cluster-context-list {
+  margin: 0.55rem 0 0;
+  padding-left: 1rem;
+  color: #566467;
+}
+
+.cluster-main .plotly html-widget,
+.cluster-main .js-plotly-plot {
+  width: 100%;
 }
 
 .va-preview {

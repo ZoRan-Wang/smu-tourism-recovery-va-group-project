@@ -1,4 +1,4 @@
-required_pkgs <- c("shiny", "bslib", "readxl", "dplyr", "ggplot2", "cluster", "DT")
+required_pkgs <- c("shiny", "bslib", "readxl", "dplyr", "ggplot2", "cluster", "DT", "plotly")
 missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing_pkgs) > 0) {
   stop(
