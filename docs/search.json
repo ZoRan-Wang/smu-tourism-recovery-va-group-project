@@ -298,42 +298,42 @@
     "href": "prototype/module-cluster.html",
     "title": "Module Prototype: Cluster Analysis",
     "section": "",
-    "text": "Prototype a Shiny module that groups monthly observations into interpretable tourism market states."
+    "text": "Prototype a Shiny module that groups country-level visitor-arrivals trajectories into interpretable time-series clusters."
   },
   {
     "objectID": "prototype/module-cluster.html#objective",
     "href": "prototype/module-cluster.html#objective",
     "title": "Module Prototype: Cluster Analysis",
     "section": "",
-    "text": "Prototype a Shiny module that groups monthly observations into interpretable tourism market states."
+    "text": "Prototype a Shiny module that groups country-level visitor-arrivals trajectories into interpretable time-series clusters."
   },
   {
     "objectID": "prototype/module-cluster.html#data-contract",
     "href": "prototype/module-cluster.html#data-contract",
     "title": "Module Prototype: Cluster Analysis",
     "section": "Data Contract",
-    "text": "Data Contract\nInput dataset: data/raw/tourism_four_part_analysis_ready.xlsx\nSheet: analysis_ready_all\nRequired fields:\n\nvisitor_arrivals\nchina_share\nhotel_occ\navg_stay_monthly_capped\nperiod\ndate"
+    "text": "Data Contract\nInput dataset: data/raw/Name your insight (4).xlsx\nRequired fields:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\ndate\n\nSupporting hotel indicators remain in the shared workbook for explorer and forecasting context, but the cluster prototype operates on the country-arrivals trajectories themselves."
   },
   {
     "objectID": "prototype/module-cluster.html#analytical-design",
     "href": "prototype/module-cluster.html#analytical-design",
     "title": "Module Prototype: Cluster Analysis",
     "section": "Analytical Design",
-    "text": "Analytical Design\n\nFilter data by selected period.\nSelect feature set.\nOptionally standardize features.\nRun k-means with user-defined k.\nCompute silhouette score.\nReturn cluster assignments, profile summary, and scatter plot."
+    "text": "Analytical Design\n\nLoad the shared monthly tourism workbook.\nRestrict the catalog to country-level visitor-arrivals series.\nSelect a common lookback window across countries.\nAlign the country series by month and drop incomplete overlapping dates.\nOptionally normalize each country trajectory.\nRun kmeans across country trajectories.\nCompute silhouette score.\nUse PCA only as a 2D projection for display."
   },
   {
     "objectID": "prototype/module-cluster.html#parameter-exposure",
     "href": "prototype/module-cluster.html#parameter-exposure",
     "title": "Module Prototype: Cluster Analysis",
     "section": "Parameter Exposure",
-    "text": "Parameter Exposure\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nValidation\n\n\n\n\nperiod_filter\ncheckboxGroupInput\nall periods\nat least one selected\n\n\nk_value\nsliderInput\n3\nmin 2, max 6\n\n\nrandom_seed\nnumericInput\n42\ninteger &gt; 0\n\n\nscale_features\ncheckboxInput\nTRUE\nboolean"
+    "text": "Parameter Exposure\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nValidation\n\n\n\n\nseries_filter\nselectizeInput\ncore source markets\nat least two series selected\n\n\nlookback_years\nsliderInput\n8\nmin 3, max 10\n\n\nk_value\nsliderInput\n3\nmin 2, max 6\n\n\nrandom_seed\nnumericInput\n42\ninteger &gt; 0\n\n\nscale_series\ncheckboxInput\nTRUE\nboolean"
   },
   {
     "objectID": "prototype/module-cluster.html#output-exposure",
     "href": "prototype/module-cluster.html#output-exposure",
     "title": "Module Prototype: Cluster Analysis",
     "section": "Output Exposure",
-    "text": "Output Exposure\n\n\n\nOutput\nFormat\nPurpose\n\n\n\n\nScatter plot\nggplot2\nShow market states visually\n\n\nProfile table\nDT::datatable\nCompare cluster means\n\n\nSilhouette metric\ntext value\nIndicate clustering quality"
+    "text": "Output Exposure\n\n\n\n\n\n\n\n\nOutput\nFormat\nPurpose\n\n\n\n\nScatter plot\nggplot2\nShow time-series cluster separation in PCA space\n\n\nProfile table\nDT::datatable\nCompare cluster-level averages such as mean arrivals and volatility\n\n\nAssignment table\nDT::datatable\nShow which countries belong to which cluster\n\n\nSilhouette metric\ntext value\nIndicate clustering quality"
   },
   {
     "objectID": "prototype/module-cluster.html#implementation-files",
@@ -347,7 +347,7 @@
     "href": "prototype/module-cluster.html#quality-gates",
     "title": "Module Prototype: Cluster Analysis",
     "section": "Quality Gates",
-    "text": "Quality Gates\n\nNo NA rows in selected features before clustering.\nError message if filtered sample is too small for chosen k.\nStable color palette across outputs.\nReproducible clustering with fixed seed."
+    "text": "Quality Gates\n\nAt least two country-arrivals series must be selected.\nAt least 12 overlapping monthly observations must remain after alignment.\nChosen k must be smaller than the number of selected series.\nCountry labels must stay visible in the clustering output."
   },
   {
     "objectID": "prototype/ui-storyboard.html",
@@ -613,7 +613,7 @@
     "href": "prototype/forecasting.html#data-contract",
     "title": "Module Prototype: Forecasting",
     "section": "Data Contract",
-    "text": "Data Contract\nInput dataset: C:/Users/12697/Downloads/Name your insight (4).xlsx\nFor this revised forecasting prototype, the analytical scope is intentionally narrowed to monthly visitor-arrival series by country. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.\nExamples of eligible target series are:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\nVisitor Arrivals: Japan\n\n\ntourism_data &lt;- load_tourism_data(\"C:/Users/12697/Downloads/Name your insight (4).xlsx\")\nseries_catalog &lt;- list_country_arrival_series(tourism_data$long_monthly)\nhead(series_catalog, 10)\n\n# A tibble: 10 × 5\n   label                                   unit   n_obs start_date end_date  \n   &lt;chr&gt;                                   &lt;chr&gt;  &lt;int&gt; &lt;date&gt;     &lt;date&gt;    \n 1 Visitor Arrivals: Australia             Person   111 2016-12-01 2026-02-01\n 2 Visitor Arrivals: Bangladesh            Person   111 2016-12-01 2026-02-01\n 3 Visitor Arrivals: Brunei                Person   111 2016-12-01 2026-02-01\n 4 Visitor Arrivals: Canada                Person   111 2016-12-01 2026-02-01\n 5 Visitor Arrivals: China                 Person   111 2016-12-01 2026-02-01\n 6 Visitor Arrivals: Egypt                 Person   111 2016-12-01 2026-02-01\n 7 Visitor Arrivals: Finland               Person   111 2016-12-01 2026-02-01\n 8 Visitor Arrivals: France                Person   111 2016-12-01 2026-02-01\n 9 Visitor Arrivals: Germany               Person   111 2016-12-01 2026-02-01\n10 Visitor Arrivals: Hong Kong SAR (China) Person   111 2016-12-01 2026-02-01"
+    "text": "Data Contract\nInput dataset: data/raw/Name your insight (4).xlsx\nFor this revised forecasting prototype, the analytical scope is intentionally narrowed to monthly visitor-arrival series by country. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.\nExamples of eligible target series are:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\nVisitor Arrivals: Japan\n\n\ntourism_data &lt;- load_tourism_data()\nseries_catalog &lt;- list_country_arrival_series(tourism_data$long_monthly)\nhead(series_catalog, 10)\n\n# A tibble: 10 × 5\n   label                                   unit   n_obs start_date end_date  \n   &lt;chr&gt;                                   &lt;chr&gt;  &lt;int&gt; &lt;date&gt;     &lt;date&gt;    \n 1 Visitor Arrivals: Australia             Person   111 2016-12-01 2026-02-01\n 2 Visitor Arrivals: Bangladesh            Person   111 2016-12-01 2026-02-01\n 3 Visitor Arrivals: Brunei                Person   111 2016-12-01 2026-02-01\n 4 Visitor Arrivals: Canada                Person   111 2016-12-01 2026-02-01\n 5 Visitor Arrivals: China                 Person   111 2016-12-01 2026-02-01\n 6 Visitor Arrivals: Egypt                 Person   111 2016-12-01 2026-02-01\n 7 Visitor Arrivals: Finland               Person   111 2016-12-01 2026-02-01\n 8 Visitor Arrivals: France                Person   111 2016-12-01 2026-02-01\n 9 Visitor Arrivals: Germany               Person   111 2016-12-01 2026-02-01\n10 Visitor Arrivals: Hong Kong SAR (China) Person   111 2016-12-01 2026-02-01"
   },
   {
     "objectID": "prototype/forecasting.html#analytical-design",
@@ -690,7 +690,7 @@
     "href": "user-guide.html#step-2-compare-recovery-states",
     "title": "User Guide",
     "section": "Step 2: Compare Recovery States",
-    "text": "Step 2: Compare Recovery States\nOpen the Cluster Prototype tab to:\n\nSelect one or more recovery periods.\nChoose the tourism indicators to cluster.\nAdjust k, seed, and scaling options.\nReview the scatter plot, silhouette score, and cluster profile table."
+    "text": "Step 2: Compare Recovery States\nOpen the Cluster Prototype tab to:\n\nSelect multiple country-level visitor-arrivals series.\nSet the lookback window and choose k.\nDecide whether each country trajectory should be normalized before clustering.\nReview the scatter plot, silhouette score, and cluster profile table."
   },
   {
     "objectID": "user-guide.html#step-3-forecast-future-values",
@@ -704,7 +704,7 @@
     "href": "user-guide.html#interpretation-tips",
     "title": "User Guide",
     "section": "Interpretation Tips",
-    "text": "Interpretation Tips\n\nUse the explorer first to understand seasonality and structural breaks.\nUse clustering second to identify which months behave similarly.\nUse forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators."
+    "text": "Interpretation Tips\n\nUse the explorer first to understand seasonality and structural breaks.\nUse clustering second to identify which country-arrival trajectories behave similarly.\nUse forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators."
   },
   {
     "objectID": "user-guide.html#data-scope",

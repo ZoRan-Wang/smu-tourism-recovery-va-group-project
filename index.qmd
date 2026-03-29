@@ -8,7 +8,7 @@ title: "Project Home"
 # Singapore Tourism Recovery Prototype
 
 ## Core Question
-How can one shared tourism time-series dataset support exploration, recovery-state clustering, and forecasting for Singapore's tourism recovery?
+How can one shared tourism time-series dataset support exploration, country-trajectory clustering, and forecasting for Singapore's tourism recovery?
 
 This site is an integrated workspace for:
 

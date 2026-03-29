@@ -18,9 +18,9 @@ Open the **Time Series Explorer** tab to:
 
 Open the **Cluster Prototype** tab to:
 
-1. Select one or more recovery periods.
-2. Choose the tourism indicators to cluster.
-3. Adjust `k`, seed, and scaling options.
+1. Select multiple country-level visitor-arrivals series.
+2. Set the lookback window and choose `k`.
+3. Decide whether each country trajectory should be normalized before clustering.
 4. Review the scatter plot, silhouette score, and cluster profile table.
 
 ## Step 3: Forecast Future Values
@@ -37,7 +37,7 @@ Open the **Forecasting Prototype** tab to:
 ## Interpretation Tips
 
 1. Use the explorer first to understand seasonality and structural breaks.
-2. Use clustering second to identify which months behave similarly.
+2. Use clustering second to identify which country-arrival trajectories behave similarly.
 3. Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.
 
 ## Data Scope

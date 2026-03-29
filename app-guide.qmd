@@ -26,9 +26,9 @@ Purpose:
 
 Purpose:
 
-1. Transform monthly observations into recovery-state feature vectors.
-2. Compare state separation across periods such as pre-COVID, shock, and recovery.
-3. Review silhouette quality and profile means.
+1. Select several country-level arrival series.
+2. Align them over a shared lookback window and cluster the trajectories.
+3. Review silhouette quality, PCA separation, and cluster profiles.
 
 ### 3. Forecasting Prototype
 

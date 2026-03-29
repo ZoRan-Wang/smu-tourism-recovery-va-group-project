@@ -65,9 +65,9 @@ group_project/
 
 ### Cluster Prototype
 
-- turn monthly observations into recovery-state profiles
-- compare clusters across pre-COVID, shock, and recovery periods
-- review silhouette score and cluster profile table
+- align country-level arrivals series over a shared lookback window
+- group similar recovery trajectories into time-series clusters
+- review silhouette score, PCA scatter, and cluster profile table
 
 ### Forecasting Prototype
 

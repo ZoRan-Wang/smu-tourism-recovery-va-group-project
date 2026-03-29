@@ -11,12 +11,14 @@ required_packages <- data.frame(
     "DT",
     "cluster",
     "forecast",
+    "parsnip",
     "rsample",
     "tidymodels",
     "timetk",
     "modeltime",
     "tsibble",
-    "feasts"
+    "feasts",
+    "yardstick"
   ),
   purpose = c(
     "App runtime",
@@ -30,12 +32,14 @@ required_packages <- data.frame(
     "Interactive table",
     "Clustering metrics",
     "Baseline forecasting models",
+    "Forecast model specification layer",
     "Time-aware train/test split",
     "Forecasting workflow framework",
     "Time-series visualisation helpers",
     "Modeltime forecasting pipeline",
     "Time-indexed tibble support",
-    "Decomposition and seasonal diagnostics"
+    "Decomposition and seasonal diagnostics",
+    "Forecast accuracy metrics"
   ),
   stringsAsFactors = FALSE
 )

@@ -10,9 +10,11 @@
 "DT","Interactive table",TRUE,TRUE
 "cluster","Clustering metrics",TRUE,TRUE
 "forecast","Baseline forecasting models",TRUE,TRUE
+"parsnip","Forecast model specification layer",TRUE,TRUE
 "rsample","Time-aware train/test split",TRUE,TRUE
 "tidymodels","Forecasting workflow framework",TRUE,TRUE
 "timetk","Time-series visualisation helpers",TRUE,TRUE
 "modeltime","Modeltime forecasting pipeline",TRUE,TRUE
 "tsibble","Time-indexed tibble support",TRUE,TRUE
 "feasts","Decomposition and seasonal diagnostics",TRUE,TRUE
+"yardstick","Forecast accuracy metrics",TRUE,TRUE

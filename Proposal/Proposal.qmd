@@ -44,7 +44,7 @@ The project focuses on the following questions:
 The project adopts three main analytical modules:
 
 1. **Time-series exploration** to reveal trends, seasonality, and unusual shifts across target series.
-2. **Time-series clustering** to classify months into interpretable market states such as pandemic shock, recovery transition, and high-performance periods.
+2. **Time-series clustering** to group country-level arrivals trajectories into interpretable recovery-pattern clusters.
 3. **Forecasting** to compare a baseline method against a model-based approach on selected country-arrivals series and evaluate holdout accuracy, while interpreting those forecasts against hotel and stay indicators.
 
 These modules are designed to use the same monthly dataset so that users can move from description to structure to prediction without changing data context.

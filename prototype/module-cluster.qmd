@@ -4,7 +4,7 @@ title: "Module Prototype: Cluster Analysis"
 
 ## Objective
 
-Prototype a Shiny module that groups monthly observations into interpretable tourism market states.
+Prototype a Shiny module that groups **country-level visitor-arrivals trajectories** into interpretable time-series clusters.
 
 ## Data Contract
 
@@ -12,37 +12,43 @@ Input dataset: `data/raw/Name your insight (4).xlsx`
 
 Required fields:
 
-1. `Visitor Arrivals`
-2. `Visitor Arrivals: China`
-3. `Hotel Room Occupancy Rate`
-4. `Average Length of Stay`
-5. `date`
+1. `Visitor Arrivals: China`
+2. `Visitor Arrivals: Malaysia`
+3. `Visitor Arrivals: India`
+4. `Visitor Arrivals: Indonesia`
+5. `Visitor Arrivals: Australia`
+6. `date`
+
+Supporting hotel indicators remain in the shared workbook for explorer and forecasting context, but the cluster prototype operates on the country-arrivals trajectories themselves.
 
 ## Analytical Design
 
 1. Load the shared monthly tourism workbook.
-2. Derive a common feature table including total arrivals, China share, hotel occupancy, and capped length of stay.
-3. Filter data by selected period.
-4. Select feature set and optionally standardize features.
-5. Run k-means with user-defined `k`.
-6. Compute silhouette score.
-7. Return cluster assignments, profile summary, and scatter plot.
+2. Restrict the catalog to country-level visitor-arrivals series.
+3. Select a common lookback window across countries.
+4. Align the country series by month and drop incomplete overlapping dates.
+5. Optionally normalize each country trajectory.
+6. Run `kmeans` across country trajectories.
+7. Compute silhouette score.
+8. Use PCA only as a 2D projection for display.
 
 ## Parameter Exposure
 
 | Parameter | UI Component | Default | Validation |
 |---|---|---|---|
-| `period_filter` | `checkboxGroupInput` | all periods | at least one selected |
+| `series_filter` | `selectizeInput` | core source markets | at least two series selected |
+| `lookback_years` | `sliderInput` | 8 | min 3, max 10 |
 | `k_value` | `sliderInput` | 3 | min 2, max 6 |
 | `random_seed` | `numericInput` | 42 | integer > 0 |
-| `scale_features` | `checkboxInput` | TRUE | boolean |
+| `scale_series` | `checkboxInput` | TRUE | boolean |
 
 ## Output Exposure
 
 | Output | Format | Purpose |
 |---|---|---|
-| Scatter plot | `ggplot2` | Show market states visually |
-| Profile table | `DT::datatable` | Compare cluster means |
+| Scatter plot | `ggplot2` | Show time-series cluster separation in PCA space |
+| Profile table | `DT::datatable` | Compare cluster-level averages such as mean arrivals and volatility |
+| Assignment table | `DT::datatable` | Show which countries belong to which cluster |
 | Silhouette metric | text value | Indicate clustering quality |
 
 ## Implementation Files
@@ -54,7 +60,7 @@ Required fields:
 
 ## Quality Gates
 
-1. No NA rows in selected features before clustering.
-2. Error message if filtered sample is too small for chosen `k`.
-3. Stable color palette across outputs.
-4. Reproducible clustering with fixed seed.
+1. At least two country-arrivals series must be selected.
+2. At least 12 overlapping monthly observations must remain after alignment.
+3. Chosen `k` must be smaller than the number of selected series.
+4. Country labels must stay visible in the clustering output.

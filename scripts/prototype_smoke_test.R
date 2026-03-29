@@ -9,19 +9,21 @@ tourism_data <- load_tourism_data()
 dir.create(file.path("artifacts", "plots"), recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path("artifacts", "tables"), recursive = TRUE, showWarnings = FALSE)
 
-# Cluster smoke check
-features <- c(
-  "visitor_arrivals",
-  "china_share",
-  "hotel_occ",
-  "avg_stay_monthly_capped"
+# Time-series cluster smoke check
+cluster_series <- c(
+  "Visitor Arrivals: China",
+  "Visitor Arrivals: Malaysia",
+  "Visitor Arrivals: India",
+  "Visitor Arrivals: Indonesia",
+  "Visitor Arrivals: Australia",
+  "Visitor Arrivals: Japan"
 )
 
-cluster_prep <- prepare_cluster_data(
-  tourism_data$monthly_features,
-  periods = c("pre_covid", "covid_shock", "recovery"),
-  features = features,
-  scale_features = TRUE
+cluster_prep <- prepare_time_series_cluster_data(
+  long_monthly = tourism_data$long_monthly,
+  selected_series = cluster_series,
+  lookback_years = 8,
+  scale_series = TRUE
 )
 
 set.seed(42)
@@ -29,10 +31,9 @@ km <- kmeans(cluster_prep$matrix, centers = 3, nstart = 25)
 sil <- silhouette(km$cluster, dist(cluster_prep$matrix))
 sil_mean <- mean(sil[, "sil_width"], na.rm = TRUE)
 
-cluster_profile <- bind_cols(
-  tibble(cluster = factor(paste0("State ", km$cluster))),
-  as.data.frame(cluster_prep$metadata[, features, drop = FALSE])
-) |>
+cluster_profile <- cluster_prep$metadata |>
+  mutate(cluster = factor(paste0("Cluster ", km$cluster))) |>
+  select(cluster, mean_arrivals, volatility, latest_arrivals) |>
   group_by(cluster) |>
   summarise(across(everything(), mean), .groups = "drop")
 
@@ -71,7 +72,8 @@ write.csv(forecast_results$accuracy_tbl, file.path("artifacts", "tables", "forec
 
 summary_lines <- c(
   paste("timestamp:", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
-  paste("rows_monthly_features:", nrow(tourism_data$monthly_features)),
+  paste("cluster_series_count:", nrow(cluster_prep$matrix)),
+  paste("cluster_window_months:", ncol(cluster_prep$matrix)),
   paste("forecast_series:", "Visitor Arrivals: China"),
   paste("cluster_silhouette_mean:", round(sil_mean, 4)),
   paste("forecast_models:", paste(forecast_results$accuracy_tbl$.model_desc, collapse = ", "))

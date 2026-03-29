@@ -25,7 +25,7 @@ This prototype follows the Chapter 19 and 20 workflow from *R for Visual Analyti
 
 ## Data Contract
 
-Input dataset: `C:/Users/12697/Downloads/Name your insight (4).xlsx`
+Input dataset: `data/raw/Name your insight (4).xlsx`
 
 For this revised forecasting prototype, the analytical scope is intentionally narrowed to **monthly visitor-arrival series by country**. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.
 
@@ -39,7 +39,7 @@ Examples of eligible target series are:
 6. `Visitor Arrivals: Japan`
 
 ```{r}
-tourism_data <- load_tourism_data("C:/Users/12697/Downloads/Name your insight (4).xlsx")
+tourism_data <- load_tourism_data()
 series_catalog <- list_country_arrival_series(tourism_data$long_monthly)
 head(series_catalog, 10)
 ```

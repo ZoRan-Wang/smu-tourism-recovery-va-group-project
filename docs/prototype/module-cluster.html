@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-<head>
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
 
-<meta charset="utf-8" />
-<meta name="generator" content="quarto-1.8.26" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Module Prototype: Cluster Analysis – Singapore Tourism Recovery VA Prototype</title>
@@ -24,7 +22,25 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 
-<!-- htmldependencies:E3FAD763 -->
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-dbb47fbb1ef265d4a223f863a788238f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -57,70 +73,76 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body>
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="/index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Singapore Tourism Recovery VA Prototype</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-  aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation"
-  onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="/index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/Proposal/Proposal.html"> 
+    <a class="nav-link" href="../Proposal/Proposal.html"> 
 <span class="menu-text">Proposal</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/take-home-ex2.html"> 
+    <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/user-guide.html"> 
+    <a class="nav-link" href="../user-guide.html"> 
 <span class="menu-text">User Guide</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false" >
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
-    <a class="dropdown-item" href="/prototype/module-cluster.html">
+    <a class="dropdown-item" href="../prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/module-cluster.html">
  <span class="dropdown-text">Module Prototype</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="/prototype/forecasting.html">
+    <a class="dropdown-item" href="../prototype/module-decision-tree.html">
+ <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
  <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="/prototype/package-audit.html">
+    <a class="dropdown-item" href="../prototype/package-audit.html">
  <span class="dropdown-text">Package Audit</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="/prototype/ui-storyboard.html">
+    <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/app-guide.html"> 
+    <a class="nav-link" href="../app-guide.html"> 
 <span class="menu-text">Shiny App</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="/team/onboarding.html"> 
+    <a class="nav-link" href="../team/onboarding.html"> 
 <span class="menu-text">Team</span></a>
   </li>  
 </ul>
@@ -135,7 +157,19 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <div id="quarto-toc-target"></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#data-contract" id="toc-data-contract" class="nav-link" data-scroll-target="#data-contract">Data Contract</a></li>
+  <li><a href="#analytical-design" id="toc-analytical-design" class="nav-link" data-scroll-target="#analytical-design">Analytical Design</a></li>
+  <li><a href="#parameter-exposure" id="toc-parameter-exposure" class="nav-link" data-scroll-target="#parameter-exposure">Parameter Exposure</a></li>
+  <li><a href="#output-exposure" id="toc-output-exposure" class="nav-link" data-scroll-target="#output-exposure">Output Exposure</a></li>
+  <li><a href="#implementation-files" id="toc-implementation-files" class="nav-link" data-scroll-target="#implementation-files">Implementation Files</a></li>
+  <li><a href="#quality-gates" id="toc-quality-gates" class="nav-link" data-scroll-target="#quality-gates">Quality Gates</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -158,55 +192,46 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#objective" id="toc-objective">Objective</a></li>
-  <li><a href="#data-contract" id="toc-data-contract">Data Contract</a></li>
-  <li><a href="#analytical-design" id="toc-analytical-design">Analytical Design</a></li>
-  <li><a href="#parameter-exposure" id="toc-parameter-exposure">Parameter Exposure</a></li>
-  <li><a href="#output-exposure" id="toc-output-exposure">Output Exposure</a></li>
-  <li><a href="#implementation-files" id="toc-implementation-files">Implementation Files</a></li>
-  <li><a href="#quality-gates" id="toc-quality-gates">Quality Gates</a></li>
-  </ul>
-</nav>
+
 <section id="objective" class="level2">
-<h2>Objective</h2>
-<p>Prototype a Shiny module that groups monthly observations into interpretable tourism market states.</p>
+<h2 class="anchored" data-anchor-id="objective">Objective</h2>
+<p>Prototype a Shiny module that groups <strong>country-level visitor-arrivals trajectories</strong> into interpretable time-series clusters.</p>
 </section>
 <section id="data-contract" class="level2">
-<h2>Data Contract</h2>
+<h2 class="anchored" data-anchor-id="data-contract">Data Contract</h2>
 <p>Input dataset: <code>data/raw/Name your insight (4).xlsx</code></p>
 <p>Required fields:</p>
 <ol type="1">
-<li><code>Visitor Arrivals</code></li>
 <li><code>Visitor Arrivals: China</code></li>
-<li><code>Hotel Room Occupancy Rate</code></li>
-<li><code>Average Length of Stay</code></li>
+<li><code>Visitor Arrivals: Malaysia</code></li>
+<li><code>Visitor Arrivals: India</code></li>
+<li><code>Visitor Arrivals: Indonesia</code></li>
+<li><code>Visitor Arrivals: Australia</code></li>
 <li><code>date</code></li>
 </ol>
+<p>Supporting hotel indicators remain in the shared workbook for explorer and forecasting context, but the cluster prototype operates on the country-arrivals trajectories themselves.</p>
 </section>
 <section id="analytical-design" class="level2">
-<h2>Analytical Design</h2>
+<h2 class="anchored" data-anchor-id="analytical-design">Analytical Design</h2>
 <ol type="1">
 <li>Load the shared monthly tourism workbook.</li>
-<li>Derive a common feature table including total arrivals, China share, hotel occupancy, and capped length of stay.</li>
-<li>Filter data by selected period.</li>
-<li>Select feature set and optionally standardize features.</li>
-<li>Run k-means with user-defined <code>k</code>.</li>
+<li>Restrict the catalog to country-level visitor-arrivals series.</li>
+<li>Select a common lookback window across countries.</li>
+<li>Align the country series by month and drop incomplete overlapping dates.</li>
+<li>Optionally normalize each country trajectory.</li>
+<li>Run <code>kmeans</code> across country trajectories.</li>
 <li>Compute silhouette score.</li>
-<li>Return cluster assignments, profile summary, and scatter plot.</li>
+<li>Use PCA only as a 2D projection for display.</li>
 </ol>
 </section>
 <section id="parameter-exposure" class="level2">
-<h2>Parameter Exposure</h2>
-<table class="caption-top">
+<h2 class="anchored" data-anchor-id="parameter-exposure">Parameter Exposure</h2>
+<table class="caption-top table">
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -218,25 +243,31 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>period_filter</code></td>
-<td><code>checkboxGroupInput</code></td>
-<td>all periods</td>
-<td>at least one selected</td>
+<td><code>series_filter</code></td>
+<td><code>selectizeInput</code></td>
+<td>core source markets</td>
+<td>at least two series selected</td>
 </tr>
 <tr class="even">
+<td><code>lookback_years</code></td>
+<td><code>sliderInput</code></td>
+<td>8</td>
+<td>min 3, max 10</td>
+</tr>
+<tr class="odd">
 <td><code>k_value</code></td>
 <td><code>sliderInput</code></td>
 <td>3</td>
 <td>min 2, max 6</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>random_seed</code></td>
 <td><code>numericInput</code></td>
 <td>42</td>
 <td>integer &gt; 0</td>
 </tr>
-<tr class="even">
-<td><code>scale_features</code></td>
+<tr class="odd">
+<td><code>scale_series</code></td>
 <td><code>checkboxInput</code></td>
 <td>TRUE</td>
 <td>boolean</td>
@@ -245,8 +276,13 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </section>
 <section id="output-exposure" class="level2">
-<h2>Output Exposure</h2>
-<table class="caption-top">
+<h2 class="anchored" data-anchor-id="output-exposure">Output Exposure</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Output</th>
@@ -258,14 +294,19 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>Scatter plot</td>
 <td><code>ggplot2</code></td>
-<td>Show market states visually</td>
+<td>Show time-series cluster separation in PCA space</td>
 </tr>
 <tr class="even">
 <td>Profile table</td>
 <td><code>DT::datatable</code></td>
-<td>Compare cluster means</td>
+<td>Compare cluster-level averages such as mean arrivals and volatility</td>
 </tr>
 <tr class="odd">
+<td>Assignment table</td>
+<td><code>DT::datatable</code></td>
+<td>Show which countries belong to which cluster</td>
+</tr>
+<tr class="even">
 <td>Silhouette metric</td>
 <td>text value</td>
 <td>Indicate clustering quality</td>
@@ -274,7 +315,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </section>
 <section id="implementation-files" class="level2">
-<h2>Implementation Files</h2>
+<h2 class="anchored" data-anchor-id="implementation-files">Implementation Files</h2>
 <ol type="1">
 <li><code>app/R/data_utils.R</code></li>
 <li><code>app/R/mod_cluster_ui.R</code></li>
@@ -283,26 +324,19 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 </section>
 <section id="quality-gates" class="level2">
-<h2>Quality Gates</h2>
+<h2 class="anchored" data-anchor-id="quality-gates">Quality Gates</h2>
 <ol type="1">
-<li>No NA rows in selected features before clustering.</li>
-<li>Error message if filtered sample is too small for chosen <code>k</code>.</li>
-<li>Stable color palette across outputs.</li>
-<li>Reproducible clustering with fixed seed.</li>
+<li>At least two country-arrivals series must be selected.</li>
+<li>At least 12 overlapping monthly observations must remain after alignment.</li>
+<li>Chosen <code>k</code> must be smaller than the number of selected series.</li>
+<li>Country labels must stay visible in the clustering output.</li>
 </ol>
-<div id="quarto-navigation-envelope" class="hidden">
-<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXItdGl0bGU=">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6SG9tZQ==">Home</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2luZGV4Lmh0bWw=">/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvcG9zYWw=">Proposal</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L1Byb3Bvc2FsL1Byb3Bvc2FsLmh0bWw=">/Proposal/Proposal.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VGFrZS1ob21lIDI=">Take-home 2</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Rha2UtaG9tZS1leDIuaHRtbA==">/take-home-ex2.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VXNlciBHdWlkZQ==">User Guide</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3VzZXItZ3VpZGUuaHRtbA==">/user-guide.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvdG90eXBl">Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6TW9kdWxlIFByb3RvdHlwZQ==">Module Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9tb2R1bGUtY2x1c3Rlci5odG1s">/prototype/module-cluster.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6Rm9yZWNhc3RpbmcgUHJvdG90eXBl">Forecasting Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9mb3JlY2FzdGluZy5odG1s">/prototype/forecasting.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UGFja2FnZSBBdWRpdA==">Package Audit</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9wYWNrYWdlLWF1ZGl0Lmh0bWw=">/prototype/package-audit.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VUkgU3Rvcnlib2FyZA==">UI Storyboard</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS91aS1zdG9yeWJvYXJkLmh0bWw=">/prototype/ui-storyboard.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6U2hpbnkgQXBw">Shiny App</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2FwcC1ndWlkZS5odG1s">/app-guide.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VGVhbQ==">Team</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3RlYW0vb25ib2FyZGluZy5odG1s">/team/onboarding.html</span></p>
-<div class="hidden quarto-markdown-envelope-contents" data-render-id="Zm9vdGVyLWNlbnRlcg==">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
-</div>
-</div>
-<div id="quarto-meta-markdown" class="hidden">
-<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGF0aXRsZQ==">Module Prototype: Cluster Analysis – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=">Module Prototype: Cluster Analysis – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZHRpdGxl">Module Prototype: Cluster Analysis – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ==">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw=="></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZGRkZXNj"></span></p>
-</div>
+
+
 </section>
 
 </main> <!-- /main -->
-<script id = "quarto-html-after-body" type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -709,14 +743,16 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-      <div class='footer-contents'>SMU Visual Analytics Group Project | Updated 2026-03-12</div>  
-    </div>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
   </div>
 </footer>
 
-</body>
 
-</html>
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

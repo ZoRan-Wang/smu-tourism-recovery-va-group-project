@@ -3,11 +3,26 @@ library(bslib)
 library(ggplot2)
 library(dplyr)
 
-source("R/data_utils.R")
-source("R/mod_cluster_ui.R")
-source("R/mod_cluster_server.R")
-source("R/mod_forecast_ui.R")
-source("R/mod_forecast_server.R")
+resolve_app_file <- function(...) {
+  local_path <- file.path(...)
+  repo_path <- file.path("app", ...)
+
+  if (file.exists(local_path)) {
+    return(local_path)
+  }
+
+  if (file.exists(repo_path)) {
+    return(repo_path)
+  }
+
+  stop("Cannot locate app dependency: ", paste(..., collapse = "/"))
+}
+
+source(resolve_app_file("R", "data_utils.R"))
+source(resolve_app_file("R", "mod_cluster_ui.R"))
+source(resolve_app_file("R", "mod_cluster_server.R"))
+source(resolve_app_file("R", "mod_forecast_ui.R"))
+source(resolve_app_file("R", "mod_forecast_server.R"))
 
 series_explorer_ui <- function(id) {
   ns <- NS(id)
@@ -116,7 +131,7 @@ ui <- page_navbar(
           p("This app now follows the instructor-recommended three-module structure built on one shared tourism time-series dataset."),
           tags$ul(
             tags$li("Time Series Explorer: inspect monthly series by country or tourism indicator."),
-            tags$li("Cluster Prototype: group monthly observations into recovery states."),
+            tags$li("Cluster Prototype: compare country-arrivals trajectories through time-series clustering."),
             tags$li("Forecasting Prototype: compare baseline and model-based forecasts.")
           )
         )
@@ -141,7 +156,7 @@ server <- function(input, output, session) {
   })
 
   series_explorer_server("series_module", data = data)
-  mod_cluster_server("cluster_module", data = reactive(data()$monthly_features))
+  mod_cluster_server("cluster_module", data = data)
   mod_forecast_server("forecast_module", data = data)
 }
 

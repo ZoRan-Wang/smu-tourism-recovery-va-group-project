@@ -7,7 +7,6 @@ library(forecast)
 
 resolve_data_path <- function() {
   candidates <- c(
-    "C:/Users/12697/Downloads/Name your insight (4).xlsx",
     file.path("..", "data", "raw", "Name your insight (4).xlsx"),
     file.path("data", "raw", "Name your insight (4).xlsx"),
     file.path("..", "data", "raw", "tourism_four_part_analysis_ready.xlsx"),
@@ -229,6 +228,67 @@ prepare_cluster_data <- function(df, periods, features, scale_features) {
   list(
     metadata = complete,
     matrix = matrix
+  )
+}
+
+prepare_time_series_cluster_data <- function(
+    long_monthly,
+    selected_series = NULL,
+    lookback_years = 8,
+    scale_series = TRUE) {
+  available_series <- list_country_arrival_series(long_monthly)$label
+
+  if (is.null(selected_series) || length(selected_series) == 0) {
+    selected_series <- available_series
+  }
+
+  selected_series <- intersect(selected_series, available_series)
+
+  if (length(selected_series) < 2) {
+    stop("At least two country-arrival series are required for clustering.")
+  }
+
+  max_date <- max(long_monthly$date, na.rm = TRUE)
+  cutoff_date <- max_date %m-% years(lookback_years)
+
+  filtered <- long_monthly |>
+    filter(label %in% selected_series, date >= cutoff_date) |>
+    select(date, label, value)
+
+  wide <- filtered |>
+    tidyr::pivot_wider(names_from = label, values_from = value) |>
+    arrange(date) |>
+    tidyr::drop_na()
+
+  if (nrow(wide) < 12) {
+    stop("Not enough overlapping monthly observations after filtering.")
+  }
+
+  series_matrix <- wide |>
+    select(-date) |>
+    as.matrix() |>
+    t()
+
+  if (scale_series) {
+    series_matrix <- t(scale(t(series_matrix)))
+  }
+
+  series_metadata <- filtered |>
+    group_by(label) |>
+    summarise(
+      mean_arrivals = mean(value, na.rm = TRUE),
+      volatility = sd(value, na.rm = TRUE),
+      latest_arrivals = value[which.max(date)],
+      start_date = min(date),
+      end_date = max(date),
+      .groups = "drop"
+    ) |>
+    filter(label %in% rownames(series_matrix))
+
+  list(
+    date_index = wide$date,
+    matrix = series_matrix,
+    metadata = series_metadata
   )
 }
 
