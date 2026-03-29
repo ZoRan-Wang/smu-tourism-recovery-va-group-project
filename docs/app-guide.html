@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Shiny App Guide – Singapore Tourism Time-Series Visual Analytics</title>
+<title>Shiny App – Singapore Tourism Time-Series Visual Analytics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -175,25 +175,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#application-structure" id="toc-application-structure" class="nav-link active" data-scroll-target="#application-structure">Application Structure</a></li>
-  <li><a href="#run-commands" id="toc-run-commands" class="nav-link" data-scroll-target="#run-commands">Run Commands</a></li>
-  <li><a href="#what-to-expect" id="toc-what-to-expect" class="nav-link" data-scroll-target="#what-to-expect">What to Expect</a></li>
-  <li><a href="#one-click-dev-start-powershell" id="toc-one-click-dev-start-powershell" class="nav-link" data-scroll-target="#one-click-dev-start-powershell">One-Click Dev Start (PowerShell)</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Shiny App Guide</h1>
+<h1 class="title">Shiny App</h1>
 </div>
 
 
@@ -210,37 +198,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="application-structure" class="level2">
-<h2 class="anchored" data-anchor-id="application-structure">Application Structure</h2>
-<p>The app follows a modular structure:</p>
+<section id="open-the-app" class="level2">
+<h2 class="anchored" data-anchor-id="open-the-app">Open The App</h2>
+<p>Use the local launch link below when the Shiny process is already running on port <code>3838</code>.</p>
+<div class="grid-cards">
+<section id="launch-local-app" class="level3 card-block">
+<h3 class="anchored" data-anchor-id="launch-local-app">Launch Local App</h3>
+<p><a href="http://127.0.0.1:3838" target="_blank">Open the local Shiny app</a></p>
+<p>This opens the running app in a new browser tab.</p>
+</section>
+<section id="run-command" class="level3 card-block">
+<h3 class="anchored" data-anchor-id="run-command">Run Command</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="st">"app"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or from the project root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Rscript run_app<span class="op">.</span><span class="fu">R</span> <span class="dv">3838</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+</section>
+<section id="embedded-preview" class="level2">
+<h2 class="anchored" data-anchor-id="embedded-preview">Embedded Preview</h2>
+<p>When the app is running locally, the frame below gives the website a direct in-page entry point into the Shiny prototype.</p>
+<div style="background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);">
+  <div style="padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;">
+    Local Shiny Preview (`http://127.0.0.1:3838`)
+  </div>
+  <iframe src="http://127.0.0.1:3838" title="Singapore Tourism Time-Series VA Prototype" style="width:100%;height:900px;border:0;background:#fff;" loading="lazy">
+  </iframe>
+</div>
+</section>
+<section id="current-module-status" class="level2">
+<h2 class="anchored" data-anchor-id="current-module-status">Current Module Status</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>Current status</th>
+<th>Current focus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Time Series Visual Analysis</td>
+<td>placeholder shell</td>
+<td>integration target for Xi branch</td>
+</tr>
+<tr class="even">
+<td>Time Series Clustering</td>
+<td>active prototype</td>
+<td>Wang branch interaction and visual refinement</td>
+</tr>
+<tr class="odd">
+<td>Forecasting</td>
+<td>placeholder shell</td>
+<td>integration target for Jin branch</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-contract" class="level2">
+<h2 class="anchored" data-anchor-id="data-contract">Data Contract</h2>
+<p>The current clustering workflow reads from:</p>
+<ul>
+<li><code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
+<li><code>data/processed/clustering_country_wide.csv</code></li>
+<li><code>data/processed/clustering_country_long.csv</code></li>
+</ul>
+</section>
+<section id="expected-user-flow" class="level2">
+<h2 class="anchored" data-anchor-id="expected-user-flow">Expected User Flow</h2>
 <ol type="1">
-<li><code>app/app.R</code> - top-level layout and module wiring.</li>
-<li><code>app/R/data_utils.R</code> - dataset loading and preprocessing helpers.</li>
-<li><code>app/R/mod_cluster_ui.R</code> - cluster module UI.</li>
-<li><code>app/R/mod_cluster_server.R</code> - cluster module logic.</li>
+<li>Open the Shiny app from this page.</li>
+<li>Enter the <code>Time Series Clustering</code> tab.</li>
+<li>Select a focused set of countries.</li>
+<li>Choose a year window and normalization mode.</li>
+<li>Review the outputs in order: <code>Overview</code>, <code>Patterns</code>, <code>Assignments</code>, <code>Series Metrics</code>.</li>
 </ol>
 </section>
-<section id="run-commands" class="level2">
-<h2 class="anchored" data-anchor-id="run-commands">Run Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="what-to-expect" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-expect">What to Expect</h2>
-<p>Current module available in app:</p>
+<section id="notes-for-local-testing" class="level2">
+<h2 class="anchored" data-anchor-id="notes-for-local-testing">Notes For Local Testing</h2>
 <ol type="1">
-<li>Cluster analysis prototype</li>
-<li>Adjustable <code>k</code>, period filter, and seed</li>
-<li>Scatter plot + profile table + silhouette score</li>
+<li>Keep the browser window at a normal desktop width when checking layout quality.</li>
+<li>If the embedded frame is blank, start the app first and refresh this page.</li>
+<li>Use the standalone launch link above if your browser blocks the embedded frame.</li>
 </ol>
-</section>
-<section id="one-click-dev-start-powershell" class="level2">
-<h2 class="anchored" data-anchor-id="one-click-dev-start-powershell">One-Click Dev Start (PowerShell)</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>powershell <span class="op">-</span>ExecutionPolicy Bypass <span class="op">-</span>File scripts<span class="op">/</span>start-dev<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="data-source" class="level2">
-<h2 class="anchored" data-anchor-id="data-source">Data Source</h2>
-<p>App reads:</p>
-<p><code>data/raw/tourism_four_part_analysis_ready.xlsx</code></p>
 
 
 </section>

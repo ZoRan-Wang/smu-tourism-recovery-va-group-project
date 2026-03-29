@@ -103,13 +103,10 @@ The module will use:
 
 The output should include:
 
-1. a cluster membership table,
-2. a representative pattern plot,
-3. a cluster quality strip that reports the silhouette score, selected `k`, and active date window,
-4. a cluster diagnostic graphic,
-5. a recovery position map,
-6. a short cluster insight block that explains the strongest rebound group and China's placement, and
-7. a downloadable assignment table.
+1. an `Overview` view with a cluster quality strip, a recovery position map, and a short insight block that explains the strongest rebound group and China's placement,
+2. a `Patterns` view with a representative pattern plot shown at readable full width,
+3. an `Assignments` view with the cluster membership table, summary table, and downloadable assignment table, and
+4. a `Series Metrics` view for compact recovery indicators by market.
 
 ### 6.3 Time Series Forecasting
 
@@ -138,7 +135,7 @@ The storyboard will document the user journey from exploration to comparison to 
 The design principle is to keep each module focused:
 
 - the visual analysis module explains what changed,
-- the clustering module explains which series behave similarly through a quality strip, representative patterns, recovery position mapping, and a narrative insight block, and
+- the clustering module explains which series behave similarly through a paged workspace made up of overview, patterns, assignments, and series-metrics views, and
 - the forecasting module explains what is likely to happen next.
 
 ## 8. R Packages

@@ -32,7 +32,7 @@ ui <- page_navbar(
     primary = "#0f6b6f",
     secondary = "#d86f45",
     base_font = font_google("Space Grotesk"),
-    heading_font = font_google("Fraunces")
+    heading_font = font_google("Space Grotesk")
   ),
   nav_panel(
     "Visual Analysis",

@@ -1,38 +1,82 @@
 ---
-title: "Shiny App Guide"
+title: "Shiny App"
+format:
+  html:
+    toc: false
 ---
 
-## Application Structure
+## Open The App
 
-The app follows a modular structure:
+Use the local launch link below when the Shiny process is already running on port `3838`.
 
-1. `app/app.R` - top-level layout and module wiring.
-2. `app/R/data_utils.R` - dataset loading and preprocessing helpers.
-3. `app/R/mod_cluster_ui.R` - cluster module UI.
-4. `app/R/mod_cluster_server.R` - cluster module logic.
+::: {.grid-cards}
+::: {.card-block}
+### Launch Local App
 
-## Run Commands
+[Open the local Shiny app](http://127.0.0.1:3838){target="_blank"}
 
-```bash
-Rscript run_app.R 3838
+This opens the running app in a new browser tab.
+:::
+
+::: {.card-block}
+### Run Command
+
+```r
+shiny::runApp("app")
 ```
 
-## What to Expect
-
-Current module available in app:
-
-1. Cluster analysis prototype
-2. Adjustable `k`, period filter, and seed
-3. Scatter plot + profile table + silhouette score
-
-## One-Click Dev Start (PowerShell)
+Or from the project root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1
+Rscript run_app.R 3838
+```
+:::
+:::
+
+## Embedded Preview
+
+When the app is running locally, the frame below gives the website a direct in-page entry point into the Shiny prototype.
+
+```{=html}
+<div style="background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);">
+  <div style="padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;">
+    Local Shiny Preview (`http://127.0.0.1:3838`)
+  </div>
+  <iframe
+    src="http://127.0.0.1:3838"
+    title="Singapore Tourism Time-Series VA Prototype"
+    style="width:100%;height:900px;border:0;background:#fff;"
+    loading="lazy">
+  </iframe>
+</div>
 ```
 
-## Data Source
+## Current Module Status
 
-App reads:
+| Module | Current status | Current focus |
+|---|---|---|
+| Time Series Visual Analysis | placeholder shell | integration target for Xi branch |
+| Time Series Clustering | active prototype | Wang branch interaction and visual refinement |
+| Forecasting | placeholder shell | integration target for Jin branch |
 
-`data/raw/tourism_four_part_analysis_ready.xlsx`
+## Data Contract
+
+The current clustering workflow reads from:
+
+- `data/raw/visitor_arrivals_full_dataset.xlsx`
+- `data/processed/clustering_country_wide.csv`
+- `data/processed/clustering_country_long.csv`
+
+## Expected User Flow
+
+1. Open the Shiny app from this page.
+2. Enter the `Time Series Clustering` tab.
+3. Select a focused set of countries.
+4. Choose a year window and normalization mode.
+5. Review the outputs in order: `Overview`, `Patterns`, `Assignments`, `Series Metrics`.
+
+## Notes For Local Testing
+
+1. Keep the browser window at a normal desktop width when checking layout quality.
+2. If the embedded frame is blank, start the app first and refresh this page.
+3. Use the standalone launch link above if your browser blocks the embedded frame.

@@ -8,31 +8,28 @@ mod_cluster_ui <- function(id) {
 
   tagList(
     div(
-      class = "va-module-hero",
+      class = "cluster-header",
       div(
-        class = "va-module-copy",
-        div(class = "va-kicker", "Module 2"),
+        class = "cluster-header-copy",
+        div(class = "cluster-kicker", "Module 2"),
         h2("Time Series Clustering"),
-        p(
-          "Group country-level arrival trajectories by similarity, then interpret which markets rebounded early, which remained delayed, and where China sits in the wider recovery landscape."
-        )
+        p("Compare country recovery trajectories, check cluster quality, then read China’s placement in a cleaner step-by-step workspace.")
       ),
       div(
-        class = "va-chip-row",
-        span(class = "va-chip", "Country series"),
-        span(class = "va-chip", "2017-2025 window"),
-        span(class = "va-chip", "Similarity-driven"),
-        span(class = "va-chip", "Download-ready")
+        class = "cluster-header-meta",
+        span(class = "cluster-meta-chip", "Country series"),
+        span(class = "cluster-meta-chip", "2017-2025"),
+        span(class = "cluster-meta-chip", "Trajectory comparison")
       )
     ),
-    layout_sidebar(
-      sidebar = sidebar(
-        width = 340,
-        class = "va-sidebar",
-        h3("Configure the module"),
+    div(
+      class = "cluster-workspace",
+      div(
+        class = "cluster-controls",
+        h3("Controls"),
         p(
-          class = "va-side-intro",
-          "Start with a focused set of markets, choose how to normalize their paths, then run clustering to compare recovery behaviour."
+          class = "cluster-controls-intro",
+          "Choose a focused market set first. Then normalize, set the number of groups, and run the module."
         ),
         selectizeInput(
           ns("series_subset"),
@@ -62,77 +59,96 @@ mod_cluster_ui <- function(id) {
           selected = "indexed",
           inline = FALSE
         ),
-        sliderInput(ns("k_value"), "Number of clusters", min = 2, max = 8, value = 3, step = 1),
+        sliderInput(
+          ns("k_value"),
+          "Number of clusters",
+          min = 2,
+          max = 8,
+          value = 3,
+          step = 1
+        ),
         actionButton(ns("run_cluster"), "Run clustering", class = "btn-primary"),
         div(
-          class = "va-sidebar-note",
-          h4("What to look for"),
+          class = "cluster-controls-note",
+          h4("Reading guide"),
           tags$ul(
-            tags$li("Does one cluster rebound much earlier than the others?"),
-            tags$li("Which markets travel with China, and which diverge?"),
-            tags$li("Do representative patterns match the narrative in the proposal and storyboard?")
+            tags$li("Overview: check fit quality and China’s placement."),
+            tags$li("Patterns: inspect each cluster trajectory without compression."),
+            tags$li("Tables: review assignments and export results.")
           )
         )
       ),
-      tagList(
-        layout_columns(
-          card(
-            class = "va-card va-quality-card",
-            card_header("Cluster Quality"),
-            card_body(uiOutput(ns("quality_panel")))
-          ),
-          card(
-            class = "va-card va-insight-card",
-            card_header("Cluster Insights"),
-            card_body(uiOutput(ns("insight_panel")))
-          ),
-          col_widths = c(4, 8)
-        ),
-        layout_columns(
-          card(
-            class = "va-card va-plot-card",
-            full_screen = TRUE,
-            card_header("Representative Patterns"),
-            card_body(plotOutput(ns("cluster_pattern_plot"), height = "440px"))
-          ),
-          card(
-            class = "va-card va-table-card",
-            card_header("Cluster Diagnostics"),
-            card_body(DT::DTOutput(ns("diagnostics_table")))
-          ),
-          col_widths = c(8, 4)
-        ),
-        layout_columns(
-          card(
-            class = "va-card va-map-card",
-            card_header("Recovery Position Map"),
-            card_body(plotOutput(ns("recovery_position_plot"), height = "380px"))
-          ),
-          card(
-            class = "va-card va-table-card",
-            card_header("Cluster Summary"),
-            card_body(DT::DTOutput(ns("cluster_summary_table")))
-          ),
-          col_widths = c(7, 5)
-        ),
-        layout_columns(
-          card(
-            class = "va-card va-table-card",
-            card_header("Membership Table"),
-            card_body(
-              div(
-                class = "va-download-row",
-                downloadButton(ns("download_clusters"), "Download assignments")
+      div(
+        class = "cluster-main",
+        navset_card_tab(
+          id = ns("cluster_pages"),
+          nav_panel(
+            "Overview",
+            div(
+              class = "cluster-tab-stack",
+              layout_columns(
+                card(
+                  class = "cluster-panel",
+                  card_header("Cluster Quality"),
+                  card_body(uiOutput(ns("quality_panel")))
+                ),
+                card(
+                  class = "cluster-panel",
+                  card_header("Cluster Insights"),
+                  card_body(uiOutput(ns("insight_panel")))
+                ),
+                col_widths = c(5, 7)
               ),
-              DT::DTOutput(ns("membership_table"))
+              card(
+                class = "cluster-panel",
+                card_header("Recovery Position Map"),
+                card_body(plotOutput(ns("recovery_position_plot"), height = "430px"))
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("Cluster Diagnostics"),
+                card_body(DT::DTOutput(ns("diagnostics_table")))
+              )
             )
           ),
-          card(
-            class = "va-card va-table-card",
-            card_header("Recovery Metrics By Series"),
-            card_body(DT::DTOutput(ns("recovery_metrics_table")))
+          nav_panel(
+            "Patterns",
+            card(
+              class = "cluster-panel cluster-panel-plot",
+              card_header("Representative Patterns"),
+              card_body(plotOutput(ns("cluster_pattern_plot"), height = "680px"))
+            )
           ),
-          col_widths = c(7, 5)
+          nav_panel(
+            "Assignments",
+            div(
+              class = "cluster-tab-stack",
+              card(
+                class = "cluster-panel",
+                card_header("Membership Table"),
+                card_body(
+                  div(
+                    class = "cluster-toolbar",
+                    downloadButton(ns("download_clusters"), "Download assignments")
+                  ),
+                  DT::DTOutput(ns("membership_table"))
+                )
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("Cluster Summary"),
+                card_body(DT::DTOutput(ns("cluster_summary_table")))
+              )
+            )
+          ),
+          nav_panel(
+            "Series Metrics",
+            card(
+              class = "cluster-panel",
+              card_header("Recovery Metrics By Series"),
+              card_body(DT::DTOutput(ns("recovery_metrics_table")))
+            )
+          )
         )
       )
     )

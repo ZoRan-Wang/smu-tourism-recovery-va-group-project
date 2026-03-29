@@ -113,7 +113,7 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         diagnostics,
         rownames = FALSE,
-        options = list(pageLength = 5, dom = "t", ordering = FALSE)
+        options = list(pageLength = 8, dom = "tip", ordering = FALSE, autoWidth = TRUE)
       )
     })
 
@@ -122,9 +122,8 @@ mod_cluster_server <- function(id, data) {
       membership <- res$membership |>
         transmute(
           Series = series_name,
-          `Series ID` = series,
           Cluster = cluster,
-          `Narrative label` = cluster_label,
+          Pattern = cluster_label,
           Silhouette = sprintf("%.3f", silhouette),
           `End index` = end_index,
           `Trough index` = trough_index
@@ -133,7 +132,7 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         membership,
         rownames = FALSE,
-        options = list(pageLength = 10, scrollX = TRUE)
+        options = list(pageLength = 8, scrollX = FALSE, autoWidth = TRUE)
       )
     })
 
@@ -142,7 +141,7 @@ mod_cluster_server <- function(id, data) {
       summary_tbl <- res$summary |>
         transmute(
           Cluster = cluster,
-          `Narrative label` = cluster_label,
+          Pattern = cluster_label,
           `Series count` = n_series,
           `Representative series` = representative_series_name,
           `Mean silhouette` = sprintf("%.3f", mean_silhouette),
@@ -155,7 +154,7 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         summary_tbl,
         rownames = FALSE,
-        options = list(pageLength = 5, dom = "t")
+        options = list(pageLength = 6, dom = "tip", autoWidth = TRUE)
       )
     })
 
@@ -165,7 +164,7 @@ mod_cluster_server <- function(id, data) {
         transmute(
           Series = series_name,
           Cluster = cluster,
-          `Narrative label` = cluster_label,
+          Pattern = cluster_label,
           `End index` = end_index,
           `Trough index` = trough_index,
           `Rebound multiple` = rebound_multiple,
@@ -175,7 +174,7 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         metrics_tbl,
         rownames = FALSE,
-        options = list(pageLength = 8, scrollX = TRUE)
+        options = list(pageLength = 8, scrollX = FALSE, autoWidth = TRUE)
       )
     })
 

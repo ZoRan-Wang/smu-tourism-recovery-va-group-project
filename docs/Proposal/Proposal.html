@@ -299,13 +299,10 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>The output should include:</p>
 <ol type="1">
-<li>a cluster membership table,</li>
-<li>a representative pattern plot,</li>
-<li>a cluster quality strip that reports the silhouette score, selected <code>k</code>, and active date window,</li>
-<li>a cluster diagnostic graphic,</li>
-<li>a recovery position map,</li>
-<li>a short cluster insight block that explains the strongest rebound group and China’s placement, and</li>
-<li>a downloadable assignment table.</li>
+<li>an <code>Overview</code> view with a cluster quality strip, a recovery position map, and a short insight block that explains the strongest rebound group and China’s placement,</li>
+<li>a <code>Patterns</code> view with a representative pattern plot shown at readable full width,</li>
+<li>an <code>Assignments</code> view with the cluster membership table, summary table, and downloadable assignment table, and</li>
+<li>a <code>Series Metrics</code> view for compact recovery indicators by market.</li>
 </ol>
 </section>
 <section id="time-series-forecasting" class="level3">
@@ -334,7 +331,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The design principle is to keep each module focused:</p>
 <ul>
 <li>the visual analysis module explains what changed,</li>
-<li>the clustering module explains which series behave similarly through a quality strip, representative patterns, recovery position mapping, and a narrative insight block, and</li>
+<li>the clustering module explains which series behave similarly through a paged workspace made up of overview, patterns, assignments, and series-metrics views, and</li>
 <li>the forecasting module explains what is likely to happen next.</li>
 </ul>
 </section>

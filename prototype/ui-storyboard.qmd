@@ -78,14 +78,10 @@ flowchart LR
 ::: {.storyboard-box}
 **Right Panel**
 
-1. Cluster quality strip with silhouette, selected `k`, and window summary
-2. Cluster insight card with lead pattern and China placement narrative
-3. Representative pattern plot
-4. Cluster diagnostic table
-5. Recovery position map
-6. Cluster summary table
-7. Membership table with assignment download
-8. Recovery metrics table
+1. `Overview` tab: cluster quality strip, insight card, recovery position map, diagnostic table
+2. `Patterns` tab: representative pattern plot shown at full readable height
+3. `Assignments` tab: membership table, assignment download, and cluster summary table
+4. `Series Metrics` tab: recovery metrics table
 :::
 
 ## Module 3: Forecasting
