@@ -144,14 +144,14 @@
     "href": "index.html",
     "title": "Project Home",
     "section": "",
-    "text": "Visual Analytics · Quarto + Shiny · AY2025/26\n\n\n\n\n\nDid the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+    "text": "Visual Analytics · Quarto + Shiny · AY2025/26\n\n\n\n\n\nHow can one shared tourism time-series dataset support exploration, recovery-state clustering, and forecasting for Singapore’s tourism recovery?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development built around a three-module time-series app.\n\n\nOpen Take-home 2 Open Forecasting Prototype Open Shiny Guide"
   },
   {
     "objectID": "index.html#core-question",
     "href": "index.html#core-question",
     "title": "Project Home",
     "section": "",
-    "text": "Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development.\n\n\nOpen Take-home 2 Open Prototype Module Open Shiny Guide"
+    "text": "How can one shared tourism time-series dataset support exploration, recovery-state clustering, and forecasting for Singapore’s tourism recovery?\nThis site is an integrated workspace for:\n\nTake-home Exercise 2 write-up.\nPrototype module design and validation.\nTeam collaboration and onboarding.\nLinked Shiny module development built around a three-module time-series app.\n\n\nOpen Take-home 2 Open Forecasting Prototype Open Shiny Guide"
   },
   {
     "objectID": "index.html#why-this-structure",
@@ -165,14 +165,14 @@
     "href": "index.html#workstreams",
     "title": "Project Home",
     "section": "Workstreams",
-    "text": "Workstreams\n\n\nA. Submission-Ready Report\ntake-home-ex2.qmd is the individual submission page in Quarto HTML format.\n\n\nB. Prototype Module\nprototype/module-cluster.qmd defines module logic, parameters, UI, and output behavior.\n\n\nC. Running Shiny App\napp/app.R with modular server code in app/R/.\n\n\nD. Shared Team Base\nteam/onboarding.qmd documents setup, roles, and branch workflow."
+    "text": "Workstreams\n\n\nA. Submission-Ready Report\ntake-home-ex2.qmd is the individual submission page in Quarto HTML format.\n\n\nB. Prototype Modules\nprototype/module-cluster.qmd and prototype/forecasting.qmd define the clustering and forecasting module logic, parameters, UI, and output behavior.\n\n\nC. Running Shiny App\napp/app.R with modular server code in app/R/.\n\n\nD. Shared Team Base\nteam/onboarding.qmd documents setup, roles, and branch workflow."
   },
   {
     "objectID": "index.html#data-references-imported",
     "href": "index.html#data-references-imported",
     "title": "Project Home",
     "section": "Data & References Imported",
-    "text": "Data & References Imported\n\ndata/raw/tourism_four_part_analysis_ready.xlsx\ndata/references/tourism_analysis_bilingual_plan.txt\ndata/references/tourism_data_cleaning_detailed_report.md"
+    "text": "Data & References Imported\n\ndata/raw/Name your insight (4).xlsx\ndata/references/tourism_analysis_bilingual_plan.txt\ndata/references/tourism_data_cleaning_detailed_report.md"
   },
   {
     "objectID": "index.html#start-development",
@@ -256,14 +256,14 @@
     "href": "app-guide.html",
     "title": "Shiny App Guide",
     "section": "",
-    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+    "text": "The app now follows a three-module structure built on one shared tourism time-series workbook:\n\napp/app.R - top-level navigation and shared reactive data loading.\napp/R/data_utils.R - common time-series ingestion, feature engineering, and forecasting helpers.\napp/R/mod_cluster_ui.R and app/R/mod_cluster_server.R - time-series clustering module.\napp/R/mod_forecast_ui.R and app/R/mod_forecast_server.R - forecasting module.\nThe Time Series Explorer is embedded directly in app/app.R to keep the main comparison flow simple."
   },
   {
     "objectID": "app-guide.html#application-structure",
     "href": "app-guide.html#application-structure",
     "title": "Shiny App Guide",
     "section": "",
-    "text": "The app follows a modular structure:\n\napp/app.R - top-level layout and module wiring.\napp/R/data_utils.R - dataset loading and preprocessing helpers.\napp/R/mod_cluster_ui.R - cluster module UI.\napp/R/mod_cluster_server.R - cluster module logic."
+    "text": "The app now follows a three-module structure built on one shared tourism time-series workbook:\n\napp/app.R - top-level navigation and shared reactive data loading.\napp/R/data_utils.R - common time-series ingestion, feature engineering, and forecasting helpers.\napp/R/mod_cluster_ui.R and app/R/mod_cluster_server.R - time-series clustering module.\napp/R/mod_forecast_ui.R and app/R/mod_forecast_server.R - forecasting module.\nThe Time Series Explorer is embedded directly in app/app.R to keep the main comparison flow simple."
   },
   {
     "objectID": "app-guide.html#run-commands",
@@ -277,7 +277,7 @@
     "href": "app-guide.html#what-to-expect",
     "title": "Shiny App Guide",
     "section": "What to Expect",
-    "text": "What to Expect\nCurrent module available in app:\n\nCluster analysis prototype\nAdjustable k, period filter, and seed\nScatter plot + profile table + silhouette score"
+    "text": "What to Expect\nThe final app should let the user:\n\nExplore the raw tourism series.\nGroup months into recovery states.\nGenerate and compare forecasts for the selected target series."
   },
   {
     "objectID": "app-guide.html#one-click-dev-start-powershell",
@@ -291,7 +291,7 @@
     "href": "app-guide.html#data-source",
     "title": "Shiny App Guide",
     "section": "Data Source",
-    "text": "Data Source\nApp reads:\ndata/raw/tourism_four_part_analysis_ready.xlsx"
+    "text": "Data Source\nThe app reads:\ndata/raw/Name your insight (4).xlsx\nThis workbook is treated as the common source for all three modules so that users do not need to switch between inconsistent datasets.\nWithin that shared workbook, the forecasting tab treats country-level visitor arrivals as the primary target series and uses hotel/stay indicators as supporting context rather than separate forecast targets."
   },
   {
     "objectID": "prototype/module-cluster.html",
@@ -403,14 +403,14 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#read-the-original-data",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "1.3Read the original data",
-    "text": "1.3Read the original data\n\n\nShow the code\ncol_names &lt;- c(\n  \"date\",\n  \"avg_stay_monthly\",\n  \"hotel_occ\",\n  \"spend_per_capita\",\n  \"tourism_receipts\",\n  \"avg_stay_annual\",\n  \"visitor_arrivals\",\n  \"visitor_arrivals_china\"\n)\n\nraw_tbl &lt;- readxl::read_excel(\n  path = raw_path,\n  sheet = \"My Series\",\n  skip = 29,\n  col_names = FALSE\n) %&gt;%\n  select(\n    1,   # date\n    6,   # avg_stay_monthly\n    10,  # hotel_occ\n    7,   # spend_per_capita\n    4,   # tourism_receipts\n    11,  # avg_stay_annual\n    2,   # visitor_arrivals\n    5    # visitor_arrivals_china\n  ) %&gt;%\n  setNames(col_names) %&gt;%\n  mutate(\n    date = as.Date(date),\n    across(-date, as.numeric)\n  ) %&gt;%\n  arrange(date)"
+    "text": "1.3Read the original data\n\n\nShow the code\ncol_names &lt;- c(\n  \"date\",\n  \"avg_stay_monthly\",\n  \"hotel_occ\",\n  \"spend_per_capita\",\n  \"tourism_receipts\",\n  \"avg_stay_annual\",\n  \"visitor_arrivals\",\n  \"visitor_arrivals_china\"\n)\n\nraw_tbl &lt;- readxl::read_excel(\n  path = raw_path,\n  sheet = \"My Series\",\n  skip = 29,\n  col_names = FALSE\n) %&gt;%\n  setNames(col_names) %&gt;%\n  mutate(\n    date = as.Date(date),\n    across(-date, as.numeric)\n  ) %&gt;%\n  arrange(date)"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#view-the-original-data-structure",
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#view-the-original-data-structure",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "1.4View the original data structure",
-    "text": "1.4View the original data structure\n\n\nShow the code\nglimpse(raw_tbl)\n\n\nRows: 112\nColumns: 8\n$ date                   &lt;date&gt; 2015-12-01, 2016-12-01, 2017-01-01, 2017-02-01…\n$ avg_stay_monthly       &lt;dbl&gt; NA, 3.214346, 3.517353, 3.423516, 3.150551, 3.2…\n$ hotel_occ              &lt;dbl&gt; NA, 79.61207, 81.76737, 88.02775, 84.67201, 85.…\n$ spend_per_capita       &lt;dbl&gt; 1429.751, 1569.697, NA, NA, NA, NA, NA, NA, NA,…\n$ tourism_receipts       &lt;dbl&gt; NA, 25748.452, NA, NA, 6724.568, NA, NA, 13404.…\n$ avg_stay_annual        &lt;dbl&gt; NA, 3.429859, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ visitor_arrivals       &lt;dbl&gt; NA, 1506134, 1480479, 1361010, 1480161, 1470750…\n$ visitor_arrivals_china &lt;dbl&gt; NA, 226020, 316805, 268993, 264711, 252135, 232…\n\n\nShow the code\ncolSums(is.na(raw_tbl))\n\n\n                  date       avg_stay_monthly              hotel_occ \n                     0                      1                      2 \n      spend_per_capita       tourism_receipts        avg_stay_annual \n                   102                     76                    102 \n      visitor_arrivals visitor_arrivals_china \n                     1                      1"
+    "text": "1.4View the original data structure\n\n\nShow the code\nglimpse(raw_tbl)\n\n\nRows: 111\nColumns: 8\n$ date                   &lt;date&gt; 2015-12-01, 2016-12-01, 2017-01-01, 2017-02-01…\n$ avg_stay_monthly       &lt;dbl&gt; NA, 3.214346, 3.517353, 3.423516, 3.150551, 3.2…\n$ hotel_occ              &lt;dbl&gt; NA, 79.61207, 81.76737, 88.02775, 84.67201, 85.…\n$ spend_per_capita       &lt;dbl&gt; 1429.751, 1569.697, NA, NA, NA, NA, NA, NA, NA,…\n$ tourism_receipts       &lt;dbl&gt; 21777.20, 25748.45, NA, NA, NA, NA, NA, NA, NA,…\n$ avg_stay_annual        &lt;dbl&gt; NA, 3.429859, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ visitor_arrivals       &lt;dbl&gt; NA, 1506134, 1480479, 1361010, 1480161, 1470750…\n$ visitor_arrivals_china &lt;dbl&gt; NA, 226020, 316805, 268993, 264711, 252135, 232…\n\n\nShow the code\ncolSums(is.na(raw_tbl))\n\n\n                  date       avg_stay_monthly              hotel_occ \n                     0                      1                      1 \n      spend_per_capita       tourism_receipts        avg_stay_annual \n                   101                    101                    101 \n      visitor_arrivals visitor_arrivals_china \n                     1                      1"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#retain-the-valid-data-suitable-for-monthly-analysis",
@@ -459,7 +459,7 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#install-and-launch-the-required-r-packages-1",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.1Install and launch the required R packages",
-    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
+    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\npackage 'ranger' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\Hasee\\AppData\\Local\\Temp\\Rtmpwdqxr9\\downloaded_packages\n\n\npackage 'sparkline' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\Hasee\\AppData\\Local\\Temp\\Rtmpwdqxr9\\downloaded_packages\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#reading-data",
@@ -487,14 +487,14 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#check-the-complexity-parameter-table.",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.5Check the complexity parameter table.",
-    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.19298 0.068969\n2 0.21053      1   0.50877 0.54386 0.078614\n3 0.04386      2   0.29825 0.45614 0.075087\n4 0.00500      4   0.21053 0.40351 0.072311\n\n\nShow the code\nplotcp(fit_tree)"
+    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.17544 0.070151\n2 0.21053      1   0.50877 0.52632 0.078011\n3 0.04386      2   0.29825 0.38596 0.071263\n4 0.00500      4   0.21053 0.42105 0.073296\n\n\nShow the code\nplotcp(fit_tree)"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#prune-the-tree",
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#prune-the-tree",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.6Prune the tree",
-    "text": "2.6Prune the tree\n\n\nShow the code\nbestcp &lt;- fit_tree$cptable[which.min(fit_tree$cptable[, \"xerror\"]), \"CP\"]\npruned_tree &lt;- prune(fit_tree, cp = bestcp)\n\ncat(\"Best cp:\", bestcp, \"\\n\")\n\n\nBest cp: 0.005 \n\n\nShow the code\nprint(pruned_tree)\n\n\nn= 88 \n\nnode), split, n, loss, yval, (yprob)\n      * denotes terminal node\n\n 1) root 88 57 low (0.35227273 0.29545455 0.35227273)  \n   2) arrivals_million&lt; 0.7575905 31  3 low (0.90322581 0.09677419 0.00000000) *\n   3) arrivals_million&gt;=0.7575905 57 26 high (0.05263158 0.40350877 0.54385965)  \n     6) month=Jan,May,Dec 16  3 medium (0.12500000 0.81250000 0.06250000) *\n     7) month=Feb,Mar,Apr,Jun,Jul,Aug,Sep,Oct,Nov 41 11 high (0.02439024 0.24390244 0.73170732)  \n      14) arrivals_million&lt; 1.466122 22 11 high (0.04545455 0.45454545 0.50000000)  \n        28) month=Mar,Apr,Jun 5  0 medium (0.00000000 1.00000000 0.00000000) *\n        29) month=Feb,Jul,Aug,Sep,Oct,Nov 17  6 high (0.05882353 0.29411765 0.64705882) *\n      15) arrivals_million&gt;=1.466122 19  0 high (0.00000000 0.00000000 1.00000000) *"
+    "text": "2.6Prune the tree\n\n\nShow the code\nbestcp &lt;- fit_tree$cptable[which.min(fit_tree$cptable[, \"xerror\"]), \"CP\"]\npruned_tree &lt;- prune(fit_tree, cp = bestcp)\n\ncat(\"Best cp:\", bestcp, \"\\n\")\n\n\nBest cp: 0.04385965 \n\n\nShow the code\nprint(pruned_tree)\n\n\nn= 88 \n\nnode), split, n, loss, yval, (yprob)\n      * denotes terminal node\n\n1) root 88 57 low (0.35227273 0.29545455 0.35227273)  \n  2) arrivals_million&lt; 0.7575905 31  3 low (0.90322581 0.09677419 0.00000000) *\n  3) arrivals_million&gt;=0.7575905 57 26 high (0.05263158 0.40350877 0.54385965)  \n    6) month=Jan,May,Dec 16  3 medium (0.12500000 0.81250000 0.06250000) *\n    7) month=Feb,Mar,Apr,Jun,Jul,Aug,Sep,Oct,Nov 41 11 high (0.02439024 0.24390244 0.73170732) *"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#interactive-tree-visualization",
@@ -522,21 +522,21 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#evaluate-model-performance",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.10Evaluate model performance",
-    "text": "2.10Evaluate model performance\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   6      5    0\n    high     0      5    6\n\nOverall Statistics\n                                          \n               Accuracy : 0.5             \n                 95% CI : (0.2822, 0.7178)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.4131          \n                                          \n                  Kappa : 0.2143          \n                                          \n Mcnemar's Test P-Value : NA              \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.5000      1.0000\nSpecificity              1.0000        0.5000      0.6875\nPos Pred Value              NaN        0.4545      0.5455\nNeg Pred Value           0.7273        0.5455      1.0000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.2273      0.2727\nDetection Prevalence     0.0000        0.5000      0.5000\nBalanced Accuracy        0.5000        0.5000      0.8438\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.5  \n2 kappa    0.214"
+    "text": "2.10Evaluate model performance\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   2      4    0\n    high     4      6    6\n\nOverall Statistics\n                                          \n               Accuracy : 0.4545          \n                 95% CI : (0.2439, 0.6779)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.581967        \n                                          \n                  Kappa : 0.1951          \n                                          \n Mcnemar's Test P-Value : 0.007383        \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.4000      1.0000\nSpecificity              1.0000        0.8333      0.3750\nPos Pred Value              NaN        0.6667      0.3750\nNeg Pred Value           0.7273        0.6250      1.0000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.1818      0.2727\nDetection Prevalence     0.0000        0.2727      0.7273\nBalanced Accuracy        0.5000        0.6167      0.6875\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.455\n2 kappa    0.195"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#variable-importance",
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#variable-importance",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.11Variable importance",
-    "text": "2.11Variable importance\n\n\nShow the code\nimportance_tbl &lt;- tibble(\n  variable = names(pruned_tree$variable.importance),\n  importance = as.numeric(pruned_tree$variable.importance)\n) %&gt;%\n  arrange(desc(importance))\n\nprint(importance_tbl)\n\n\n# A tibble: 4 × 2\n  variable         importance\n  &lt;chr&gt;                 &lt;dbl&gt;\n1 arrivals_million       27.0\n2 stay_days              23.4\n3 month                  14.3\n4 china_share_pct        12.6"
+    "text": "2.11Variable importance\n\n\nShow the code\nimportance_tbl &lt;- tibble(\n  variable = names(pruned_tree$variable.importance),\n  importance = as.numeric(pruned_tree$variable.importance)\n) %&gt;%\n  arrange(desc(importance))\n\nprint(importance_tbl)\n\n\n# A tibble: 4 × 2\n  variable         importance\n  &lt;chr&gt;                 &lt;dbl&gt;\n1 arrivals_million      22.4 \n2 stay_days             21.6 \n3 china_share_pct       10.1 \n4 month                  8.99"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#export-results",
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#export-results",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "2.12Export results",
-    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project_review_jin/team/jin-qinhao/Take-Home-Exercise2/outputs"
   },
   {
     "objectID": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#predict-on-test-set-1",
@@ -592,272 +592,244 @@
     "href": "team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.html#export-results-1",
     "title": "Visualization of classification trees and random forest analysis",
     "section": "3.8Export results",
-    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: G:/SMU/visual/group_project_review_jin/team/jin-qinhao/Take-Home-Exercise2/outputs"
   },
   {
-    "objectID": "prototype/module-decision-tree.html",
-    "href": "prototype/module-decision-tree.html",
-    "title": "Module Prototype: Decision Tree Analysis",
+    "objectID": "prototype/forecasting.html",
+    "href": "prototype/forecasting.html",
+    "title": "Module Prototype: Forecasting",
     "section": "",
-    "text": "Prototype a Shiny module that explains hotel occupancy classification with an interpretable decision tree and supporting diagnostics."
+    "text": "source(\"../app/R/data_utils.R\")\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(DT)\nlibrary(lubridate)\nlibrary(timetk)\nlibrary(modeltime)\nlibrary(tidymodels)\nlibrary(tsibble)\nlibrary(feasts)\noptions(scipen = 999)"
   },
   {
-    "objectID": "prototype/module-decision-tree.html#objective",
-    "href": "prototype/module-decision-tree.html#objective",
-    "title": "Module Prototype: Decision Tree Analysis",
-    "section": "",
-    "text": "Prototype a Shiny module that explains hotel occupancy classification with an interpretable decision tree and supporting diagnostics."
+    "objectID": "prototype/forecasting.html#objective",
+    "href": "prototype/forecasting.html#objective",
+    "title": "Module Prototype: Forecasting",
+    "section": "Objective",
+    "text": "Objective\nThis prototype follows the Chapter 19 and 20 workflow from R for Visual Analytics: first understand the monthly time-series pattern, then build and compare forecasting models on a holdout window, and finally refit the best model to generate forward forecasts. The common dataset is organised around monthly visitor arrivals by country, while hotel occupancy, average length of stay, and room revenue are used as supporting indicators to interpret whether demand recovery is reflected in tourism performance."
   },
   {
-    "objectID": "prototype/module-decision-tree.html#data-contract",
-    "href": "prototype/module-decision-tree.html#data-contract",
-    "title": "Module Prototype: Decision Tree Analysis",
+    "objectID": "prototype/forecasting.html#data-contract",
+    "href": "prototype/forecasting.html#data-contract",
+    "title": "Module Prototype: Forecasting",
     "section": "Data Contract",
-    "text": "Data Contract\nInput dataset: team/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv\nRequired fields:\n\ndate\nmonth\nquarter\nperiod\nvisitor_arrivals\nvisitor_arrivals_china\nchina_share\nhotel_occ\navg_stay_monthly_capped\nhotel_occ_level_tertile\ndataset_split\n\nDerived fields used by the module:\n\narrivals_million\nchina_share_pct\nstay_days"
+    "text": "Data Contract\nInput dataset: C:/Users/12697/Downloads/Name your insight (4).xlsx\nFor this revised forecasting prototype, the analytical scope is intentionally narrowed to monthly visitor-arrival series by country. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.\nExamples of eligible target series are:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\nVisitor Arrivals: Japan\n\n\ntourism_data &lt;- load_tourism_data(\"C:/Users/12697/Downloads/Name your insight (4).xlsx\")\nseries_catalog &lt;- list_country_arrival_series(tourism_data$long_monthly)\nhead(series_catalog, 10)\n\n# A tibble: 10 × 5\n   label                                   unit   n_obs start_date end_date  \n   &lt;chr&gt;                                   &lt;chr&gt;  &lt;int&gt; &lt;date&gt;     &lt;date&gt;    \n 1 Visitor Arrivals: Australia             Person   111 2016-12-01 2026-02-01\n 2 Visitor Arrivals: Bangladesh            Person   111 2016-12-01 2026-02-01\n 3 Visitor Arrivals: Brunei                Person   111 2016-12-01 2026-02-01\n 4 Visitor Arrivals: Canada                Person   111 2016-12-01 2026-02-01\n 5 Visitor Arrivals: China                 Person   111 2016-12-01 2026-02-01\n 6 Visitor Arrivals: Egypt                 Person   111 2016-12-01 2026-02-01\n 7 Visitor Arrivals: Finland               Person   111 2016-12-01 2026-02-01\n 8 Visitor Arrivals: France                Person   111 2016-12-01 2026-02-01\n 9 Visitor Arrivals: Germany               Person   111 2016-12-01 2026-02-01\n10 Visitor Arrivals: Hong Kong SAR (China) Person   111 2016-12-01 2026-02-01"
   },
   {
-    "objectID": "prototype/module-decision-tree.html#analytical-design",
-    "href": "prototype/module-decision-tree.html#analytical-design",
-    "title": "Module Prototype: Decision Tree Analysis",
+    "objectID": "prototype/forecasting.html#analytical-design",
+    "href": "prototype/forecasting.html#analytical-design",
+    "title": "Module Prototype: Forecasting",
     "section": "Analytical Design",
-    "text": "Analytical Design\n\nLoad the prepared classification dataset.\nSplit observations into training and testing sets with dataset_split.\nDerive presentation-friendly predictors for the tree view.\nTrain a classification tree to predict hotel_occ_level_tertile.\nTune and prune the tree using the minimum cross-validation error.\nGenerate an interpretable tree image and an interactive HTML tree.\nScore the test set and compute confusion matrix, accuracy, kappa, and variable importance.\nReturn visuals and summary cards for the Shiny page."
+    "text": "Analytical Design\nThe prototype uses one baseline and one forecasting model:\n\nBaseline: seasonal naive forecast\nForecasting model: auto ARIMA\n\nThe workflow is:\n\nSelect a monthly series.\nHold out the final 12 months as the test window.\nFit both forecasting approaches on the training data.\nCompare RMSE, MAE, and MAPE on the same holdout window.\nVisualise actual values and forecasts together."
   },
   {
-    "objectID": "prototype/module-decision-tree.html#parameter-exposure",
-    "href": "prototype/module-decision-tree.html#parameter-exposure",
-    "title": "Module Prototype: Decision Tree Analysis",
-    "section": "Parameter Exposure",
-    "text": "Parameter Exposure\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nValidation\n\n\n\n\ntree_view_mode\nradioButtons\nstatic image\none of static / interactive\n\n\nprediction_rows\nsliderInput\n10\nmin 5, max 20\n\n\nprediction_filter\nselectInput\nall rows\nvalid option only\n\n\nactual_class_filter\nselectInput\nall classes\nvalid occupancy label\n\n\ntop_variables\nsliderInput\n4\nmin 1, max 6"
+    "objectID": "prototype/forecasting.html#example-target-series",
+    "href": "prototype/forecasting.html#example-target-series",
+    "title": "Module Prototype: Forecasting",
+    "section": "Example Target Series",
+    "text": "Example Target Series\nVisitor Arrivals: China is used here because it is one of the clearest country-level recovery indicators in the dataset and it shows strong shock, rebound, and seasonal dynamics.\n\nexample_label &lt;- \"Visitor Arrivals: China\"\n\nexample_series &lt;- prepare_forecast_series(\n  tourism_data$long_monthly,\n  example_label\n)\n\nforecast_results &lt;- run_modeltime_forecast_workflow(\n  series_df = example_series,\n  horizon = 12\n)\n\ncontext_series &lt;- prepare_country_context_panel(\n  tourism_data$long_monthly,\n  country_label = example_label\n)"
   },
   {
-    "objectID": "prototype/module-decision-tree.html#output-exposure",
-    "href": "prototype/module-decision-tree.html#output-exposure",
-    "title": "Module Prototype: Decision Tree Analysis",
+    "objectID": "prototype/forecasting.html#forecast-plot",
+    "href": "prototype/forecasting.html#forecast-plot",
+    "title": "Module Prototype: Forecasting",
+    "section": "Forecast Plot",
+    "text": "Forecast Plot\n\nggplot() +\n  geom_line(\n    data = forecast_results$fitted_df,\n    aes(x = date, y = value, color = series),\n    linewidth = 0.9\n  ) +\n  geom_line(\n    data = forecast_results$forecast_df,\n    aes(x = date, y = value, color = series),\n    linewidth = 1.1,\n    linetype = \"dashed\"\n  ) +\n  scale_color_manual(\n    values = c(\n      \"Training\" = \"#0f6b6f\",\n      \"Test\" = \"#d86f45\",\n      \"Seasonal Naive\" = \"#6c757d\",\n      \"ARIMA\" = \"#7a3e9d\"\n    )\n  ) +\n  labs(\n    title = \"Forecast Prototype Example\",\n    subtitle = \"Visitor Arrivals: China | 12-month holdout\",\n    x = NULL,\n    y = \"Person\",\n    color = NULL\n  ) +\n  theme_minimal(base_size = 13)"
+  },
+  {
+    "objectID": "prototype/forecasting.html#accuracy-table",
+    "href": "prototype/forecasting.html#accuracy-table",
+    "title": "Module Prototype: Forecasting",
+    "section": "Accuracy Table",
+    "text": "Accuracy Table\n\nDT::datatable(\n  forecast_results$accuracy_tbl,\n  rownames = FALSE,\n  options = list(dom = \"t\", pageLength = 5)\n)"
+  },
+  {
+    "objectID": "prototype/forecasting.html#ui-control-mapping",
+    "href": "prototype/forecasting.html#ui-control-mapping",
+    "title": "Module Prototype: Forecasting",
+    "section": "UI Control Mapping",
+    "text": "UI Control Mapping\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nPurpose\n\n\n\n\nseries_label\nselectInput\nVisitor Arrivals: China\nchoose the target monthly visitor-arrival series by country\n\n\nhorizon\nsliderInput\n12\nset the holdout and forward forecast horizon\n\n\nmodel_choice\nradioButtons\nARIMA / ETS\ncompare model families in the app\n\n\nrun_forecast\nactionButton\nclick to run\nrefresh the forecast after changing controls"
+  },
+  {
+    "objectID": "prototype/forecasting.html#output-exposure",
+    "href": "prototype/forecasting.html#output-exposure",
+    "title": "Module Prototype: Forecasting",
     "section": "Output Exposure",
-    "text": "Output Exposure\n\n\n\n\n\n\n\n\nOutput\nFormat\nPurpose\n\n\n\n\nDecision tree visual\nimage / HTML widget\nExplain the split path and occupancy classes\n\n\nComplexity parameter table\nDT::datatable\nShow pruning path and selected CP\n\n\nConfusion matrix\nggplot2 heatmap\nShow where classes are mixed up\n\n\nPrediction preview\nDT::datatable\nInspect actual vs predicted records\n\n\nKPI cards\nstyled value boxes\nHighlight accuracy, kappa, chosen CP, leaf nodes\n\n\nKey message card\ntext block\nSummarize main split and hardest class"
+    "text": "Output Exposure\n\n\n\n\n\n\n\n\nOutput\nFormat\nPurpose\n\n\n\n\nContext comparison chart\nggplot2\nshow whether one country-arrivals series moves in tandem with hotel occupancy, stay length, and room revenue\n\n\nRaw time-series chart\nggplot2\ninspect the country-level arrival trend and shock/recovery path\n\n\nSeasonal chart\nggplot2\ncompare monthly pattern across years\n\n\nDecomposition plot\nfeasts / autoplot\nseparate trend, seasonality, and remainder\n\n\nAccuracy table\nDT::datatable\ncompare testing-set metrics\n\n\nTesting-set forecast plot\nmodeltime plot\nassess model behaviour against actual holdout data\n\n\nForward forecast plot\nmodeltime plot\nshow the future trajectory after refit"
   },
   {
-    "objectID": "prototype/module-decision-tree.html#implementation-files",
-    "href": "prototype/module-decision-tree.html#implementation-files",
-    "title": "Module Prototype: Decision Tree Analysis",
-    "section": "Implementation Files",
-    "text": "Implementation Files\n\nshiny/app.R\nteam/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd\nteam/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv\nteam/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_visual.html\nteam/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_static.png"
-  },
-  {
-    "objectID": "prototype/module-decision-tree.html#quality-gates",
-    "href": "prototype/module-decision-tree.html#quality-gates",
-    "title": "Module Prototype: Decision Tree Analysis",
+    "objectID": "prototype/forecasting.html#quality-gates",
+    "href": "prototype/forecasting.html#quality-gates",
+    "title": "Module Prototype: Forecasting",
     "section": "Quality Gates",
-    "text": "Quality Gates\n\nNo missing target labels in the training or testing sets.\nTree rendering must work even when the source workbook changes column order.\nOccupancy labels must be shown consistently as Low Occupancy, Medium Occupancy, and High Occupancy in the app.\nThe published Quarto page and the Shiny module must point to the same analysis outputs.\nRendered assets must be committed under docs/prototype/ before review."
+    "text": "Quality Gates\n\nThe selected series must have at least 24 non-missing monthly observations.\nThe holdout horizon must leave at least 12 points for model fitting.\nA baseline and at least one model-based forecast must be scored on the same testing window.\nThe forecasting module must use the same source workbook while restricting the target catalog to country-level arrival series.\nThe workflow must include contextual comparison and visual diagnostics before model comparison."
   },
   {
-    "objectID": "prototype/decision-tree.html#install-and-launch-the-required-r-packages",
-    "href": "prototype/decision-tree.html#install-and-launch-the-required-r-packages",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.1Install and launch the required R packages",
-    "text": "1.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  readxl,\n  lubridate,\n  writexl\n)"
+    "objectID": "user-guide.html",
+    "href": "user-guide.html",
+    "title": "User Guide",
+    "section": "",
+    "text": "This guide explains how to use the final three-module tourism analytics app."
   },
   {
-    "objectID": "prototype/decision-tree.html#importing-data",
-    "href": "prototype/decision-tree.html#importing-data",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.2Importing Data",
-    "text": "1.2Importing Data\n\n\nShow the code\nfind_project_root &lt;- function(start = getwd()) {\n  current &lt;- normalizePath(start, winslash = \"/\", mustWork = TRUE)\n\n  repeat {\n    if (file.exists(file.path(current, \"_quarto.yml\"))) {\n      return(current)\n    }\n\n    parent &lt;- dirname(current)\n    if (identical(parent, current)) {\n      stop(\"Project root not found. Expected to locate _quarto.yml.\")\n    }\n\n    current &lt;- parent\n  }\n}\n\nproject_root &lt;- find_project_root()\nmodule_dir &lt;- file.path(project_root, \"team\", \"jin-qinhao\", \"Take-Home-Exercise2\")\ndata_dir &lt;- file.path(module_dir, \"data\")\nraw_path &lt;- file.path(data_dir, \"Name your insight (2).xlsx\")\nprocessed_dir &lt;- data_dir\n\ndir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)"
+    "objectID": "user-guide.html#purpose",
+    "href": "user-guide.html#purpose",
+    "title": "User Guide",
+    "section": "",
+    "text": "This guide explains how to use the final three-module tourism analytics app."
   },
   {
-    "objectID": "prototype/decision-tree.html#read-the-original-data",
-    "href": "prototype/decision-tree.html#read-the-original-data",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.3Read the original data",
-    "text": "1.3Read the original data\n\n\nShow the code\ncol_names &lt;- c(\n  \"date\",\n  \"avg_stay_monthly\",\n  \"hotel_occ\",\n  \"spend_per_capita\",\n  \"tourism_receipts\",\n  \"avg_stay_annual\",\n  \"visitor_arrivals\",\n  \"visitor_arrivals_china\"\n)\n\nraw_tbl &lt;- readxl::read_excel(\n  path = raw_path,\n  sheet = \"My Series\",\n  skip = 29,\n  col_names = FALSE\n) %&gt;%\n  select(\n    1,   # date\n    6,   # avg_stay_monthly\n    10,  # hotel_occ\n    7,   # spend_per_capita\n    4,   # tourism_receipts\n    11,  # avg_stay_annual\n    2,   # visitor_arrivals\n    5    # visitor_arrivals_china\n  ) %&gt;%\n  setNames(col_names) %&gt;%\n  mutate(\n    date = as.Date(date),\n    across(-date, as.numeric)\n  ) %&gt;%\n  arrange(date)"
+    "objectID": "user-guide.html#step-1-explore-the-series",
+    "href": "user-guide.html#step-1-explore-the-series",
+    "title": "User Guide",
+    "section": "Step 1: Explore the Series",
+    "text": "Step 1: Explore the Series\nOpen the Time Series Explorer tab to:\n\nChoose a monthly series such as Visitor Arrivals: China or Hotel Room Occupancy Rate.\nInspect the recent trend with a line chart.\nConfirm the unit and source metadata before moving to deeper analysis."
   },
   {
-    "objectID": "prototype/decision-tree.html#view-the-original-data-structure",
-    "href": "prototype/decision-tree.html#view-the-original-data-structure",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.4View the original data structure",
-    "text": "1.4View the original data structure\n\n\nShow the code\nglimpse(raw_tbl)\n\n\nRows: 112\nColumns: 8\n$ date                   &lt;date&gt; 2015-12-01, 2016-12-01, 2017-01-01, 2017-02-01…\n$ avg_stay_monthly       &lt;dbl&gt; NA, 3.214346, 3.517353, 3.423516, 3.150551, 3.2…\n$ hotel_occ              &lt;dbl&gt; NA, 79.61207, 81.76737, 88.02775, 84.67201, 85.…\n$ spend_per_capita       &lt;dbl&gt; 1429.751, 1569.697, NA, NA, NA, NA, NA, NA, NA,…\n$ tourism_receipts       &lt;dbl&gt; NA, 25748.452, NA, NA, 6724.568, NA, NA, 13404.…\n$ avg_stay_annual        &lt;dbl&gt; NA, 3.429859, NA, NA, NA, NA, NA, NA, NA, NA, N…\n$ visitor_arrivals       &lt;dbl&gt; NA, 1506134, 1480479, 1361010, 1480161, 1470750…\n$ visitor_arrivals_china &lt;dbl&gt; NA, 226020, 316805, 268993, 264711, 252135, 232…\n\n\nShow the code\ncolSums(is.na(raw_tbl))\n\n\n                  date       avg_stay_monthly              hotel_occ \n                     0                      1                      2 \n      spend_per_capita       tourism_receipts        avg_stay_annual \n                   102                     76                    102 \n      visitor_arrivals visitor_arrivals_china \n                     1                      1"
+    "objectID": "user-guide.html#step-2-compare-recovery-states",
+    "href": "user-guide.html#step-2-compare-recovery-states",
+    "title": "User Guide",
+    "section": "Step 2: Compare Recovery States",
+    "text": "Step 2: Compare Recovery States\nOpen the Cluster Prototype tab to:\n\nSelect one or more recovery periods.\nChoose the tourism indicators to cluster.\nAdjust k, seed, and scaling options.\nReview the scatter plot, silhouette score, and cluster profile table."
   },
   {
-    "objectID": "prototype/decision-tree.html#retain-the-valid-data-suitable-for-monthly-analysis",
-    "href": "prototype/decision-tree.html#retain-the-valid-data-suitable-for-monthly-analysis",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.5Retain the valid data suitable for monthly analysis",
-    "text": "1.5Retain the valid data suitable for monthly analysis\n\n\nShow the code\nmonthly_clean &lt;- raw_tbl %&gt;%\n  filter(\n    !is.na(date),\n    !is.na(avg_stay_monthly),\n    !is.na(hotel_occ),\n    !is.na(visitor_arrivals),\n    !is.na(visitor_arrivals_china)\n  ) %&gt;%\n  mutate(\n    year = lubridate::year(date),\n    month = lubridate::month(date),\n    quarter = lubridate::quarter(date),\n    period = case_when(\n      date &lt;= as.Date(\"2020-01-01\") ~ \"pre_covid\",\n      date &lt;= as.Date(\"2021-12-01\") ~ \"covid_shock\",\n      TRUE ~ \"recovery\"\n    ),\n    china_share = visitor_arrivals_china / visitor_arrivals,\n    china_share_pct = china_share * 100\n  )"
+    "objectID": "user-guide.html#step-3-forecast-future-values",
+    "href": "user-guide.html#step-3-forecast-future-values",
+    "title": "User Guide",
+    "section": "Step 3: Forecast Future Values",
+    "text": "Step 3: Forecast Future Values\nOpen the Forecasting Prototype tab to:\n\nSelect a country-level visitor-arrivals series.\nCompare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.\nSet the holdout horizon.\nChoose the forecasting model.\nCompare the seasonal-naive baseline with the selected model.\nReview the forecast plot and accuracy table."
   },
   {
-    "objectID": "prototype/decision-tree.html#handling-extreme-values",
-    "href": "prototype/decision-tree.html#handling-extreme-values",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.6Handling extreme values",
-    "text": "1.6Handling extreme values\n\n\nShow the code\nstay_cap &lt;- quantile(monthly_clean$avg_stay_monthly, probs = 0.95, na.rm = TRUE)\n\nmonthly_clean &lt;- monthly_clean %&gt;%\n  mutate(\n    avg_stay_monthly_capped = pmin(avg_stay_monthly, stay_cap),\n    visitor_arrivals_millions = visitor_arrivals / 1000000,\n    visitor_arrivals_china_thousands = visitor_arrivals_china / 1000\n  )"
+    "objectID": "user-guide.html#interpretation-tips",
+    "href": "user-guide.html#interpretation-tips",
+    "title": "User Guide",
+    "section": "Interpretation Tips",
+    "text": "Interpretation Tips\n\nUse the explorer first to understand seasonality and structural breaks.\nUse clustering second to identify which months behave similarly.\nUse forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators."
   },
   {
-    "objectID": "prototype/decision-tree.html#generate-analysis-fields",
-    "href": "prototype/decision-tree.html#generate-analysis-fields",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.7Generate analysis fields",
-    "text": "1.7Generate analysis fields\n\n\nShow the code\nocc_cuts &lt;- quantile(monthly_clean$hotel_occ, probs = c(1/3, 2/3), na.rm = TRUE)\n\nanalysis_ready &lt;- monthly_clean %&gt;%\n  mutate(\n    cluster_z_visitor_arrivals = as.numeric(scale(visitor_arrivals)),\n    cluster_z_china_share = as.numeric(scale(china_share)),\n    cluster_z_hotel_occ = as.numeric(scale(hotel_occ)),\n    cluster_z_avg_stay_monthly_capped = as.numeric(scale(avg_stay_monthly_capped)),\n    hotel_occ_level_tertile = case_when(\n      hotel_occ &lt;= occ_cuts[[1]] ~ \"low\",\n      hotel_occ &lt;= occ_cuts[[2]] ~ \"medium\",\n      TRUE ~ \"high\"\n    ),\n    hotel_occ_level_business = case_when(\n      hotel_occ &lt; 70 ~ \"low\",\n      hotel_occ &lt;= 85 ~ \"medium\",\n      TRUE ~ \"high\"\n    )\n  ) %&gt;%\n  mutate(\n    hotel_occ_level_tertile = factor(hotel_occ_level_tertile, levels = c(\"low\", \"medium\", \"high\")),\n    hotel_occ_level_business = factor(hotel_occ_level_business, levels = c(\"low\", \"medium\", \"high\"))\n  ) %&gt;%\n  mutate(\n    dataset_split = if_else(row_number() &lt;= floor(n() * 0.8), \"train\", \"test\")\n  )"
+    "objectID": "user-guide.html#data-scope",
+    "href": "user-guide.html#data-scope",
+    "title": "User Guide",
+    "section": "Data Scope",
+    "text": "Data Scope\nThe current app is built on:\ndata/raw/Name your insight (4).xlsx\nThis workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation."
   },
   {
-    "objectID": "prototype/decision-tree.html#generate-data-specifically-for-classification-tree-construction",
-    "href": "prototype/decision-tree.html#generate-data-specifically-for-classification-tree-construction",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.8Generate data specifically for classification tree construction",
-    "text": "1.8Generate data specifically for classification tree construction\n\n\nShow the code\ndecision_tree_ready &lt;- analysis_ready %&gt;%\n  select(\n    date, year, month, quarter, period,\n    visitor_arrivals, visitor_arrivals_china,\n    china_share, china_share_pct,\n    hotel_occ, avg_stay_monthly, avg_stay_monthly_capped,\n    hotel_occ_level_tertile, hotel_occ_level_business,\n    dataset_split\n  )"
+    "objectID": "app-guide.html#the-three-modules",
+    "href": "app-guide.html#the-three-modules",
+    "title": "Shiny App Guide",
+    "section": "The Three Modules",
+    "text": "The Three Modules\n\n1. Time Series Explorer\nPurpose:\n\nSelect a monthly tourism series.\nInspect recent years of trend and volatility.\nReview source, unit, and series identifier before analysis.\n\n\n\n2. Cluster Prototype\nPurpose:\n\nTransform monthly observations into recovery-state feature vectors.\nCompare state separation across periods such as pre-COVID, shock, and recovery.\nReview silhouette quality and profile means.\n\n\n\n3. Forecasting Prototype\nPurpose:\n\nSelect a country-level monthly visitor-arrivals series.\nPosition that country series against hotel occupancy, average length of stay, and room revenue.\nSet a train/test horizon.\nCompare a seasonal-naive baseline with a forecasting model such as ARIMA or ETS.\nReview both the forecast plot and the holdout accuracy table."
   },
   {
-    "objectID": "prototype/decision-tree.html#export-the-cleaned-data",
-    "href": "prototype/decision-tree.html#export-the-cleaned-data",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.9Export the cleaned data",
-    "text": "1.9Export the cleaned data\n\n\nShow the code\nreadr::write_csv(monthly_clean, file.path(processed_dir, \"tourism_monthly_clean.csv\"))\nreadr::write_csv(decision_tree_ready, file.path(processed_dir, \"tourism_decision_tree_ready.csv\"))\nreadr::write_csv(analysis_ready, file.path(processed_dir, \"tourism_four_part_analysis_ready.csv\"))\n\nwritexl::write_xlsx(\n  list(\n    monthly_clean = monthly_clean,\n    decision_tree_ready = decision_tree_ready,\n    analysis_ready_all = analysis_ready\n  ),\n  path = file.path(processed_dir, \"tourism_four_part_analysis_ready.xlsx\")\n)"
+    "objectID": "prototype/forecasting.html#forecasting-workflow",
+    "href": "prototype/forecasting.html#forecasting-workflow",
+    "title": "Module Prototype: Forecasting",
+    "section": "Forecasting Workflow",
+    "text": "Forecasting Workflow\nFollowing the sequence highlighted in Chapter 20, the prototype is organised into seven steps:\n\nImport and inspect the selected monthly country-arrivals series.\nCompare that country series with hotel and stay indicators.\nVisualise the time path and seasonal structure.\nSplit the series into training and testing sets.\nFit a baseline and multiple forecasting models.\nCompare testing-set accuracy.\nRefit the best model and forecast forward."
   },
   {
-    "objectID": "prototype/decision-tree.html#output-summary",
-    "href": "prototype/decision-tree.html#output-summary",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "1.10Output summary",
-    "text": "1.10Output summary\n\n\nShow the code\ncat(\"Data preparation complete.\\n\")\n\n\nData preparation complete.\n\n\nShow the code\ncat(\"Rows in monthly_clean:\", nrow(monthly_clean), \"\\n\")\n\n\nRows in monthly_clean: 110 \n\n\nShow the code\ncat(\"Rows in analysis_ready:\", nrow(analysis_ready), \"\\n\")\n\n\nRows in analysis_ready: 110 \n\n\nShow the code\ncat(\"Date range:\", min(analysis_ready$date), \"to\", max(analysis_ready$date), \"\\n\")\n\n\nDate range: 17136 to 20454 \n\n\nShow the code\ncat(\"95% cap for avg_stay_monthly:\", round(stay_cap, 6), \"\\n\")\n\n\n95% cap for avg_stay_monthly: 33.83166 \n\n\nShow the code\ncat(\"Hotel occupancy cut points:\", round(occ_cuts[[1]], 6), \"and\", round(occ_cuts[[2]], 6), \"\\n\")\n\n\nHotel occupancy cut points: 77.98317 and 84.15092"
+    "objectID": "prototype/forecasting.html#step-1-visualise-the-raw-time-series",
+    "href": "prototype/forecasting.html#step-1-visualise-the-raw-time-series",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 1: Visualise the Raw Time Series",
+    "text": "Step 1: Visualise the Raw Time Series\nChapter 19 emphasises that time-series work should begin with a direct inspection of trend, turning points, and volatility. The chart below shows the full monthly path of the selected tourism series.\n\nggplot(example_series, aes(x = date, y = value)) +\n  geom_line(linewidth = 1, color = \"#0f6b6f\") +\n  geom_point(size = 1.8, color = \"#d86f45\") +\n  labs(\n    title = example_label,\n    subtitle = \"Monthly tourism series used for forecasting\",\n    x = NULL,\n    y = \"Visitor arrivals (person)\"\n  ) +\n  theme_minimal(base_size = 13)"
   },
   {
-    "objectID": "prototype/decision-tree.html#install-and-launch-the-required-r-packages-1",
-    "href": "prototype/decision-tree.html#install-and-launch-the-required-r-packages-1",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.1Install and launch the required R packages",
-    "text": "2.1Install and launch the required R packages\n\n\nShow the code\nif (!requireNamespace(\"pacman\", quietly = TRUE)) {\n  install.packages(\"pacman\", repos = \"https://cloud.r-project.org\")\n}\n\npacman::p_load(\n  tidyverse,\n  rpart,\n  rpart.plot,\n  caret,\n  ranger,\n  visNetwork,\n  htmlwidgets,\n  sparkline\n)\n\n\n\n\nShow the code\ndata_path &lt;- file.path(data_dir, \"tourism_decision_tree_ready.csv\")\noutput_dir &lt;- file.path(module_dir, \"outputs\")\n\ndir.create(output_dir, recursive = TRUE, showWarnings = FALSE)"
+    "objectID": "prototype/forecasting.html#step-2-check-seasonality-and-decomposition",
+    "href": "prototype/forecasting.html#step-2-check-seasonality-and-decomposition",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 2: Check Seasonality and Decomposition",
+    "text": "Step 2: Check Seasonality and Decomposition\nThe next step is to confirm whether the series contains strong seasonal cycles and how the trend changed around the shock-and-recovery period. This mirrors the Chapter 19 emphasis on seasonal pattern analysis and decomposition.\n\nSeasonal Pattern by Month\n\nexample_series |&gt;\n  mutate(\n    month_lab = month(date, label = TRUE, abbr = TRUE),\n    year_num = year(date)\n  ) |&gt;\n  ggplot(aes(x = month_lab, y = value, group = year_num, color = factor(year_num))) +\n  geom_line(linewidth = 0.8, alpha = 0.65) +\n  geom_point(size = 1.3, alpha = 0.8) +\n  labs(\n    title = \"Seasonal Comparison by Month\",\n    subtitle = \"Each coloured line represents one year\",\n    x = NULL,\n    y = \"Visitor arrivals (person)\",\n    color = \"Year\"\n  ) +\n  theme_minimal(base_size = 13) +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\n\n\nSTL-style Decomposition\n\nexample_tsibble &lt;- example_series |&gt;\n  transmute(date = yearmonth(date), value = value) |&gt;\n  as_tsibble(index = date)\n\ndecomp_tbl &lt;- example_tsibble |&gt;\n  model(STL(value)) |&gt;\n  components()\n\nautoplot(decomp_tbl) +\n  labs(\n    title = \"Trend / Seasonal / Remainder Decomposition\",\n    subtitle = \"Used to explain the structural change before forecasting\"\n  )"
   },
   {
-    "objectID": "prototype/decision-tree.html#reading-data",
-    "href": "prototype/decision-tree.html#reading-data",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.2Reading data",
-    "text": "2.2Reading data\n\n\nShow the code\ndf &lt;- readr::read_csv(data_path, show_col_types = FALSE) %&gt;%\n  mutate(\n    date = as.Date(date),\n    month = factor(\n      month,\n      levels = 1:12,\n      labels = c(\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n                 \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\")\n    ),\n    quarter = factor(quarter),\n    period = factor(period, levels = c(\"pre_covid\", \"covid_shock\", \"recovery\")),\n    dataset_split = factor(dataset_split, levels = c(\"train\", \"test\")),\n    hotel_occ_level_tertile = factor(\n      hotel_occ_level_tertile,\n      levels = c(\"low\", \"medium\", \"high\")\n    ),\n\n    # 为了让树图上的阈值更易读，创建展示型变量\n    arrivals_million = visitor_arrivals / 1000000,\n    china_share_pct = china_share * 100,\n    stay_days = avg_stay_monthly_capped\n  )\n\nglimpse(df)\n\n\nRows: 110\nColumns: 17\n$ date                     &lt;date&gt; 2016-12-01, 2017-01-01, 2017-02-01, 2017-03-…\n$ year                     &lt;dbl&gt; 2016, 2017, 2017, 2017, 2017, 2017, 2017, 201…\n$ month                    &lt;fct&gt; Dec, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, …\n$ quarter                  &lt;fct&gt; 4, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 1, 1, …\n$ period                   &lt;fct&gt; pre_covid, pre_covid, pre_covid, pre_covid, p…\n$ visitor_arrivals         &lt;dbl&gt; 1506134, 1480479, 1361010, 1480161, 1470750, …\n$ visitor_arrivals_china   &lt;dbl&gt; 226020, 316805, 268993, 264711, 252135, 23236…\n$ china_share              &lt;dbl&gt; 0.1500663, 0.2139882, 0.1976422, 0.1788393, 0…\n$ china_share_pct          &lt;dbl&gt; 15.00663, 21.39882, 19.76422, 17.88393, 17.14…\n$ hotel_occ                &lt;dbl&gt; 79.61207, 81.76737, 88.02775, 84.67201, 85.06…\n$ avg_stay_monthly         &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…\n$ avg_stay_monthly_capped  &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…\n$ hotel_occ_level_tertile  &lt;fct&gt; medium, medium, high, high, high, medium, med…\n$ hotel_occ_level_business &lt;chr&gt; \"medium\", \"medium\", \"high\", \"medium\", \"high\",…\n$ dataset_split            &lt;fct&gt; train, train, train, train, train, train, tra…\n$ arrivals_million         &lt;dbl&gt; 1.506134, 1.480479, 1.361010, 1.480161, 1.470…\n$ stay_days                &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.150551, 3.280…"
+    "objectID": "prototype/forecasting.html#step-3-create-the-training-and-testing-split",
+    "href": "prototype/forecasting.html#step-3-create-the-training-and-testing-split",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 3: Create the Training and Testing Split",
+    "text": "Step 3: Create the Training and Testing Split\nFollowing Chapter 20, the final 12 months are reserved as a holdout set. This keeps the evaluation time-aware and avoids random sampling.\n\nsplit_summary &lt;- tibble(\n  segment = c(\"Training\", \"Testing\"),\n  start = c(min(forecast_results$training$date), min(forecast_results$testing$date)),\n  end = c(max(forecast_results$training$date), max(forecast_results$testing$date)),\n  n_obs = c(nrow(forecast_results$training), nrow(forecast_results$testing))\n)\n\nsplit_summary\n\n# A tibble: 2 × 4\n  segment  start      end        n_obs\n  &lt;chr&gt;    &lt;date&gt;     &lt;date&gt;     &lt;int&gt;\n1 Training 2016-12-01 2025-02-01    99\n2 Testing  2025-03-01 2026-02-01    12"
   },
   {
-    "objectID": "prototype/decision-tree.html#split-the-dataset-into-training-and-testing-sets",
-    "href": "prototype/decision-tree.html#split-the-dataset-into-training-and-testing-sets",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.3Split the dataset into training and testing sets",
-    "text": "2.3Split the dataset into training and testing sets\n\n\nShow the code\ntrain_df &lt;- df %&gt;% filter(dataset_split == \"train\")\ntest_df  &lt;- df %&gt;% filter(dataset_split == \"test\")\n\ncat(\"Train rows:\", nrow(train_df), \"\\n\")\n\n\nTrain rows: 88 \n\n\nShow the code\ncat(\"Test rows:\", nrow(test_df), \"\\n\")\n\n\nTest rows: 22"
+    "objectID": "prototype/forecasting.html#step-4-fit-baseline-and-forecasting-models",
+    "href": "prototype/forecasting.html#step-4-fit-baseline-and-forecasting-models",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 4: Fit Baseline and Forecasting Models",
+    "text": "Step 4: Fit Baseline and Forecasting Models\nThis prototype includes:\n\nSeasonal Naive as the baseline benchmark.\nETS (Modeltime) using exponential smoothing.\nARIMA using auto_arima through the modeltime workflow.\n\nThese model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series.\n\nforecast_results$models_tbl\n\n# Modeltime Table\n# A tibble: 2 × 3\n  .model_id .model   .model_desc            \n      &lt;int&gt; &lt;list&gt;   &lt;chr&gt;                  \n1         1 &lt;fit[+]&gt; ETS(M,AD,M)            \n2         2 &lt;fit[+]&gt; ARIMA(0,1,2)(0,0,1)[12]"
   },
   {
-    "objectID": "prototype/decision-tree.html#build-classification-tree",
-    "href": "prototype/decision-tree.html#build-classification-tree",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.4Build classification tree",
-    "text": "2.4Build classification tree\nTarget variable: Hotel occupancy rate level (low / medium / high)\nIndependent variables: # arrivals_million = Total inbound tourists (in millions)\nchina_share_pct = Proportion of Chinese tourists (percentage)\nstay_days = Truncated average length of stay\nmonth = Month (seasonality)\n\n\nShow the code\nfit_tree &lt;- rpart::rpart(\n  hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,\n  data = train_df,\n  method = \"class\",\n  parms = list(split = \"gini\"),\n  control = rpart::rpart.control(\n    cp = 0.005,\n    maxdepth = 4,\n    minsplit = 10,\n    minbucket = 5,\n    xval = 10\n  )\n)"
+    "objectID": "prototype/forecasting.html#step-5-testing-set-forecast-and-accuracy-comparison",
+    "href": "prototype/forecasting.html#step-5-testing-set-forecast-and-accuracy-comparison",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 5: Testing-Set Forecast and Accuracy Comparison",
+    "text": "Step 5: Testing-Set Forecast and Accuracy Comparison\n\nAccuracy Table\n\nDT::datatable(\n  forecast_results$accuracy_tbl,\n  rownames = FALSE,\n  options = list(dom = \"t\", pageLength = 6, scrollX = TRUE)\n)\n\n\n\n\n\n\n\nTesting Window Forecast Plot\n\nforecast_results$calibration_forecast_tbl |&gt;\n  plot_modeltime_forecast(\n    .interactive = FALSE,\n    .legend_max_width = 25\n  ) +\n  labs(\n    title = \"Testing-Set Forecast Comparison\",\n    subtitle = \"Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives\"\n  )"
   },
   {
-    "objectID": "prototype/decision-tree.html#check-the-complexity-parameter-table.",
-    "href": "prototype/decision-tree.html#check-the-complexity-parameter-table.",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.5Check the complexity parameter table.",
-    "text": "2.5Check the complexity parameter table.\n\n\nShow the code\nprintcp(fit_tree)\n\n\n\nClassification tree:\nrpart::rpart(formula = hotel_occ_level_tertile ~ arrivals_million + \n    china_share_pct + stay_days + month, data = train_df, method = \"class\", \n    parms = list(split = \"gini\"), control = rpart::rpart.control(cp = 0.005, \n        maxdepth = 4, minsplit = 10, minbucket = 5, xval = 10))\n\nVariables actually used in tree construction:\n[1] arrivals_million month           \n\nRoot node error: 57/88 = 0.64773\n\nn= 88 \n\n       CP nsplit rel error  xerror     xstd\n1 0.49123      0   1.00000 1.10526 0.074221\n2 0.21053      1   0.50877 0.54386 0.078614\n3 0.04386      2   0.29825 0.45614 0.075087\n4 0.00500      4   0.21053 0.42105 0.073296\n\n\nShow the code\nplotcp(fit_tree)"
+    "objectID": "prototype/forecasting.html#step-6-refit-the-best-model-and-forecast-forward",
+    "href": "prototype/forecasting.html#step-6-refit-the-best-model-and-forecast-forward",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 6: Refit the Best Model and Forecast Forward",
+    "text": "Step 6: Refit the Best Model and Forecast Forward\nAfter accuracy comparison, the best-performing model is refit on the full series and projected forward for the next 12 months. This is the final step highlighted in Chapter 20.\n\nforecast_results$future_forecast_tbl |&gt;\n  plot_modeltime_forecast(\n    .interactive = FALSE,\n    .legend_max_width = 25\n  ) +\n  labs(\n    title = \"Forward Forecast After Refit\",\n    subtitle = \"Best model refit on the full monthly series\"\n  )"
   },
   {
-    "objectID": "prototype/decision-tree.html#prune-the-tree",
-    "href": "prototype/decision-tree.html#prune-the-tree",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.6Prune the tree",
-    "text": "2.6Prune the tree\n\n\nShow the code\nbestcp &lt;- fit_tree$cptable[which.min(fit_tree$cptable[, \"xerror\"]), \"CP\"]\npruned_tree &lt;- prune(fit_tree, cp = bestcp)\n\ncat(\"Best cp:\", bestcp, \"\\n\")\n\n\nBest cp: 0.005 \n\n\nShow the code\nprint(pruned_tree)\n\n\nn= 88 \n\nnode), split, n, loss, yval, (yprob)\n      * denotes terminal node\n\n 1) root 88 57 low (0.35227273 0.29545455 0.35227273)  \n   2) arrivals_million&lt; 0.7575905 31  3 low (0.90322581 0.09677419 0.00000000) *\n   3) arrivals_million&gt;=0.7575905 57 26 high (0.05263158 0.40350877 0.54385965)  \n     6) month=Jan,May,Dec 16  3 medium (0.12500000 0.81250000 0.06250000) *\n     7) month=Feb,Mar,Apr,Jun,Jul,Aug,Sep,Oct,Nov 41 11 high (0.02439024 0.24390244 0.73170732)  \n      14) arrivals_million&lt; 1.466122 22 11 high (0.04545455 0.45454545 0.50000000)  \n        28) month=Mar,Apr,Jun 5  0 medium (0.00000000 1.00000000 0.00000000) *\n        29) month=Feb,Jul,Aug,Sep,Oct,Nov 17  6 high (0.05882353 0.29411765 0.64705882) *\n      15) arrivals_million&gt;=1.466122 19  0 high (0.00000000 0.00000000 1.00000000) *"
+    "objectID": "prototype/forecasting.html#interpretation-notes",
+    "href": "prototype/forecasting.html#interpretation-notes",
+    "title": "Module Prototype: Forecasting",
+    "section": "Interpretation Notes",
+    "text": "Interpretation Notes\nThis forecasting prototype now aligns more closely with the course guidance:\n\nIt starts with time-series exploration rather than jumping straight to prediction.\nIt treats the data as an ordered monthly sequence.\nIt uses a proper holdout split based on time.\nIt compares a baseline with model-based approaches.\nIt uses model refitting to produce a future forecast path.\n\nIn presentation terms, the recommended narrative is:\n\nShow the country-arrivals series together with hotel and stay indicators to position the source-market recovery in a broader tourism context.\nUse the raw trend, seasonal plot, and decomposition to justify a forecasting approach.\nCompare Seasonal Naive, ETS, and ARIMA on the same testing window.\nConclude with the best model and the forward projection."
   },
   {
-    "objectID": "prototype/decision-tree.html#interactive-tree-visualization",
-    "href": "prototype/decision-tree.html#interactive-tree-visualization",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.7Interactive tree visualization",
-    "text": "2.7Interactive tree visualization\n\n\nShow the code\ntree_vis &lt;- visNetwork::visTree(\n  pruned_tree,\n  data = as.data.frame(train_df),\n  main = \"Decision Tree for Hotel Occupancy Level\",\n  submain = \"Target: low / medium / high\",\n  width = \"100%\",\n  height = \"700px\",\n  nodesFontSize = 16,\n  edgesFontSize = 14,\n  fallenLeaves = TRUE,\n  legend = TRUE,\n  nodesPopSize = TRUE,\n  minNodeSize = 14,\n  maxNodeSize = 32,\n  highlightNearest = list(enabled = TRUE, hover = TRUE),\n  export = TRUE\n)\n\ntree_vis\n\n\n\n\n\n\n\n\nShow the code\nhtmlwidgets::saveWidget(\n  tree_vis,\n  file.path(output_dir, \"decision_tree_visual.html\"),\n  selfcontained = FALSE\n)"
+    "objectID": "prototype/forecasting.html#analytical-framing",
+    "href": "prototype/forecasting.html#analytical-framing",
+    "title": "Module Prototype: Forecasting",
+    "section": "Analytical Framing",
+    "text": "Analytical Framing\nThe forecasting module uses a two-layer logic:\n\nCore forecasting series: country-level monthly visitor arrivals.\nSupporting performance indicators: hotel room occupancy rate, average length of stay, and total room revenue.\n\nThis means the forecasts answer the question “how may demand from each source market evolve?” while the supporting indicators help answer “does that demand recovery translate into broader tourism performance?”"
   },
   {
-    "objectID": "prototype/decision-tree.html#static-tree-visualization-for-report",
-    "href": "prototype/decision-tree.html#static-tree-visualization-for-report",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.8Static tree visualization for report",
-    "text": "2.8Static tree visualization for report\n\n\nShow the code\npng(\n  filename = file.path(output_dir, \"decision_tree_static.png\"),\n  width = 1800,\n  height = 1200,\n  res = 180\n)\n\nrpart.plot::rpart.plot(\n  pruned_tree,\n  type = 2,\n  extra = 104,\n  under = TRUE,\n  fallen.leaves = TRUE,\n  faclen = 0,\n  tweak = 1.15,\n  main = \"Decision Tree for Hotel Occupancy Level\"\n)\n\ndev.off()\n\n\npng \n  2"
+    "objectID": "prototype/forecasting.html#step-1-position-the-country-series-within-tourism-performance",
+    "href": "prototype/forecasting.html#step-1-position-the-country-series-within-tourism-performance",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 1: Position the Country Series Within Tourism Performance",
+    "text": "Step 1: Position the Country Series Within Tourism Performance\nBefore forecasting, the selected country-arrivals series should be interpreted together with hotel and stay indicators. The values are normalized so the focus stays on shared turning points rather than raw units.\n\nggplot(context_series, aes(x = date, y = normalized_value, color = label)) +\n  geom_line(linewidth = 1) +\n  labs(\n    title = \"Country Arrivals Compared with Supporting Tourism Indicators\",\n    subtitle = \"Normalized z-scores show whether demand recovery aligns with occupancy, stay length, and room revenue\",\n    x = NULL,\n    y = \"Normalized z-score\",\n    color = NULL\n  ) +\n  theme_minimal(base_size = 13)"
   },
   {
-    "objectID": "prototype/decision-tree.html#predict-on-test-set",
-    "href": "prototype/decision-tree.html#predict-on-test-set",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.9Predict on test set",
-    "text": "2.9Predict on test set\n\n\nShow the code\npred_class &lt;- predict(pruned_tree, newdata = test_df, type = \"class\")\npred_prob  &lt;- predict(pruned_tree, newdata = test_df, type = \"prob\") %&gt;%\n  as.data.frame()\n\n# 统一 levels，避免 confusionMatrix 报错\npred_class &lt;- factor(pred_class, levels = c(\"low\", \"medium\", \"high\"))\ntest_df$hotel_occ_level_tertile &lt;- factor(\n  test_df$hotel_occ_level_tertile,\n  levels = c(\"low\", \"medium\", \"high\")\n)"
+    "objectID": "prototype/forecasting.html#step-2-visualise-the-raw-time-series",
+    "href": "prototype/forecasting.html#step-2-visualise-the-raw-time-series",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 2: Visualise the Raw Time Series",
+    "text": "Step 2: Visualise the Raw Time Series\nChapter 19 emphasises that time-series work should begin with a direct inspection of trend, turning points, and volatility. The chart below shows the full monthly path of the selected country-arrivals series.\n\nggplot(example_series, aes(x = date, y = value)) +\n  geom_line(linewidth = 1, color = \"#0f6b6f\") +\n  geom_point(size = 1.8, color = \"#d86f45\") +\n  labs(\n    title = example_label,\n    subtitle = \"Monthly country-level visitor arrivals used for forecasting\",\n    x = NULL,\n    y = \"Visitor arrivals (person)\"\n  ) +\n  scale_y_continuous(labels = scales::label_comma()) +\n  theme_minimal(base_size = 13)"
   },
   {
-    "objectID": "prototype/decision-tree.html#evaluate-model-performance",
-    "href": "prototype/decision-tree.html#evaluate-model-performance",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.10Evaluate model performance",
-    "text": "2.10Evaluate model performance\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   6      5    0\n    high     0      5    6\n\nOverall Statistics\n                                          \n               Accuracy : 0.5             \n                 95% CI : (0.2822, 0.7178)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.4131          \n                                          \n                  Kappa : 0.2143          \n                                          \n Mcnemar's Test P-Value : NA              \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.5000      1.0000\nSpecificity              1.0000        0.5000      0.6875\nPos Pred Value              NaN        0.4545      0.5455\nNeg Pred Value           0.7273        0.5455      1.0000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.2273      0.2727\nDetection Prevalence     0.0000        0.5000      0.5000\nBalanced Accuracy        0.5000        0.5000      0.8438\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.5  \n2 kappa    0.214"
+    "objectID": "prototype/forecasting.html#step-3-check-seasonality-and-decomposition",
+    "href": "prototype/forecasting.html#step-3-check-seasonality-and-decomposition",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 3: Check Seasonality and Decomposition",
+    "text": "Step 3: Check Seasonality and Decomposition\nThe next step is to confirm whether the series contains strong seasonal cycles and how the trend changed around the shock-and-recovery period. This mirrors the Chapter 19 emphasis on seasonal pattern analysis and decomposition.\n\nSeasonal Pattern by Month\n\nexample_series |&gt;\n  mutate(\n    month_lab = month(date, label = TRUE, abbr = TRUE),\n    year_num = year(date)\n  ) |&gt;\n  ggplot(aes(x = month_lab, y = value, group = year_num, color = factor(year_num))) +\n  geom_line(linewidth = 0.8, alpha = 0.65) +\n  geom_point(size = 1.3, alpha = 0.8) +\n  labs(\n    title = \"Seasonal Comparison by Month\",\n    subtitle = \"Each coloured line represents one year\",\n    x = NULL,\n    y = \"Visitor arrivals (person)\",\n    color = \"Year\"\n  ) +\n  scale_y_continuous(labels = scales::label_comma()) +\n  theme_minimal(base_size = 13) +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\n\n\nSTL-style Decomposition\n\nexample_tsibble &lt;- example_series |&gt;\n  transmute(date = yearmonth(date), value = value) |&gt;\n  as_tsibble(index = date)\n\ndecomp_tbl &lt;- example_tsibble |&gt;\n  model(STL(value)) |&gt;\n  components()\n\nautoplot(decomp_tbl) +\n  labs(\n    title = \"Trend / Seasonal / Remainder Decomposition\",\n    subtitle = \"Used to explain the structural change before forecasting\"\n  )"
   },
   {
-    "objectID": "prototype/decision-tree.html#variable-importance",
-    "href": "prototype/decision-tree.html#variable-importance",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.11Variable importance",
-    "text": "2.11Variable importance\n\n\nShow the code\nimportance_tbl &lt;- tibble(\n  variable = names(pruned_tree$variable.importance),\n  importance = as.numeric(pruned_tree$variable.importance)\n) %&gt;%\n  arrange(desc(importance))\n\nprint(importance_tbl)\n\n\n# A tibble: 4 × 2\n  variable         importance\n  &lt;chr&gt;                 &lt;dbl&gt;\n1 arrivals_million       27.0\n2 stay_days              23.4\n3 month                  14.3\n4 china_share_pct        12.6"
+    "objectID": "prototype/forecasting.html#step-4-create-the-training-and-testing-split",
+    "href": "prototype/forecasting.html#step-4-create-the-training-and-testing-split",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 4: Create the Training and Testing Split",
+    "text": "Step 4: Create the Training and Testing Split\nFollowing Chapter 20, the final 12 months are reserved as a holdout set. This keeps the evaluation time-aware and avoids random sampling.\n\nsplit_summary &lt;- tibble(\n  segment = c(\"Training\", \"Testing\"),\n  start = c(min(forecast_results$training$date), min(forecast_results$testing$date)),\n  end = c(max(forecast_results$training$date), max(forecast_results$testing$date)),\n  n_obs = c(nrow(forecast_results$training), nrow(forecast_results$testing))\n)\n\nsplit_summary\n\n# A tibble: 2 × 4\n  segment  start      end        n_obs\n  &lt;chr&gt;    &lt;date&gt;     &lt;date&gt;     &lt;int&gt;\n1 Training 2016-12-01 2025-02-01    99\n2 Testing  2025-03-01 2026-02-01    12"
   },
   {
-    "objectID": "prototype/decision-tree.html#export-results",
-    "href": "prototype/decision-tree.html#export-results",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "2.12Export results",
-    "text": "2.12Export results\n\n\nShow the code\nwrite.csv(\n  as.data.frame(cm$table),\n  file.path(output_dir, \"decision_tree_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"decision_tree_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"decision_tree_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"decision_tree_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Decision tree analysis complete.\\n\")\n\n\nDecision tree analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "objectID": "prototype/forecasting.html#step-5-fit-baseline-and-forecasting-models",
+    "href": "prototype/forecasting.html#step-5-fit-baseline-and-forecasting-models",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 5: Fit Baseline and Forecasting Models",
+    "text": "Step 5: Fit Baseline and Forecasting Models\nThis prototype includes:\n\nSeasonal Naive as the baseline benchmark.\nETS (Modeltime) using exponential smoothing.\nARIMA using auto_arima through the modeltime workflow.\n\nThese model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series.\n\nforecast_results$models_tbl\n\n# Modeltime Table\n# A tibble: 2 × 3\n  .model_id .model   .model_desc            \n      &lt;int&gt; &lt;list&gt;   &lt;chr&gt;                  \n1         1 &lt;fit[+]&gt; ETS(M,AD,M)            \n2         2 &lt;fit[+]&gt; ARIMA(0,1,2)(0,0,1)[12]"
   },
   {
-    "objectID": "prototype/decision-tree.html#predict-on-test-set-1",
-    "href": "prototype/decision-tree.html#predict-on-test-set-1",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.1Predict on test set",
-    "text": "3.1Predict on test set\n\n\nShow the code\npred_class &lt;- predict(rf_model, newdata = test_df)\npred_prob  &lt;- predict(rf_model, newdata = test_df, type = \"prob\")\n\npred_class &lt;- factor(pred_class, levels = c(\"low\", \"medium\", \"high\"))\ntest_df$hotel_occ_level_tertile &lt;- factor(\n  test_df$hotel_occ_level_tertile,\n  levels = c(\"low\", \"medium\", \"high\")\n)"
+    "objectID": "prototype/forecasting.html#step-6-testing-set-forecast-and-accuracy-comparison",
+    "href": "prototype/forecasting.html#step-6-testing-set-forecast-and-accuracy-comparison",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 6: Testing-Set Forecast and Accuracy Comparison",
+    "text": "Step 6: Testing-Set Forecast and Accuracy Comparison\n\nAccuracy Table\n\nDT::datatable(\n  forecast_results$accuracy_tbl,\n  rownames = FALSE,\n  options = list(dom = \"t\", pageLength = 6, scrollX = TRUE)\n)\n\n\n\n\n\n\n\nTesting Window Forecast Plot\n\nforecast_results$calibration_forecast_tbl |&gt;\n  plot_modeltime_forecast(\n    .interactive = FALSE,\n    .legend_max_width = 25\n  ) +\n  labs(\n    title = \"Testing-Set Forecast Comparison\",\n    subtitle = \"Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives\"\n  ) +\n  scale_y_continuous(labels = scales::label_comma())"
   },
   {
-    "objectID": "prototype/decision-tree.html#model-evaluation",
-    "href": "prototype/decision-tree.html#model-evaluation",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.2Model evaluation",
-    "text": "3.2Model evaluation\n\n\nShow the code\ncm &lt;- caret::confusionMatrix(\n  data = pred_class,\n  reference = test_df$hotel_occ_level_tertile\n)\n\nprint(cm)\n\n\nConfusion Matrix and Statistics\n\n          Reference\nPrediction low medium high\n    low      0      0    0\n    medium   4      5    1\n    high     2      5    5\n\nOverall Statistics\n                                          \n               Accuracy : 0.4545          \n                 95% CI : (0.2439, 0.6779)\n    No Information Rate : 0.4545          \n    P-Value [Acc &gt; NIR] : 0.58197         \n                                          \n                  Kappa : 0.1538          \n                                          \n Mcnemar's Test P-Value : 0.03407         \n\nStatistics by Class:\n\n                     Class: low Class: medium Class: high\nSensitivity              0.0000        0.5000      0.8333\nSpecificity              1.0000        0.5833      0.5625\nPos Pred Value              NaN        0.5000      0.4167\nNeg Pred Value           0.7273        0.5833      0.9000\nPrevalence               0.2727        0.4545      0.2727\nDetection Rate           0.0000        0.2273      0.2273\nDetection Prevalence     0.0000        0.4545      0.5455\nBalanced Accuracy        0.5000        0.5417      0.6979\n\n\nShow the code\nmetrics_tbl &lt;- tibble(\n  metric = c(\"accuracy\", \"kappa\"),\n  value = c(cm$overall[[\"Accuracy\"]], cm$overall[[\"Kappa\"]])\n)\n\nprint(metrics_tbl)\n\n\n# A tibble: 2 × 2\n  metric   value\n  &lt;chr&gt;    &lt;dbl&gt;\n1 accuracy 0.455\n2 kappa    0.154"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#variable-importance-1",
-    "href": "prototype/decision-tree.html#variable-importance-1",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.3Variable importance",
-    "text": "3.3Variable importance\n\n\nShow the code\nimportance_tbl &lt;- varImp(rf_model)$importance %&gt;%\n  tibble::rownames_to_column(\"variable\") %&gt;%\n  arrange(desc(Overall))\n\nprint(importance_tbl)\n\n\n           variable    Overall\n1  arrivals_million 100.000000\n2         stay_days  98.474771\n3   china_share_pct  75.164831\n4          monthDec   9.978753\n5          monthMay   7.612103\n6          monthNov   7.266777\n7          monthOct   5.054497\n8          monthFeb   4.548187\n9          monthAug   4.084512\n10         monthJul   3.908262\n11         monthJun   1.531650\n12         monthSep   1.491992\n13         monthMar   1.009493\n14         monthApr   0.000000"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#confusion-matrix-heatmap",
-    "href": "prototype/decision-tree.html#confusion-matrix-heatmap",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.4Confusion matrix heatmap",
-    "text": "3.4Confusion matrix heatmap\n\n\nShow the code\nconf_tbl &lt;- as.data.frame(cm$table)\n\nconf_plot &lt;- ggplot(conf_tbl, aes(x = Reference, y = Prediction, fill = Freq)) +\n  geom_tile(color = \"white\") +\n  geom_text(aes(label = Freq), size = 5) +\n  scale_fill_gradient(low = \"#f7fbff\", high = \"#08519c\") +\n  labs(\n    title = \"Random Forest Confusion Matrix\",\n    x = \"Actual class\",\n    y = \"Predicted class\",\n    fill = \"Count\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(conf_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_confusion_heatmap.png\"),\n  plot = conf_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#variable-importance-plot",
-    "href": "prototype/decision-tree.html#variable-importance-plot",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.5Variable importance plot",
-    "text": "3.5Variable importance plot\n\n\nShow the code\nimportance_plot &lt;- importance_tbl %&gt;%\n  slice_max(order_by = Overall, n = 10) %&gt;%\n  ggplot(aes(x = reorder(variable, Overall), y = Overall)) +\n  geom_col(fill = \"#2c7fb8\") +\n  coord_flip() +\n  labs(\n    title = \"Random Forest Variable Importance\",\n    x = NULL,\n    y = \"Importance\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(importance_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_importance.png\"),\n  plot = importance_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#oob-accuracy-vs-number-of-trees",
-    "href": "prototype/decision-tree.html#oob-accuracy-vs-number-of-trees",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.6OOB accuracy vs number of trees",
-    "text": "3.6OOB accuracy vs number of trees\n\n\nShow the code\ntree_grid &lt;- seq(50, 300, by = 25)\n\noob_tbl &lt;- purrr::map_dfr(tree_grid, function(nt) {\n  mod &lt;- ranger::ranger(\n    hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,\n    data = train_df,\n    num.trees = nt,\n    mtry = rf_model$bestTune$mtry,\n    min.node.size = rf_model$bestTune$min.node.size,\n    splitrule = as.character(rf_model$bestTune$splitrule),\n    importance = \"impurity\",\n    seed = 1234\n  )\n\n  tibble(\n    num_trees = nt,\n    oob_error = mod$prediction.error,\n    oob_accuracy = 1 - mod$prediction.error\n  )\n})\n\nprint(oob_tbl)\n\n\n# A tibble: 11 × 3\n   num_trees oob_error oob_accuracy\n       &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;\n 1        50     0.318        0.682\n 2        75     0.318        0.682\n 3       100     0.307        0.693\n 4       125     0.295        0.705\n 5       150     0.284        0.716\n 6       175     0.284        0.716\n 7       200     0.295        0.705\n 8       225     0.295        0.705\n 9       250     0.295        0.705\n10       275     0.341        0.659\n11       300     0.330        0.670\n\n\nShow the code\noob_plot &lt;- ggplot(oob_tbl, aes(x = num_trees, y = oob_accuracy)) +\n  geom_line(color = \"#238b45\", linewidth = 1) +\n  geom_point(color = \"#238b45\", size = 2) +\n  labs(\n    title = \"OOB Accuracy vs Number of Trees\",\n    x = \"Number of trees\",\n    y = \"OOB accuracy\"\n  ) +\n  theme_minimal(base_size = 13)\n\nprint(oob_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_oob_accuracy.png\"),\n  plot = oob_plot,\n  width = 8,\n  height = 6,\n  dpi = 200\n)"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#actual-vs-predicted-over-time",
-    "href": "prototype/decision-tree.html#actual-vs-predicted-over-time",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.7Actual vs predicted over time",
-    "text": "3.7Actual vs predicted over time\n\n\nShow the code\npred_plot_df &lt;- test_df %&gt;%\n  transmute(\n    date,\n    actual = hotel_occ_level_tertile,\n    predicted = pred_class\n  ) %&gt;%\n  pivot_longer(\n    cols = c(actual, predicted),\n    names_to = \"series\",\n    values_to = \"level\"\n  )\n\npred_plot &lt;- ggplot(pred_plot_df, aes(x = date, y = level, color = series, shape = series)) +\n  geom_point(size = 3) +\n  labs(\n    title = \"Actual vs Predicted Hotel Occupancy Level\",\n    x = \"Date\",\n    y = \"Occupancy level\"\n  ) +\n  scale_color_manual(values = c(actual = \"#d95f0e\", predicted = \"#3182bd\")) +\n  theme_minimal(base_size = 13)\n\nprint(pred_plot)\n\n\n\n\n\n\n\n\n\nShow the code\nggsave(\n  filename = file.path(output_dir, \"random_forest_actual_vs_predicted.png\"),\n  plot = pred_plot,\n  width = 9,\n  height = 5,\n  dpi = 200\n)"
-  },
-  {
-    "objectID": "prototype/decision-tree.html#export-results-1",
-    "href": "prototype/decision-tree.html#export-results-1",
-    "title": "Visualization of classification trees and random forest analysis",
-    "section": "3.8Export results",
-    "text": "3.8Export results\n\n\nShow the code\nwrite.csv(\n  metrics_tbl,\n  file.path(output_dir, \"random_forest_metrics.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  conf_tbl,\n  file.path(output_dir, \"random_forest_confusion_matrix.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  importance_tbl,\n  file.path(output_dir, \"random_forest_variable_importance.csv\"),\n  row.names = FALSE\n)\n\nwrite.csv(\n  oob_tbl,\n  file.path(output_dir, \"random_forest_oob_accuracy.csv\"),\n  row.names = FALSE\n)\n\nprediction_tbl &lt;- bind_cols(\n  test_df %&gt;% select(date, hotel_occ_level_tertile),\n  tibble(predicted_class = pred_class),\n  pred_prob\n)\n\nwrite.csv(\n  prediction_tbl,\n  file.path(output_dir, \"random_forest_test_predictions.csv\"),\n  row.names = FALSE\n)\n\ncat(\"Random forest analysis complete.\\n\")\n\n\nRandom forest analysis complete.\n\n\nShow the code\ncat(\"Outputs saved to:\", output_dir, \"\\n\")\n\n\nOutputs saved to: C:/Users/12697/Desktop/VAA 小组作业/team/jin-qinhao/Take-Home-Exercise2/outputs"
+    "objectID": "prototype/forecasting.html#step-7-refit-the-best-model-and-forecast-forward",
+    "href": "prototype/forecasting.html#step-7-refit-the-best-model-and-forecast-forward",
+    "title": "Module Prototype: Forecasting",
+    "section": "Step 7: Refit the Best Model and Forecast Forward",
+    "text": "Step 7: Refit the Best Model and Forecast Forward\nAfter accuracy comparison, the best-performing model is refit on the full series and projected forward for the next 12 months. This is the final step highlighted in Chapter 20.\n\nforecast_results$future_forecast_tbl |&gt;\n  plot_modeltime_forecast(\n    .interactive = FALSE,\n    .legend_max_width = 25\n  ) +\n  labs(\n    title = \"Forward Forecast After Refit\",\n    subtitle = \"Best model refit on the full monthly series\"\n  ) +\n  scale_y_continuous(labels = scales::label_comma())"
   }
 ]

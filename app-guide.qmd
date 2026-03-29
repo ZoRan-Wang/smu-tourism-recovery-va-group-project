@@ -4,12 +4,41 @@ title: "Shiny App Guide"
 
 ## Application Structure
 
-The app follows a modular structure:
+The app now follows a three-module structure built on one shared tourism time-series workbook:
 
-1. `app/app.R` - top-level layout and module wiring.
-2. `app/R/data_utils.R` - dataset loading and preprocessing helpers.
-3. `app/R/mod_cluster_ui.R` - cluster module UI.
-4. `app/R/mod_cluster_server.R` - cluster module logic.
+1. `app/app.R` - top-level navigation and shared reactive data loading.
+2. `app/R/data_utils.R` - common time-series ingestion, feature engineering, and forecasting helpers.
+3. `app/R/mod_cluster_ui.R` and `app/R/mod_cluster_server.R` - time-series clustering module.
+4. `app/R/mod_forecast_ui.R` and `app/R/mod_forecast_server.R` - forecasting module.
+5. The Time Series Explorer is embedded directly in `app/app.R` to keep the main comparison flow simple.
+
+## The Three Modules
+
+### 1. Time Series Explorer
+
+Purpose:
+
+1. Select a monthly tourism series.
+2. Inspect recent years of trend and volatility.
+3. Review source, unit, and series identifier before analysis.
+
+### 2. Cluster Prototype
+
+Purpose:
+
+1. Transform monthly observations into recovery-state feature vectors.
+2. Compare state separation across periods such as pre-COVID, shock, and recovery.
+3. Review silhouette quality and profile means.
+
+### 3. Forecasting Prototype
+
+Purpose:
+
+1. Select a country-level monthly visitor-arrivals series.
+2. Position that country series against hotel occupancy, average length of stay, and room revenue.
+3. Set a train/test horizon.
+4. Compare a seasonal-naive baseline with a forecasting model such as ARIMA or ETS.
+5. Review both the forecast plot and the holdout accuracy table.
 
 ## Run Commands
 
@@ -19,20 +48,18 @@ Rscript run_app.R 3838
 
 ## What to Expect
 
-Current module available in app:
+The final app should let the user:
 
-1. Cluster analysis prototype
-2. Adjustable `k`, period filter, and seed
-3. Scatter plot + profile table + silhouette score
-
-## One-Click Dev Start (PowerShell)
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1
-```
+1. Explore the raw tourism series.
+2. Group months into recovery states.
+3. Generate and compare forecasts for the selected target series.
 
 ## Data Source
 
-App reads:
+The app reads:
 
-`data/raw/tourism_four_part_analysis_ready.xlsx`
+`data/raw/Name your insight (4).xlsx`
+
+This workbook is treated as the common source for all three modules so that users do not need to switch between inconsistent datasets.
+
+Within that shared workbook, the forecasting tab treats country-level visitor arrivals as the primary target series and uses hotel/stay indicators as supporting context rather than separate forecast targets.

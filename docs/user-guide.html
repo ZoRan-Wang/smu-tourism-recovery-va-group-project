@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 
 
-<title>Project Home – Singapore Tourism Recovery VA Prototype</title>
+<title>User Guide – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -185,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project Home</h1>
+<h1 class="title">User Guide</h1>
 </div>
 
 
@@ -205,75 +170,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#why-this-structure" id="toc-why-this-structure">Why This Structure</a></li>
-  <li><a href="#workstreams" id="toc-workstreams">Workstreams</a></li>
-  <li><a href="#data-references-imported" id="toc-data-references-imported">Data &amp; References Imported</a></li>
-  <li><a href="#start-development" id="toc-start-development">Start Development</a></li>
+  <li><a href="#purpose" id="toc-purpose">Purpose</a></li>
+  <li><a href="#step-1-explore-the-series" id="toc-step-1-explore-the-series">Step 1: Explore the Series</a></li>
+  <li><a href="#step-2-compare-recovery-states" id="toc-step-2-compare-recovery-states">Step 2: Compare Recovery States</a></li>
+  <li><a href="#step-3-forecast-future-values" id="toc-step-3-forecast-future-values">Step 3: Forecast Future Values</a></li>
+  <li><a href="#interpretation-tips" id="toc-interpretation-tips">Interpretation Tips</a></li>
+  <li><a href="#data-scope" id="toc-data-scope">Data Scope</a></li>
   </ul>
 </nav>
-<div class="hero-panel">
-<div class="tagline">
-Visual Analytics · Quarto + Shiny · AY2025/26
-</div>
-<section id="singapore-tourism-recovery-prototype" class="level1">
-<h1>Singapore Tourism Recovery Prototype</h1>
-<section id="core-question" class="level2">
-<h2>Core Question</h2>
-<p>How can one shared tourism time-series dataset support exploration, recovery-state clustering, and forecasting for Singapore’s tourism recovery?</p>
-<p>This site is an integrated workspace for:</p>
-<ol type="1">
-<li>Take-home Exercise 2 write-up.</li>
-<li>Prototype module design and validation.</li>
-<li>Team collaboration and onboarding.</li>
-<li>Linked Shiny module development built around a three-module time-series app.</li>
-</ol>
-<div class="quick-links">
-<p><a href="./take-home-ex2.html">Open Take-home 2</a> <a href="./prototype/forecasting.html">Open Forecasting Prototype</a> <a href="./app-guide.html">Open Shiny Guide</a></p>
-</div>
+<section id="purpose" class="level2">
+<h2>Purpose</h2>
+<p>This guide explains how to use the final three-module tourism analytics app.</p>
 </section>
-</section>
-</div>
-<section id="why-this-structure" class="level2">
-<h2>Why This Structure</h2>
-<p>The information architecture is adapted from the strengths of these references:</p>
+<section id="step-1-explore-the-series" class="level2">
+<h2>Step 1: Explore the Series</h2>
+<p>Open the <strong>Time Series Explorer</strong> tab to:</p>
 <ol type="1">
-<li><a href="https://thehabaritanzania.netlify.app/#team">Habari Tanzania</a>: one-page storytelling with section anchors and team visibility.</li>
-<li><a href="https://decoding-chaos.netlify.app/">Decoding Chaos</a>: Quarto-native multi-page prototype navigation.</li>
+<li>Choose a monthly series such as <code>Visitor Arrivals: China</code> or <code>Hotel Room Occupancy Rate</code>.</li>
+<li>Inspect the recent trend with a line chart.</li>
+<li>Confirm the unit and source metadata before moving to deeper analysis.</li>
 </ol>
 </section>
-<section id="workstreams" class="level2">
-<h2>Workstreams</h2>
-<div class="grid-cards">
-<section id="a.-submission-ready-report" class="level4 card-block">
-<h4>A. Submission-Ready Report</h4>
-<p><code>take-home-ex2.qmd</code> is the individual submission page in Quarto HTML format.</p>
-</section>
-<section id="b.-prototype-modules" class="level4 card-block">
-<h4>B. Prototype Modules</h4>
-<p><code>prototype/module-cluster.qmd</code> and <code>prototype/forecasting.qmd</code> define the clustering and forecasting module logic, parameters, UI, and output behavior.</p>
-</section>
-<section id="c.-running-shiny-app" class="level4 card-block">
-<h4>C. Running Shiny App</h4>
-<p><code>app/app.R</code> with modular server code in <code>app/R/</code>.</p>
-</section>
-<section id="d.-shared-team-base" class="level4 card-block">
-<h4>D. Shared Team Base</h4>
-<p><code>team/onboarding.qmd</code> documents setup, roles, and branch workflow.</p>
-</section>
-</div>
-</section>
-<section id="data-references-imported" class="level2">
-<h2>Data &amp; References Imported</h2>
+<section id="step-2-compare-recovery-states" class="level2">
+<h2>Step 2: Compare Recovery States</h2>
+<p>Open the <strong>Cluster Prototype</strong> tab to:</p>
 <ol type="1">
-<li><code>data/raw/Name your insight (4).xlsx</code></li>
-<li><code>data/references/tourism_analysis_bilingual_plan.txt</code></li>
-<li><code>data/references/tourism_data_cleaning_detailed_report.md</code></li>
+<li>Select one or more recovery periods.</li>
+<li>Choose the tourism indicators to cluster.</li>
+<li>Adjust <code>k</code>, seed, and scaling options.</li>
+<li>Review the scatter plot, silhouette score, and cluster profile table.</li>
 </ol>
 </section>
-<section id="start-development" class="level2">
-<h2>Start Development</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div>
+<section id="step-3-forecast-future-values" class="level2">
+<h2>Step 3: Forecast Future Values</h2>
+<p>Open the <strong>Forecasting Prototype</strong> tab to:</p>
+<ol type="1">
+<li>Select a country-level visitor-arrivals series.</li>
+<li>Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.</li>
+<li>Set the holdout horizon.</li>
+<li>Choose the forecasting model.</li>
+<li>Compare the seasonal-naive baseline with the selected model.</li>
+<li>Review the forecast plot and accuracy table.</li>
+</ol>
+</section>
+<section id="interpretation-tips" class="level2">
+<h2>Interpretation Tips</h2>
+<ol type="1">
+<li>Use the explorer first to understand seasonality and structural breaks.</li>
+<li>Use clustering second to identify which months behave similarly.</li>
+<li>Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.</li>
+</ol>
+</section>
+<section id="data-scope" class="level2">
+<h2>Data Scope</h2>
+<p>The current app is built on:</p>
+<p><code>data/raw/Name your insight (4).xlsx</code></p>
+<p>This workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation.</p>
 <div id="quarto-navigation-envelope" class="hidden">
 <p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXItdGl0bGU=">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6SG9tZQ==">Home</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2luZGV4Lmh0bWw=">/index.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvcG9zYWw=">Proposal</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L1Byb3Bvc2FsL1Byb3Bvc2FsLmh0bWw=">/Proposal/Proposal.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VGFrZS1ob21lIDI=">Take-home 2</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Rha2UtaG9tZS1leDIuaHRtbA==">/take-home-ex2.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VXNlciBHdWlkZQ==">User Guide</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3VzZXItZ3VpZGUuaHRtbA==">/user-guide.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UHJvdG90eXBl">Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6RGVjaXNpb24gVHJlZSBBbmFseXNpcw==">Decision Tree Analysis</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9kZWNpc2lvbi10cmVlLmh0bWw=">/prototype/decision-tree.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6TW9kdWxlIFByb3RvdHlwZQ==">Module Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9tb2R1bGUtY2x1c3Rlci5odG1s">/prototype/module-cluster.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6RGVjaXNpb24gVHJlZSBQcm90b3R5cGU=">Decision Tree Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9tb2R1bGUtZGVjaXNpb24tdHJlZS5odG1s">/prototype/module-decision-tree.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6Rm9yZWNhc3RpbmcgUHJvdG90eXBl">Forecasting Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9mb3JlY2FzdGluZy5odG1s">/prototype/forecasting.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6UGFja2FnZSBBdWRpdA==">Package Audit</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS9wYWNrYWdlLWF1ZGl0Lmh0bWw=">/prototype/package-audit.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VUkgU3Rvcnlib2FyZA==">UI Storyboard</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3Byb3RvdHlwZS91aS1zdG9yeWJvYXJkLmh0bWw=">/prototype/ui-storyboard.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6U2hpbnkgQXBw">Shiny App</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L2FwcC1ndWlkZS5odG1s">/app-guide.html</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6VGVhbQ==">Team</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLWludC1uYXZiYXI6L3RlYW0vb25ib2FyZGluZy5odG1s">/team/onboarding.html</span></p>
 <div class="hidden quarto-markdown-envelope-contents" data-render-id="Zm9vdGVyLWNlbnRlcg==">
@@ -281,7 +233,7 @@ Visual Analytics · Quarto + Shiny · AY2025/26
 </div>
 </div>
 <div id="quarto-meta-markdown" class="hidden">
-<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGF0aXRsZQ==">Project Home – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=">Project Home – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZHRpdGxl">Project Home – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ==">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw=="></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZGRkZXNj"></span></p>
+<p><span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGF0aXRsZQ==">User Guide – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=">User Guide – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZHRpdGxl">User Guide – Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW1ldGFzaXRlbmFtZQ==">Singapore Tourism Recovery VA Prototype</span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw=="></span> <span class="hidden quarto-markdown-envelope-contents" data-render-id="cXVhcnRvLW9nY2FyZGRkZXNj"></span></p>
 </div>
 </section>
 

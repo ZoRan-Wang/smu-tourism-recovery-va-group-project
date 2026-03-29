@@ -1,4 +1,5 @@
-timestamp: 2026-03-12 16:18:12
-rows_used: 110
-k_selected: 3
-silhouette_mean: 0.6317
+timestamp: 2026-03-29 15:55:10
+rows_monthly_features: 111
+forecast_series: Visitor Arrivals: China
+cluster_silhouette_mean: 0.6317
+forecast_models: Seasonal Naive, ETS(M,AD,M), ARIMA(0,1,2)(0,0,1)[12]

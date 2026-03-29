@@ -2,86 +2,85 @@
 title: "Singapore Tourism Recovery Visual Analytics Prototype"
 subtitle: "Proposal"
 author: "Group Project Starter"
-date: "2026-03-12"
+date: "2026-03-29"
 ---
 
 ## 1. Overview & Motivation
 
-Singapore’s tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and the share of the Chinese source market all suggest distinct recovery stages. Static charts alone are insufficient for users who need to explore these structural shifts from multiple perspectives. This project therefore proposes an interactive visual analytics prototype to help users understand how Singapore’s tourism market moved from pandemic shock toward recovery and high-performance states.
+Singapore's tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and hotel performance indicators all suggest distinct recovery stages. Static charts alone are insufficient for users who need to compare series, detect structural shifts, and assess what may happen next. This project therefore proposes an interactive visual analytics prototype to support exploration, clustering, and forecasting on one shared tourism time-series dataset.
 
-## 2. Problem Statement 
+## 2. Problem Statement
 
-Current discussions on tourism recovery often focus narrowly on whether visitor numbers have returned, without adequately examining market structure, seasonality, or stage-specific differences in recovery. In particular, there is a lack of an interpretable and interactive analytical framework to show how the Chinese source market contributed to Singapore’s overall tourism recovery and whether hotel recovery was mainly driven by total demand volume.
+Current discussions on tourism recovery often focus narrowly on whether visitor numbers have returned, without adequately examining seasonality, source-market differences, or the way recovery paths vary across tourism series. In particular, there is a lack of an interactive time-series framework that allows users to compare country-level arrivals, detect recovery regimes, and assess how future demand may evolve.
 
 ## 3. Project Aim
 
-The project aims to develop a visual analytics prototype based on monthly tourism data, enabling users to understand tourism recovery at descriptive, statistical, and model-based levels. The prototype will integrate exploratory data analysis, confirmatory analysis, clustering, decision tree analysis, and random forest analysis to explain how tourism market states evolve over time.
+The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism market states evolve and how selected demand series may move in the near future.
 
 ## 4. The Data
 
-The project data is sourced from the CEIC website and is guaranteed to be reliable in terms of data origin. We selected the following sets of data for our research.
+The project data is sourced from CEIC and Singapore Tourism Board related series and is reliable in terms of data origin. The selected workbook contains monthly tourism indicators such as:
 
--   Average Length of Stay
+- Visitor Arrivals
+- Visitor Arrivals by selected countries and regions
+- Hotel Room Occupancy Rate
+- Average Length of Stay
+- Number of Hotels
+- Total Room Revenue
 
--   Hotel Room Occupancy Rate
+The project uses a compiled tourism time-series workbook spanning **December 2015 onward**, with the main analytical focus on monthly series. Core variables include total visitor arrivals, arrivals from selected countries and regions such as China, hotel room occupancy rate, monthly average length of stay, number of hotels, and total room revenue. The app will use one common monthly dataset across all modules so that exploration, clustering, and forecasting remain consistent. Within that shared dataset, the forecasting module will treat **country-level monthly visitor arrivals** as the primary target series, while hotel occupancy, stay length, and room revenue will be used as supporting indicators for interpretation.
 
--   Tourist Expenditure Per Capit
-
--   Tourism Receipts
-
--   Average Length of Stay
-
--   Visitor Arrivals
-
--   Visitor Arrivals: China
-
-The project uses a cleaned monthly tourism dataset spanning **December 2016 to January 2026**. Core variables include total visitor arrivals, visitor arrivals from China, hotel room occupancy rate, monthly average length of stay, and derived fields such as China’s visitor share, quarter, year, and COVID-stage labels. Annual variables such as tourism receipts and expenditure per capita will be used only as supplementary context rather than as direct inputs for the monthly classification models.
-
-## 5Research Questions
+## 5. Research Questions
 
 The project focuses on the following questions:
 
-1.  How did Singapore’s tourism market differ across the pre-COVID, shock, and recovery periods?
-
-2.  Did the recovery of the Chinese source market move in tandem with the broader tourism market?
-
-3.  Which factors best determine whether a month falls into a low, medium, or high hotel occupancy state?
-
-4.  Can monthly tourism observations be grouped into meaningful market-state clusters?
+1. How did Singapore's tourism market differ across the pre-COVID, shock, and recovery periods?
+2. Did the recovery of selected source markets move in tandem with the broader tourism market?
+3. Can monthly tourism observations be grouped into meaningful recovery-state clusters?
+4. How well can selected country-level visitor-arrivals series be forecast using a baseline method and a model-based approach?
 
 ## 6. Methodology and Analytical Approach
 
-The project adopts four main analytical modules. First, exploratory analysis will reveal trends, seasonality, and unusual shifts. Second, confirmatory analysis will validate stage differences through correlation analysis, group comparisons, and significance testing. Third, clustering will classify months into interpretable market states such as “pandemic shock,” “recovery transition,” and “high-performance.” Finally, tree-based models, including decision trees and random forests, will identify the main drivers of hotel occupancy levels.
+The project adopts three main analytical modules:
 
-## 7. Decision Tree and Random Forest
+1. **Time-series exploration** to reveal trends, seasonality, and unusual shifts across target series.
+2. **Time-series clustering** to classify months into interpretable market states such as pandemic shock, recovery transition, and high-performance periods.
+3. **Forecasting** to compare a baseline method against a model-based approach on selected country-arrivals series and evaluate holdout accuracy, while interpreting those forecasts against hotel and stay indicators.
 
-The decision tree module emphasizes interpretability by translating complex relationships into clear rules, such as identifying thresholds below which months are likely to fall into low occupancy states. The random forest module serves as a more robust nonlinear classifier for assessing variable importance and testing model stability on unseen data. Together, the two approaches support both explanation and validation. Preliminary prototype testing suggests that total visitor volume is the most stable key variable, while seasonality, length of stay, and China’s visitor share provide additional discriminating power.
+These modules are designed to use the same monthly dataset so that users can move from description to structure to prediction without changing data context.
 
-![Decision Tree Visualization](picture/P2.png){width="75%"} ![Random Forest Confusion Matrix](picture/P1.png){width="75%"} ![Random Forest Variable Importance](picture/P3.png){width="75%"}
+## 7. Forecasting Module
 
-## 8Data Visualisation Methods
+The forecasting module will follow the Chapter 19 and 20 time-series workflow used in *R for Visual Analytics*. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks through the modeltime workflow. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.
 
-The prototype will include time-series line charts, period-based boxplots, correlation heatmaps, cluster scatter plots, cluster profile charts, decision tree visualizations, random forest variable importance plots, confusion-matrix heatmaps, and model-performance-versus-tree-count plots. These visualizations are designed not merely to display results, but to reveal the layered logic, threshold effects, and state transitions underlying tourism recovery.
+The expected outputs are:
 
-## 9 R Packages
+1. a selectable target series
+2. a raw time-series view with seasonal and decomposition diagnostics
+3. a forecast plot showing training, test, and forecast paths
+4. an accuracy table comparing RMSE, MAE, and MAPE
+5. explanatory notes on the difference between the baseline and the forecasting model
+
+## 8. Data Visualisation Methods
+
+The prototype will include time-series line charts, target-series comparison views, cluster scatter plots, cluster profile tables, forecast plots, and forecast accuracy tables. These visualizations are designed not merely to display results, but to reveal seasonal structure, regime shifts, recovery-state similarities, and the relative performance of competing forecasting methods.
+
+## 9. R Packages
 
 | **Package** | **Description** |
-|:-----------------------------------|:-----------------------------------|
+|:---|:---|
 | tidyverse | Used for data cleaning, transformation, filtering, summarisation, and general data manipulation. |
 | readxl | Used to import the original Excel dataset into R. |
-| lubridate | Used to process date variables and create year, month, and quarter fields. |
-| writexl | Used to export cleaned data into Excel format. |
-| ggplot2 | Used to create core statistical graphics such as line charts, boxplots, scatterplots, and bar charts. |
-| plotly | Used to add interactivity to selected visualisations. |
+| lubridate | Used to process date variables and create time-based fields. |
+| ggplot2 | Used to create line charts, clustering plots, and forecast visualisations. |
+| plotly | Used to add interactivity to selected visualisations where needed. |
 | DT | Used to display interactive data tables in the prototype. |
-| corrplot | Used to visualise correlation matrices among tourism variables. |
 | cluster | Used for clustering analysis and cluster quality assessment such as silhouette scores. |
 | factoextra | Used to visualise clustering results, elbow plots, and cluster profiles. |
-| rpart | Used to build decision tree classification models. |
-| rpart.plot | Used to create clear static decision tree visualisations for reporting. |
-| visNetwork | Used to create interactive tree visualisations. |
-| caret | Used for model training, tuning, resampling, confusion matrix evaluation, and workflow standardisation. |
-| ranger | Used to build random forest classification models efficiently. |
+| forecast | Used to fit baseline and model-based time-series forecasts such as seasonal naive, ETS, and ARIMA. |
+| tidymodels | Used to support time-aware train/test splitting and the forecasting modelling workflow. |
+| timetk | Used to support time-series exploration and modeltime-friendly forecasting workflows. |
+| modeltime | Used to calibrate, compare, refit, and forecast time-series models in a unified workflow. |
+| tsibble | Used to represent time-indexed series for decomposition and temporal analysis. |
+| feasts | Used to derive decomposition and seasonal diagnostics before model fitting. |
 | patchwork | Used to combine multiple ggplot charts into one display layout. |
-| htmlwidgets | Used to save and render interactive HTML-based outputs. |
-| sparkline | Used to support the interactive decision tree visualisation built with visNetwork. |

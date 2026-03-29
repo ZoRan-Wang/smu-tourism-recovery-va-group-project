@@ -8,26 +8,25 @@ Prototype a Shiny module that groups monthly observations into interpretable tou
 
 ## Data Contract
 
-Input dataset: `data/raw/tourism_four_part_analysis_ready.xlsx`  
-Sheet: `analysis_ready_all`
+Input dataset: `data/raw/Name your insight (4).xlsx`
 
 Required fields:
 
-1. `visitor_arrivals`
-2. `china_share`
-3. `hotel_occ`
-4. `avg_stay_monthly_capped`
-5. `period`
-6. `date`
+1. `Visitor Arrivals`
+2. `Visitor Arrivals: China`
+3. `Hotel Room Occupancy Rate`
+4. `Average Length of Stay`
+5. `date`
 
 ## Analytical Design
 
-1. Filter data by selected period.
-2. Select feature set.
-3. Optionally standardize features.
-4. Run k-means with user-defined `k`.
-5. Compute silhouette score.
-6. Return cluster assignments, profile summary, and scatter plot.
+1. Load the shared monthly tourism workbook.
+2. Derive a common feature table including total arrivals, China share, hotel occupancy, and capped length of stay.
+3. Filter data by selected period.
+4. Select feature set and optionally standardize features.
+5. Run k-means with user-defined `k`.
+6. Compute silhouette score.
+7. Return cluster assignments, profile summary, and scatter plot.
 
 ## Parameter Exposure
 
