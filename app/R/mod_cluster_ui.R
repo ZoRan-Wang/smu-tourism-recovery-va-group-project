@@ -85,33 +85,75 @@ mod_cluster_ui <- function(id) {
         class = "cluster-main",
         navset_card_tab(
           id = ns("cluster_pages"),
-          selected = "Start Here",
+          selected = "Dashboard",
           nav_panel(
-            "Start Here",
+            "Dashboard",
             div(
               class = "cluster-tab-stack",
+              card(
+                class = "cluster-panel",
+                card_header("Read this clustering first"),
+                card_body(
+                  layout_columns(
+                    uiOutput(ns("quality_panel")),
+                    uiOutput(ns("insight_panel")),
+                    col_widths = c(5, 7)
+                  )
+                )
+              ),
               layout_columns(
                 card(
                   class = "cluster-panel",
-                  card_header("Cluster Quality"),
-                  card_body(uiOutput(ns("quality_panel")))
+                  card_header("Pattern Atlas"),
+                  card_body(
+                    div(class = "cluster-helper-text", "Start here. Hover any line to inspect a country trajectory, compare it against the cluster mean, and use the focus selector to keep one market visible across the module."),
+                    plotly::plotlyOutput(ns("dashboard_pattern_plot"), height = "780px")
+                  )
                 ),
                 card(
                   class = "cluster-panel",
-                  card_header("Cluster Insights"),
-                  card_body(uiOutput(ns("insight_panel")))
+                  card_header("Cluster Profile"),
+                  card_body(
+                    div(class = "cluster-helper-text", "Keep this next to the atlas. It compresses each pattern into shock depth, ending level, and rebound multiple so the main recovery story stays readable."),
+                    plotly::plotlyOutput(ns("cluster_profile_plot"), height = "520px")
+                  )
                 ),
-                col_widths = c(5, 7)
+                col_widths = c(8, 4)
               ),
-              card(
-                class = "cluster-panel",
-                card_header("Pattern Summary"),
-                card_body(uiOutput(ns("cluster_chip_bar")))
+              layout_columns(
+                card(
+                  class = "cluster-panel",
+                  card_header("Recovery Position Map"),
+                  card_body(
+                    div(class = "cluster-helper-text", "Then compare each market's trough and ending level. Hover a point to inspect the market, its pattern, and the rebound multiple."),
+                    plotly::plotlyOutput(ns("dashboard_recovery_plot"), height = "500px")
+                  )
+                ),
+                card(
+                  class = "cluster-panel",
+                  card_header("Silhouette Scan"),
+                  card_body(
+                    div(class = "cluster-helper-text", "Use this to sanity-check the selected k. The chosen solution is highlighted against the full silhouette scan."),
+                    plotly::plotlyOutput(ns("diagnostics_plot"), height = "500px")
+                  )
+                ),
+                col_widths = c(7, 5)
               ),
-              card(
-                class = "cluster-panel",
-                card_header("Cluster Diagnostics"),
-                card_body(DT::DTOutput(ns("diagnostics_table")))
+              layout_columns(
+                card(
+                  class = "cluster-panel",
+                  card_header("Focus Cluster Comparison"),
+                  card_body(
+                    div(class = "cluster-helper-text", "Finally, read the focus market against only the peers that share its cluster. This keeps the comparison clear instead of showing every country at once."),
+                    plotly::plotlyOutput(ns("dashboard_focus_plot"), height = "420px")
+                  )
+                ),
+                card(
+                  class = "cluster-panel",
+                  card_header("China Placement"),
+                  card_body(uiOutput(ns("dashboard_china_context_panel")))
+                ),
+                col_widths = c(8, 4)
               )
             )
           ),
@@ -124,13 +166,13 @@ mod_cluster_ui <- function(id) {
                 card_header("Representative Patterns"),
                 card_body(
                   div(class = "cluster-helper-text", "Hover a line to see the country, cluster, month, and value. The focus series is highlighted across its cluster panel."),
-                  plotly::plotlyOutput(ns("cluster_pattern_plot"), height = "720px")
+                  plotly::plotlyOutput(ns("pattern_explorer_plot"), height = "720px")
                 )
               ),
               card(
                 class = "cluster-panel",
-                card_header("Focus Series Note"),
-                card_body(uiOutput(ns("focus_series_panel")))
+                card_header("Pattern Summary"),
+                card_body(uiOutput(ns("cluster_chip_bar")))
               )
             )
           ),
@@ -143,7 +185,15 @@ mod_cluster_ui <- function(id) {
                 card_header("Recovery Position Map"),
                 card_body(
                   div(class = "cluster-helper-text", "Hover a point to inspect the trough level, latest level, rebound multiple, and volatility. China and the focus series stay labelled."),
-                  plotly::plotlyOutput(ns("recovery_position_plot"), height = "560px")
+                  plotly::plotlyOutput(ns("china_recovery_plot"), height = "560px")
+                )
+              ),
+              card(
+                class = "cluster-panel",
+                card_header("China Cluster Explorer"),
+                card_body(
+                  div(class = "cluster-helper-text", "Read China or the selected focus market against only the peers that share its cluster."),
+                  plotly::plotlyOutput(ns("china_focus_plot"), height = "420px")
                 )
               ),
               card(
