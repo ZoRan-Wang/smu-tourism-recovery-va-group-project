@@ -8,18 +8,18 @@ title: "Project Home"
 # Singapore Tourism Recovery Prototype
 
 ## Core Question
-Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?
+How can one shared tourism time-series dataset support exploration, country-trajectory clustering, and forecasting for Singapore's tourism recovery?
 
 This site is an integrated workspace for:
 
 1. Take-home Exercise 2 write-up.
 2. Prototype module design and validation.
 3. Team collaboration and onboarding.
-4. Linked Shiny module development.
+4. Linked Shiny module development built around a three-module time-series app.
 
 <div class="quick-links">
 <a href="./take-home-ex2.html">Open Take-home 2</a>
-<a href="./prototype/module-cluster.html">Open Prototype Module</a>
+<a href="./prototype/forecasting.html">Open Forecasting Prototype</a>
 <a href="./app-guide.html">Open Shiny Guide</a>
 </div>
 :::
@@ -39,8 +39,8 @@ The information architecture is adapted from the strengths of these references:
 `take-home-ex2.qmd` is the individual submission page in Quarto HTML format.
 :::
 ::: {.card-block}
-#### B. Prototype Module
-`prototype/module-cluster.qmd` defines module logic, parameters, UI, and output behavior.
+#### B. Prototype Modules
+`prototype/module-cluster.qmd` and `prototype/forecasting.qmd` define the clustering and forecasting module logic, parameters, UI, and output behavior.
 :::
 ::: {.card-block}
 #### C. Running Shiny App
@@ -54,7 +54,7 @@ The information architecture is adapted from the strengths of these references:
 
 ## Data & References Imported
 
-1. `data/raw/tourism_four_part_analysis_ready.xlsx`
+1. `data/raw/Name your insight (4).xlsx`
 2. `data/references/tourism_analysis_bilingual_plan.txt`
 3. `data/references/tourism_data_cleaning_detailed_report.md`
 

@@ -24,6 +24,8 @@ website:
         text: Proposal
       - href: take-home-ex2.qmd
         text: Take-home 2
+      - href: user-guide.qmd
+        text: User Guide
       - text: Prototype
         menu:
           - href: prototype/EDA.qmd
@@ -36,6 +38,8 @@ website:
             text: Decision Tree Analysis
           - href: prototype/module-decision-tree.qmd
             text: Decision Tree Prototype
+          - href: prototype/forecasting.qmd
+            text: Forecasting Prototype
           - href: prototype/package-audit.qmd
             text: Package Audit
           - href: prototype/ui-storyboard.qmd

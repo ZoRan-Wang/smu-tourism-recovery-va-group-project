@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Shiny App Guide – Singapore Tourism Recovery VA Prototype</title>
+<title>User Guide – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -138,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Take-home 2</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./user-guide.html"> 
+    <a class="nav-link active" href="./user-guide.html" aria-current="page"> 
 <span class="menu-text">User Guide</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -173,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="./app-guide.html" aria-current="page"> 
+    <a class="nav-link" href="./app-guide.html"> 
 <span class="menu-text">Shiny App</span></a>
   </li>  
   <li class="nav-item">
@@ -196,16 +161,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#application-structure" id="toc-application-structure" class="nav-link active" data-scroll-target="#application-structure">Application Structure</a></li>
-  <li><a href="#the-three-modules" id="toc-the-three-modules" class="nav-link" data-scroll-target="#the-three-modules">The Three Modules</a>
-  <ul class="collapse">
-  <li><a href="#time-series-explorer" id="toc-time-series-explorer" class="nav-link" data-scroll-target="#time-series-explorer">1. Time Series Explorer</a></li>
-  <li><a href="#cluster-prototype" id="toc-cluster-prototype" class="nav-link" data-scroll-target="#cluster-prototype">2. Cluster Prototype</a></li>
-  <li><a href="#forecasting-prototype" id="toc-forecasting-prototype" class="nav-link" data-scroll-target="#forecasting-prototype">3. Forecasting Prototype</a></li>
-  </ul></li>
-  <li><a href="#run-commands" id="toc-run-commands" class="nav-link" data-scroll-target="#run-commands">Run Commands</a></li>
-  <li><a href="#what-to-expect" id="toc-what-to-expect" class="nav-link" data-scroll-target="#what-to-expect">What to Expect</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#step-1-explore-the-series" id="toc-step-1-explore-the-series" class="nav-link" data-scroll-target="#step-1-explore-the-series">Step 1: Explore the Series</a></li>
+  <li><a href="#step-2-compare-recovery-states" id="toc-step-2-compare-recovery-states" class="nav-link" data-scroll-target="#step-2-compare-recovery-states">Step 2: Compare Recovery States</a></li>
+  <li><a href="#step-3-forecast-future-values" id="toc-step-3-forecast-future-values" class="nav-link" data-scroll-target="#step-3-forecast-future-values">Step 3: Forecast Future Values</a></li>
+  <li><a href="#interpretation-tips" id="toc-interpretation-tips" class="nav-link" data-scroll-target="#interpretation-tips">Interpretation Tips</a></li>
+  <li><a href="#data-scope" id="toc-data-scope" class="nav-link" data-scroll-target="#data-scope">Data Scope</a></li>
   </ul>
 </nav>
     </div>
@@ -214,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Shiny App Guide</h1>
+<h1 class="title">User Guide</h1>
 </div>
 
 
@@ -231,68 +192,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="application-structure" class="level2">
-<h2 class="anchored" data-anchor-id="application-structure">Application Structure</h2>
-<p>The app now follows a three-module structure built on one shared tourism time-series workbook:</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>This guide explains how to use the final three-module tourism analytics app.</p>
+</section>
+<section id="step-1-explore-the-series" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-explore-the-series">Step 1: Explore the Series</h2>
+<p>Open the <strong>Time Series Explorer</strong> tab to:</p>
 <ol type="1">
-<li><code>app/app.R</code> - top-level navigation and shared reactive data loading.</li>
-<li><code>app/R/data_utils.R</code> - common time-series ingestion, feature engineering, and forecasting helpers.</li>
-<li><code>app/R/mod_cluster_ui.R</code> and <code>app/R/mod_cluster_server.R</code> - time-series clustering module.</li>
-<li><code>app/R/mod_forecast_ui.R</code> and <code>app/R/mod_forecast_server.R</code> - forecasting module.</li>
-<li>The Time Series Explorer is embedded directly in <code>app/app.R</code> to keep the main comparison flow simple.</li>
+<li>Choose a monthly series such as <code>Visitor Arrivals: China</code> or <code>Hotel Room Occupancy Rate</code>.</li>
+<li>Inspect the recent trend with a line chart.</li>
+<li>Confirm the unit and source metadata before moving to deeper analysis.</li>
 </ol>
 </section>
-<section id="the-three-modules" class="level2">
-<h2 class="anchored" data-anchor-id="the-three-modules">The Three Modules</h2>
-<section id="time-series-explorer" class="level3">
-<h3 class="anchored" data-anchor-id="time-series-explorer">1. Time Series Explorer</h3>
-<p>Purpose:</p>
+<section id="step-2-compare-recovery-states" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-compare-recovery-states">Step 2: Compare Recovery States</h2>
+<p>Open the <strong>Cluster Prototype</strong> tab to:</p>
 <ol type="1">
-<li>Select a monthly tourism series.</li>
-<li>Inspect recent years of trend and volatility.</li>
-<li>Review source, unit, and series identifier before analysis.</li>
+<li>Select multiple country-level visitor-arrivals series.</li>
+<li>Set the lookback window and choose <code>k</code>.</li>
+<li>Decide whether each country trajectory should be normalized before clustering.</li>
+<li>Review the scatter plot, silhouette score, and cluster profile table.</li>
 </ol>
 </section>
-<section id="cluster-prototype" class="level3">
-<h3 class="anchored" data-anchor-id="cluster-prototype">2. Cluster Prototype</h3>
-<p>Purpose:</p>
+<section id="step-3-forecast-future-values" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-forecast-future-values">Step 3: Forecast Future Values</h2>
+<p>Open the <strong>Forecasting Prototype</strong> tab to:</p>
 <ol type="1">
-<li>Select several country-level arrival series.</li>
-<li>Align them over a shared lookback window and cluster the trajectories.</li>
-<li>Review silhouette quality, PCA separation, and cluster profiles.</li>
+<li>Select a country-level visitor-arrivals series.</li>
+<li>Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.</li>
+<li>Set the holdout horizon.</li>
+<li>Choose the forecasting model.</li>
+<li>Compare the seasonal-naive baseline with the selected model.</li>
+<li>Review the forecast plot and accuracy table.</li>
 </ol>
 </section>
-<section id="forecasting-prototype" class="level3">
-<h3 class="anchored" data-anchor-id="forecasting-prototype">3. Forecasting Prototype</h3>
-<p>Purpose:</p>
+<section id="interpretation-tips" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-tips">Interpretation Tips</h2>
 <ol type="1">
-<li>Select a country-level monthly visitor-arrivals series.</li>
-<li>Position that country series against hotel occupancy, average length of stay, and room revenue.</li>
-<li>Set a train/test horizon.</li>
-<li>Compare a seasonal-naive baseline with a forecasting model such as ARIMA or ETS.</li>
-<li>Review both the forecast plot and the holdout accuracy table.</li>
+<li>Use the explorer first to understand seasonality and structural breaks.</li>
+<li>Use clustering second to identify which country-arrival trajectories behave similarly.</li>
+<li>Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.</li>
 </ol>
 </section>
-</section>
-<section id="run-commands" class="level2">
-<h2 class="anchored" data-anchor-id="run-commands">Run Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="what-to-expect" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-expect">What to Expect</h2>
-<p>The final app should let the user:</p>
-<ol type="1">
-<li>Explore the raw tourism series.</li>
-<li>Group months into recovery states.</li>
-<li>Generate and compare forecasts for the selected target series.</li>
-</ol>
-</section>
-<section id="data-source" class="level2">
-<h2 class="anchored" data-anchor-id="data-source">Data Source</h2>
-<p>The app reads:</p>
+<section id="data-scope" class="level2">
+<h2 class="anchored" data-anchor-id="data-scope">Data Scope</h2>
+<p>The current app is built on:</p>
 <p><code>data/raw/Name your insight (4).xlsx</code></p>
-<p>This workbook is treated as the common source for all three modules so that users do not need to switch between inconsistent datasets.</p>
-<p>Within that shared workbook, the forecasting tab treats country-level visitor arrivals as the primary target series and uses hotel/stay indicators as supporting context rather than separate forecast targets.</p>
+<p>This workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation.</p>
 
 
 </section>

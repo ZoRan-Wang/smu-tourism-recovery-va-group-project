@@ -137,30 +137,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
-    <a class="dropdown-item" href="./prototype/EDA.html">
- <span class="dropdown-text">EDA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./prototype/CDA.html">
- <span class="dropdown-text">CDA</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./prototype/module-cluster.html">
- <span class="dropdown-text">Clustering Prototype</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./prototype/decision-tree.html">
  <span class="dropdown-text">Decision Tree Analysis</span></a>
   </li>  
         <li>
+    <a class="dropdown-item" href="./prototype/module-cluster.html">
+ <span class="dropdown-text">Module Prototype</span></a>
+  </li>  
+        <li>
     <a class="dropdown-item" href="./prototype/module-decision-tree.html">
  <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/package-audit.html">
@@ -169,10 +169,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./prototype/wang-zhuoran-review-report.html">
- <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -237,16 +233,16 @@ Visual Analytics · Quarto + Shiny · AY2025/26
 <h1>Singapore Tourism Recovery Prototype</h1>
 <section id="core-question" class="level2">
 <h2 class="anchored" data-anchor-id="core-question">Core Question</h2>
-<p>Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?</p>
+<p>How can one shared tourism time-series dataset support exploration, country-trajectory clustering, and forecasting for Singapore’s tourism recovery?</p>
 <p>This site is an integrated workspace for:</p>
 <ol type="1">
 <li>Take-home Exercise 2 write-up.</li>
 <li>Prototype module design and validation.</li>
 <li>Team collaboration and onboarding.</li>
-<li>Linked Shiny module development.</li>
+<li>Linked Shiny module development built around a three-module time-series app.</li>
 </ol>
 <div class="quick-links">
-<p><a href="./take-home-ex2.html">Open Take-home 2</a> <a href="./prototype/module-cluster.html">Open Prototype Module</a> <a href="./app-guide.html">Open Shiny Guide</a></p>
+<p><a href="./take-home-ex2.html">Open Take-home 2</a> <a href="./prototype/forecasting.html">Open Forecasting Prototype</a> <a href="./app-guide.html">Open Shiny Guide</a></p>
 </div>
 </section>
 </section>
@@ -266,9 +262,9 @@ Visual Analytics · Quarto + Shiny · AY2025/26
 <h4 class="anchored" data-anchor-id="a.-submission-ready-report">A. Submission-Ready Report</h4>
 <p><code>take-home-ex2.qmd</code> is the individual submission page in Quarto HTML format.</p>
 </section>
-<section id="b.-prototype-module" class="level4 card-block">
-<h4 class="anchored" data-anchor-id="b.-prototype-module">B. Prototype Module</h4>
-<p><code>prototype/module-cluster.qmd</code> defines module logic, parameters, UI, and output behavior.</p>
+<section id="b.-prototype-modules" class="level4 card-block">
+<h4 class="anchored" data-anchor-id="b.-prototype-modules">B. Prototype Modules</h4>
+<p><code>prototype/module-cluster.qmd</code> and <code>prototype/forecasting.qmd</code> define the clustering and forecasting module logic, parameters, UI, and output behavior.</p>
 </section>
 <section id="c.-running-shiny-app" class="level4 card-block">
 <h4 class="anchored" data-anchor-id="c.-running-shiny-app">C. Running Shiny App</h4>
@@ -283,7 +279,7 @@ Visual Analytics · Quarto + Shiny · AY2025/26
 <section id="data-references-imported" class="level2">
 <h2 class="anchored" data-anchor-id="data-references-imported">Data &amp; References Imported</h2>
 <ol type="1">
-<li><code>data/raw/tourism_four_part_analysis_ready.xlsx</code></li>
+<li><code>data/raw/Name your insight (4).xlsx</code></li>
 <li><code>data/references/tourism_analysis_bilingual_plan.txt</code></li>
 <li><code>data/references/tourism_data_cleaning_detailed_report.md</code></li>
 </ol>

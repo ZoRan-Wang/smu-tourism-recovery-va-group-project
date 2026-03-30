@@ -1,538 +1,66 @@
 ---
-title: "Prototype: Clustering Analysis"
-subtitle: "Monthly tourism market states in Singapore's recovery"
-format:
-  html:
-    fig-width: 8
-    fig-height: 4.8
-execute:
-  echo: true
-  warning: false
-  message: false
+title: "Module Prototype: Cluster Analysis"
 ---
 
-## 1. Introduction
+## Objective
 
-This prototype now follows a tighter analytical rhythm: one focused code block, one direct output, and one explanation. The goal is to keep the page readable and fully reproducible at the same time.
+Prototype a Shiny module that groups **country-level visitor-arrivals trajectories** into interpretable time-series clusters.
 
-The research question is:
+## Data Contract
 
-> Can monthly tourism observations be grouped into a few interpretable market states defined by visitor arrivals, China's market share, hotel occupancy, and length of stay?
+Input dataset: `data/raw/Name your insight (4).xlsx`
 
-The method remains **k-means clustering on standardized monthly indicators**, because this dataset is continuous and month-based rather than respondent-based.
+Required fields:
 
-## 2. Load Packages
+1. `Visitor Arrivals: China`
+2. `Visitor Arrivals: Malaysia`
+3. `Visitor Arrivals: India`
+4. `Visitor Arrivals: Indonesia`
+5. `Visitor Arrivals: Australia`
+6. `date`
 
-The first step is to load the packages used in this prototype.
+Supporting hotel indicators remain in the shared workbook for explorer and forecasting context, but the cluster prototype operates on the country-arrivals trajectories themselves.
 
-```{r}
-packages <- c("readxl", "dplyr", "ggplot2", "cluster", "knitr")
-invisible(lapply(packages, library, character.only = TRUE))
+## Analytical Design
 
-package_table <- data.frame(
-  Package = packages,
-  Version = vapply(packages, function(pkg) as.character(packageVersion(pkg)), character(1))
-)
+1. Load the shared monthly tourism workbook.
+2. Restrict the catalog to country-level visitor-arrivals series.
+3. Select a common lookback window across countries.
+4. Align the country series by month and drop incomplete overlapping dates.
+5. Optionally normalize each country trajectory.
+6. Run `kmeans` across country trajectories.
+7. Compute silhouette score.
+8. Use PCA only as a 2D projection for display.
 
-knitr::kable(package_table, align = c("l", "l"))
-```
+## Parameter Exposure
 
-The package table confirms that the required tools for data import, transformation, clustering, and reporting are available in the current project environment.
+| Parameter | UI Component | Default | Validation |
+|---|---|---|---|
+| `series_filter` | `selectizeInput` | core source markets | at least two series selected |
+| `lookback_years` | `sliderInput` | 8 | min 3, max 10 |
+| `k_value` | `sliderInput` | 3 | min 2, max 6 |
+| `random_seed` | `numericInput` | 42 | integer > 0 |
+| `scale_series` | `checkboxInput` | TRUE | boolean |
 
-## 3. Import The Cleaned Workbook
+## Output Exposure
 
-The clustering module uses the cleaned workbook created for the project, specifically the `analysis_ready_all` sheet.
+| Output | Format | Purpose |
+|---|---|---|
+| Scatter plot | `ggplot2` | Show time-series cluster separation in PCA space |
+| Profile table | `DT::datatable` | Compare cluster-level averages such as mean arrivals and volatility |
+| Assignment table | `DT::datatable` | Show which countries belong to which cluster |
+| Silhouette metric | text value | Indicate clustering quality |
 
-```{r}
-data_candidates <- c(
-  file.path("..", "data", "raw", "tourism_four_part_analysis_ready.xlsx"),
-  file.path("data", "raw", "tourism_four_part_analysis_ready.xlsx")
-)
+## Implementation Files
 
-data_path <- data_candidates[file.exists(data_candidates)][1]
-if (is.na(data_path)) {
-  stop("Dataset not found. Expected tourism_four_part_analysis_ready.xlsx in data/raw.")
-}
+1. `app/R/data_utils.R`
+2. `app/R/mod_cluster_ui.R`
+3. `app/R/mod_cluster_server.R`
+4. `app/app.R`
 
-tourism_raw <- read_excel(data_path, sheet = "analysis_ready_all") |>
-  mutate(date = as.Date(date))
+## Quality Gates
 
-data_import_summary <- data.frame(
-  Metric = c(
-    "Workbook path",
-    "Sheet name",
-    "Number of rows",
-    "Number of columns",
-    "First month",
-    "Last month"
-  ),
-  Value = c(
-    data_path,
-    "analysis_ready_all",
-    nrow(tourism_raw),
-    ncol(tourism_raw),
-    format(min(tourism_raw$date), "%Y-%m"),
-    format(max(tourism_raw$date), "%Y-%m")
-  )
-)
-
-knitr::kable(data_import_summary, align = c("l", "l"))
-```
-
-The imported dataset contains `r nrow(tourism_raw)` monthly observations running from `r format(min(tourism_raw$date), "%Y-%m")` to `r format(max(tourism_raw$date), "%Y-%m")`.
-
-## 4. Preview The Main Variables
-
-Before modeling, it is helpful to inspect the main fields that will support the clustering analysis.
-
-```{r}
-data_preview <- tourism_raw |>
-  select(
-    date,
-    period,
-    visitor_arrivals,
-    visitor_arrivals_china,
-    china_share,
-    hotel_occ,
-    avg_stay_monthly_capped
-  ) |>
-  slice_head(n = 6)
-
-knitr::kable(data_preview, digits = 3, align = c("l", "l", "r", "r", "r", "r", "r"))
-```
-
-This preview shows that the cleaned sheet already contains the time period label, China's market share, and the capped stay-duration variable required for the clustering workflow.
-
-## 5. Select The Clustering Variables
-
-Following the project plan, the model uses four continuous monthly variables:
-
-1. `visitor_arrivals`
-2. `china_share`
-3. `hotel_occ`
-4. `avg_stay_monthly_capped`
-
-```{r}
-feature_vars <- c(
-  "visitor_arrivals",
-  "china_share",
-  "hotel_occ",
-  "avg_stay_monthly_capped"
-)
-
-cluster_input <- tourism_raw |>
-  select(
-    date,
-    period,
-    visitor_arrivals,
-    china_share,
-    hotel_occ,
-    avg_stay_monthly,
-    avg_stay_monthly_capped
-  ) |>
-  filter(if_all(all_of(feature_vars), ~ !is.na(.x)))
-
-missing_table <- data.frame(
-  Variable = feature_vars,
-  Missing_values = vapply(feature_vars, function(x) sum(is.na(cluster_input[[x]])), integer(1))
-)
-
-knitr::kable(missing_table, align = c("l", "r"))
-```
-
-The selected feature set has no missing values after filtering, so all `r nrow(cluster_input)` months can be used in the clustering stage.
-
-## 6. Check The Period Coverage
-
-The clustering result should represent the three main phases of the tourism market: pre-COVID, COVID shock, and recovery.
-
-```{r}
-period_table <- cluster_input |>
-  count(period, name = "Months")
-
-knitr::kable(period_table, align = c("l", "r"))
-```
-
-The period table confirms that the usable monthly observations still cover all three phases, which is important for interpreting the final cluster states historically.
-
-## 7. Standardize The Modeling Variables
-
-K-means depends on Euclidean distance, so the four variables must be standardized before clustering. Otherwise, visitor counts would dominate the distance calculation simply because they are measured on a much larger scale.
-
-```{r}
-cluster_matrix <- scale(as.matrix(cluster_input[, feature_vars, drop = FALSE]))
-
-standardization_check <- data.frame(
-  Variable = colnames(cluster_matrix),
-  Mean_after_scaling = round(colMeans(cluster_matrix), 3),
-  SD_after_scaling = round(apply(cluster_matrix, 2, sd), 3)
-)
-
-knitr::kable(standardization_check, align = c("l", "r", "r"))
-```
-
-The means are approximately zero and the standard deviations are approximately one, so the standardized feature matrix is ready for clustering.
-
-## 8. Generate The Elbow Plot
-
-The first diagnostic for cluster selection is the elbow method. It compares how the within-cluster sum of squares changes as `k` increases.
-
-```{r}
-#| label: fig-elbow
-candidate_k <- 2:6
-distance_matrix <- dist(cluster_matrix)
-
-model_metrics <- bind_rows(lapply(candidate_k, function(k) {
-  set.seed(42)
-  fit <- kmeans(cluster_matrix, centers = k, nstart = 25)
-  sil <- silhouette(fit$cluster, distance_matrix)
-
-  data.frame(
-    k = k,
-    tot_withinss = fit$tot.withinss,
-    silhouette = mean(sil[, "sil_width"], na.rm = TRUE)
-  )
-}))
-
-ggplot(model_metrics, aes(x = k, y = tot_withinss)) +
-  geom_line(color = "#0f3d3e", linewidth = 1.1) +
-  geom_point(color = "#d86f45", size = 2.6) +
-  scale_x_continuous(breaks = candidate_k) +
-  labs(
-    title = "Elbow Plot for Candidate Cluster Counts",
-    x = "Number of clusters (k)",
-    y = "Total within-cluster sum of squares"
-  ) +
-  theme_minimal(base_size = 12)
-```
-
-The elbow bends clearly by around `k = 3`, which suggests that moving beyond three clusters yields diminishing returns in compactness.
-
-## 9. Generate The Silhouette Plot
-
-The second diagnostic is the mean silhouette score, which measures how well-separated the clusters are.
-
-```{r}
-#| label: fig-silhouette
-ggplot(model_metrics, aes(x = factor(k), y = silhouette, fill = k == 3)) +
-  geom_col(width = 0.68, show.legend = FALSE) +
-  scale_fill_manual(values = c("TRUE" = "#0f6b5b", "FALSE" = "#c7d4cf")) +
-  labs(
-    title = "Mean Silhouette Score by Candidate k",
-    x = "Number of clusters (k)",
-    y = "Mean silhouette score"
-  ) +
-  theme_minimal(base_size = 12)
-```
-
-The silhouette score is highest at `k = r model_metrics$k[which.max(model_metrics$silhouette)]`, but `k = 3` remains a defensible choice because it creates a more meaningful market-state interpretation than a simple two-cluster split.
-
-## 10. Compare The Cluster Selection Metrics
-
-The two diagnostics can be read together in tabular form before fixing the final model.
-
-```{r}
-metrics_table <- model_metrics |>
-  transmute(
-    K = k,
-    `Total within-cluster SS` = round(tot_withinss, 1),
-    `Mean silhouette` = round(silhouette, 3)
-  )
-
-knitr::kable(metrics_table, align = c("r", "r", "r"))
-```
-
-Taken together, the diagnostics support a reasonable interpretive compromise: use `k = 3` so that the final solution can distinguish shock months, transition months, and stronger performance months.
-
-## 11. Fit The Final K-Means Model
-
-Once `k = 3` is selected, the final model can be estimated and the month-level cluster assignments can be generated.
-
-```{r}
-selected_k <- 3
-set.seed(42)
-cluster_fit <- kmeans(cluster_matrix, centers = selected_k, nstart = 25)
-pca_fit <- prcomp(cluster_matrix)
-
-cluster_results <- cluster_input |>
-  mutate(
-    cluster_id = cluster_fit$cluster,
-    pc1 = pca_fit$x[, 1],
-    pc2 = pca_fit$x[, 2]
-  )
-
-cluster_profile_raw <- cluster_results |>
-  group_by(cluster_id) |>
-  summarise(
-    months = n(),
-    visitor_arrivals = mean(visitor_arrivals),
-    china_share = mean(china_share),
-    hotel_occ = mean(hotel_occ),
-    avg_stay_monthly = mean(avg_stay_monthly),
-    avg_stay_monthly_capped = mean(avg_stay_monthly_capped),
-    .groups = "drop"
-  )
-
-label_map <- cluster_profile_raw |>
-  arrange(visitor_arrivals) |>
-  mutate(
-    state_label = c(
-      "Pandemic shock months",
-      "Recovery transition months",
-      "High-performance months"
-    )
-  ) |>
-  select(cluster_id, state_label)
-
-cluster_results <- cluster_results |>
-  left_join(label_map, by = "cluster_id") |>
-  mutate(
-    state_label = factor(
-      state_label,
-      levels = c(
-        "Pandemic shock months",
-        "Recovery transition months",
-        "High-performance months"
-      )
-    ),
-    period = factor(period, levels = c("pre_covid", "covid_shock", "recovery"))
-  )
-
-cluster_size_table <- cluster_results |>
-  count(state_label, name = "Months") |>
-  arrange(state_label)
-
-largest_state_name <- as.character(cluster_size_table$state_label[which.max(cluster_size_table$Months)])
-largest_state_months <- cluster_size_table$Months[which.max(cluster_size_table$Months)]
-
-knitr::kable(cluster_size_table, align = c("l", "r"))
-```
-
-The fitted model produces three interpretable groups. In the current dataset, the largest group is `r largest_state_name` with `r largest_state_months` months.
-
-## 12. Examine The Standardized Cluster Centers
-
-The cluster centers show how each market state differs on the standardized feature scale.
-
-```{r}
-center_table <- as.data.frame(cluster_fit$centers) |>
-  mutate(cluster_id = as.integer(rownames(cluster_fit$centers))) |>
-  left_join(label_map, by = "cluster_id") |>
-  transmute(
-    `Market state` = state_label,
-    `Standardized center: visitor arrivals` = round(visitor_arrivals, 3),
-    `Standardized center: China share` = round(china_share, 3),
-    `Standardized center: hotel occupancy` = round(hotel_occ, 3),
-    `Standardized center: stay length` = round(avg_stay_monthly_capped, 3)
-  ) |>
-  arrange(match(`Market state`, levels(cluster_results$state_label)))
-
-knitr::kable(center_table, align = c("l", "r", "r", "r", "r"))
-```
-
-Because the centers are standardized, positive values indicate above-average conditions and negative values indicate below-average conditions. This table is useful for checking the internal logic of the state labels.
-
-## 13. Plot The Cluster Separation
-
-The next figure projects the standardized monthly observations onto two principal components so that the three cluster states can be viewed in a reduced feature space.
-
-```{r}
-#| label: fig-pca
-state_palette <- c(
-  "Pandemic shock months" = "#b6405d",
-  "Recovery transition months" = "#ef9f23",
-  "High-performance months" = "#0f6b5b"
-)
-
-ggplot(cluster_results, aes(x = pc1, y = pc2, color = state_label, shape = period)) +
-  geom_point(size = 3.1, alpha = 0.88) +
-  scale_color_manual(values = state_palette) +
-  labs(
-    title = "Cluster State Map in Reduced Feature Space",
-    x = "Principal component 1",
-    y = "Principal component 2",
-    color = "Market state",
-    shape = "Period"
-  ) +
-  theme_minimal(base_size = 12)
-```
-
-The scatter plot shows that the market states are not randomly mixed. The strongest separation appears between the pandemic shock months and the high-performance months, while the recovery transition months sit between them.
-
-## 14. Compare The State Profiles
-
-To make the clusters easier to interpret, the next table summarizes the average market conditions inside each inferred state.
-
-```{r}
-cluster_profile <- cluster_profile_raw |>
-  left_join(label_map, by = "cluster_id") |>
-  mutate(
-    state_label = factor(
-      state_label,
-      levels = c(
-        "Pandemic shock months",
-        "Recovery transition months",
-        "High-performance months"
-      )
-    )
-  ) |>
-  arrange(state_label)
-
-profile_table <- cluster_profile |>
-  transmute(
-    `Market state` = state_label,
-    Months = months,
-    `Mean visitor arrivals` = format(round(visitor_arrivals), big.mark = ","),
-    `Mean China share` = sprintf("%.1f%%", 100 * china_share),
-    `Mean hotel occupancy` = sprintf("%.1f%%", hotel_occ),
-    `Mean stay (raw)` = round(avg_stay_monthly, 1),
-    `Mean stay (capped for model)` = round(avg_stay_monthly_capped, 1)
-  )
-
-knitr::kable(profile_table, align = c("l", "r", "r", "r", "r", "r", "r"))
-```
-
-This table gives the business interpretation of the clusters. The shock state combines extremely low arrivals and low occupancy with long stays, the transition state shows partial recovery, and the high-performance state combines strong arrivals with high hotel occupancy.
-
-## 15. Plot The State Timeline
-
-The clustering result also needs to be anchored back to historical time.
-
-```{r}
-#| label: fig-timeline
-ggplot(cluster_results, aes(x = date, y = state_label, color = state_label)) +
-  geom_point(size = 2.8, alpha = 0.9) +
-  scale_color_manual(values = state_palette) +
-  labs(
-    title = "Timeline of Inferred Market States",
-    x = "Month",
-    y = "Market state",
-    color = "Market state"
-  ) +
-  theme_minimal(base_size = 12)
-```
-
-The timeline shows that the clustering result is historically coherent: pandemic shock months cluster inside the disruption period, recovery transition months bridge the early rebound, and high-performance months dominate the pre-COVID and later recovery periods.
-
-## 16. Compare States Across Periods
-
-The final historical check is to cross-tabulate the inferred states against the predefined project periods.
-
-```{r}
-period_state_view <- as.data.frame.matrix(with(cluster_results, table(state_label, period)))
-period_state_view$state_label <- rownames(period_state_view)
-rownames(period_state_view) <- NULL
-
-period_state_view <- period_state_view |>
-  select(state_label, pre_covid, covid_shock, recovery) |>
-  transmute(
-    `Market state` = state_label,
-    `Pre-COVID` = pre_covid,
-    `COVID shock` = covid_shock,
-    Recovery = recovery
-  )
-
-high_perf_pre_covid <- period_state_view$`Pre-COVID`[period_state_view$`Market state` == "High-performance months"]
-high_perf_recovery <- period_state_view$Recovery[period_state_view$`Market state` == "High-performance months"]
-shock_covid <- period_state_view$`COVID shock`[period_state_view$`Market state` == "Pandemic shock months"]
-transition_covid <- period_state_view$`COVID shock`[period_state_view$`Market state` == "Recovery transition months"]
-transition_recovery <- period_state_view$Recovery[period_state_view$`Market state` == "Recovery transition months"]
-
-knitr::kable(period_state_view, align = c("l", "r", "r", "r"))
-```
-
-This table confirms the storytelling logic of the model. In the current data, the high-performance state contains `r high_perf_pre_covid` pre-COVID months and `r high_perf_recovery` recovery months, the pandemic shock state contains `r shock_covid` COVID-shock months, and the recovery transition state spans `r transition_covid` COVID-shock months plus `r transition_recovery` recovery months.
-
-## 17. Define The UI Parameters
-
-The prototype also needs to specify the controls that should be exposed later in the Shiny module.
-
-```{r}
-ui_parameter_table <- data.frame(
-  Parameter = c(
-    "period_filter",
-    "feature_cols",
-    "k_value",
-    "random_seed",
-    "scale_features",
-    "run_cluster",
-    "download_clusters"
-  ),
-  UI_component = c(
-    "checkboxGroupInput",
-    "checkboxGroupInput",
-    "sliderInput",
-    "numericInput",
-    "checkboxInput",
-    "actionButton",
-    "downloadButton"
-  ),
-  Default = c(
-    "all periods",
-    "all default cluster features",
-    "3",
-    "42",
-    "TRUE",
-    "click to run",
-    "shown after model run"
-  ),
-  Purpose = c(
-    "filter months by study period",
-    "choose the variables used for clustering",
-    "compare alternative cluster counts",
-    "keep the result reproducible",
-    "toggle z-score standardization",
-    "avoid unnecessary recomputation",
-    "export month-level state assignments"
-  )
-)
-
-knitr::kable(ui_parameter_table, align = c("l", "l", "l", "l"))
-```
-
-The parameter table keeps the module focused on the minimum controls needed for a meaningful prototype.
-
-## 18. Define The UI Outputs
-
-The last step is to specify what the Shiny module should return to the user.
-
-```{r}
-ui_output_table <- data.frame(
-  Output = c(
-    "cluster_plot",
-    "profile_table",
-    "timeline_plot",
-    "silhouette_value",
-    "assignment_table",
-    "download_clusters"
-  ),
-  Format = c(
-    "ggplot2",
-    "DT::datatable",
-    "ggplot2",
-    "value box / text",
-    "DT::datatable",
-    "CSV download"
-  ),
-  Purpose = c(
-    "show separation between market states",
-    "compare cluster averages",
-    "link states back to the historical timeline",
-    "report model quality",
-    "preview month-level assignments in the app",
-    "support downstream analysis"
-  )
-)
-
-knitr::kable(ui_output_table, align = c("l", "l", "l"))
-```
-
-These outputs preserve the same analytical story developed in the prototype report, so the eventual Shiny module can remain consistent with the coursework write-up.
-
-## 19. Conclusion
-
-This revised page now follows the tighter structure you asked for: one block of code, one immediate output, and one explanation. The analytical conclusion is unchanged, but the workflow is now much easier to inspect and present:
-
-- monthly observations do not form one smooth market pattern,
-- they separate into interpretable tourism states,
-- and those states are jointly shaped by visitor volume, China's market share, hotel occupancy, and length of stay.
+1. At least two country-arrivals series must be selected.
+2. At least 12 overlapping monthly observations must remain after alignment.
+3. Chosen `k` must be smaller than the number of selected series.
+4. Country labels must stay visible in the clustering output.

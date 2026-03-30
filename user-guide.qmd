@@ -1,0 +1,49 @@
+---
+title: "User Guide"
+---
+
+## Purpose
+
+This guide explains how to use the final three-module tourism analytics app.
+
+## Step 1: Explore the Series
+
+Open the **Time Series Explorer** tab to:
+
+1. Choose a monthly series such as `Visitor Arrivals: China` or `Hotel Room Occupancy Rate`.
+2. Inspect the recent trend with a line chart.
+3. Confirm the unit and source metadata before moving to deeper analysis.
+
+## Step 2: Compare Recovery States
+
+Open the **Cluster Prototype** tab to:
+
+1. Select multiple country-level visitor-arrivals series.
+2. Set the lookback window and choose `k`.
+3. Decide whether each country trajectory should be normalized before clustering.
+4. Review the scatter plot, silhouette score, and cluster profile table.
+
+## Step 3: Forecast Future Values
+
+Open the **Forecasting Prototype** tab to:
+
+1. Select a country-level visitor-arrivals series.
+2. Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.
+3. Set the holdout horizon.
+4. Choose the forecasting model.
+5. Compare the seasonal-naive baseline with the selected model.
+6. Review the forecast plot and accuracy table.
+
+## Interpretation Tips
+
+1. Use the explorer first to understand seasonality and structural breaks.
+2. Use clustering second to identify which country-arrival trajectories behave similarly.
+3. Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.
+
+## Data Scope
+
+The current app is built on:
+
+`data/raw/Name your insight (4).xlsx`
+
+This workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation.

@@ -5,34 +5,47 @@ library(cluster)
 
 mod_cluster_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
-    state_palette <- c(
-      "State 1" = "#0f6b5b",
-      "State 2" = "#ef9f23",
-      "State 3" = "#b6405d",
-      "State 4" = "#4c6faf",
-      "State 5" = "#8b5fbf",
-      "State 6" = "#8f5a2b"
-    )
+    observe({
+      choices <- list_country_arrival_series(data()$long_monthly)$label
+      default_selection <- intersect(
+        c(
+          "Visitor Arrivals: China",
+          "Visitor Arrivals: Malaysia",
+          "Visitor Arrivals: India",
+          "Visitor Arrivals: Indonesia",
+          "Visitor Arrivals: Australia",
+          "Visitor Arrivals: Japan"
+        ),
+        choices
+      )
+
+      updateSelectizeInput(
+        session,
+        "series_filter",
+        choices = choices,
+        selected = default_selection,
+        server = TRUE
+      )
+    })
 
     cluster_results <- eventReactive(input$run_cluster, {
       validate(
-        need(length(input$period_filter) > 0, "Select at least one period."),
-        need(length(input$feature_cols) >= 2, "Select at least two features.")
+        need(length(input$series_filter) >= 2, "Select at least two country-arrival series.")
       )
 
-      prep <- prepare_cluster_data(
-        data(),
-        periods = input$period_filter,
-        features = input$feature_cols,
-        scale_features = input$scale_features
+      prep <- prepare_time_series_cluster_data(
+        long_monthly = data()$long_monthly,
+        selected_series = input$series_filter,
+        lookback_years = input$lookback_years,
+        scale_series = input$scale_series
       )
 
       mat <- prep$matrix
       meta <- prep$metadata
 
       validate(
-        need(nrow(mat) > input$k_value, "Not enough rows for current k."),
-        need(nrow(mat) > 2, "Filtered data is too small.")
+        need(nrow(mat) > input$k_value, "Not enough country series for current k."),
+        need(ncol(mat) >= 12, "Not enough overlapping months for time-series clustering.")
       )
 
       set.seed(input$random_seed)
@@ -42,29 +55,20 @@ mod_cluster_server <- function(id, data) {
       sil_mean <- mean(sil[, "sil_width"], na.rm = TRUE)
 
       pca <- prcomp(mat)
-      plot_df <- data.frame(
-        date = meta$date,
-        period = meta$period,
-        cluster = factor(paste0("State ", km$cluster)),
-        PC1 = pca$x[, 1],
-        PC2 = pca$x[, 2]
-      )
+      plot_df <- meta |>
+        mutate(
+          cluster = factor(paste0("Cluster ", km$cluster)),
+          PC1 = pca$x[, 1],
+          PC2 = pca$x[, 2]
+        )
 
-      profile <- bind_cols(
-        tibble(cluster = factor(paste0("State ", km$cluster))),
-        as.data.frame(meta[, input$feature_cols, drop = FALSE])
-      ) |>
+      profile <- plot_df |>
+        select(cluster, mean_arrivals, volatility, latest_arrivals) |>
         group_by(cluster) |>
         summarise(across(everything(), mean), .groups = "drop")
 
-      assignments <- meta |>
-        mutate(cluster = paste0("State ", km$cluster)) |>
-        select(date, period, cluster, all_of(input$feature_cols))
-
-      cluster_levels <- paste0("State ", seq_len(input$k_value))
-      plot_df$cluster <- factor(plot_df$cluster, levels = cluster_levels)
-      profile$cluster <- factor(profile$cluster, levels = cluster_levels)
-      assignments$cluster <- factor(assignments$cluster, levels = cluster_levels)
+      assignments <- plot_df |>
+        select(label, cluster, mean_arrivals, volatility, latest_arrivals, start_date, end_date)
 
       list(
         silhouette = sil_mean,
@@ -81,32 +85,16 @@ mod_cluster_server <- function(id, data) {
 
     output$cluster_plot <- renderPlot({
       res <- cluster_results()
-      palette_values <- state_palette[levels(res$plot_df$cluster)]
 
-      ggplot(res$plot_df, aes(x = PC1, y = PC2, color = cluster, shape = period)) +
-        geom_point(size = 2.8, alpha = 0.85) +
-        scale_color_manual(values = palette_values, drop = FALSE) +
+      ggplot(res$plot_df, aes(x = PC1, y = PC2, color = cluster, label = label)) +
+        geom_point(size = 3.2, alpha = 0.9) +
+        geom_text(vjust = -0.7, size = 3.3, show.legend = FALSE) +
+        scale_color_brewer(palette = "Dark2") +
         labs(
-          title = "Cluster State Scatter (PCA projection)",
+          title = "Country Time-Series Clustering (PCA projection)",
+          subtitle = "Each point represents one country-arrivals trajectory over the selected lookback window",
           x = "Principal Component 1",
           y = "Principal Component 2",
-          color = "Cluster",
-          shape = "Period"
-        ) +
-        theme_minimal(base_size = 13)
-    })
-
-    output$timeline_plot <- renderPlot({
-      res <- cluster_results()
-      palette_values <- state_palette[levels(res$assignments$cluster)]
-
-      ggplot(res$assignments, aes(x = date, y = cluster, color = cluster)) +
-        geom_point(size = 2.8, alpha = 0.85) +
-        scale_color_manual(values = palette_values, drop = FALSE) +
-        labs(
-          title = "Timeline of Cluster Assignments",
-          x = "Month",
-          y = "Cluster state",
           color = "Cluster"
         ) +
         theme_minimal(base_size = 13)
@@ -114,22 +102,12 @@ mod_cluster_server <- function(id, data) {
 
     output$profile_table <- DT::renderDT({
       res <- cluster_results()
-      DT::datatable(res$profile, options = list(pageLength = 6, scrollX = TRUE))
+      DT::datatable(res$profile, rownames = FALSE, options = list(pageLength = 6, scrollX = TRUE))
     })
 
     output$assignment_table <- DT::renderDT({
       res <- cluster_results()
-      DT::datatable(res$assignments, options = list(pageLength = 8, scrollX = TRUE))
+      DT::datatable(res$assignments, rownames = FALSE, options = list(pageLength = 8, scrollX = TRUE))
     })
-
-    output$download_clusters <- downloadHandler(
-      filename = function() {
-        sprintf("cluster-assignments-%s.csv", Sys.Date())
-      },
-      content = function(file) {
-        res <- cluster_results()
-        utils::write.csv(res$assignments, file, row.names = FALSE)
-      }
-    )
   })
 }
