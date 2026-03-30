@@ -270,7 +270,6 @@ In presentation terms, the recommended narrative is:
 |---|---|---|---|
 | `series_label` | `selectInput` | Visitor Arrivals: China | choose the target monthly visitor-arrival series by country |
 | `horizon` | `sliderInput` | 12 | set the holdout and forward forecast horizon |
-| `model_choice` | `radioButtons` | ARIMA / ETS | compare model families in the app |
 | `run_forecast` | `actionButton` | click to run | refresh the forecast after changing controls |
 
 ## Output Exposure

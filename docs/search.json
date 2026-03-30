@@ -254,9 +254,9 @@
   {
     "objectID": "app-guide.html",
     "href": "app-guide.html",
-    "title": "Shiny App Guide",
+    "title": "Shiny App",
     "section": "",
-    "text": "The app now follows a three-module structure built on one shared tourism time-series workbook:\n\napp/app.R - top-level navigation and shared reactive data loading.\napp/R/data_utils.R - common time-series ingestion, feature engineering, and forecasting helpers.\napp/R/mod_cluster_ui.R and app/R/mod_cluster_server.R - time-series clustering module.\napp/R/mod_forecast_ui.R and app/R/mod_forecast_server.R - forecasting module.\nThe Time Series Explorer is embedded directly in app/app.R to keep the main comparison flow simple."
+    "text": "shiny_app_url &lt;- Sys.getenv(\"SHINY_APP_URL\", unset = \"http://127.0.0.1:3838\")\nis_local_target &lt;- grepl(\"127\\\\.0\\\\.0\\\\.1|localhost\", shiny_app_url)\nshiny_target_label &lt;- if (is_local_target) \"Local target\" else \"Deployment target\"\nshiny_target_note &lt;- if (is_local_target) {\n  \"The site currently points to a locally running Shiny process on port 3838.\"\n} else {\n  \"The site is currently configured to point to the deployed Shiny application.\"\n}"
   },
   {
     "objectID": "app-guide.html#application-structure",
@@ -613,7 +613,7 @@
     "href": "prototype/forecasting.html#data-contract",
     "title": "Module Prototype: Forecasting",
     "section": "Data Contract",
-    "text": "Data Contract\nInput dataset: data/raw/Name your insight (4).xlsx\nFor this revised forecasting prototype, the analytical scope is intentionally narrowed to monthly visitor-arrival series by country. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.\nExamples of eligible target series are:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\nVisitor Arrivals: Japan\n\n\ntourism_data &lt;- load_tourism_data()\nseries_catalog &lt;- list_country_arrival_series(tourism_data$long_monthly)\nhead(series_catalog, 10)\n\n# A tibble: 10 × 5\n   label                                   unit   n_obs start_date end_date  \n   &lt;chr&gt;                                   &lt;chr&gt;  &lt;int&gt; &lt;date&gt;     &lt;date&gt;    \n 1 Visitor Arrivals: Australia             Person   111 2016-12-01 2026-02-01\n 2 Visitor Arrivals: Bangladesh            Person   111 2016-12-01 2026-02-01\n 3 Visitor Arrivals: Brunei                Person   111 2016-12-01 2026-02-01\n 4 Visitor Arrivals: Canada                Person   111 2016-12-01 2026-02-01\n 5 Visitor Arrivals: China                 Person   111 2016-12-01 2026-02-01\n 6 Visitor Arrivals: Egypt                 Person   111 2016-12-01 2026-02-01\n 7 Visitor Arrivals: Finland               Person   111 2016-12-01 2026-02-01\n 8 Visitor Arrivals: France                Person   111 2016-12-01 2026-02-01\n 9 Visitor Arrivals: Germany               Person   111 2016-12-01 2026-02-01\n10 Visitor Arrivals: Hong Kong SAR (China) Person   111 2016-12-01 2026-02-01"
+    "text": "Data Contract\nShared arrivals backbone:\n\ndata/raw/visitor_arrivals_full_dataset.xlsx\n\nOptional supporting tourism context:\n\ndata/raw/Name your insight (4).xlsx\n\nFor this revised forecasting prototype, the analytical scope is intentionally narrowed to monthly visitor-arrival series by country. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators. Hotel occupancy, stay length, number of hotels, and room revenue remain optional supporting context only.\nExamples of eligible target series are:\n\nVisitor Arrivals: China\nVisitor Arrivals: Malaysia\nVisitor Arrivals: India\nVisitor Arrivals: Indonesia\nVisitor Arrivals: Australia\nVisitor Arrivals: Japan\n\n\ntourism_data &lt;- load_tourism_data()\nseries_catalog &lt;- list_country_arrival_series(tourism_data$long_monthly)\nhead(series_catalog, 10)\n\n# A tibble: 10 × 5\n   label                                       unit  n_obs start_date end_date  \n   &lt;chr&gt;                                       &lt;chr&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;    \n 1 Visitor Arrivals: Age: Males                Pers…   111 2016-12-01 2026-02-01\n 2 Visitor Arrivals: Air                       Pers…   111 2016-12-01 2026-02-01\n 3 Visitor Arrivals: Air: ASEAN                Pers…   111 2016-12-01 2026-02-01\n 4 Visitor Arrivals: Air: Africa               Pers…   111 2016-12-01 2026-02-01\n 5 Visitor Arrivals: Air: Americas             Pers…   111 2016-12-01 2026-02-01\n 6 Visitor Arrivals: Air: Asia                 Pers…   111 2016-12-01 2026-02-01\n 7 Visitor Arrivals: Air: Australia            Pers…   111 2016-12-01 2026-02-01\n 8 Visitor Arrivals: Air: Bangladesh           Pers…   111 2016-12-01 2026-02-01\n 9 Visitor Arrivals: Air: Belgium & Luxembourg Pers…   111 2016-12-01 2026-02-01\n10 Visitor Arrivals: Air: Brunei               Pers…   111 2016-12-01 2026-02-01"
   },
   {
     "objectID": "prototype/forecasting.html#analytical-design",
@@ -648,7 +648,7 @@
     "href": "prototype/forecasting.html#ui-control-mapping",
     "title": "Module Prototype: Forecasting",
     "section": "UI Control Mapping",
-    "text": "UI Control Mapping\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nPurpose\n\n\n\n\nseries_label\nselectInput\nVisitor Arrivals: China\nchoose the target monthly visitor-arrival series by country\n\n\nhorizon\nsliderInput\n12\nset the holdout and forward forecast horizon\n\n\nmodel_choice\nradioButtons\nARIMA / ETS\ncompare model families in the app\n\n\nrun_forecast\nactionButton\nclick to run\nrefresh the forecast after changing controls"
+    "text": "UI Control Mapping\n\n\n\n\n\n\n\n\n\nParameter\nUI Component\nDefault\nPurpose\n\n\n\n\nseries_label\nselectInput\nVisitor Arrivals: China\nchoose the target monthly visitor-arrival series by country\n\n\nhorizon\nsliderInput\n12\nset the holdout and forward forecast horizon\n\n\nrun_forecast\nactionButton\nclick to run\nrefresh the forecast after changing controls"
   },
   {
     "objectID": "prototype/forecasting.html#output-exposure",
@@ -662,7 +662,7 @@
     "href": "prototype/forecasting.html#quality-gates",
     "title": "Module Prototype: Forecasting",
     "section": "Quality Gates",
-    "text": "Quality Gates\n\nThe selected series must have at least 24 non-missing monthly observations.\nThe holdout horizon must leave at least 12 points for model fitting.\nA baseline and at least one model-based forecast must be scored on the same testing window.\nThe forecasting module must use the same source workbook while restricting the target catalog to country-level arrival series.\nThe workflow must include contextual comparison and visual diagnostics before model comparison."
+    "text": "Quality Gates\n\nThe selected series must have at least 24 non-missing monthly observations.\nThe holdout horizon must leave at least 12 points for model fitting.\nA baseline and at least one model-based forecast must be scored on the same testing window.\nThe forecasting module must keep the shared arrivals workbook as the target backbone while using the tourism workbook only for supporting context indicators.\nThe workflow must include contextual comparison and visual diagnostics before model comparison."
   },
   {
     "objectID": "user-guide.html",
@@ -697,7 +697,7 @@
     "href": "user-guide.html#step-3-forecast-future-values",
     "title": "User Guide",
     "section": "Step 3: Forecast Future Values",
-    "text": "Step 3: Forecast Future Values\nOpen the Forecasting Prototype tab to:\n\nSelect a country-level visitor-arrivals series.\nCompare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.\nSet the holdout horizon.\nChoose the forecasting model.\nCompare the seasonal-naive baseline with the selected model.\nReview the forecast plot and accuracy table."
+    "text": "Step 3: Forecast Future Values\nOpen the Forecasting Prototype tab to:\n\nSelect a country-level visitor-arrivals series.\nCompare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.\nSet the holdout horizon.\nCompare the seasonal-naive baseline with ETS and ARIMA.\nReview the forecast plot, decomposition views, and accuracy table."
   },
   {
     "objectID": "user-guide.html#interpretation-tips",
@@ -711,7 +711,7 @@
     "href": "user-guide.html#data-scope",
     "title": "User Guide",
     "section": "Data Scope",
-    "text": "Data Scope\nThe current app is built on:\ndata/raw/Name your insight (4).xlsx\nThis workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation."
+    "text": "Data Scope\nThe current app uses two coordinated inputs:\n\nShared arrivals backbone: data/raw/visitor_arrivals_full_dataset.xlsx\nShared clustering artifacts: data/processed/clustering_country_wide.csv, data/processed/clustering_country_long.csv, data/processed/clustering_series_metadata.csv\nOptional supporting tourism context: data/raw/Name your insight (4).xlsx\n\nCountry-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation."
   },
   {
     "objectID": "app-guide.html#the-three-modules",
@@ -957,5 +957,61 @@
     "title": "Review Report: Clustering Prototype",
     "section": "Review Outcome",
     "text": "Review Outcome\nNo blocking issues remain in the updated clustering prototype. The page now matches the requested reproducible style much more closely: visible workflow, code-generated results, and explanation after each analytical step."
+  },
+  {
+    "objectID": "user-guide.html#step-2-compare-country-recovery-patterns",
+    "href": "user-guide.html#step-2-compare-country-recovery-patterns",
+    "title": "User Guide",
+    "section": "Step 2: Compare Country Recovery Patterns",
+    "text": "Step 2: Compare Country Recovery Patterns\nOpen the Cluster Prototype tab to:\n\nSelect a focused set of country-level visitor-arrivals series.\nSet the year window and choose the normalization mode.\nPick a working k and run the clustering.\nRead the module in order: Dashboard, Pattern Explorer, Focus Market in Context, Assignments.\n\nThe clustering unit is a country trajectory, not an individual month. The module is designed to answer which markets recovered in similar ways, not to assign each month into a market state."
+  },
+  {
+    "objectID": "app-guide.html#open-the-app",
+    "href": "app-guide.html#open-the-app",
+    "title": "Shiny App",
+    "section": "Open The App",
+    "text": "Open The App\nThis page is the website entry point for the Shiny application. Right now it is configured to open:\nhttp://127.0.0.1:3838\n\n\nLaunch Shiny App\nOpen the Shiny app\nThe site currently points to a locally running Shiny process on port 3838.\n\n\nCurrent Target\n\nLabel: Local target\nURL: http://127.0.0.1:3838\nMode: Local development\n\n\n\nRun Command\nshiny::runApp(\"app\")\nOr from the project root:\nRscript run_app.R 3838"
+  },
+  {
+    "objectID": "app-guide.html#embedded-preview",
+    "href": "app-guide.html#embedded-preview",
+    "title": "Shiny App",
+    "section": "Embedded Preview",
+    "text": "Embedded Preview\nWhen the target app is available, the frame below gives the website a direct in-page preview.\n\n\n\nShiny Preview (http://127.0.0.1:3838)"
+  },
+  {
+    "objectID": "app-guide.html#current-module-status",
+    "href": "app-guide.html#current-module-status",
+    "title": "Shiny App",
+    "section": "Current Module Status",
+    "text": "Current Module Status\n\n\n\n\n\n\n\n\nModule\nCurrent status\nCurrent focus\n\n\n\n\nTime Series Visual Analysis\nactive prototype shell\nshared monthly trend reading and metadata lookup\n\n\nTime Series Clustering\nactive prototype\nWang branch interaction, processed-data contract, focus-market narrative\n\n\nForecasting\nactive prototype\nJin branch country-arrivals forecasting with hotel/stay context"
+  },
+  {
+    "objectID": "app-guide.html#data-contract",
+    "href": "app-guide.html#data-contract",
+    "title": "Shiny App",
+    "section": "Data Contract",
+    "text": "Data Contract\nThe shared project backbone for country-level arrivals uses:\n\ndata/raw/visitor_arrivals_full_dataset.xlsx\ndata/processed/clustering_country_wide.csv\ndata/processed/clustering_country_long.csv\ndata/processed/clustering_series_metadata.csv\n\nThe forecasting layer keeps the same country-arrivals backbone, then can supplement interpretation with supporting tourism indicators from:\n\ndata/raw/Name your insight (4).xlsx\n\nWhen that context workbook is present, the supporting indicators are limited to:\n\nHotel Room Occupancy Rate\nAverage Length of Stay\nNumber of Hotels\nTotal Room Revenue"
+  },
+  {
+    "objectID": "app-guide.html#expected-user-flow",
+    "href": "app-guide.html#expected-user-flow",
+    "title": "Shiny App",
+    "section": "Expected User Flow",
+    "text": "Expected User Flow\n\nOpen the Shiny app from this page.\nEnter the Time Series Explorer tab to inspect one monthly series and confirm its source and unit.\nEnter the Cluster Prototype tab to compare country-arrivals recovery trajectories.\nEnter the Forecasting Prototype tab to forecast one country-arrivals series and interpret it against hotel and stay indicators."
+  },
+  {
+    "objectID": "app-guide.html#deployment-switch",
+    "href": "app-guide.html#deployment-switch",
+    "title": "Shiny App",
+    "section": "Deployment Switch",
+    "text": "Deployment Switch\nFor local testing, no extra configuration is needed because the page defaults to:\nhttp://127.0.0.1:3838\nWhen you are ready to switch to shinyapps.io, re-render the site with:\n$env:SHINY_APP_URL='https://YOUR-APP-NAME.shinyapps.io/YOUR-APP/'\nquarto render\nThat will update both the launch button and the embedded preview to the deployed app."
+  },
+  {
+    "objectID": "app-guide.html#notes-for-local-testing",
+    "href": "app-guide.html#notes-for-local-testing",
+    "title": "Shiny App",
+    "section": "Notes For Local Testing",
+    "text": "Notes For Local Testing\n\nStart the app first if the preview frame is blank.\nUse the standalone launch link if your browser blocks the embedded frame.\nKeep the browser window at a normal desktop width when checking layout quality."
   }
 ]

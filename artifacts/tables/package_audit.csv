@@ -7,6 +7,7 @@
 "purrr","Iteration helpers",TRUE,TRUE
 "lubridate","Date handling",TRUE,TRUE
 "ggplot2","Charting",TRUE,TRUE
+"plotly","Interactive charting",TRUE,TRUE
 "DT","Interactive table",TRUE,TRUE
 "cluster","Clustering metrics",TRUE,TRUE
 "forecast","Baseline forecasting models",TRUE,TRUE

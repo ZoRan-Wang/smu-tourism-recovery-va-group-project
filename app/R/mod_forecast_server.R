@@ -1,6 +1,7 @@
 library(shiny)
 library(dplyr)
 library(ggplot2)
+library(lubridate)
 
 mod_forecast_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
@@ -14,26 +15,26 @@ mod_forecast_server <- function(id, data) {
       )
     })
 
-    forecast_results <- eventReactive(input$run_forecast, {
-      validate(
-        need(!is.null(input$series_label) && nzchar(input$series_label), "Select a target series.")
-      )
+    selected_series <- reactive({
+      req(input$series_label)
+      prepare_forecast_series(data()$long_monthly, input$series_label)
+    })
 
-      series_df <- prepare_forecast_series(data()$long_monthly, input$series_label)
+    forecast_results <- eventReactive(input$run_forecast, {
+      series_df <- selected_series()
 
       validate(
         need(nrow(series_df) > input$horizon + 12, "Series is too short for the current horizon.")
       )
 
-      run_forecast_models(
+      run_modeltime_forecast_workflow(
         series_df = series_df,
-        horizon = input$horizon,
-        model_choice = input$model_choice
+        horizon = input$horizon
       )
     }, ignoreNULL = FALSE)
 
     output$series_summary <- renderText({
-      series_df <- prepare_forecast_series(data()$long_monthly, input$series_label)
+      series_df <- selected_series()
       paste(
         "Observations:", nrow(series_df),
         "| Start:", format(min(series_df$date), "%Y-%m"),
@@ -42,39 +43,37 @@ mod_forecast_server <- function(id, data) {
       )
     })
 
+    output$split_table <- DT::renderDT({
+      res <- forecast_results()
+      split_tbl <- tibble(
+        segment = c("Training", "Testing"),
+        start = c(min(res$training$date), min(res$testing$date)),
+        end = c(max(res$training$date), max(res$testing$date)),
+        n_obs = c(nrow(res$training), nrow(res$testing))
+      )
+
+      DT::datatable(
+        split_tbl,
+        rownames = FALSE,
+        options = list(dom = "t", paging = FALSE, ordering = FALSE, scrollX = TRUE)
+      )
+    })
+
     output$forecast_plot <- renderPlot({
       res <- forecast_results()
 
-      ggplot() +
-        geom_line(
-          data = res$fitted_df,
-          aes(x = date, y = value, color = series),
-          linewidth = 0.9
-        ) +
-        geom_line(
-          data = res$forecast_df,
-          aes(x = date, y = value, color = series),
-          linewidth = 1.1,
-          linetype = "dashed"
-        ) +
-        scale_color_manual(
-          values = c(
-            "Training" = "#0f6b6f",
-            "Test" = "#d86f45",
-            "Seasonal Naive" = "#6c757d",
-            "ARIMA" = "#7a3e9d",
-            "ETS" = "#7a3e9d"
-          )
-        ) +
+      modeltime::plot_modeltime_forecast(
+        res$calibration_forecast_tbl,
+        .interactive = FALSE,
+        .legend_max_width = 25
+      ) +
         labs(
           title = input$series_label,
           subtitle = paste("Holdout horizon:", input$horizon, "months"),
           x = NULL,
-          y = NULL,
-          color = NULL
+          y = NULL
         ) +
-        scale_y_continuous(labels = scales::label_comma()) +
-        theme_minimal(base_size = 13)
+        scale_y_continuous(labels = scales::label_comma())
     })
 
     output$context_plot <- renderPlot({
@@ -83,6 +82,10 @@ mod_forecast_server <- function(id, data) {
       context_df <- prepare_country_context_panel(
         data()$long_monthly,
         country_label = input$series_label
+      )
+
+      validate(
+        need(nrow(context_df) > 0, "Supporting tourism indicators are not available for the current dataset.")
       )
 
       ggplot(context_df, aes(x = date, y = normalized_value, color = label)) +
@@ -97,12 +100,75 @@ mod_forecast_server <- function(id, data) {
         theme_minimal(base_size = 13)
     })
 
+    output$raw_series_plot <- renderPlot({
+      series_df <- selected_series()
+
+      ggplot(series_df, aes(x = date, y = value)) +
+        geom_line(linewidth = 1, color = "#0f6b6f") +
+        geom_point(size = 1.8, color = "#d86f45") +
+        labs(
+          title = input$series_label,
+          subtitle = "Monthly country-level visitor arrivals used for forecasting",
+          x = NULL,
+          y = "Visitor arrivals (person)"
+        ) +
+        scale_y_continuous(labels = scales::label_comma()) +
+        theme_minimal(base_size = 13)
+    })
+
+    output$seasonal_plot <- renderPlot({
+      series_df <- selected_series()
+
+      series_df |>
+        mutate(
+          month_lab = month(date, label = TRUE, abbr = TRUE),
+          year_num = year(date)
+        ) |>
+        ggplot(aes(x = month_lab, y = value, group = year_num, color = factor(year_num))) +
+        geom_line(linewidth = 0.8, alpha = 0.65) +
+        geom_point(size = 1.3, alpha = 0.8) +
+        labs(
+          title = "Seasonal Comparison by Month",
+          subtitle = "Each coloured line represents one year",
+          x = NULL,
+          y = "Visitor arrivals (person)",
+          color = "Year"
+        ) +
+        scale_y_continuous(labels = scales::label_comma()) +
+        theme_minimal(base_size = 13) +
+        theme(legend.position = "none")
+    })
+
+    output$decomposition_plot <- renderPlot({
+      series_df <- selected_series()
+
+      validate(
+        need(nrow(series_df) >= 24, "At least 24 monthly observations are required for decomposition.")
+      )
+
+      ts_series <- ts(
+        series_df$value,
+        start = c(year(min(series_df$date)), month(min(series_df$date))),
+        frequency = 12
+      )
+
+      decomposed <- stats::stl(ts_series, s.window = "periodic")
+      forecast::autoplot(decomposed) +
+        labs(
+          title = "Trend / Seasonal / Remainder Decomposition",
+          subtitle = "Used to explain the structural change before forecasting"
+        )
+    })
+
     output$accuracy_table <- DT::renderDT({
       res <- forecast_results()
+      accuracy_tbl <- res$accuracy_tbl |>
+        mutate(across(where(is.numeric), ~ round(.x, 3)))
+
       DT::datatable(
-        res$accuracy_tbl,
+        accuracy_tbl,
         rownames = FALSE,
-        options = list(dom = "t", pageLength = 5, scrollX = TRUE)
+        options = list(dom = "t", pageLength = 6, scrollX = TRUE)
       )
     })
   })

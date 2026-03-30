@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Module Prototype: Forecasting ‚Ä?Singapore Tourism Recovery VA Prototype</title>
+<title>Module Prototype: Forecasting ‚Äì Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
@@ -146,64 +146,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html">
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
-  </li>
+  </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../Proposal/Proposal.html">
+    <a class="nav-link" href="../Proposal/Proposal.html"> 
 <span class="menu-text">Proposal</span></a>
-  </li>
+  </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../take-home-ex2.html">
+    <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
-  </li>
+  </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../user-guide.html">
+    <a class="nav-link" href="../user-guide.html"> 
 <span class="menu-text">User Guide</span></a>
-  </li>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
     <a class="dropdown-item" href="../prototype/EDA.html">
  <span class="dropdown-text">EDA</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/CDA.html">
  <span class="dropdown-text">CDA</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
  <span class="dropdown-text">Clustering Prototype</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/forecasting.html">
  <span class="dropdown-text">Forecasting Prototype</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
  <span class="dropdown-text">Package Audit</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
-  </li>
+  </li>  
         <li>
     <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
  <span class="dropdown-text">Review Report</span></a>
-  </li>
+  </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../app-guide.html">
+    <a class="nav-link" href="../app-guide.html"> 
 <span class="menu-text">Shiny App</span></a>
-  </li>
+  </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../team/onboarding.html">
+    <a class="nav-link" href="../team/onboarding.html"> 
 <span class="menu-text">Team</span></a>
-  </li>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
-
+   
   <ul>
   <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
   <li><a href="#data-contract" id="toc-data-contract" class="nav-link" data-scroll-target="#data-contract">Data Contract</a></li>
@@ -259,11 +259,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
-
-
-
+    
+  
+    
   </div>
-
+  
 
 
 </header>
@@ -312,18 +312,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(series_catalog, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 √ó 5
-   label                                       unit  n_obs start_date end_date
-   &lt;chr&gt;                                       &lt;chr&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;
- 1 Visitor Arrivals: Age: Males                Pers‚Ä?  111 2016-12-01 2026-02-01
- 2 Visitor Arrivals: Air                       Pers‚Ä?  111 2016-12-01 2026-02-01
- 3 Visitor Arrivals: Air: ASEAN                Pers‚Ä?  111 2016-12-01 2026-02-01
- 4 Visitor Arrivals: Air: Africa               Pers‚Ä?  111 2016-12-01 2026-02-01
- 5 Visitor Arrivals: Air: Americas             Pers‚Ä?  111 2016-12-01 2026-02-01
- 6 Visitor Arrivals: Air: Asia                 Pers‚Ä?  111 2016-12-01 2026-02-01
- 7 Visitor Arrivals: Air: Australia            Pers‚Ä?  111 2016-12-01 2026-02-01
- 8 Visitor Arrivals: Air: Bangladesh           Pers‚Ä?  111 2016-12-01 2026-02-01
- 9 Visitor Arrivals: Air: Belgium &amp; Luxembourg Pers‚Ä?  111 2016-12-01 2026-02-01
-10 Visitor Arrivals: Air: Brunei               Pers‚Ä?  111 2016-12-01 2026-02-01</code></pre>
+   label                                       unit  n_obs start_date end_date  
+   &lt;chr&gt;                                       &lt;chr&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;    
+ 1 Visitor Arrivals: Age: Males                Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 2 Visitor Arrivals: Air                       Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 3 Visitor Arrivals: Air: ASEAN                Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 4 Visitor Arrivals: Air: Africa               Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 5 Visitor Arrivals: Air: Americas             Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 6 Visitor Arrivals: Air: Asia                 Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 7 Visitor Arrivals: Air: Australia            Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 8 Visitor Arrivals: Air: Bangladesh           Pers‚Ä¶   111 2016-12-01 2026-02-01
+ 9 Visitor Arrivals: Air: Belgium &amp; Luxembourg Pers‚Ä¶   111 2016-12-01 2026-02-01
+10 Visitor Arrivals: Air: Brunei               Pers‚Ä¶   111 2016-12-01 2026-02-01</code></pre>
 </div>
 </div>
 </section>
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Core forecasting series</strong>: country-level monthly visitor arrivals.</li>
 <li><strong>Supporting performance indicators</strong>: hotel room occupancy rate, average length of stay, and total room revenue.</li>
 </ol>
-<p>This means the forecasts answer the question <em>‚Äúhow may demand from each source market evolve?‚Ä?/em> while the supporting indicators help answer <em>‚Äúdoes that demand recovery translate into broader tourism performance?‚Ä?/em></p>
+<p>This means the forecasts answer the question <em>‚Äúhow may demand from each source market evolve?‚Äù</em> while the supporting indicators help answer <em>‚Äúdoes that demand recovery translate into broader tourism performance?‚Äù</em></p>
 </section>
 <section id="forecasting-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="forecasting-workflow">Forecasting Workflow</h2>
@@ -512,9 +512,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code># Modeltime Table
 # A tibble: 2 √ó 3
-  .model_id .model   .model_desc
-      &lt;int&gt; &lt;list&gt;   &lt;chr&gt;
-1         1 &lt;fit[+]&gt; ETS(M,AD,M)
+  .model_id .model   .model_desc            
+      &lt;int&gt; &lt;list&gt;   &lt;chr&gt;                  
+1         1 &lt;fit[+]&gt; ETS(M,AD,M)            
 2         2 &lt;fit[+]&gt; ARIMA(0,1,2)(0,0,1)[12]</code></pre>
 </div>
 </div>
@@ -530,8 +530,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">dom =</span> <span class="st">"t"</span>, <span class="at">pageLength =</span> <span class="dv">6</span>, <span class="at">scrollX =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-8ab8d700895254fcbd84" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-8ab8d700895254fcbd84">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS(M,AD,M)","ARIMA(0,1,2)(0,0,1)[12]"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,0.875,0.723],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-13b0369f9bb2c416d554" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-13b0369f9bb2c416d554">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS(M,AD,M)","ARIMA(0,1,2)(0,0,1)[12]"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,0.875,0.723],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -630,12 +630,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>set the holdout and forward forecast horizon</td>
 </tr>
 <tr class="odd">
-<td><code>model_choice</code></td>
-<td><code>radioButtons</code></td>
-<td>ARIMA / ETS</td>
-<td>compare model families in the app</td>
-</tr>
-<tr class="even">
 <td><code>run_forecast</code></td>
 <td><code>actionButton</code></td>
 <td>click to run</td>
@@ -714,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "Óß?;
+    const icon = "Óßã";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {
       placement: 'right',
@@ -723,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {
+        if (clz.startsWith('code-annotation-')) {                     
           return true;
         }
       }
@@ -743,11 +737,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button,
-          { trigger: "manual",
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();
+        tooltip.show();    
       }
       setTimeout(function() {
         if (tooltip) {
@@ -824,7 +818,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config);
+      window.tippy(el, config); 
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -899,7 +893,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined;
+        let hash = undefined; 
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -927,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              }
+              } 
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -951,7 +945,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            }
+            } 
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -991,7 +985,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it
+              // cook up a div (if necessary) and position it 
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");
@@ -1117,7 +1111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="nav-footer">
     <div class="nav-footer-left">
       &nbsp;
-    </div>
+    </div>   
     <div class="nav-footer-center">
 <p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
 </div>
