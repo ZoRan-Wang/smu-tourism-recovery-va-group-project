@@ -15,7 +15,7 @@ Current discussions on tourism recovery often focus narrowly on whether visitor 
 
 ## 3. Project Aim
 
-The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism market states evolve and how selected demand series may move in the near future.
+The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism recovery trajectories evolve and how selected demand series may move in the near future.
 
 ## 4. The Data
 

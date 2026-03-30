@@ -8,9 +8,9 @@ Set up one shared base where each member can own one prototype module while keep
 
 ## Suggested Team Split
 
-1. Member A: EDA + confirmatory module.
-2. Member B: cluster module.
-3. Member C: decision tree module.
+1. Member A: time-series exploration and descriptive analysis module.
+2. Member B: time-series clustering module.
+3. Member C: forecasting module.
 4. Member D (optional): integration, QA, and deployment.
 
 ## Branching Convention

@@ -51,7 +51,7 @@ Rscript run_app.R 3838
 The final app should let the user:
 
 1. Explore the raw tourism series.
-2. Group months into recovery states.
+2. Compare country-arrival trajectories through clustering.
 3. Generate and compare forecasts for the selected target series.
 
 ## Data Source
