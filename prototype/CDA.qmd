@@ -26,15 +26,14 @@ pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl
 
 ### Data Loading
 ```{r}
-#| message: false
-tour <- read_excel("../data/raw/tourism_four_part_analysis_ready.xlsx")
+tour <- read_excel("../data/raw/tourism_update.xlsx")
 ```
 
 ```{r}
 glimpse(tour)
 ```
 ```{r}
-excel_sheets("../data/raw/tourism_four_part_analysis_ready.xlsx")
+excel_sheets("../data/raw/tourism_update.xlsx")
 ```
 ### Data Cleaning
 
