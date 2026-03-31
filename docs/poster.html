@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>poster – Singapore Tourism Recovery VA Prototype</title>
+<title>Singapore Tourism Recovery Poster – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,6 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="styles/poster.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -160,14 +161,12 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -176,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -188,180 +187,170 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="poster-page">
-<div class="poster-header">
-<div class="poster-header-inner">
-<section id="isss608-visual-analytics-applications" class="level4">
-<h4 class="anchored" data-anchor-id="isss608-visual-analytics-applications">ISSS608 Visual Analytics &amp; Applications</h4>
-</section>
+<div class="poster-canvas">
+<div class="poster-hero">
+<div class="hero-kicker">
+<p>ISSS608 Visual Analytics &amp; Applications | Singapore Management University</p>
+</div>
 <section id="singapore-tourism-recovery-through-time-series-visual-analytics" class="level1">
 <h1>Singapore Tourism Recovery Through Time-Series Visual Analytics</h1>
-<section id="one-shared-data-backbone-for-exploration-recovery-pattern-clustering-and-source-market-forecasting" class="level3">
-<h3 class="anchored" data-anchor-id="one-shared-data-backbone-for-exploration-recovery-pattern-clustering-and-source-market-forecasting">One shared data backbone for exploration, recovery-pattern clustering, and source-market forecasting</h3>
-<p><strong>Xi Zixun</strong> - <strong>Wang Zhuoran</strong> - <strong>Jin Qinhao</strong></p>
+<section id="a-unified-visual-analytics-workflow-for-source-market-demand-recovery-trajectories-and-short-term-forecasting" class="level2">
+<h2 class="anchored" data-anchor-id="a-unified-visual-analytics-workflow-for-source-market-demand-recovery-trajectories-and-short-term-forecasting">A unified visual analytics workflow for source-market demand, recovery trajectories, and short-term forecasting</h2>
+<div class="hero-meta">
+<p><strong>Team Members</strong><br>
+Xi Zixun | Wang Zhuoran | Jin Qinhao</p>
+<p><strong>Core Data Backbone</strong><br>
+Country-level monthly visitor arrivals, interpreted with hotel occupancy, stay length, and room revenue</p>
+</div>
 </section>
 </section>
 </div>
-<div class="poster-summary-strip">
-<div class="summary-chip">
-<p><strong>Core target</strong><br>
-Country-level monthly visitor arrivals</p>
-</div>
-<div class="summary-chip">
-<p><strong>Supporting context</strong><br>
-Hotel occupancy, stay length, room revenue</p>
-</div>
-<div class="summary-chip">
-<p><strong>Delivery</strong><br>
-Quarto website + modular Shiny app</p>
-</div>
-<div class="summary-chip">
-<p><strong>Final workflow</strong><br>
-Explore -&gt; Cluster -&gt; Forecast</p>
-</div>
-</div>
-</div>
-<div class="poster-board">
-<div class="poster-column">
-<section id="motivation-and-problem" class="level2 poster-panel poster-panel-intro">
-<h2 class="anchored" data-anchor-id="motivation-and-problem">Motivation and Problem</h2>
-<p>Singapore tourism did not recover as one smooth curve after the pandemic. Source markets returned at different speeds, while hotel utilisation and length-of-stay dynamics responded with their own lag. Static summary charts are not enough for users who need to:</p>
+<div class="poster-grid">
+<div class="grid-left">
+<section id="motivation-and-objective" class="level3 section-box section-intro">
+<h3 class="anchored" data-anchor-id="motivation-and-objective">Motivation and Objective</h3>
+<p>Tourism recovery after the pandemic did not unfold as one smooth rebound. Different source markets returned at different speeds, while hotel utilisation and visitor stay behaviour reacted with their own lag. A single total-arrivals chart hides too much of this variation.</p>
+<p>This project reframes the problem as a <strong>three-step visual analytics workflow</strong>:</p>
 <ul>
-<li>compare recovery paths across source markets</li>
-<li>identify common trajectory patterns</li>
-<li>assess near-term demand using time-aware forecasting</li>
+<li><strong>Explore</strong> how demand changed through shock and reopening.</li>
+<li><strong>Cluster</strong> countries with similar recovery shapes.</li>
+<li><strong>Forecast</strong> short-term arrivals for priority source markets.</li>
 </ul>
-<p>This project therefore reframes tourism recovery as a <strong>visual time-series decision workflow</strong> rather than a single aggregate KPI story.</p>
+<p>The goal is to give users one coherent environment for explanation, comparison, and planning rather than a collection of disconnected charts.</p>
 </section>
-<section id="data-backbone-and-method" class="level2 poster-panel">
-<h2 class="anchored" data-anchor-id="data-backbone-and-method">Data Backbone and Method</h2>
-<p>The final prototype uses one coordinated data contract:</p>
+<section id="data-backbone-and-analytical-design" class="level3 section-box section-method">
+<h3 class="anchored" data-anchor-id="data-backbone-and-analytical-design">Data Backbone and Analytical Design</h3>
+<section id="shared-data-contract" class="level4">
+<h4 class="anchored" data-anchor-id="shared-data-contract">Shared data contract</h4>
 <ul>
-<li><strong>Shared backbone:</strong> monthly visitor arrivals by country</li>
-<li><strong>Context layer:</strong> hotel occupancy, average length of stay, number of hotels, and room revenue</li>
+<li>Monthly visitor arrivals by country are the common analytical backbone.</li>
+<li>Hotel occupancy, average stay length, and room revenue are supporting context variables.</li>
 </ul>
-<p>This keeps all modules consistent while still allowing the app to explain whether changes in arrivals are reflected in broader tourism performance.</p>
-<section id="analytical-logic" class="level3">
-<h3 class="anchored" data-anchor-id="analytical-logic">Analytical Logic</h3>
+</section>
+<section id="why-this-structure-works" class="level4">
+<h4 class="anchored" data-anchor-id="why-this-structure-works">Why this structure works</h4>
+<ul>
+<li>Keeps all modules aligned to one time-series target.</li>
+<li>Preserves business meaning beyond visitor counts.</li>
+<li>Supports both descriptive and forward-looking analysis.</li>
+</ul>
+</section>
+<section id="final-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="final-workflow">Final workflow</h4>
 <ol type="1">
-<li><strong>Explore</strong> trend, shock, rebound, and seasonality.</li>
-<li><strong>Cluster</strong> country trajectories with similar recovery shapes.</li>
-<li><strong>Forecast</strong> selected source markets with a time-aware holdout split.</li>
+<li>Time Series Explorer</li>
+<li>Recovery Trajectory Clustering</li>
+<li>Forecasting Source-Market Demand</li>
 </ol>
 </section>
-<section id="why-this-design-works" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-design-works">Why This Design Works</h3>
+</section>
+<section id="shiny-app-delivery" class="level3 section-box section-app">
+<h3 class="anchored" data-anchor-id="shiny-app-delivery">Shiny App Delivery</h3>
+<p>The final system combines a Quarto project website with a modular Shiny app. Users move through the project using the same logic as the poster:</p>
 <ul>
-<li>It preserves one common analytical target across modules.</li>
-<li>It supports both explanation and short-term planning.</li>
-<li>It connects demand signals to business-facing tourism indicators.</li>
+<li>inspect the trend and seasonal structure,</li>
+<li>compare grouped recovery patterns,</li>
+<li>run forecast benchmarks on a selected country series.</li>
+</ul>
+<p>This keeps the analytical story consistent across documentation, prototype, and app delivery.</p>
+</section>
+</div>
+<div class="grid-center">
+<section id="time-series-explorer" class="level3 section-box section-results">
+<h3 class="anchored" data-anchor-id="time-series-explorer">Time Series Explorer</h3>
+<p>The explorer establishes the main narrative: a severe demand collapse in 2020, an uneven reopening period, and a recovery that differs across source markets. It also links arrivals back to tourism performance.</p>
+<section id="result-highlights" class="level4">
+<h4 class="anchored" data-anchor-id="result-highlights">Result highlights</h4>
+<ul>
+<li>China and total arrivals collapse together in the shock period.</li>
+<li>The rebound is real but not perfectly symmetric with the pre-pandemic pattern.</li>
+<li>Hotel occupancy still rises with returning demand, showing that arrivals remain operationally meaningful.</li>
+</ul>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/eda-china-market.png" class="img-fluid"> <em>Source-market demand and total arrivals do not recover in one identical path.</em></p>
+</div>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/eda-hotel-utilisation.png" class="img-fluid"> <em>The explorer links market recovery back to accommodation performance.</em></p>
+</div>
+</section>
+</section>
+<section id="clustering-recovery-trajectories" class="level3 section-box section-cluster">
+<h3 class="anchored" data-anchor-id="clustering-recovery-trajectories">Clustering Recovery Trajectories</h3>
+<p>Clustering shifts the story from “what happened” to “which markets behave similarly.” The clustering unit is the <strong>country trajectory</strong>, which keeps the method aligned to the shared arrivals backbone.</p>
+<section id="result-highlights-1" class="level4">
+<h4 class="anchored" data-anchor-id="result-highlights-1">Result highlights</h4>
+<ul>
+<li>Recovery shapes naturally separate into interpretable groups.</li>
+<li>The time path reveals a persistent shift from shock to recovery, not random monthly noise.</li>
+<li>A compact cluster solution is easier to explain and expose inside the Shiny app.</li>
+</ul>
+<div class="two-up">
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-scatter.png" class="img-fluid"> <em>The reduced-space view separates recovery shapes into meaningful groups.</em></p>
+</div>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-timeline.png" class="img-fluid"> <em>Cluster chronology shows how the tourism system moved through recovery phases.</em></p>
+</div>
+</div>
+<div class="figure-frame figure-compact">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-elbow.png" class="img-fluid"> <em>The elbow diagnostic supports a compact and explainable clustering solution.</em></p>
+</div>
+</section>
+</section>
+</div>
+<div class="grid-right">
+<section id="forecasting-source-market-demand" class="level3 section-box section-forecast">
+<h3 class="anchored" data-anchor-id="forecasting-source-market-demand">Forecasting Source-Market Demand</h3>
+<p>The forecasting module follows the Chapter 19 and 20 workflow from <em>R for Visual Analytics</em>: inspect the series, confirm seasonal structure, build a time-aware split, benchmark models, and compare their holdout accuracy.</p>
+<section id="result-highlights-2" class="level4">
+<h4 class="anchored" data-anchor-id="result-highlights-2">Result highlights</h4>
+<ul>
+<li>The selected source market keeps clear seasonal structure even after the shock period.</li>
+<li>Decomposition reveals the trend break and seasonal pattern before forecasting begins.</li>
+<li>Seasonal Naive, ETS, and ARIMA are evaluated on one shared holdout horizon.</li>
+</ul>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-series.png" class="img-fluid"> <em>The forecasting input preserves shock, reopening, and renewed seasonal peaks.</em></p>
+</div>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-decomposition.png" class="img-fluid"> <em>Decomposition separates long-run movement, seasonality, and residual noise.</em></p>
+</div>
+<div class="figure-frame">
+<p><img src="C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-holdout.png" class="img-fluid"> <em>A shared holdout window makes model comparison transparent and defensible.</em></p>
+</div>
+</section>
+</section>
+<section id="main-findings" class="level3 section-box section-summary">
+<h3 class="anchored" data-anchor-id="main-findings">Main Findings</h3>
+<ul>
+<li>Tourism recovery is better understood as a <strong>time-series system</strong> than as one aggregate total.</li>
+<li>Country-level arrivals provide a shared backbone that keeps exploration, clustering, and forecasting consistent.</li>
+<li>Hotel occupancy and stay indicators give the demand signal business meaning.</li>
+<li>The final product supports descriptive analysis and short-term planning in the same interface.</li>
 </ul>
 </section>
-</section>
-<section id="shiny-app-experience" class="level2 poster-panel poster-panel-soft">
-<h2 class="anchored" data-anchor-id="shiny-app-experience">Shiny App Experience</h2>
-<p>The project is delivered as a website-plus-Shiny system rather than a static report.</p>
-<ul>
-<li>The website documents the data contract, prototypes, and methods.</li>
-<li>The Shiny app exposes the final module flow in one place.</li>
-<li>Package audit and smoke tests support deployment reliability.</li>
-</ul>
-<section id="user-flow" class="level3">
-<h3 class="anchored" data-anchor-id="user-flow">User Flow</h3>
-<p><strong>1. Explorer</strong><br>
-Read raw series and confirm metadata.</p>
-<p><strong>2. Clustering</strong><br>
-See which country trajectories recover in similar ways.</p>
-<p><strong>3. Forecasting</strong><br>
-Benchmark Seasonal Naive, ETS, and ARIMA on the same testing horizon.</p>
-</section>
-</section>
-</div>
-<div class="poster-column">
-<section id="time-series-explorer" class="level2 poster-panel">
-<h2 class="anchored" data-anchor-id="time-series-explorer">Time Series Explorer</h2>
-<p>The explorer establishes the narrative baseline: a collapse in 2020, a staggered reopening period, and an uneven return of source-market demand. It also tests whether demand recovery aligns with hotel utilisation.</p>
-<section id="key-findings" class="level3">
-<h3 class="anchored" data-anchor-id="key-findings">Key Findings</h3>
-<ul>
-<li>China’s contribution clearly shows the magnitude of the pandemic shock.</li>
-<li>Recovery is real, but it is not symmetric with the pre-2020 level.</li>
-<li>Hotel occupancy still moves positively with arrivals, even when recovery is phased.</li>
-</ul>
-<div class="poster-figure">
-<p><img src="poster-assets/eda-china-market.png" class="img-fluid" alt="China market contribution chart"> <em>China and total arrivals collapse together in 2020, then recover at different speeds.</em></p>
-</div>
-<div class="poster-figure">
-<p><img src="poster-assets/eda-hotel-utilisation.png" class="img-fluid" alt="Hotel utilisation relationship chart"> <em>Demand recovery is positively associated with hotel occupancy, supporting the business interpretation of the series.</em></p>
-</div>
-</section>
-</section>
-<section id="clustering-recovery-trajectories" class="level2 poster-panel">
-<h2 class="anchored" data-anchor-id="clustering-recovery-trajectories">Clustering Recovery Trajectories</h2>
-<p>Clustering moves the project from “what happened” to “which markets behave similarly.” In the final design, the clustering unit is a <strong>country trajectory</strong>, not an individual month, which keeps the method aligned with the shared time-series backbone.</p>
-<section id="key-findings-1" class="level3">
-<h3 class="anchored" data-anchor-id="key-findings-1">Key Findings</h3>
-<ul>
-<li>The reduced-space scatter separates recovery shapes into three interpretable groups.</li>
-<li>The timeline indicates that the system moved through persistent phases rather than random monthly noise.</li>
-<li>The elbow diagnostic supports a compact solution that remains explainable inside the Shiny app.</li>
-</ul>
-<div class="poster-figure">
-<p><img src="poster-assets/cluster-scatter.png" class="img-fluid" alt="Cluster scatter plot"> <em>Three clusters separate high-performance, transition, and shock-related recovery patterns.</em></p>
-</div>
-<div class="poster-figure-grid">
-<div class="poster-figure poster-figure-half">
-<p><img src="poster-assets/cluster-timeline.png" class="img-fluid" alt="Cluster timeline"> <em>The market-state chronology reveals when the system leaves the shock period and enters recovery.</em></p>
-</div>
-<div class="poster-figure poster-figure-half">
-<p><img src="poster-assets/cluster-elbow.png" class="img-fluid" alt="Elbow plot"> <em>The elbow view keeps the clustering choice transparent rather than arbitrary.</em></p>
-</div>
-</div>
-</section>
-</section>
-</div>
-<div class="poster-column">
-<section id="forecasting-source-market-demand" class="level2 poster-panel">
-<h2 class="anchored" data-anchor-id="forecasting-source-market-demand">Forecasting Source-Market Demand</h2>
-<p>The forecasting module follows the Chapter 19 and 20 workflow from <em>R for Visual Analytics</em>: inspect the time path, confirm seasonality, build a time-aware split, and compare benchmark versus model-based forecasts.</p>
-<section id="key-findings-2" class="level3">
-<h3 class="anchored" data-anchor-id="key-findings-2">Key Findings</h3>
-<ul>
-<li>The selected country series preserves strong seasonality even after the shock period.</li>
-<li>Decomposition makes the structural break explicit, which justifies a forecasting workflow.</li>
-<li>Seasonal Naive, ETS, and ARIMA are compared on the same holdout window, keeping performance interpretation transparent.</li>
-</ul>
-<div class="poster-figure">
-<p><img src="poster-assets/forecast-series.png" class="img-fluid" alt="Forecast input series"> <em>China arrivals provide a clear example of shock, reopening, and renewed seasonal peaks.</em></p>
-</div>
-<div class="poster-figure">
-<p><img src="poster-assets/forecast-decomposition.png" class="img-fluid" alt="Decomposition plot"> <em>Trend, seasonal, and remainder components reveal the structural change before forecasting begins.</em></p>
-</div>
-<div class="poster-figure">
-<p><img src="poster-assets/forecast-holdout.png" class="img-fluid" alt="Forecast comparison plot"> <em>The holdout comparison benchmarks Seasonal Naive, ETS, and ARIMA on one common testing horizon.</em></p>
-</div>
-</section>
-</section>
-<section id="key-takeaways-and-next-step" class="level2 poster-panel poster-panel-dark">
-<h2 class="anchored" data-anchor-id="key-takeaways-and-next-step">Key Takeaways and Next Step</h2>
-<section id="what-this-project-shows" class="level3">
-<h3 class="anchored" data-anchor-id="what-this-project-shows">What This Project Shows</h3>
-<ul>
-<li>Tourism recovery is better understood as a time-series system than as a single headline total.</li>
-<li>Country-level arrivals provide one shared backbone that keeps exploration, clustering, and forecasting consistent.</li>
-<li>Hotel occupancy and stay indicators add business meaning by showing whether demand recovery translates into tourism performance.</li>
-<li>The final app supports comparison, explanation, and short-term planning in one workflow without relying on legacy tree-model panels.</li>
-</ul>
-</section>
-<section id="future-work" class="level3">
+<section id="future-work" class="level3 section-box section-future">
 <h3 class="anchored" data-anchor-id="future-work">Future Work</h3>
 <ul>
-<li>extend forecasting to more source markets</li>
-<li>deploy the Shiny app to a public host</li>
-<li>turn cluster interpretation into reusable market personas for decision support</li>
+<li>Extend forecasting to more source markets and transport modes.</li>
+<li>Deploy the Shiny app to a public host for broader use.</li>
+<li>Turn cluster outputs into reusable recovery personas for planning and policy communication.</li>
 </ul>
 </section>
-</section>
+</div>
+</div>
+<div class="poster-footer">
+<div class="footer-box">
+<p><strong>Approach</strong><br>
+Time-series exploration | clustering of recovery trajectories | forecasting benchmark comparison</p>
+</div>
+<div class="footer-box">
+<p><strong>Packages and Delivery</strong><br>
+Quarto, Shiny, tidyverse, plotly, tsibble, fable, timetk, modeltime</p>
+</div>
+<div class="footer-box">
+<p><strong>Poster Narrative</strong><br>
+Explore demand -&gt; identify recovery patterns -&gt; support forward planning</p>
 </div>
 </div>
 </div>
