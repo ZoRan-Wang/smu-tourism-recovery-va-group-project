@@ -4,62 +4,145 @@ format: html
 author: "Xi Zixun"
 ---
 
-The exploratory data analysis (EDA) identified several key patterns in Singapore’s tourism data, including the sharp decline in visitor arrivals during the COVID-19 period and potential relationships between tourism indicators. Based on these observations, confirmatory data analysis (CDA) is conducted to statistically test these relationships.
+The exploratory data analysis (EDA) highlighted several structural patterns in Singapore’s tourism data, including the pandemic shock to visitor arrivals, changes in source-market importance, and possible seasonal differences. Building on these observations, confirmatory data analysis (CDA) is used to statistically test whether these patterns are supported by the data.
 
-## Preperation
+## Preparation
 
-Within This analysis, a factor to be consider is periods. **pre_covid** represents the year 2017 to 2019 (End). **Covid_shock** Represents 2020-2021 (End), **recovery** represents Year 2022 - 2025(End)
+In this analysis, three tourism periods are defined:
 
-### Package Installation & Loading
+- **Pre-COVID**: 2017 to 2019
+- **COVID Shock**: 2020 to 2021
+- **Recovery**: 2022 to 2025
 
--   `tidyverse`- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
--   `plotly` - R library for plotting interactive statistical graphs.
--   `patchwork` - combining multiple ggplot2 graphs into one figure.
--   `GGally` - 'GGally' extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with transformed data
--   `corrplot` - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.
--   `readx1` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.
--   `lubridate` - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones
+### Package Loading
+
+- `tidyverse` for data wrangling and static visualisation
+- `lubridate` for date handling
+- `plotly` for interactive charts
+- `patchwork` for combining ggplot figures
+- `GGally` and `corrplot` for exploratory relationship checks
+- `readxl` for reading the Excel workbook
+- `psych` for descriptive statistics
 
 ```{r}
-pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl)
+pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl, psych)
 ```
 
-### Data Loading
-```{r}
-tour <- read_excel("../data/raw/tourism_four_part_analysis_ready.xlsx")
-```
+## Data Loading
 
 ```{r}
+path <- "../data/raw/tourism_update.xlsx"
+
+tour <- read_excel(
+  path,
+  sheet = "My Series",
+  skip = 29,
+  col_names = FALSE,
+  .name_repair = "minimal"
+)
+
+names(tour) <- c(
+  "Date",
+  "Visitor Arrivals",
+  "Tourism Receipts: YTD: YoY",
+  "Tourist Expenditure Per Capita",
+  "Visitor Arrivals: China",
+  "Average Length of Stay",
+  "Visitor Arrivals: Malaysia",
+  "Visitor Arrivals: India",
+  "Visitor Arrivals: Indonesia",
+  "Visitor Arrivals: Australia",
+  "Number of Hotels",
+  "Visitor Days",
+  "Hotel Room Occupancy Rate",
+  "Visitor Arrivals: West Asia",
+  "Visitor Arrivals: Taiwan",
+  "Total Room Revenue",
+  "Number of Hotels.1",
+  "Average Length of Stay.1",
+  "Visitor Arrivals: Hong Kong SAR (China)",
+  "Hotel Revenue: per Available Room: Luxury",
+  "Hotel Revenue: per Available Room: Mid-Tier",
+  "Visitor Arrivals: ASEAN",
+  "Visitor Arrivals: Italy",
+  "Visitor Arrivals: Russian Federal (CIS)",
+  "Visitor Arrivals: France",
+  "Visitor Arrivals: Philippines",
+  "Visitor Arrivals: Spain",
+  "No of Hotel Room Stock",
+  "Visitor Arrivals: Thailand",
+  "Visitor Arrivals: Ireland",
+  "Visitor Arrivals: United Arab Emirates",
+  "Visitor Arrivals: United Kingdom",
+  "Visitor Arrivals: Africa",
+  "Visitor Arrivals: Bangladesh",
+  "Visitor Arrivals: Iran",
+  "Visitor Arrivals: New Zealand",
+  "Visitor Arrivals: Israel",
+  "Visitor Arrivals: North Asia",
+  "Visitor Arrivals: 8-10 Days",
+  "Visitor Arrivals: 11-14 Days",
+  "Visitor Arrivals: 15 Days & Over",
+  "Visitor Arrivals: Americas",
+  "Visitor Arrivals: Germany",
+  "Visitor Arrivals: Scandinavia: Sweden",
+  "Visitor Arrivals: Switzerland",
+  "Visitor Arrivals: USA",
+  "Visitor Arrivals: Canada",
+  "Visitor Arrivals: Mauritius",
+  "Visitor Arrivals: Kuwait",
+  "Visitor Arrivals: Egypt",
+  "Visitor Arrivals: Brunei",
+  "Visitor Arrivals: Finland",
+  "Visitor Arrivals: Japan",
+  "Visitor Arrivals: South Korea",
+  "Visitor Arrivals: Myanmar",
+  "Visitor Arrivals: Netherlands",
+  "Visitor Arrivals: Scandinavia: Norway",
+  "Visitor Arrivals: Saudi Arabia",
+  "Visitor Arrivals: Sri Lanka",
+  "Visitor Arrivals: Vietnam",
+  "Visitor Arrivals: Pakistan",
+  "Visitor Arrivals: Republic of South Africa"
+)
+
+tour <- tour %>%
+  mutate(Date = as.Date(Date))
+
 glimpse(tour)
 ```
-```{r}
-excel_sheets("../data/raw/tourism_update.xlsx")
-```
-### Data Cleaning
+
+## Data Cleaning
 
 ```{r}
 data_clean <- tour %>%
-  filter(!year %in% c(2016, 2026))
+  filter(year(Date) >= 2017 & year(Date) <= 2025) %>%
+  mutate(
+    Year = year(Date),
+    Month = month(Date),
+    Period = case_when(
+      Year >= 2017 & Year <= 2019 ~ "Pre-COVID",
+      Year >= 2020 & Year <= 2021 ~ "COVID Shock",
+      Year >= 2022 & Year <= 2025 ~ "Recovery"
+    ),
+    Period = factor(Period, levels = c("Pre-COVID", "COVID Shock", "Recovery")),
+    China_Share = (`Visitor Arrivals: China` / `Visitor Arrivals`) * 100
+  )
 
-data_clean %>% count(year, month)
-summary(data_clean)
-```
-
-```{r}
-data_clean$date <- as.Date(data_clean$date)
-```
-
-```{r}
-data_clean %>% count(year, month)
+data_clean %>% count(Year, Month)
+summary(data_clean$`Visitor Arrivals`)
 ```
 
 ## Descriptive Analysis
 
 ```{r}
-library(psych)
-
-describe(data_clean)
+describe(
+  data_clean %>%
+    select(`Visitor Arrivals`, `Visitor Arrivals: China`, China_Share,
+           `Hotel Room Occupancy Rate`, `Average Length of Stay`, `Visitor Days`)
+)
 ```
+
 ## CDA (Confirmatory Data Analysis)
 
 ### CDA 1 - Statistical Impact of COVID-19 on Visitor Arrivals
@@ -68,102 +151,98 @@ Did the COVID-19 pandemic significantly affect visitor arrivals to Singapore?
 
 **Hypothesis**
 
-H₀ (Null Hypothesis)
+H₀ (Null Hypothesis)  
 There is no significant difference in visitor arrivals across the tourism periods.
 
-H₁ (Alternative Hypothesis)
+H₁ (Alternative Hypothesis)  
 Visitor arrivals differ significantly across the tourism periods.
 
 ```{r}
 plot_ly(
   data = data_clean,
-  x = ~period,
-  y = ~visitor_arrivals,
-  color = ~period,
+  x = ~Period,
+  y = ~`Visitor Arrivals`,
+  color = ~Period,
   type = "box",
   boxpoints = "outliers"
 ) %>%
   layout(
     title = "Visitor Arrivals Across Tourism Periods",
     xaxis = list(title = "Period"),
-    yaxis = list(title = "Visitor Arrivals (Millions)"),
+    yaxis = list(title = "Visitor Arrivals"),
     showlegend = FALSE
   )
 ```
 
 ```{r}
-anova_model <- aov(visitor_arrivals ~ period, data = data_clean)
+anova_model <- aov(`Visitor Arrivals` ~ Period, data = data_clean)
 summary(anova_model)
 ```
+
 ::: callout-note
-The boxplot compares the distribution of visitor arrivals across different tourism periods. A substantial decline in the median visitor arrivals is observed during the COVID-19 period compared to the pre-COVID period, indicating a significant disruption to tourism demand. The interquartile range also shifts downward during the pandemic, suggesting that the overall level of visitor arrivals was consistently lower across most observations. In contrast, the recovery period shows an upward shift in the distribution, reflecting the gradual rebound of tourism activity after travel restrictions were lifted. Overall, the distributional differences across periods support the conclusion that the COVID-19 pandemic had a significant impact on Singapore’s tourism sector.
+The boxplot compares the distribution of overall visitor arrivals across the three tourism periods. A marked downward shift is expected during the COVID Shock period relative to the Pre-COVID baseline, followed by a partial rebound in the Recovery period. If the ANOVA result is statistically significant, this supports the conclusion that visitor arrivals differed meaningfully across the three phases of tourism activity.
 :::
 
+### CDA 2 - Influence of China Share on Total Visitor Arrivals
 
-
-### CDA 2 - Influence of Chinese Visitor Share on Total Visitor Arrivals
-
-Does the share of Chinese visitors significantly influence total visitor arrivals to Singapore?
+Does China’s share of Singapore’s inbound tourism market significantly influence total visitor arrivals?
 
 **Hypothesis**
 
-H₀ (Null Hypothesis)
-China visitor share has no significant relationship with total visitor arrivals.
+H₀ (Null Hypothesis)  
+China’s visitor share has no significant relationship with total visitor arrivals.
 
-H₁ (Alternative Hypothesis)
-China visitor share significantly influences total visitor arrivals.
+H₁ (Alternative Hypothesis)  
+China’s visitor share significantly influences total visitor arrivals.
 
 ```{r}
-ggplot(data_clean, aes(x = china_share, y = visitor_arrivals)) +
+ggplot(data_clean, aes(x = China_Share, y = `Visitor Arrivals`)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", color = "red") +
   labs(
-    title = "Relationship Between China Visitor Share and Total Visitor Arrivals",
-    x = "China Visitor Share",
+    title = "Relationship Between China Market Share and Total Visitor Arrivals",
+    x = "China Share of Total Visitor Arrivals (%)",
     y = "Visitor Arrivals"
   ) +
   theme_minimal()
 ```
+
 ```{r}
-model_cda2 <- lm(visitor_arrivals ~ china_share, data = data_clean)
+model_cda2 <- lm(`Visitor Arrivals` ~ China_Share, data = data_clean)
 summary(model_cda2)
 ```
 
 ::: callout-tip
-p-value > 0.05, H₀ (Null Hypothesis) Cannot be rejected
+Interpret the regression using both the p-value and the $R^2$ value. A statistically insignificant coefficient would suggest that changes in China’s share alone do not explain much of the variation in Singapore’s total visitor arrivals.
 :::
-
-A linear regression analysis was conducted to examine the relationship between China’s visitor share and total visitor arrivals. The results indicate that the relationship is not statistically significant, as the coefficient for China’s visitor share is negative but insignificant (β = -680,992, p = 0.164). Since the p-value is greater than the 0.05 significance level, the null hypothesis cannot be rejected. This suggests that variations in China’s visitor share do not have a statistically significant impact on total visitor arrivals. Additionally, the low R-squared value ( $R^2$ = 0.018) indicates that China’s visitor share explains only a small proportion of the variation in overall tourism demand.
-
 
 ### CDA 3 - Seasonal Variation in Visitor Arrivals
 
-Do visitor arrivals vary significantly across different months?
+Do visitor arrivals vary significantly across months?
 
 **Hypothesis**
 
-H₀ (Null Hypothesis)
+H₀ (Null Hypothesis)  
 Visitor arrivals do not differ significantly across months.
 
-H₁ (Alternative Hypothesis)
+H₁ (Alternative Hypothesis)  
 Visitor arrivals vary significantly across months, indicating seasonal tourism patterns.
 
 ```{r}
-data_clean <- data_clean %>%
-  mutate(month = month(date, label = TRUE, abbr = TRUE))
 data_no_covid <- data_clean %>%
-  filter(!(year %in% c(2020, 2021)))
+  filter(!Year %in% c(2020, 2021)) %>%
+  mutate(Month_Label = month(Date, label = TRUE, abbr = TRUE))
 ```
 
 ```{r}
 p <- ggplot(
   data_no_covid,
   aes(
-    x = month,
-    y = visitor_arrivals,
+    x = Month_Label,
+    y = `Visitor Arrivals`,
     text = paste(
-      "Month:", month,
-      "<br>Visitor Arrivals:", format(visitor_arrivals, big.mark = ",")
+      "Month:", Month_Label,
+      "<br>Visitor Arrivals:", format(`Visitor Arrivals`, big.mark = ",")
     )
   )
 ) +
@@ -179,18 +258,12 @@ ggplotly(p, tooltip = "text")
 ```
 
 ```{r}
-anova_month <- aov(visitor_arrivals ~ month, data = data_no_covid)
-
+anova_month <- aov(`Visitor Arrivals` ~ Month_Label, data = data_no_covid)
 summary(anova_month)
-
 ```
 
 ::: callout-tip
-
--   The monthly distributions are based on observations from 2017–2025, with the COVID shock years (2020–2021) excluded to avoid distortion in seasonal patterns.
-
--   Pr(>F): Probability of observing an F value greater than the calculated F-statistic under the null hypothesis. (It is the p-value associated with the F-statistic.)
-
+The monthly distributions are based on observations from 2017–2025, with the COVID shock years (2020–2021) excluded to reduce distortion in seasonal patterns.
 :::
 
-A one-way ANOVA test was conducted to examine whether visitor arrivals differ significantly across months. The analysis was performed using observations from 2017–2025, excluding the COVID shock years (2020–2021) to avoid distortion in seasonal patterns. The boxplot illustrates the distribution of visitor arrivals for each month, allowing potential seasonal variation to be visually assessed. However, the ANOVA results indicate that the effect of month on visitor arrivals is not statistically significant (F = 0.525, p = 0.881). Since the p-value is greater than the significance level of 0.05, the null hypothesis cannot be rejected. This suggests that visitor arrivals do not vary significantly across months in the dataset, indicating limited evidence of strong seasonal patterns in tourism demand during the analyzed period.
+A statistically significant ANOVA result would indicate that average visitor arrivals differ across months, suggesting seasonality in tourism demand. If the p-value is not significant, this would imply limited evidence of strong seasonal differences in the dataset after excluding the COVID shock years.
