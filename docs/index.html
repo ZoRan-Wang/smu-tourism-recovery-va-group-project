@@ -238,7 +238,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">"http://127.0.0.1:3838"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">trimws</span>(<span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">""</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>shiny_launch_href <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nzchar</span>(shiny_app_url)) shiny_app_url <span class="cf">else</span> <span class="st">"./app-guide.html"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>shiny_launch_label <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nzchar</span>(shiny_app_url)) <span class="st">"Launch Shiny App"</span> <span class="cf">else</span> <span class="st">"Open Shiny Setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="hero-panel">
 <div class="tagline">
@@ -257,7 +259,7 @@ Visual Analytics | Quarto + Shiny | AY2025/26
 <li>Team coordination and documentation</li>
 </ol>
 <div class="quick-links">
-<p><a href="./Proposal/Proposal.html">Open Proposal</a> <a href="./prototype/module-cluster.html">Open Clustering Prototype</a> <a href="./app-guide.html">Open Shiny App Page</a> <a href="http://127.0.0.1:3838" target="_blank">Launch Shiny App</a></p>
+<p><a href="./Proposal/Proposal.html">Open Proposal</a> <a href="./prototype/module-cluster.html">Open Clustering Prototype</a> <a href="./app-guide.html">Open Shiny App Page</a> <a href="./app-guide.html" target="_blank">Open Shiny Setup</a></p>
 </div>
 </section>
 </section>
@@ -299,9 +301,8 @@ Visual Analytics | Quarto + Shiny | AY2025/26
 </section>
 <section id="deployment-notes" class="level2">
 <h2 class="anchored" data-anchor-id="deployment-notes">Deployment Notes</h2>
-<p>The current website render defaults to the local Shiny target:</p>
-<p>http://127.0.0.1:3838</p>
-<p>When the app is deployed to <code>shinyapps.io</code>, re-render the site with <code>SHINY_APP_URL</code> set to the deployed URL so the website button and preview frame point to the public app.</p>
+<p>No deployed Shiny URL is configured in the current render.</p>
+<p>When the app is deployed to <code>shinyapps.io</code>, re-render the site with <code>SHINY_APP_URL</code> set to the deployed URL so the website button and preview frame point to the public app instead of the setup page.</p>
 
 
 </section>

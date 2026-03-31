@@ -624,14 +624,12 @@ load_shared_arrival_long_data <- function(path = resolve_arrival_workbook()) {
     arrange(label, date)
 }
 
-is_country_arrival_label <- function(label) {
-  excluded_suffixes <- c(
-    "ASEAN", "West Asia", "North Asia", "Americas", "Africa",
-    "8-10 Days", "11-14 Days", "15 Days & Over"
-  )
+country_arrival_labels <- function(path = resolve_arrival_workbook()) {
+  unique(trimws(country_series_catalog(path)$raw_name))
+}
 
-  startsWith(label, "Visitor Arrivals:") &&
-    !label %in% paste("Visitor Arrivals:", excluded_suffixes)
+is_country_arrival_label <- function(label, path = resolve_arrival_workbook()) {
+  trimws(label) %in% country_arrival_labels(path)
 }
 
 resolve_data_path <- function(required = FALSE) {
@@ -843,9 +841,11 @@ list_forecast_series <- function(long_monthly, min_obs = 24) {
     arrange(label)
 }
 
-list_country_arrival_series <- function(long_monthly, min_obs = 24) {
+list_country_arrival_series <- function(long_monthly, min_obs = 24, path = resolve_arrival_workbook()) {
+  allowed_labels <- country_arrival_labels(path)
+
   list_forecast_series(long_monthly, min_obs = min_obs) |>
-    filter(vapply(label, is_country_arrival_label, logical(1)))
+    filter(label %in% allowed_labels)
 }
 
 prepare_supporting_indicator_context <- function(

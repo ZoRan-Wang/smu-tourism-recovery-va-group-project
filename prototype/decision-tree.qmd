@@ -57,7 +57,16 @@ project_root <- find_project_root()
 module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2")
 data_dir <- file.path(module_dir, "data")
 raw_path <- file.path(data_dir, "Name your insight (2).xlsx")
-processed_dir <- data_dir
+artifact_export_enabled <- identical(
+  tolower(Sys.getenv("WRITE_DECISION_TREE_ARTIFACTS", "false")),
+  "true"
+)
+artifact_root <- if (artifact_export_enabled) {
+  file.path(project_root, "artifacts")
+} else {
+  file.path(tempdir(), "decision_tree_artifacts")
+}
+processed_dir <- file.path(artifact_root, "tables")
 
 dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
 ```
@@ -246,8 +255,8 @@ pacman::p_load(
 ```
 
 ```{r}
-data_path <- file.path(data_dir, "tourism_decision_tree_ready.csv")
-output_dir <- file.path(module_dir, "outputs")
+data_path <- file.path(processed_dir, "tourism_decision_tree_ready.csv")
+output_dir <- file.path(artifact_root, "plots")
 
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 

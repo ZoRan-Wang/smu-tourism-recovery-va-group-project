@@ -253,21 +253,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">"http://127.0.0.1:3838"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>is_local_target <span class="ot">&lt;-</span> <span class="fu">grepl</span>(<span class="st">"127</span><span class="sc">\\</span><span class="st">.0</span><span class="sc">\\</span><span class="st">.1|localhost"</span>, shiny_app_url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">trimws</span>(<span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">""</span>))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>has_shiny_target <span class="ot">&lt;-</span> <span class="fu">nzchar</span>(shiny_app_url)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>is_local_target <span class="ot">&lt;-</span> has_shiny_target <span class="sc">&amp;&amp;</span> <span class="fu">grepl</span>(<span class="st">"127</span><span class="sc">\\</span><span class="st">.0</span><span class="sc">\\</span><span class="st">.0</span><span class="sc">\\</span><span class="st">.1|localhost"</span>, shiny_app_url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="launch-target" class="level2">
 <h2 class="anchored" data-anchor-id="launch-target">Launch Target</h2>
 <p>Current target:</p>
-<p>http://127.0.0.1:3838</p>
+<p>Not configured yet.</p>
 <ul>
-<li>Mode: External deployment</li>
+<li>Mode: Configuration required</li>
 <li>Recommended website entry page: <a href="../app-guide.html">app-guide.qmd</a></li>
 </ul>
 </section>
 <section id="open-the-app" class="level2">
 <h2 class="anchored" data-anchor-id="open-the-app">Open The App</h2>
-<p><a href="http://127.0.0.1:3838" target="_blank">Open the Shiny app</a></p>
+<p>Set SHINY_APP_URL and re-render the site before using this page as a public launch page.</p>
 </section>
 <section id="local-run-command" class="level2">
 <h2 class="anchored" data-anchor-id="local-run-command">Local Run Command</h2>
@@ -277,7 +278,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="deployment-note" class="level2">
 <h2 class="anchored" data-anchor-id="deployment-note">Deployment Note</h2>
-<p>For Netlify plus <code>shinyapps.io</code>, set <code>SHINY_APP_URL</code> to the deployed app before rendering the website so the launch button points to the public target instead of localhost.</p>
+<p>For Netlify plus <code>shinyapps.io</code>, set <code>SHINY_APP_URL</code> to the deployed app before rendering the website so the launch button points to the public target instead of an unconfigured placeholder.</p>
 
 
 </section>

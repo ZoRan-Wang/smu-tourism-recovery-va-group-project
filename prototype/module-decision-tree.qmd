@@ -8,7 +8,7 @@ Prototype a Shiny module that explains hotel occupancy classification with an in
 
 ## Data Contract
 
-Input dataset: `team/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv`
+Input dataset: `artifacts/tables/tourism_decision_tree_ready.csv`
 
 Required fields:
 
@@ -66,9 +66,9 @@ Derived fields used by the module:
 
 1. `shiny/app.R`
 2. `team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd`
-3. `team/jin-qinhao/Take-Home-Exercise2/data/tourism_decision_tree_ready.csv`
-4. `team/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_visual.html`
-5. `team/jin-qinhao/Take-Home-Exercise2/outputs/decision_tree_static.png`
+3. `artifacts/tables/tourism_decision_tree_ready.csv`
+4. `artifacts/plots/decision_tree_visual.html`
+5. `artifacts/plots/decision_tree_static.png`
 
 ## Quality Gates
 

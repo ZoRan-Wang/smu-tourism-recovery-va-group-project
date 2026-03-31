@@ -9,22 +9,23 @@ format:
 ---
 
 ```{r}
-shiny_app_url <- Sys.getenv("SHINY_APP_URL", unset = "http://127.0.0.1:3838")
-is_local_target <- grepl("127\\.0\\.1|localhost", shiny_app_url)
+shiny_app_url <- trimws(Sys.getenv("SHINY_APP_URL", unset = ""))
+has_shiny_target <- nzchar(shiny_app_url)
+is_local_target <- has_shiny_target && grepl("127\\.0\\.0\\.1|localhost", shiny_app_url)
 ```
 
 ## Launch Target
 
 Current target:
 
-`r shiny_app_url`
+`r if (has_shiny_target) shiny_app_url else "Not configured yet."`
 
-- Mode: `r if (is_local_target) "Local development" else "External deployment"`
+- Mode: `r if (!has_shiny_target) "Configuration required" else if (is_local_target) "Local development" else "External deployment"`
 - Recommended website entry page: [app-guide.qmd](../app-guide.qmd)
 
 ## Open The App
 
-[Open the Shiny app](`r shiny_app_url`){target="_blank"}
+`r if (has_shiny_target) sprintf("[Open the Shiny app](%s){target=\"_blank\"}", shiny_app_url) else "Set SHINY_APP_URL and re-render the site before using this page as a public launch page."`
 
 ## Local Run Command
 
@@ -40,4 +41,4 @@ Rscript run_app.R 3838
 
 ## Deployment Note
 
-For Netlify plus `shinyapps.io`, set `SHINY_APP_URL` to the deployed app before rendering the website so the launch button points to the public target instead of localhost.
+For Netlify plus `shinyapps.io`, set `SHINY_APP_URL` to the deployed app before rendering the website so the launch button points to the public target instead of an unconfigured placeholder.

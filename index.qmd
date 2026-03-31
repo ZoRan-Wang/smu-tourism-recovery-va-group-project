@@ -3,7 +3,9 @@ title: "Project Home"
 ---
 
 ```{r}
-shiny_app_url <- Sys.getenv("SHINY_APP_URL", unset = "http://127.0.0.1:3838")
+shiny_app_url <- trimws(Sys.getenv("SHINY_APP_URL", unset = ""))
+shiny_launch_href <- if (nzchar(shiny_app_url)) shiny_app_url else "./app-guide.html"
+shiny_launch_label <- if (nzchar(shiny_app_url)) "Launch Shiny App" else "Open Shiny Setup"
 ```
 
 ::: {.hero-panel}
@@ -25,7 +27,7 @@ This site is the working base for:
 <a href="./Proposal/Proposal.html">Open Proposal</a>
 <a href="./prototype/module-cluster.html">Open Clustering Prototype</a>
 <a href="./app-guide.html">Open Shiny App Page</a>
-<a href="`r shiny_app_url`" target="_blank">Launch Shiny App</a>
+<a href="`r shiny_launch_href`" target="_blank">`r shiny_launch_label`</a>
 </div>
 :::
 
@@ -69,8 +71,6 @@ Rscript run_app.R 3838
 
 ## Deployment Notes
 
-The current website render defaults to the local Shiny target:
+`r if (nzchar(shiny_app_url)) paste("Current Shiny target:", shiny_app_url) else "No deployed Shiny URL is configured in the current render."`
 
-`r shiny_app_url`
-
-When the app is deployed to `shinyapps.io`, re-render the site with `SHINY_APP_URL` set to the deployed URL so the website button and preview frame point to the public app.
+When the app is deployed to `shinyapps.io`, re-render the site with `SHINY_APP_URL` set to the deployed URL so the website button and preview frame point to the public app instead of the setup page.

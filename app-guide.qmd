@@ -6,11 +6,20 @@ format:
 ---
 
 ```{r}
-shiny_app_url <- Sys.getenv("SHINY_APP_URL", unset = "http://127.0.0.1:3838")
-is_local_target <- grepl("127\\.0\\.0\\.1|localhost", shiny_app_url)
-shiny_target_label <- if (is_local_target) "Local target" else "Deployment target"
-shiny_target_note <- if (is_local_target) {
-  "The site currently points to a locally running Shiny process on port 3838."
+shiny_app_url <- trimws(Sys.getenv("SHINY_APP_URL", unset = ""))
+has_shiny_target <- nzchar(shiny_app_url)
+is_local_target <- has_shiny_target && grepl("127\\.0\\.0\\.1|localhost", shiny_app_url)
+shiny_target_label <- if (!has_shiny_target) {
+  "No target configured"
+} else if (is_local_target) {
+  "Local target"
+} else {
+  "Deployment target"
+}
+shiny_target_note <- if (!has_shiny_target) {
+  "No external Shiny URL is configured yet. Use the setup instructions below before publishing the static site."
+} else if (is_local_target) {
+  "The site currently points to a locally running Shiny process."
 } else {
   "The site is currently configured to point to the deployed Shiny application."
 }
@@ -18,15 +27,15 @@ shiny_target_note <- if (is_local_target) {
 
 ## Open The App
 
-This page is the website entry point for the Shiny application. Right now it is configured to open:
+This page is the website entry point for the Shiny application.
 
-`r shiny_app_url`
+`r if (has_shiny_target) paste("Current target:", shiny_app_url) else "Current target: not configured yet."`
 
 ::: {.grid-cards}
 ::: {.card-block}
 ### Launch Shiny App
 
-[Open the Shiny app](`r shiny_app_url`){target="_blank"}
+`r if (has_shiny_target) sprintf("[Open the Shiny app](%s){target=\"_blank\"}", shiny_app_url) else "Set SHINY_APP_URL before expecting a public launch link here."`
 
 `r shiny_target_note`
 :::
@@ -35,8 +44,8 @@ This page is the website entry point for the Shiny application. Right now it is 
 ### Current Target
 
 - Label: `r shiny_target_label`
-- URL: `r shiny_app_url`
-- Mode: `r if (is_local_target) "Local development" else "External deployment"`
+- URL: `r if (has_shiny_target) shiny_app_url else "Not configured"`
+- Mode: `r if (!has_shiny_target) "Configuration required" else if (is_local_target) "Local development" else "External deployment"`
 :::
 
 ::: {.card-block}
@@ -59,19 +68,27 @@ Rscript run_app.R 3838
 When the target app is available, the frame below gives the website a direct in-page preview.
 
 ```{r, echo=FALSE}
-htmltools::div(
-  style = "background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);",
+if (!has_shiny_target) {
   htmltools::div(
-    style = "padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;",
-    sprintf("Shiny Preview (%s)", shiny_app_url)
-  ),
-  htmltools::tags$iframe(
-    src = shiny_app_url,
-    title = "Singapore Tourism Time-Series VA Prototype",
-    style = "width:100%;height:900px;border:0;background:#fff;",
-    loading = "lazy"
+    style = "background:#fff8ef;border:1px solid #eadfce;border-radius:18px;padding:1rem 1.1rem;color:#4f5f68;",
+    htmltools::tags$strong("Preview unavailable."),
+    htmltools::tags$div("Set SHINY_APP_URL to a deployed app URL, then re-render the site to enable the launch link and embedded preview.")
   )
-)
+} else {
+  htmltools::div(
+    style = "background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);",
+    htmltools::div(
+      style = "padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;",
+      sprintf("Shiny Preview (%s)", shiny_app_url)
+    ),
+    htmltools::tags$iframe(
+      src = shiny_app_url,
+      title = "Singapore Tourism Time-Series VA Prototype",
+      style = "width:100%;height:900px;border:0;background:#fff;",
+      loading = "lazy"
+    )
+  )
+}
 ```
 
 ## Current Module Status
@@ -101,9 +118,7 @@ The current clustering workflow reads from:
 
 ## Deployment Switch
 
-For local testing, no extra configuration is needed because the page defaults to:
-
-`http://127.0.0.1:3838`
+For local testing, start the app directly with `shiny::runApp("app")` or `Rscript run_app.R 3838`.
 
 When you are ready to switch to `shinyapps.io`, re-render the site with:
 

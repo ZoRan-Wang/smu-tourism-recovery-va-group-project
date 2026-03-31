@@ -57,11 +57,15 @@ project_root <- find_project_root()
 module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2")
 data_dir <- file.path(module_dir, "data")
 raw_path <- file.path(data_dir, "Name your insight (2).xlsx")
-processed_dir <- data_dir
 artifact_export_enabled <- identical(
   tolower(Sys.getenv("WRITE_TAKE_HOME_EX2_ARTIFACTS", "false")),
   "true"
 )
+processed_dir <- if (artifact_export_enabled) {
+  data_dir
+} else {
+  file.path(tempdir(), "take_home_ex2_artifacts", "data")
+}
 
 export_note <- function(path_label) {
   message(
@@ -71,9 +75,7 @@ export_note <- function(path_label) {
   )
 }
 
-if (artifact_export_enabled) {
-  dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
-}
+dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
 ```
 
 ## 1.3Read the original data
@@ -264,11 +266,13 @@ pacman::p_load(
 ```
 
 ```{r}
-output_dir <- file.path(module_dir, "outputs")
-
-if (artifact_export_enabled) {
-  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+output_dir <- if (artifact_export_enabled) {
+  file.path(module_dir, "outputs")
+} else {
+  file.path(tempdir(), "take_home_ex2_artifacts", "outputs")
 }
+
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 
 ```
 
