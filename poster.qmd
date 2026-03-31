@@ -180,23 +180,6 @@ The forecasting module follows the Chapter 19 and 20 workflow from *R for Visual
 :::
 :::
 
-::: {.poster-panel .poster-panel-soft}
-## Supplementary Modelling Archive
-
-The repository also preserves Jin Qinhao's earlier decision-tree and random-forest study. It is no longer the live final-project module, but it remains useful as a supplementary reference for archived model-based interpretation.
-
-::: {.poster-figure-grid}
-::: {.poster-figure .poster-figure-half}
-![](poster-assets/archive-tree.png){alt="Decision tree archive plot"}
-*Decision tree: a compact rule-based view for hotel occupancy classification.*
-:::
-::: {.poster-figure .poster-figure-half}
-![](poster-assets/archive-rf-importance.png){alt="Random forest importance chart"}
-*Random forest: feature ranking highlights arrivals, stay days, and China share as key archived predictors.*
-:::
-:::
-:::
-
 ::: {.poster-panel .poster-panel-dark}
 ## Key Takeaways and Next Step
 
@@ -205,7 +188,7 @@ The repository also preserves Jin Qinhao's earlier decision-tree and random-fore
 - Tourism recovery is better understood as a time-series system than as a single headline total.
 - Country-level arrivals provide one shared backbone that keeps exploration, clustering, and forecasting consistent.
 - Hotel occupancy and stay indicators add business meaning by showing whether demand recovery translates into tourism performance.
-- The final app supports comparison, explanation, and short-term planning in one workflow.
+- The final app supports comparison, explanation, and short-term planning in one workflow without relying on legacy tree-model panels.
 
 ### Future Work
 

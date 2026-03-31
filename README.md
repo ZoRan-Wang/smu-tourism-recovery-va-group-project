@@ -6,8 +6,6 @@ This project combines **Quarto publishing** and a **modular Shiny prototype** ar
 2. Time Series Clustering
 3. Time Series Forecasting
 
-The older decision-tree work under `team/jin-qinhao/Take-Home-Exercise2/` is kept as an archive and is not part of the live shared prototype contract.
-
 ## Core Data Contract
 
 Shared arrivals backbone:

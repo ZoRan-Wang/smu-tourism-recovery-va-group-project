@@ -1,4 +1,4 @@
----
+﻿---
 title: "Second Meeting Record"
 ---
 
@@ -12,7 +12,7 @@ Attendees: Xi Zixun, Wang Zhuoran, Jin Qinhao
 
 ## Purpose
 
-This meeting recorded the team decision to pivot from the earlier mixed recovery / decision-tree direction into one shared tourism time-series workflow for the final project.
+This meeting recorded the team decision to pivot from the earlier mixed recovery direction into one shared tourism time-series workflow for the final project.
 
 ## Key Decisions
 
@@ -23,7 +23,7 @@ This meeting recorded the team decision to pivot from the earlier mixed recovery
    - Time Series Clustering
    - Forecasting
 4. Treat country-level monthly arrivals as the common analytical target across modules.
-5. Keep Jin's older decision-tree material as a legacy archive instead of a live final-project module.
+5. Remove the older standalone modelling materials so the final project only exposes the three shared time-series modules.
 
 ## Work Split After Pivot
 
@@ -44,3 +44,4 @@ This meeting recorded the team decision to pivot from the earlier mixed recovery
 1. One Quarto website with proposal, prototypes, user guide, and meeting records.
 2. One Shiny app with visual analysis, clustering, and forecasting modules.
 3. Shared scripts that can regenerate the processed arrivals backbone when the raw workbook changes.
+
