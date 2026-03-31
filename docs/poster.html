@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project Home – Singapore Tourism Recovery VA Prototype</title>
+<title>Project Poster – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -106,6 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <style>html{ scroll-behavior: smooth; }</style>
 
 
+<link rel="stylesheet" href="styles/poster.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -126,7 +92,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -195,32 +161,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#working-modules" id="toc-working-modules" class="nav-link active" data-scroll-target="#working-modules">Working Modules</a></li>
-  <li><a href="#key-pages" id="toc-key-pages" class="nav-link" data-scroll-target="#key-pages">Key Pages</a></li>
-  <li><a href="#local-run-commands" id="toc-local-run-commands" class="nav-link" data-scroll-target="#local-run-commands">Local Run Commands</a></li>
-  <li><a href="#deployment-notes" id="toc-deployment-notes" class="nav-link" data-scroll-target="#deployment-notes">Deployment Notes</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project Home</h1>
+<h1 class="title">Project Poster</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -232,73 +187,242 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">trimws</span>(<span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">""</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>shiny_launch_href <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nzchar</span>(shiny_app_url)) shiny_app_url <span class="cf">else</span> <span class="st">"./app-guide.html"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>shiny_launch_label <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">nzchar</span>(shiny_app_url)) <span class="st">"Launch Shiny App"</span> <span class="cf">else</span> <span class="st">"Open Shiny Setup"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="poster-page">
+<div class="poster-hero">
+<div class="poster-kicker">
+ISSS608 Visual Analytics &amp; Applications
 </div>
-<div class="hero-panel">
-<div class="tagline">
-Visual Analytics | Quarto + Shiny | AY2025/26
+<section id="singapore-tourism-recovery-through-time-series-visual-analytics" class="level1">
+<h1>Singapore Tourism Recovery Through Time-Series Visual Analytics</h1>
+<div class="poster-subtitle">
+<p>One integrated workflow for <strong>exploring demand</strong>, <strong>grouping recovery trajectories</strong>, and <strong>forecasting source-market arrivals</strong> using Singapore tourism time series.</p>
 </div>
-<section id="singapore-tourism-time-series-visual-analytics" class="level1">
-<h1>Singapore Tourism Time-Series Visual Analytics</h1>
-<section id="core-direction" class="level2">
-<h2 class="anchored" data-anchor-id="core-direction">Core Direction</h2>
-<p>This project reframes Singapore tourism recovery as a comparative time-series problem. The final system combines visual analysis, time-series clustering, and forecasting into one Shiny-supported workflow.</p>
-<p>This site is the working base for:</p>
-<ol type="1">
-<li>Project proposal updates</li>
-<li>Prototype modules</li>
-<li>Shiny integration</li>
-<li>Team coordination and documentation</li>
-</ol>
-<div class="quick-links">
-<p><a href="./Proposal/Proposal.html">Open Proposal</a> <a href="./prototype/module-cluster.html">Open Clustering Prototype</a> <a href="./poster.html">Open Poster</a> <a href="./app-guide.html">Open Shiny App Page</a> <a href="./app-guide.html" target="_blank">Open Shiny Setup</a></p>
+<div class="poster-team">
+<p><span>Xi Zixun</span> <span>-</span> <span>Wang Zhuoran</span> <span>-</span> <span>Jin Qinhao</span></p>
+</div>
+<div class="poster-pill-row">
+<p><span class="poster-pill">Shared arrivals backbone</span> <span class="poster-pill">Visual analysis + clustering + forecasting</span> <span class="poster-pill">Quarto website + modular Shiny app</span> <span class="poster-pill">Singapore tourism recovery</span></p>
 </div>
 </section>
+</div>
+<div class="poster-top-grid">
+<section id="why-this-project" class="level2 poster-card">
+<h2 class="anchored" data-anchor-id="why-this-project">Why This Project</h2>
+<p>Singapore tourism did not recover as one uniform curve. Different source markets returned at different speeds, while hotel utilisation and stay behaviour reacted with their own lag. Static totals hide this structure.</p>
+<p>We therefore reframed the project as a <strong>time-series decision workflow</strong>:</p>
+<ul>
+<li>reveal turning points and seasonal structure</li>
+<li>group markets with similar recovery paths</li>
+<li>forecast short-term demand while preserving interpretation</li>
+</ul>
+</section>
+<section id="shared-data-backbone" class="level2 poster-card">
+<h2 class="anchored" data-anchor-id="shared-data-backbone">Shared Data Backbone</h2>
+<p>The final project uses one coordinated analytical contract:</p>
+<ul>
+<li><strong>Core series</strong>: monthly visitor arrivals by country</li>
+<li><strong>Supporting context</strong>: hotel room occupancy, average length of stay, number of hotels, and total room revenue</li>
+</ul>
+<p>This keeps the three modules consistent while letting the app explain whether demand recovery translates into wider tourism performance.</p>
+<div class="poster-metric-grid">
+<div class="metric-box">
+<pre><code>&lt;div class="metric-label"&gt;Core target&lt;/div&gt;
+&lt;div class="metric-value"&gt;Country arrivals&lt;/div&gt;</code></pre>
+</div>
+<div class="metric-box">
+<pre><code>&lt;div class="metric-label"&gt;Support layer&lt;/div&gt;
+&lt;div class="metric-value"&gt;Hotel context&lt;/div&gt;</code></pre>
+</div>
+<div class="metric-box">
+<pre><code>&lt;div class="metric-label"&gt;Delivery&lt;/div&gt;
+&lt;div class="metric-value"&gt;Website + Shiny&lt;/div&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="end-to-end-workflow" class="level2 poster-card">
+<h2 class="anchored" data-anchor-id="end-to-end-workflow">End-to-End Workflow</h2>
+<div class="poster-flow">
+<div class="flow-box">
+<strong>1. Explore</strong>Read trend, shock, rebound, and seasonality across monthly tourism series.
+</div>
+<div class="flow-box">
+<strong>2. Compare</strong>Place one market against hotel utilisation and stay indicators.
+</div>
+<div class="flow-box">
+<strong>3. Cluster</strong>Group countries with similar recovery trajectories over a shared window.
+</div>
+<div class="flow-box">
+<strong>4. Forecast</strong>Benchmark seasonal naive against ETS and ARIMA for short-term demand prediction.
+</div>
+</div>
 </section>
 </div>
-<section id="working-modules" class="level2">
-<h2 class="anchored" data-anchor-id="working-modules">Working Modules</h2>
-<div class="grid-cards">
-<section id="time-series-visual-analysis" class="level4 card-block">
-<h4 class="anchored" data-anchor-id="time-series-visual-analysis">Time Series Visual Analysis</h4>
-<p>Compare selected countries and transport modes through raw, indexed, and share-based views.</p>
-</section>
-<section id="time-series-clustering" class="level4 card-block">
-<h4 class="anchored" data-anchor-id="time-series-clustering">Time Series Clustering</h4>
-<p>Group country trajectories with similar recovery paths and interpret how a selected priority market sits in the wider recovery landscape.</p>
-</section>
-<section id="forecasting" class="level4 card-block">
-<h4 class="anchored" data-anchor-id="forecasting">Forecasting</h4>
-<p>Move from historical comparison into short-term prediction for selected tourism series.</p>
-</section>
-<section id="shiny-integration" class="level4 card-block">
-<h4 class="anchored" data-anchor-id="shiny-integration">Shiny Integration</h4>
-<p>Use the website as the entry point, then open or embed the running Shiny app from the Shiny page.</p>
+<div class="poster-section-grid">
+<div class="poster-band">
+<div class="poster-section-tag">
+Module 1
+</div>
+<section id="time-series-explorer" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-explorer">Time Series Explorer</h2>
+<p>The explorer establishes the narrative baseline: a visible collapse in 2020, staggered reopening, and an uneven return of source-market demand. It also connects demand to hotel utilisation, showing that recovery in arrivals is meaningful only when it moves with broader tourism performance.</p>
+<ul>
+<li>China’s contribution shows both the magnitude of the pandemic shock and the asymmetry of the recovery path.</li>
+<li>Hotel occupancy still tracks visitor demand positively, even though the rebound is phased rather than immediate.</li>
+<li>The explorer is the starting point for both clustering and forecasting, because it exposes seasonality before modelling begins.</li>
+</ul>
 </section>
 </div>
+<div class="poster-card">
+<div class="poster-image-grid-2">
+<div class="poster-visual">
+<img src="poster-assets/eda-china-market.png" class="img-fluid" alt="China market contribution chart">
+<div class="poster-caption">
+<strong>Demand structure:</strong> China and total arrivals collapse together in 2020, then recover at different speeds.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/eda-hotel-utilisation.png" class="img-fluid" alt="Hotel utilisation relationship chart">
+<div class="poster-caption">
+<strong>Performance linkage:</strong> higher arrivals generally align with stronger hotel occupancy across recovery phases.
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="poster-section-grid">
+<div class="poster-band">
+<div class="poster-section-tag">
+Module 2
+</div>
+<section id="clustering-recovery-trajectories" class="level2">
+<h2 class="anchored" data-anchor-id="clustering-recovery-trajectories">Clustering Recovery Trajectories</h2>
+<p>Clustering moves the project from “what happened” to “which markets behave similarly.” Instead of clustering individual months, the final module clusters <strong>country trajectories</strong>, which is more consistent with the shared time-series backbone.</p>
+<ul>
+<li>The reduced-space scatter separates recovery shapes into three clear groups, with a mean silhouette around <strong>0.63</strong>.</li>
+<li>The timeline highlights that the tourism system moved through persistent phases rather than random monthly noise.</li>
+<li>The elbow diagnostic supports a compact solution that is interpretable enough for the Shiny interface.</li>
+</ul>
 </section>
-<section id="key-pages" class="level2">
-<h2 class="anchored" data-anchor-id="key-pages">Key Pages</h2>
-<ol type="1">
-<li><a href="./Proposal/Proposal.html">Proposal</a></li>
-<li><a href="./prototype/module-cluster.html">Time Series Clustering Prototype</a></li>
-<li><a href="./poster.html">Project Poster</a></li>
-<li><a href="./prototype/ui-storyboard.html">UI Storyboard</a></li>
-<li><a href="./app-guide.html">Shiny App</a></li>
-</ol>
+</div>
+<div class="poster-card">
+<div class="poster-image-grid-3">
+<div class="poster-visual">
+<img src="poster-assets/cluster-scatter.png" class="img-fluid" alt="Cluster scatter plot">
+<div class="poster-caption">
+<strong>State map:</strong> the three-cluster view separates high-performance, transition, and shock-related patterns.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/cluster-timeline.png" class="img-fluid" alt="Cluster timeline">
+<div class="poster-caption">
+<strong>Phase timing:</strong> market-state chronology shows when the system shifted out of the shock period.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/cluster-elbow.png" class="img-fluid" alt="Elbow plot">
+<div class="poster-caption">
+<strong>Model selection:</strong> the elbow view keeps the clustering choice transparent rather than arbitrary.
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="poster-section-grid">
+<div class="poster-band">
+<div class="poster-section-tag">
+Module 3
+</div>
+<section id="forecasting-source-market-demand" class="level2">
+<h2 class="anchored" data-anchor-id="forecasting-source-market-demand">Forecasting Source-Market Demand</h2>
+<p>The forecasting module follows the Chapter 19/20 logic from <em>R for Visual Analytics</em>: inspect the time path, check seasonal structure, build a time-aware split, and compare benchmark versus model-based forecasts. The latest implementation also supports a lighter fallback route so the prototype remains runnable in shared environments.</p>
+<ul>
+<li>The selected country series retains strong monthly seasonality after the pandemic shock.</li>
+<li>Decomposition makes the structural break explicit, which helps justify a forecasting workflow instead of a static regression treatment.</li>
+<li>Seasonal Naive, ETS, and ARIMA are compared on the same holdout window so forecast quality remains interpretable.</li>
+</ul>
 </section>
-<section id="local-run-commands" class="level2">
-<h2 class="anchored" data-anchor-id="local-run-commands">Local Run Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="poster-card">
+<div class="poster-image-grid-3">
+<div class="poster-visual">
+<img src="poster-assets/forecast-series.png" class="img-fluid" alt="Forecast input series">
+<div class="poster-caption">
+<strong>Input series:</strong> China arrivals capture shock, reopening, and renewed seasonal peaks.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/forecast-decomposition.png" class="img-fluid" alt="Decomposition plot">
+<div class="poster-caption">
+<strong>Diagnostics:</strong> trend, seasonal, and remainder components reveal the structural change before forecasting.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/forecast-holdout.png" class="img-fluid" alt="Forecast comparison plot">
+<div class="poster-caption">
+<strong>Holdout comparison:</strong> the forecast pane benchmarks Seasonal Naive, ETS, and ARIMA on the same testing horizon.
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="poster-bottom-grid">
+<section id="shiny-app-delivery" class="level2 poster-highlight">
+<h2 class="anchored" data-anchor-id="shiny-app-delivery">Shiny App Delivery</h2>
+<p>The final system is not just a report. It is delivered as a coordinated website-plus-Shiny experience:</p>
+<ul>
+<li>the website documents the data contract, prototypes, and usage logic</li>
+<li>the Shiny app exposes explorer, clustering, and forecasting as one flow</li>
+<li>package audit and smoke tests support deployment quality</li>
+</ul>
+<p>This is what turns the project from a set of plots into a reusable visual analytics product.</p>
 </section>
-<section id="deployment-notes" class="level2">
-<h2 class="anchored" data-anchor-id="deployment-notes">Deployment Notes</h2>
-<p>No deployed Shiny URL is configured in the current render.</p>
-<p>When the app is deployed to <code>shinyapps.io</code>, re-render the site with <code>SHINY_APP_URL</code> set to the deployed URL so the website button and preview frame point to the public app instead of the setup page.</p>
+<div class="poster-card">
+<div class="poster-section-tag">
+Archive
+</div>
+<section id="supplementary-modelling-study" class="level2">
+<h2 class="anchored" data-anchor-id="supplementary-modelling-study">Supplementary Modelling Study</h2>
+<p>The repository also preserves Jin Qinhao’s earlier decision-tree and random-forest work as an archive. It is not part of the final live module contract, but it remains useful as a supplementary modelling reference.</p>
+<div class="poster-image-grid-2">
+<div class="poster-visual">
+<img src="poster-assets/archive-tree.png" class="img-fluid" alt="Decision tree archive plot">
+<div class="poster-caption">
+<strong>Decision tree:</strong> a compact rule-based view for hotel occupancy classification.
+</div>
+</div>
+<div class="poster-visual">
+<img src="poster-assets/archive-rf-importance.png" class="img-fluid" alt="Random forest importance chart">
+<div class="poster-caption">
+<strong>Random forest:</strong> feature ranking shows how arrivals, stay days, and China share drive the archived classifier.
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="poster-footer">
+<div class="poster-footer-grid">
+
+</div>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>Tourism recovery is better understood as a time-series system than as a single headline total.</li>
+<li>Country-level arrivals provide one shared backbone that keeps exploration, clustering, and forecasting consistent.</li>
+<li>Hotel occupancy and stay indicators add business meaning by showing whether demand recovery translates into tourism performance.</li>
+<li>The final app is designed to support comparison, explanation, and short-term planning in one workflow.</li>
+</ul>
+</section>
+</div>
+</div>
+<section id="next-step" class="level2">
+<h2 class="anchored" data-anchor-id="next-step">Next Step</h2>
+<ul>
+<li>Extend the forecasting panel to more source markets.</li>
+<li>Add deployment-ready public hosting for the Shiny module.</li>
+<li>Turn cluster interpretation into reusable market personas for decision-making. ::: ::: :::</li>
+</ul>
+<p>:::</p>
 
 
 </section>

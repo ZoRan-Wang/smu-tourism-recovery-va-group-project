@@ -1,0 +1,276 @@
+.poster-page {
+  max-width: 1480px;
+  margin: 0 auto 3rem auto;
+  padding: 1.2rem 1.2rem 3rem 1.2rem;
+}
+
+.poster-hero {
+  background:
+    radial-gradient(circle at top right, rgba(216, 111, 69, 0.25), transparent 28%),
+    linear-gradient(135deg, #0f3d3e 0%, #14595c 56%, #21484f 100%);
+  color: #fff;
+  border-radius: 28px;
+  padding: 2.4rem 2.4rem 2rem 2.4rem;
+  box-shadow: 0 20px 42px rgba(17, 54, 57, 0.22);
+}
+
+.poster-kicker {
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bfe5df;
+  margin-bottom: 0.6rem;
+}
+
+.poster-hero h1 {
+  font-size: clamp(2.8rem, 4vw, 4.5rem);
+  line-height: 1.02;
+  margin: 0 0 0.7rem 0;
+  color: #fff;
+}
+
+.poster-subtitle {
+  font-size: 1.2rem;
+  max-width: 920px;
+  line-height: 1.45;
+  margin-bottom: 1.2rem;
+}
+
+.poster-team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  font-weight: 600;
+  color: #e9f4f2;
+}
+
+.poster-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.2rem;
+}
+
+.poster-pill {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.92rem;
+}
+
+.poster-top-grid,
+.poster-section-grid,
+.poster-bottom-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.poster-top-grid {
+  grid-template-columns: 1.1fr 1fr 1fr;
+}
+
+.poster-section-grid {
+  grid-template-columns: 1.05fr 1.3fr;
+}
+
+.poster-bottom-grid {
+  grid-template-columns: 1.2fr 0.9fr;
+}
+
+.poster-card,
+.poster-band,
+.poster-highlight {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid #e8dccb;
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(25, 45, 51, 0.08);
+}
+
+.poster-card {
+  padding: 1.2rem 1.2rem 1rem 1.2rem;
+}
+
+.poster-card h2,
+.poster-card h3,
+.poster-band h2,
+.poster-highlight h2 {
+  margin-top: 0;
+}
+
+.poster-card h2,
+.poster-band h2,
+.poster-highlight h2 {
+  font-size: 1.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.poster-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.35rem;
+  color: #0f3d3e;
+}
+
+.poster-muted {
+  color: #53656a;
+  font-size: 0.97rem;
+}
+
+.poster-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.metric-box {
+  background: #fff9f3;
+  border: 1px solid #edd8c0;
+  border-radius: 16px;
+  padding: 0.85rem 0.9rem;
+}
+
+.metric-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a6b5a;
+}
+
+.metric-value {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  color: #163f43;
+}
+
+.poster-band {
+  padding: 1rem 1.1rem;
+}
+
+.poster-section-tag {
+  display: inline-block;
+  background: #dcefed;
+  color: #0f5f5d;
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 0.5rem;
+}
+
+.poster-image-grid-2,
+.poster-image-grid-3 {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.poster-image-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.poster-image-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.poster-visual {
+  background: #fffdfa;
+  border: 1px solid #e9dfd2;
+  border-radius: 18px;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.poster-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.poster-caption {
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+  color: #55676e;
+  line-height: 1.4;
+}
+
+.poster-findings {
+  margin: 0.8rem 0 0 0;
+  padding-left: 1.15rem;
+}
+
+.poster-findings li {
+  margin-bottom: 0.45rem;
+}
+
+.poster-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.flow-box {
+  background: linear-gradient(180deg, #fffefd 0%, #f8f1e8 100%);
+  border: 1px solid #eadbca;
+  border-radius: 18px;
+  padding: 0.9rem;
+}
+
+.flow-box strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #0f3d3e;
+}
+
+.poster-highlight {
+  padding: 1.2rem;
+  background:
+    radial-gradient(circle at right top, rgba(216, 111, 69, 0.14), transparent 28%),
+    rgba(255, 255, 255, 0.86);
+}
+
+.poster-footer {
+  margin-top: 1rem;
+  background: #122f31;
+  color: #eaf4f3;
+  border-radius: 22px;
+  padding: 1.2rem 1.4rem;
+}
+
+.poster-footer h2 {
+  color: #fff;
+  margin-top: 0;
+}
+
+.poster-footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 1rem;
+}
+
+.poster-footer ul {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1100px) {
+  .poster-top-grid,
+  .poster-section-grid,
+  .poster-bottom-grid,
+  .poster-footer-grid,
+  .poster-flow,
+  .poster-image-grid-3,
+  .poster-image-grid-2,
+  .poster-metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-page {
+    padding: 0.8rem 0.6rem 2rem 0.6rem;
+  }
+}
