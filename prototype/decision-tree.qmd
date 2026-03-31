@@ -1,0 +1,743 @@
+---
+title: "Visualization of classification trees and random forest analysis"
+author: "JIN QINHAO"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    code-summary: "Show the code"
+    page-layout: full
+execute:
+  warning: false
+  message: false
+---
+
+# **Visualization of classification trees and random forest analysis**
+
+# 1Preparations
+
+## 1.1Install and launch the required R packages
+
+```{r}
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", repos = "https://cloud.r-project.org")
+}
+
+pacman::p_load(
+  tidyverse,
+  readxl,
+  lubridate,
+  writexl
+)
+```
+
+## 1.2Importing Data
+
+```{r}
+find_project_root <- function(start = getwd()) {
+  current <- normalizePath(start, winslash = "/", mustWork = TRUE)
+
+  repeat {
+    if (file.exists(file.path(current, "_quarto.yml"))) {
+      return(current)
+    }
+
+    parent <- dirname(current)
+    if (identical(parent, current)) {
+      stop("Project root not found. Expected to locate _quarto.yml.")
+    }
+
+    current <- parent
+  }
+}
+
+project_root <- find_project_root()
+module_dir <- file.path(project_root, "team", "jin-qinhao", "Take-Home-Exercise2")
+data_dir <- file.path(module_dir, "data")
+raw_path <- file.path(data_dir, "Name your insight (2).xlsx")
+processed_dir <- data_dir
+
+dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
+```
+
+## 1.3Read the original data
+
+```{r}
+col_names <- c(
+  "date",
+  "avg_stay_monthly",
+  "hotel_occ",
+  "spend_per_capita",
+  "tourism_receipts",
+  "avg_stay_annual",
+  "visitor_arrivals",
+  "visitor_arrivals_china"
+)
+
+raw_tbl <- readxl::read_excel(
+  path = raw_path,
+  sheet = "My Series",
+  skip = 29,
+  col_names = FALSE
+) %>%
+  select(
+    1,   # date
+    6,   # avg_stay_monthly
+    10,  # hotel_occ
+    7,   # spend_per_capita
+    4,   # tourism_receipts
+    11,  # avg_stay_annual
+    2,   # visitor_arrivals
+    5    # visitor_arrivals_china
+  ) %>%
+  setNames(col_names) %>%
+  mutate(
+    date = as.Date(date),
+    across(-date, as.numeric)
+  ) %>%
+  arrange(date)
+```
+
+## 1.4View the original data structure
+
+```{r}
+glimpse(raw_tbl)
+colSums(is.na(raw_tbl))
+```
+
+## 1.5Retain the valid data suitable for monthly analysis
+
+```{r}
+monthly_clean <- raw_tbl %>%
+  filter(
+    !is.na(date),
+    !is.na(avg_stay_monthly),
+    !is.na(hotel_occ),
+    !is.na(visitor_arrivals),
+    !is.na(visitor_arrivals_china)
+  ) %>%
+  mutate(
+    year = lubridate::year(date),
+    month = lubridate::month(date),
+    quarter = lubridate::quarter(date),
+    period = case_when(
+      date <= as.Date("2020-01-01") ~ "pre_covid",
+      date <= as.Date("2021-12-01") ~ "covid_shock",
+      TRUE ~ "recovery"
+    ),
+    china_share = visitor_arrivals_china / visitor_arrivals,
+    china_share_pct = china_share * 100
+  )
+```
+
+## 1.6Handling extreme values
+
+```{r}
+stay_cap <- quantile(monthly_clean$avg_stay_monthly, probs = 0.95, na.rm = TRUE)
+
+monthly_clean <- monthly_clean %>%
+  mutate(
+    avg_stay_monthly_capped = pmin(avg_stay_monthly, stay_cap),
+    visitor_arrivals_millions = visitor_arrivals / 1000000,
+    visitor_arrivals_china_thousands = visitor_arrivals_china / 1000
+  )
+```
+
+## 1.7Generate analysis fields
+
+```{r}
+occ_cuts <- quantile(monthly_clean$hotel_occ, probs = c(1/3, 2/3), na.rm = TRUE)
+
+analysis_ready <- monthly_clean %>%
+  mutate(
+    cluster_z_visitor_arrivals = as.numeric(scale(visitor_arrivals)),
+    cluster_z_china_share = as.numeric(scale(china_share)),
+    cluster_z_hotel_occ = as.numeric(scale(hotel_occ)),
+    cluster_z_avg_stay_monthly_capped = as.numeric(scale(avg_stay_monthly_capped)),
+    hotel_occ_level_tertile = case_when(
+      hotel_occ <= occ_cuts[[1]] ~ "low",
+      hotel_occ <= occ_cuts[[2]] ~ "medium",
+      TRUE ~ "high"
+    ),
+    hotel_occ_level_business = case_when(
+      hotel_occ < 70 ~ "low",
+      hotel_occ <= 85 ~ "medium",
+      TRUE ~ "high"
+    )
+  ) %>%
+  mutate(
+    hotel_occ_level_tertile = factor(hotel_occ_level_tertile, levels = c("low", "medium", "high")),
+    hotel_occ_level_business = factor(hotel_occ_level_business, levels = c("low", "medium", "high"))
+  ) %>%
+  mutate(
+    dataset_split = if_else(row_number() <= floor(n() * 0.8), "train", "test")
+  )
+
+```
+
+## 1.8Generate data specifically for classification tree construction
+
+```{r}
+decision_tree_ready <- analysis_ready %>%
+  select(
+    date, year, month, quarter, period,
+    visitor_arrivals, visitor_arrivals_china,
+    china_share, china_share_pct,
+    hotel_occ, avg_stay_monthly, avg_stay_monthly_capped,
+    hotel_occ_level_tertile, hotel_occ_level_business,
+    dataset_split
+  )
+
+
+```
+
+## 1.9Export the cleaned data
+
+```{r}
+readr::write_csv(monthly_clean, file.path(processed_dir, "tourism_monthly_clean.csv"))
+readr::write_csv(decision_tree_ready, file.path(processed_dir, "tourism_decision_tree_ready.csv"))
+readr::write_csv(analysis_ready, file.path(processed_dir, "tourism_four_part_analysis_ready.csv"))
+
+writexl::write_xlsx(
+  list(
+    monthly_clean = monthly_clean,
+    decision_tree_ready = decision_tree_ready,
+    analysis_ready_all = analysis_ready
+  ),
+  path = file.path(processed_dir, "tourism_four_part_analysis_ready.xlsx")
+)
+
+
+```
+
+## 1.10Output summary
+
+```{r}
+cat("Data preparation complete.\n")
+cat("Rows in monthly_clean:", nrow(monthly_clean), "\n")
+cat("Rows in analysis_ready:", nrow(analysis_ready), "\n")
+cat("Date range:", min(analysis_ready$date), "to", max(analysis_ready$date), "\n")
+cat("95% cap for avg_stay_monthly:", round(stay_cap, 6), "\n")
+cat("Hotel occupancy cut points:", round(occ_cuts[[1]], 6), "and", round(occ_cuts[[2]], 6), "\n")
+
+```
+
+# 2Classification tree analysis
+
+## 2.1Install and launch the required R packages
+
+```{r}
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", repos = "https://cloud.r-project.org")
+}
+
+pacman::p_load(
+  tidyverse,
+  rpart,
+  rpart.plot,
+  caret,
+  ranger,
+  visNetwork,
+  htmlwidgets,
+  sparkline
+)
+```
+
+```{r}
+data_path <- file.path(data_dir, "tourism_decision_tree_ready.csv")
+output_dir <- file.path(module_dir, "outputs")
+
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+```
+
+## 2.2Reading data
+
+```{r}
+df <- readr::read_csv(data_path, show_col_types = FALSE) %>%
+  mutate(
+    date = as.Date(date),
+    month = factor(
+      month,
+      levels = 1:12,
+      labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+    ),
+    quarter = factor(quarter),
+    period = factor(period, levels = c("pre_covid", "covid_shock", "recovery")),
+    dataset_split = factor(dataset_split, levels = c("train", "test")),
+    hotel_occ_level_tertile = factor(
+      hotel_occ_level_tertile,
+      levels = c("low", "medium", "high")
+    ),
+
+    # 为了让树图上的阈值更易读，创建展示型变量
+    arrivals_million = visitor_arrivals / 1000000,
+    china_share_pct = china_share * 100,
+    stay_days = avg_stay_monthly_capped
+  )
+
+glimpse(df)
+
+
+```
+
+## 2.3Split the dataset into training and testing sets
+
+```{r}
+train_df <- df %>% filter(dataset_split == "train")
+test_df  <- df %>% filter(dataset_split == "test")
+
+cat("Train rows:", nrow(train_df), "\n")
+cat("Test rows:", nrow(test_df), "\n")
+
+```
+
+## 2.4Build classification tree
+
+Target variable: Hotel occupancy rate level (low / medium / high)
+
+Independent variables: \# arrivals_million = Total inbound tourists (in millions)
+
+china_share_pct = Proportion of Chinese tourists (percentage)
+
+stay_days = Truncated average length of stay
+
+month = Month (seasonality)
+
+```{r}
+fit_tree <- rpart::rpart(
+  hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,
+  data = train_df,
+  method = "class",
+  parms = list(split = "gini"),
+  control = rpart::rpart.control(
+    cp = 0.005,
+    maxdepth = 4,
+    minsplit = 10,
+    minbucket = 5,
+    xval = 10
+  )
+)
+
+```
+
+## 2.5Check the complexity parameter table.
+
+```{r}
+printcp(fit_tree)
+plotcp(fit_tree)
+```
+
+## 2.6Prune the tree
+
+```{r}
+
+bestcp <- fit_tree$cptable[which.min(fit_tree$cptable[, "xerror"]), "CP"]
+pruned_tree <- prune(fit_tree, cp = bestcp)
+
+cat("Best cp:", bestcp, "\n")
+print(pruned_tree)
+```
+
+## 2.7Interactive tree visualization
+
+```{r}
+tree_vis <- visNetwork::visTree(
+  fit_tree,
+  data = as.data.frame(train_df),
+  main = "Decision Tree for Hotel Occupancy Level",
+  submain = "Target: low / medium / high",
+  width = "100%",
+  height = "700px",
+  nodesFontSize = 16,
+  edgesFontSize = 14,
+  fallenLeaves = TRUE,
+  legend = TRUE,
+  nodesPopSize = TRUE,
+  minNodeSize = 14,
+  maxNodeSize = 32,
+  highlightNearest = list(enabled = TRUE, hover = TRUE),
+  export = TRUE
+)
+
+tree_vis
+
+```
+
+```{r}
+htmlwidgets::saveWidget(
+  tree_vis,
+  file.path(output_dir, "decision_tree_visual.html"),
+  selfcontained = FALSE
+)
+
+```
+
+The prototype page keeps the full `fit_tree` in the interactive view so the deeper split path remains visible. The smaller tree shown previously came from `pruned_tree`, which removes the later `arrivals_million` split after cross-validation pruning.
+
+## 2.8Static tree visualization for report
+
+```{r}
+png(
+  filename = file.path(output_dir, "decision_tree_static.png"),
+  width = 1800,
+  height = 1200,
+  res = 180
+)
+
+rpart.plot::rpart.plot(
+  pruned_tree,
+  type = 2,
+  extra = 104,
+  under = TRUE,
+  fallen.leaves = TRUE,
+  faclen = 0,
+  tweak = 1.15,
+  main = "Decision Tree for Hotel Occupancy Level"
+)
+
+dev.off()
+
+```
+
+## 2.9Predict on test set
+
+```{r}
+pred_class <- predict(pruned_tree, newdata = test_df, type = "class")
+pred_prob  <- predict(pruned_tree, newdata = test_df, type = "prob") %>%
+  as.data.frame()
+
+# 统一 levels，避免 confusionMatrix 报错
+pred_class <- factor(pred_class, levels = c("low", "medium", "high"))
+test_df$hotel_occ_level_tertile <- factor(
+  test_df$hotel_occ_level_tertile,
+  levels = c("low", "medium", "high")
+)
+
+```
+
+## 2.10Evaluate model performance
+
+```{r}
+cm <- caret::confusionMatrix(
+  data = pred_class,
+  reference = test_df$hotel_occ_level_tertile
+)
+
+print(cm)
+
+metrics_tbl <- tibble(
+  metric = c("accuracy", "kappa"),
+  value = c(cm$overall[["Accuracy"]], cm$overall[["Kappa"]])
+)
+
+print(metrics_tbl)
+
+```
+
+## 2.11Variable importance
+
+```{r}
+importance_tbl <- tibble(
+  variable = names(pruned_tree$variable.importance),
+  importance = as.numeric(pruned_tree$variable.importance)
+) %>%
+  arrange(desc(importance))
+
+print(importance_tbl)
+```
+
+## 2.12Export results
+
+```{r}
+write.csv(
+  as.data.frame(cm$table),
+  file.path(output_dir, "decision_tree_confusion_matrix.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  metrics_tbl,
+  file.path(output_dir, "decision_tree_metrics.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  importance_tbl,
+  file.path(output_dir, "decision_tree_variable_importance.csv"),
+  row.names = FALSE
+)
+
+prediction_tbl <- bind_cols(
+  test_df %>% select(date, hotel_occ, hotel_occ_level_tertile),
+  tibble(predicted_class = pred_class),
+  pred_prob
+)
+
+write.csv(
+  prediction_tbl,
+  file.path(output_dir, "decision_tree_test_predictions.csv"),
+  row.names = FALSE
+)
+
+cat("Decision tree analysis complete.\n")
+cat("Outputs saved to:", output_dir, "\n")
+```
+
+# 3Random Forest Analysis Hyperparameter tuning
+
+```{r}
+set.seed(1234)
+
+ctrl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 3,
+  classProbs = TRUE
+)
+
+grid <- expand.grid(
+  mtry = c(2, 3, 4),
+  splitrule = "gini",
+  min.node.size = c(1, 3, 5)
+)
+
+rf_model <- caret::train(
+  hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,
+  data = train_df,
+  method = "ranger",
+  trControl = ctrl,
+  tuneGrid = grid,
+  num.trees = 300,
+  importance = "impurity",
+  metric = "Accuracy"
+)
+
+print(rf_model)
+print(rf_model$bestTune)
+```
+
+## 3.1Predict on test set
+
+```{r}
+pred_class <- predict(rf_model, newdata = test_df)
+pred_prob  <- predict(rf_model, newdata = test_df, type = "prob")
+
+pred_class <- factor(pred_class, levels = c("low", "medium", "high"))
+test_df$hotel_occ_level_tertile <- factor(
+  test_df$hotel_occ_level_tertile,
+  levels = c("low", "medium", "high")
+)
+```
+
+## 3.2Model evaluation
+
+```{r}
+cm <- caret::confusionMatrix(
+  data = pred_class,
+  reference = test_df$hotel_occ_level_tertile
+)
+
+print(cm)
+
+metrics_tbl <- tibble(
+  metric = c("accuracy", "kappa"),
+  value = c(cm$overall[["Accuracy"]], cm$overall[["Kappa"]])
+)
+
+print(metrics_tbl)
+```
+
+## 3.3Variable importance
+
+```{r}
+importance_tbl <- varImp(rf_model)$importance %>%
+  tibble::rownames_to_column("variable") %>%
+  arrange(desc(Overall))
+
+print(importance_tbl)
+```
+
+## 3.4Confusion matrix heatmap
+
+```{r}
+conf_tbl <- as.data.frame(cm$table)
+
+conf_plot <- ggplot(conf_tbl, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = Freq), size = 5) +
+  scale_fill_gradient(low = "#f7fbff", high = "#08519c") +
+  labs(
+    title = "Random Forest Confusion Matrix",
+    x = "Actual class",
+    y = "Predicted class",
+    fill = "Count"
+  ) +
+  theme_minimal(base_size = 13)
+
+print(conf_plot)
+
+ggsave(
+  filename = file.path(output_dir, "random_forest_confusion_heatmap.png"),
+  plot = conf_plot,
+  width = 8,
+  height = 6,
+  dpi = 200
+)
+```
+
+## 3.5Variable importance plot
+
+```{r}
+importance_plot <- importance_tbl %>%
+  slice_max(order_by = Overall, n = 10) %>%
+  ggplot(aes(x = reorder(variable, Overall), y = Overall)) +
+  geom_col(fill = "#2c7fb8") +
+  coord_flip() +
+  labs(
+    title = "Random Forest Variable Importance",
+    x = NULL,
+    y = "Importance"
+  ) +
+  theme_minimal(base_size = 13)
+
+print(importance_plot)
+
+ggsave(
+  filename = file.path(output_dir, "random_forest_importance.png"),
+  plot = importance_plot,
+  width = 8,
+  height = 6,
+  dpi = 200
+)
+
+```
+
+## 3.6OOB accuracy vs number of trees
+
+```{r}
+tree_grid <- seq(50, 300, by = 25)
+
+oob_tbl <- purrr::map_dfr(tree_grid, function(nt) {
+  mod <- ranger::ranger(
+    hotel_occ_level_tertile ~ arrivals_million + china_share_pct + stay_days + month,
+    data = train_df,
+    num.trees = nt,
+    mtry = rf_model$bestTune$mtry,
+    min.node.size = rf_model$bestTune$min.node.size,
+    splitrule = as.character(rf_model$bestTune$splitrule),
+    importance = "impurity",
+    seed = 1234
+  )
+
+  tibble(
+    num_trees = nt,
+    oob_error = mod$prediction.error,
+    oob_accuracy = 1 - mod$prediction.error
+  )
+})
+
+print(oob_tbl)
+
+oob_plot <- ggplot(oob_tbl, aes(x = num_trees, y = oob_accuracy)) +
+  geom_line(color = "#238b45", linewidth = 1) +
+  geom_point(color = "#238b45", size = 2) +
+  labs(
+    title = "OOB Accuracy vs Number of Trees",
+    x = "Number of trees",
+    y = "OOB accuracy"
+  ) +
+  theme_minimal(base_size = 13)
+
+print(oob_plot)
+
+ggsave(
+  filename = file.path(output_dir, "random_forest_oob_accuracy.png"),
+  plot = oob_plot,
+  width = 8,
+  height = 6,
+  dpi = 200
+)
+```
+
+## 3.7Actual vs predicted over time
+
+```{r}
+pred_plot_df <- test_df %>%
+  transmute(
+    date,
+    actual = hotel_occ_level_tertile,
+    predicted = pred_class
+  ) %>%
+  pivot_longer(
+    cols = c(actual, predicted),
+    names_to = "series",
+    values_to = "level"
+  )
+
+pred_plot <- ggplot(pred_plot_df, aes(x = date, y = level, color = series, shape = series)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Actual vs Predicted Hotel Occupancy Level",
+    x = "Date",
+    y = "Occupancy level"
+  ) +
+  scale_color_manual(values = c(actual = "#d95f0e", predicted = "#3182bd")) +
+  theme_minimal(base_size = 13)
+
+print(pred_plot)
+
+ggsave(
+  filename = file.path(output_dir, "random_forest_actual_vs_predicted.png"),
+  plot = pred_plot,
+  width = 9,
+  height = 5,
+  dpi = 200
+)
+```
+
+## 3.8Export results
+
+```{r}
+write.csv(
+  metrics_tbl,
+  file.path(output_dir, "random_forest_metrics.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  conf_tbl,
+  file.path(output_dir, "random_forest_confusion_matrix.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  importance_tbl,
+  file.path(output_dir, "random_forest_variable_importance.csv"),
+  row.names = FALSE
+)
+
+write.csv(
+  oob_tbl,
+  file.path(output_dir, "random_forest_oob_accuracy.csv"),
+  row.names = FALSE
+)
+
+prediction_tbl <- bind_cols(
+  test_df %>% select(date, hotel_occ_level_tertile),
+  tibble(predicted_class = pred_class),
+  pred_prob
+)
+
+write.csv(
+  prediction_tbl,
+  file.path(output_dir, "random_forest_test_predictions.csv"),
+  row.names = FALSE
+)
+
+cat("Random forest analysis complete.\n")
+cat("Outputs saved to:", output_dir, "\n")
+```

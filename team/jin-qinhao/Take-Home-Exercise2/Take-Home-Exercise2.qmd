@@ -96,6 +96,16 @@ raw_tbl <- readxl::read_excel(
   skip = 29,
   col_names = FALSE
 ) %>%
+  select(
+    1,   # date
+    6,   # avg_stay_monthly
+    10,  # hotel_occ
+    7,   # spend_per_capita
+    4,   # tourism_receipts
+    11,  # avg_stay_annual
+    2,   # visitor_arrivals
+    5    # visitor_arrivals_china
+  ) %>%
   setNames(col_names) %>%
   mutate(
     date = as.Date(date),

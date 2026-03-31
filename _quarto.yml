@@ -32,6 +32,10 @@ website:
             text: CDA
           - href: prototype/module-cluster.qmd
             text: Clustering Prototype
+          - href: prototype/decision-tree.qmd
+            text: Decision Tree Analysis
+          - href: prototype/module-decision-tree.qmd
+            text: Decision Tree Prototype
           - href: prototype/package-audit.qmd
             text: Package Audit
           - href: prototype/ui-storyboard.qmd

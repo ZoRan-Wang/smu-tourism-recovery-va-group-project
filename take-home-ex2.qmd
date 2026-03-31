@@ -1,104 +1,217 @@
 ---
 title: "Take-home Exercise 2"
-subtitle: "Prototyping Module for Visual Analytics Shiny Application"
-author: "Group Project Starter"
-date: "2026-03-12"
+subtitle: "Classification Tree and Random Forest Prototype"
+author: "JIN QINHAO"
+date: "2026-03-27"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    code-summary: "Show the code"
+    page-layout: full
+execute:
+  warning: false
+  message: false
 ---
 
-## Submission Scope
+# Submission Scope
 
-This page is structured as an individual **Take-home Exercise 2** submission and focuses on one prototype module:
+This take-home exercise documents my prototype contribution for the tourism recovery visual analytics project.  
+The selected prototype focuses on **classification tree** and **random forest** analysis for monthly hotel occupancy classification.
 
-**Selected module:** `Cluster Analysis` for monthly tourism market states.
+The prototype covers four linked tasks:
 
-The module uses monthly observations to identify interpretable tourism states:
+1. preparing monthly tourism data for modeling,
+2. building an interpretable classification tree,
+3. evaluating a random forest benchmark,
+4. packaging the outputs into a deployable Shiny application.
 
-1. Pandemic shock months.
-2. Recovery transition months.
-3. High-performance months.
+# 1. Data Preparation
 
-## 1. Data Preparation Process
+## Input Data
 
-Data preparation follows the imported bilingual plan and detailed cleaning notes in `data/references/`.
+The original workbook used for my analysis has been moved into the project data area:
 
-Key preparation decisions:
+- `data/raw/Name your insight (2).xlsx`
 
-1. Remove metadata rows and invalid `2015-12-01` record.
-2. Use monthly variables for model features.
-3. Keep annual variables only for supplementary visual context.
-4. Create `china_share`, `period`, and calendar fields (`year`, `month`, `quarter`).
-5. Use capped stay-length and z-score fields for stable clustering.
+Derived datasets and exported tables are stored in:
 
-## 2. Package Support (CRAN)
+- `artifacts/tables/`
 
-The module package audit is documented in [Package Audit](./prototype/package-audit.html).
+## Preparation Logic
 
-Core stack for this prototype:
+The preparation process follows the same workflow used in my individual prototype:
 
-| Package | Purpose | CRAN |
-|---|---|---|
-| `shiny` | UI/server runtime | Yes |
-| `readxl` | Load `.xlsx` data | Yes |
-| `dplyr` | Data wrangling | Yes |
-| `ggplot2` | Visual outputs | Yes |
-| `cluster` | Silhouette scoring | Yes |
-| `DT` | Interactive result table | Yes |
+1. Read monthly tourism indicators from the Excel workbook.
+2. Remove incomplete rows and retain valid monthly observations.
+3. Create calendar fields such as `year`, `month`, and `quarter`.
+4. Create the recovery-stage field `period`.
+5. Derive `china_share` and `china_share_pct`.
+6. Cap extreme stay values to stabilize modeling.
+7. Create occupancy classes:
+   - `low`
+   - `medium`
+   - `high`
+8. Split the data into `train` and `test`.
 
-## 3. Prototype Code Test and Expected Visual Output
+## Scripts Used
 
-Smoke-test script: `scripts/prototype_smoke_test.R`
+The original scripts from my take-home work have been moved into the root project script folder:
 
-Generated outputs:
+- [scripts/tourism_data_prep_rstudio.R](scripts/tourism_data_prep_rstudio.R)
+- [scripts/tourism_decision_tree_rstudio.R](scripts/tourism_decision_tree_rstudio.R)
 
-1. Elbow curve for candidate K.
-2. Cluster-state scatter visualization.
-3. Cluster profile table.
+## Exported Tables
 
-![Elbow Plot](artifacts/plots/elbow_plot.png)
+Prepared data and model-ready tables are now stored in the shared artifact location:
 
-![Cluster Scatter](artifacts/plots/cluster_scatter.png)
+- [artifacts/tables/tourism_monthly_clean.csv](artifacts/tables/tourism_monthly_clean.csv)
+- [artifacts/tables/tourism_decision_tree_ready.csv](artifacts/tables/tourism_decision_tree_ready.csv)
+- [artifacts/tables/tourism_four_part_analysis_ready.csv](artifacts/tables/tourism_four_part_analysis_ready.csv)
+- [artifacts/tables/tourism_four_part_analysis_ready.xlsx](artifacts/tables/tourism_four_part_analysis_ready.xlsx)
 
-## 4. Exposed Parameters and Outputs
+# 2. Classification Tree Prototype
 
-| Type | Item | Description |
-|---|---|---|
-| Input | `period_filter` | Filter period: pre-COVID, shock, recovery |
-| Input | `k_value` | Number of clusters (`2`-`6`) |
-| Input | `scale_features` | Enable/disable z-score standardization |
-| Input | `random_seed` | Reproducible k-means assignment |
-| Output | Cluster scatter plot | 2D visual state map |
-| Output | Cluster profile table | Mean values by cluster |
-| Output | Silhouette score | Quick quality indicator |
+## Modeling Goal
 
-## 5. UI Design
+The classification tree predicts the hotel occupancy category:
 
-UI design principles in this prototype:
+- `low`
+- `medium`
+- `high`
 
-1. **Progressive disclosure:** show defaults first, advanced controls optional.
-2. **Interpretability-first:** output labels use domain terms, not only model terms.
-3. **Comparability:** consistent color mapping between plot and table.
+using the following explanatory variables:
 
-Detailed storyboard and component mapping are provided at [UI Storyboard](./prototype/ui-storyboard.html).
+- visitor arrivals,
+- China share,
+- capped stay length,
+- month.
 
-## 6. Visual Design & Interactivity Practices
+## Why This Method Fits the Project
 
-This prototype applies:
+The classification tree is useful because it provides:
 
-1. Clear visual hierarchy for decision steps.
-2. Explicit mapping between controls and outputs.
-3. Responsive layout for laptop and mobile viewport.
-4. Data-informed defaults to reduce trial-and-error.
+1. clear split rules,
+2. interpretable structure,
+3. easy classroom presentation value,
+4. direct comparison with the random forest model.
 
-## 7. Current Status and Next Step
+## Core Outputs
+
+The exported classification tree outputs have been moved into the shared artifacts structure.
+
+### Visual outputs
+
+- [artifacts/plots/decision_tree_plot.png](artifacts/plots/decision_tree_plot.png)
+- [artifacts/plots/decision_tree_static.png](artifacts/plots/decision_tree_static.png)
+- [artifacts/plots/decision_tree_visual.html](artifacts/plots/decision_tree_visual.html)
+
+![Decision Tree Static Plot](artifacts/plots/decision_tree_static.png)
+
+### Tables
+
+- [artifacts/tables/decision_tree_metrics.csv](artifacts/tables/decision_tree_metrics.csv)
+- [artifacts/tables/decision_tree_confusion_matrix.csv](artifacts/tables/decision_tree_confusion_matrix.csv)
+- [artifacts/tables/decision_tree_test_predictions.csv](artifacts/tables/decision_tree_test_predictions.csv)
+- [artifacts/tables/decision_tree_variable_importance.csv](artifacts/tables/decision_tree_variable_importance.csv)
+
+## Interpretation Focus
+
+This prototype uses the tree model primarily as an **interpretability-first model**:
+
+1. to show which variables split the occupancy classes,
+2. to explain why some months are grouped into low, medium, or high occupancy,
+3. to provide a presentation-friendly structure before introducing the random forest.
+
+# 3. Random Forest Prototype
+
+## Modeling Goal
+
+The random forest uses the same predictors as the classification tree, but emphasizes predictive stability and stronger benchmark performance.
+
+## Why This Method Fits the Project
+
+The random forest is used because it can:
+
+1. reduce single-tree instability,
+2. provide variable importance ranking,
+3. support model comparison against the classification tree,
+4. show out-of-bag performance trends.
+
+## Core Outputs
+
+### Visual outputs
+
+- [artifacts/plots/random_forest_importance.png](artifacts/plots/random_forest_importance.png)
+- [artifacts/plots/random_forest_oob_accuracy.png](artifacts/plots/random_forest_oob_accuracy.png)
+- [artifacts/plots/random_forest_actual_vs_predicted.png](artifacts/plots/random_forest_actual_vs_predicted.png)
+- [artifacts/plots/random_forest_confusion_heatmap.png](artifacts/plots/random_forest_confusion_heatmap.png)
+
+![Random Forest Importance Plot](artifacts/plots/random_forest_importance.png)
+
+### Tables
+
+- [artifacts/tables/random_forest_metrics.csv](artifacts/tables/random_forest_metrics.csv)
+- [artifacts/tables/random_forest_confusion_matrix.csv](artifacts/tables/random_forest_confusion_matrix.csv)
+- [artifacts/tables/random_forest_oob_accuracy.csv](artifacts/tables/random_forest_oob_accuracy.csv)
+- [artifacts/tables/random_forest_test_predictions.csv](artifacts/tables/random_forest_test_predictions.csv)
+- [artifacts/tables/random_forest_variable_importance.csv](artifacts/tables/random_forest_variable_importance.csv)
+
+# 4. Shiny Deployment
+
+## Deployment Arrangement
+
+The final Shiny app is now deployed in the repository as a self-contained app bundle:
+
+- [shiny/app.R](shiny/app.R)
+
+The app bundle keeps:
+
+1. `app.R`
+2. `data/`
+3. `outputs/`
+4. `README.md`
+
+together so the app can run directly after cloning the repository.
+
+## Launch Method
+
+The repository-level startup command remains:
+
+```r
+Rscript run_app.R 3838
+```
+
+and it now opens the deployed final Shiny app through the root app launcher.
+
+# 5. UI and Interaction Design
+
+The deployed Shiny application includes:
+
+1. a data exploration page for trend interpretation,
+2. a classification tree page for interpretable rule-based explanation,
+3. a random forest page for predictive benchmarking,
+4. model comparison summaries.
+
+Key interface features include:
+
+- metric selection,
+- date filtering,
+- tree tuning controls,
+- forest tuning controls,
+- visual tabs,
+- metric cards,
+- prediction comparison charts.
+
+# 6. Current Status
 
 Completed:
 
-1. Modular app skeleton.
-2. Data integration and smoke-test artifacts.
-3. Quarto write-up scaffold aligned to assignment requirements.
+1. moved the take-home scripts into the shared `scripts/` folder,
+2. moved model outputs into `artifacts/plots` and `artifacts/tables`,
+3. deployed the final Shiny app in the repository,
+4. aligned the app launch entry point with the deployed app.
 
-Next:
-
-1. Add confirmatory stats module.
-2. Add decision-tree module with feature importance panel.
-3. Add deployment pipeline for GitHub Pages + hosted Shiny endpoint.
+This root-level structure now follows the README more closely than storing the complete work only inside `team/jin-qinhao/Take-Home-Exercise2/`.

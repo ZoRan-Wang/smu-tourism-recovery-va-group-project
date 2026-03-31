@@ -1,0 +1,12 @@
+---
+title: "Take-home Exercise 2"
+subtitle: "Prototyping Module for Visual Analytics Shiny Application"
+author: "Group Project Starter"
+date: "2026-03-12"
+---
+
+## shiny
+
+```{r}
+shiny::runApp("C:/Users/12697/Documents/Playground/smu-tourism-recovery-va-group-project/team/jin-qinhao/Take-Home-Exercise2/shiny")
+```

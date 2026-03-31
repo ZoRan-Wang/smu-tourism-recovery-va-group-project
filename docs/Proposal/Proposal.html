@@ -299,42 +299,63 @@ ul.task-list li input[type="checkbox"] {
 <p>The current proposal is no longer a purely conceptual plan. It is informed by working prototypes that already define the analytical logic of the application.</p>
 <section id="exploratory-data-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="exploratory-data-analysis">6.1 Exploratory Data Analysis</h3>
-<p>The exploratory module establishes the descriptive backbone of the project. It uses interactive line charts, layered time-series views, and relationship plots to answer four practical questions:</p>
-<ol type="1">
-<li>How did total visitor arrivals change across the three major periods?</li>
-<li>How did Chinese visitor arrivals and China’s visitor share move through the recovery?</li>
-<li>How closely did hotel occupancy track total tourism demand?</li>
-<li>Did spending behavior move in the same direction as visitor volume?</li>
-</ol>
-<p>The completed EDA prototype already suggests three important patterns. First, the COVID period created a sharp break in total arrivals. Second, total arrivals recovered faster than Chinese arrivals after 2022, which implies that Singapore’s rebound was supported by multiple markets rather than by China alone. Third, hotel occupancy shows a positive relationship with visitor arrivals, although occupancy did not collapse fully to zero during the shock period, indicating additional sources of hotel demand.</p>
+<p>The exploratory data analysis module provides the descriptive entry point of the proposed visual analytics system. Rather than starting with a predictive model, the project first establishes how the tourism market moved over time and how different indicators changed together. This module is built from interactive time-series charts and relationship plots that help users read the recovery as a sequence of changing monthly conditions instead of a single headline number.</p>
+<p>The completed EDA prototype addresses four descriptive questions. First, it shows how total visitor arrivals changed across the pre-COVID, COVID shock, and recovery periods. Second, it compares total arrivals with Chinese arrivals and China’s market share. Third, it examines how hotel occupancy responded to changes in tourism demand. Fourth, it checks whether spending behavior moved in the same direction as visitor volume. These views are especially useful at the proposal stage because they define the variables, visual forms, and interactions that the final application should preserve.</p>
+<p>One of the clearest findings from the EDA work is that Singapore’s recovery cannot be understood through total arrivals alone. The China-focused comparative view shows that Chinese arrivals dropped with the broader market during the disruption period, but their rebound after 2022 lagged behind the recovery in total arrivals. This means that Singapore’s tourism recovery was supported by a more diversified mix of source markets rather than a simple restoration of the old demand structure.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/eda-china-market.png" class="img-fluid figure-img" style="width:78.0%"></p>
+<figcaption>EDA: China Market Contribution and Visitor Share</figcaption>
+</figure>
+</div>
+<p>The EDA prototype also demonstrates that hotel occupancy remains strongly connected to visitor arrivals, but not in a perfectly mechanical way. During the COVID shock period, arrivals collapsed to near zero while hotel occupancy remained above zero, which implies that domestic demand, essential travel, and other non-tourism hotel uses still mattered. In the recovery period, occupancy rose alongside arrivals, making this relationship an important bridge between descriptive analysis and the later occupancy-classification module.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/eda-hotel-utilisation.png" class="img-fluid figure-img" style="width:72.0%"></p>
+<figcaption>EDA: Tourism Demand and Hotel Utilisation</figcaption>
+</figure>
+</div>
+<p>From a proposal perspective, this module contributes two design decisions to the final application. First, the app should foreground linked time-series views that let users compare market volume and source-market composition at the same time. Second, the app should retain relationship plots that connect demand indicators to hotel performance, because these visuals help users see why the same month can represent very different tourism conditions even when total arrivals look similar.</p>
 </section>
 <section id="confirmatory-data-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="confirmatory-data-analysis">6.2 Confirmatory Data Analysis</h3>
-<p>The confirmatory module translates these descriptive patterns into testable analytical questions. It focuses on:</p>
-<ul>
-<li>period-level differences in visitor arrivals,</li>
-<li>the relationship between China’s visitor share and total arrivals, and</li>
-<li>the extent of month-to-month seasonality once the most distorted shock period is handled separately.</li>
-</ul>
-<p>The current CDA prototype uses boxplots, ANOVA, regression-style scatterplots, and monthly comparison views to move from visual suggestion to statistical evaluation. This module is important because it helps the final application separate what is visually interesting from what is analytically defensible. In the current prototype direction, period differences are a primary explanatory factor, while China-share effects and seasonality require more careful interpretation.</p>
+<p>The confirmatory data analysis module extends the EDA findings by asking whether the strongest visual patterns remain meaningful once they are tested more formally. In the current prototype, this section is organized around three questions: whether visitor arrivals differ across historical periods, whether China’s visitor share is associated with total arrivals, and whether there is strong month-level seasonality after the most distorted shock years are handled separately.</p>
+<p>The current CDA workflow uses a mix of boxplots, ANOVA, regression, and monthly comparison views. This is important for the project because the final Shiny application should not only show users attractive charts; it should also help them distinguish between patterns that are visually striking and patterns that are analytically defensible. In other words, CDA gives the project its evaluation layer.</p>
+<p>The prototype results already suggest that period is the most reliable explanatory structure in the dataset. Visitor arrivals clearly differ across the pre-COVID, shock, and recovery periods, which supports the use of period-based filters and period-aware storytelling in the final application. By contrast, the China-share regression view is more cautious: it shows that a higher China share does not automatically translate into higher total arrivals, which means the Chinese market is important but should not be treated as a single dominant driver of overall recovery.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/cda-china-share-regression.png" class="img-fluid figure-img" style="width:72.0%"></p>
+<figcaption>CDA: China Share and Total Visitor Arrivals</figcaption>
+</figure>
+</div>
+<p>This module therefore contributes an important logical safeguard to the proposal. It prevents the final application from making overly simple claims such as “China recovered, therefore tourism recovered” or “seasonality explains the recovery pattern.” Instead, the application can use CDA results to frame more disciplined interpretations, where period effects are emphasized, source-market composition is treated carefully, and statistical summaries sit beside visual exploration rather than being replaced by it.</p>
 </section>
 <section id="clustering-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="clustering-analysis">6.3 Clustering Analysis</h3>
-<p>The clustering module, developed from Wang Zhuoran’s prototype work, treats each month as the unit of analysis and uses four variables:</p>
-<ul>
-<li><code>visitor_arrivals</code></li>
-<li><code>china_share</code></li>
-<li><code>hotel_occ</code></li>
-<li><code>avg_stay_monthly_capped</code></li>
-</ul>
-<p>These variables are standardized before modeling so that the clustering is not dominated by visitor counts alone. The prototype uses elbow and silhouette diagnostics to compare candidate values of <code>k</code>, then fits a final k-means solution with <code>k = 3</code>.</p>
-<p>The three resulting market states are interpreted as:</p>
-<ul>
-<li><strong>Pandemic shock months</strong></li>
-<li><strong>Recovery transition months</strong></li>
-<li><strong>High-performance months</strong></li>
-</ul>
-<p>This module adds an important structural layer to the project. Instead of assuming that recovery is one continuous upward line, it shows that months naturally separate into distinct tourism states shaped jointly by volume, source-market composition, occupancy, and stay duration.</p>
+<p>The clustering module, developed from Wang Zhuoran’s prototype work, adds a structural layer that neither EDA nor CDA can provide on their own. Instead of asking only whether one variable increased or decreased, it asks whether the monthly observations naturally form a small number of interpretable tourism market states. This is central to the project logic because the unit of analysis is the month, and the core analytical question is whether recovery unfolded through distinct market conditions rather than one smooth trend.</p>
+<p>The model uses four standardized monthly indicators: <code>visitor_arrivals</code>, <code>china_share</code>, <code>hotel_occ</code>, and <code>avg_stay_monthly_capped</code>. These variables were chosen because together they capture tourism scale, market composition, accommodation performance, and stay behavior. Standardization is necessary so that visitor counts do not dominate the clustering simply because they are measured on a larger numeric scale than the other indicators.</p>
+<p>The prototype first evaluates candidate cluster counts using elbow and silhouette diagnostics. This step matters because the goal is not to force an arbitrary number of groups onto the data, but to justify a cluster structure that is both statistically reasonable and substantively interpretable. The diagnostics support selecting <code>k = 3</code>, which offers a workable balance between compactness and interpretability.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/cluster-elbow.png" class="img-fluid figure-img" style="width:72.0%"></p>
+<figcaption>Clustering: Elbow Diagnostic for Selecting k</figcaption>
+</figure>
+</div>
+<p>After fitting the final k-means model, the three cluster states can be interpreted as pandemic shock months, recovery transition months, and high-performance months. The reduced-space cluster map shows that these states are not random labels. They occupy different regions of the feature space and align with meaningful differences in arrivals, hotel occupancy, and China’s market contribution.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/cluster-state-map.png" class="img-fluid figure-img" style="width:76.0%"></p>
+<figcaption>Clustering: State Map in Reduced Feature Space</figcaption>
+</figure>
+</div>
+<p>The historical timeline view makes the interpretation even more persuasive. Pandemic shock months concentrate inside the disruption period, recovery transition months bridge the early reopening phase, and high-performance months dominate the pre-COVID and later recovery periods. This is exactly the kind of structure the final application should expose to users: not only whether recovery happened, but what kind of market state each month represents.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="picture/cluster-timeline.png" class="img-fluid figure-img" style="width:74.0%"></p>
+<figcaption>Clustering: Timeline of Inferred Market States</figcaption>
+</figure>
+</div>
+<p>In the final Shiny application, this module will support exploratory state comparison, timeline interpretation, and state-level downloads. It is also an effective bridge between descriptive analysis and model-based explanation, because the inferred states provide a compact summary of how multiple tourism indicators move together over time.</p>
 </section>
 <section id="decision-tree-and-random-forest" class="level3">
 <h3 class="anchored" data-anchor-id="decision-tree-and-random-forest">6.4 Decision Tree and Random Forest</h3>
@@ -451,6 +472,14 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td><code>htmlwidgets</code></td>
 <td>Preserve interactive outputs inside the website.</td>
+</tr>
+<tr class="odd">
+<td><code>shiny</code></td>
+<td>Provide the modular interactive application framework for the final prototype.</td>
+</tr>
+<tr class="even">
+<td><code>bslib</code></td>
+<td>Support theme control and layout customization in the Shiny interface.</td>
 </tr>
 </tbody>
 </table>
