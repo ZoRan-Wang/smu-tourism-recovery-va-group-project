@@ -26,7 +26,7 @@ pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl
 
 ### Data Loading
 ```{r}
-tour <- read_excel("../data/raw/tourism_update.xlsx")
+tour <- read_excel("../data/raw/tourism_four_part_analysis_ready.xlsx")
 ```
 
 ```{r}

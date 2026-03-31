@@ -8,20 +8,21 @@ author: "Xi Zixun"
 
 Singapore’s inbound tourism landscape is characterised by a concentrated set of major source markets and a geographical distribution that evolves over time. Analysis of visitor arrivals from 2017 to 2025 indicates that Singapore’s tourism demand is anchored primarily in the Asia-Pacific region, while the relative importance of individual source countries shifts across different years. Such variation is visible not only in country rankings and market shares, but also in the wider spatial pattern of visitor origins. These dynamics make it insufficient to rely on static summary figures alone. A more effective approach is to integrate geospatial and comparative visual analysis in order to examine both the global distribution of visitor origins and the changing prominence of leading markets. Accordingly, this project proposes an interactive visual analytics prototype to support a clearer understanding of where Singapore’s visitors come from and how the structure of its source markets changes over time.
 
-## ndefinedPreparation
+## Preparation
 
 ### Package Installation & Loading
 
 -   `tidyverse`- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
 -   `plotly` - R library for plotting interactive statistical graphs.
 -   `patchwork` - combining multiple ggplot2 graphs into one figure.
--   `GGally` - 'GGally' extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with transformed data
--   `corrplot` - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.
 -   `readx1` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.
 -   `lubridate` - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones
 
+-   `cellranger` - Translate Spreadsheet Cell Ranges to Rows and Columns
+-   `knitr` - Provides a general-purpose tool for dynamic report generation in R using Literate Programming techniques
+-   `scales` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends
 ```{r}
-pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl, cellranger, knitr, scales)
+pacman::p_load(tidyverse, lubridate, plotly, patchwork, readxl, cellranger, knitr, scales)
 ```
 
 ## Data Exploration & Cleaning
@@ -307,14 +308,22 @@ p2_data <- tour_long %>%
 ## Table - Pre_Covid
 
 ```{r}
+p1_total_market <- tour_clean %>%
+  filter(year(Date) >= 2017 & year(Date) <= 2019) %>%
+  summarise(
+    Total_Market_Avg = round(mean(`Visitor Arrivals`, na.rm = TRUE), 0)
+  ) %>%
+  pull(Total_Market_Avg)
+
+# Country ranking in P1
 p1_rank <- p1_data %>%
   group_by(Country) %>%
   summarise(
-    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE)),
+    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
     .groups = "drop"
   ) %>%
   mutate(
-    Share_Percent = (Avg_Monthly_Arrivals / sum(Avg_Monthly_Arrivals)) * 100
+    Overall_Share_Percent = (Avg_Monthly_Arrivals / p1_total_market) * 100
   ) %>%
   arrange(desc(Avg_Monthly_Arrivals)) %>%
   mutate(Rank = row_number()) %>%
@@ -326,26 +335,13 @@ p1_rank
 ## Chart - Pre_Covid
 
 ```{r}
-p1_rank <- p1_data %>%
-  group_by(Country) %>%
-  summarise(
-    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    Share_Percent = (Avg_Monthly_Arrivals / sum(Avg_Monthly_Arrivals)) * 100
-  ) %>%
-  arrange(desc(Avg_Monthly_Arrivals)) %>%
-  mutate(Rank = row_number()) %>%
-  slice_head(n = 5)
-
 plot_ly(
   data = p1_rank,
   x = ~Avg_Monthly_Arrivals,
   y = ~reorder(Country, Avg_Monthly_Arrivals),
   type = "bar",
   orientation = "h",
-  text = ~paste0(round(Share_Percent, 1), "%"),
+  text = ~paste0(round(Overall_Share_Percent, 1), "%"),
   textposition = "outside",
   hovertemplate = "Average Monthly Arrivals: %{x:,}<extra></extra>"
 ) %>%
@@ -357,22 +353,32 @@ plot_ly(
 ```
 :::
 
-In the pre-COVID period (2017–2019), Singapore’s top visitor source countries were led by China and Indonesia, which recorded average monthly arrivals of 285,357 and 252,402 respectively. Their corresponding shares, 19.35% and 17.12%, show that these two countries formed the dominant core of Singapore’s inbound tourism market. India, Malaysia, and Australia followed at a much lower level, with average monthly arrivals of 114,787, 101,198, and 92,571 respectively.
+During the pre-COVID period (2017–2019), Singapore’s inbound tourism market was led by China and Indonesia, which recorded average monthly arrivals of 285,357 and 252,402 respectively. Their corresponding overall market shares, 18.66% and 16.51%, show that these two countries formed the dominant core of Singapore’s visitor market before the pandemic. India, Malaysia, and Australia followed at a noticeably lower level, with average monthly arrivals of 114,787, 101,198, and 92,571, accounting for 7.51%, 6.62%, and 6.05% of Singapore’s total inbound visitor arrivals respectively.
 
-These findings suggest that Singapore’s visitor market before COVID-19 was concentrated in a relatively small number of major source countries, with particularly strong dependence on nearby Asian markets. The ranking pattern reflects the importance of regional accessibility and established travel demand, and provides a useful baseline for evaluating whether the relative importance of these markets changed in the later recovery period.
+These results indicate that Singapore’s pre-pandemic visitor structure was concentrated in a relatively small number of major source markets, with China and Indonesia clearly occupying the most prominent positions. The gap between the top two countries and the remaining three suggests that the market was not evenly distributed even among the leading visitor sources. Instead, a substantial share of total visitor demand was anchored in a narrow group of dominant markets. This pattern points to a relatively concentrated tourism structure prior to COVID-19.
+
+From a regional perspective, the composition of the top five also highlights Singapore’s strong dependence on Asia-Pacific markets. China, Indonesia, India, and Malaysia all belong to Asia, while Australia further reinforces the importance of the broader regional travel network. This suggests that geographical proximity, strong transport connectivity, and established regional travel demand were important drivers of Singapore’s inbound tourism performance before the pandemic.
 
 ::: panel-tabset
 ## Table - Post_Covid
 
 ```{r}
+p2_total_market <- tour_clean %>%
+  filter(year(Date) >= 2022 & year(Date) <= 2025) %>%
+  summarise(
+    Total_Market_Avg = round(mean(`Visitor Arrivals`, na.rm = TRUE), 0)
+  ) %>%
+  pull(Total_Market_Avg)
+
+# Country ranking in P2
 p2_rank <- p2_data %>%
   group_by(Country) %>%
   summarise(
-    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE)),
+    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
     .groups = "drop"
   ) %>%
   mutate(
-    Share_Percent = (Avg_Monthly_Arrivals / sum(Avg_Monthly_Arrivals)) * 100
+    Overall_Share_Percent = (Avg_Monthly_Arrivals / p2_total_market) * 100
   ) %>%
   arrange(desc(Avg_Monthly_Arrivals)) %>%
   mutate(Rank = row_number()) %>%
@@ -384,26 +390,13 @@ p2_rank
 ## Chart - Post_Covid
 
 ```{r}
-p2_rank <- p2_data %>%
-  group_by(Country) %>%
-  summarise(
-    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    Share_Percent = (Avg_Monthly_Arrivals / sum(Avg_Monthly_Arrivals)) * 100
-  ) %>%
-  arrange(desc(Avg_Monthly_Arrivals)) %>%
-  mutate(Rank = row_number()) %>%
-  slice_head(n = 5)
-
 plot_ly(
   data = p2_rank,
   x = ~Avg_Monthly_Arrivals,
   y = ~reorder(Country, Avg_Monthly_Arrivals),
   type = "bar",
   orientation = "h",
-  text = ~paste0(round(Share_Percent, 1), "%"),
+  text = ~paste0(round(Overall_Share_Percent, 1), "%"),
   textposition = "outside",
   hovertemplate = "Average Monthly Arrivals: %{x:,}<extra></extra>"
 ) %>%
@@ -415,10 +408,10 @@ plot_ly(
 ```
 :::
 
-The P2 results, covering the post-COVID recovery period from 2022 to 2025, show that Singapore’s visitor market recovered with a structure that was broadly similar to the pre-pandemic period, but with some notable shifts in relative ranking and scale. Indonesia ranked first during this period with an average monthly arrival figure of 173,636, accounting for 16.43% of the total arrivals among the countries included in the analysis. China followed in second place with 159,896 average monthly arrivals and a share of 15.05%. This indicates that although both markets remained central to Singapore’s inbound tourism recovery, Indonesia overtook China in the post-pandemic period.
+During the post-COVID recovery period (2022–2025), Singapore’s visitor market recovered with a structure that remained broadly similar to the pre-pandemic period, but with some notable changes in relative ranking and market share. Indonesia ranked first during this period with an average monthly arrival figure of 173,636, accounting for 15.62% of Singapore’s total inbound visitor arrivals. China followed in second place with 159,896 average monthly arrivals and an overall market share of 14.39%. This indicates that although both countries remained central to Singapore’s tourism recovery, Indonesia overtook China in the post-pandemic period and emerged as the largest individual source market.
 
-India remained in third place with an average monthly arrival level of 86,675 and a share of 8.16%, while Malaysia and Australia followed closely with 86,258 (8.12%) and 85,258 (8.02%) respectively. Compared with the pre-COVID period, the ranking composition of the top five markets remained unchanged, which suggests that Singapore’s core visitor base showed a relatively high degree of resilience. However, the reduced arrival levels across all five countries indicate that recovery was incomplete in absolute terms, even though the main source markets continued to dominate.
+India remained in third place with an average monthly arrival level of 86,675, representing 7.80% of Singapore’s overall inbound market. Malaysia and Australia followed closely with 86,258 (7.76%) and 85,258 (7.67%) respectively. Compared with the pre-COVID period, the composition of the top five visitor source countries remained unchanged, suggesting that Singapore’s core visitor base demonstrated a relatively high degree of structural stability. However, the reduced arrival levels across all five countries indicate that recovery remained incomplete in absolute terms, even though the same major source markets continued to dominate the visitor mix.
 
-A clearer view of recovery emerges when P2 is compared directly with the pre-COVID baseline. China’s average monthly arrivals fell from 285,357 in P1 to 159,896 in P2, while Indonesia declined from 252,402 to 173,636. Similar declines are also visible for India, Malaysia, and Australia. This suggests that by 2022–2025, Singapore’s tourism sector had regained its core market structure, but not yet its previous scale. In other words, recovery appears to have been stronger in terms of market composition than in terms of visitor volume.
+A clearer view of recovery emerges when the P2 results are compared directly with the pre-COVID baseline. China’s average monthly arrivals declined from 285,357 in P1 to 159,896 in P2, while Indonesia fell from 252,402 to 173,636. Similar reductions are also observed for India, Malaysia, and Australia. These changes suggest that by 2022–2025, Singapore’s tourism sector had largely regained its core market structure, but not yet its earlier scale. In other words, recovery appears to have been stronger in terms of preserving the composition of key source markets than in terms of fully restoring visitor volume.
 
-At the same time, the ranking reversal between China and Indonesia is an important signal. It suggests that not all major source markets recovered at the same speed. Indonesia’s stronger post-pandemic position may reflect a faster rebound in short-haul regional travel, while China’s fall to second place suggests a relatively slower recovery compared with its pre-COVID dominance. The fact that India, Malaysia, and Australia remained in the top five also points to continued dependence on established Asia-Pacific markets, reinforcing the regional nature of Singapore’s tourism recovery.
+The ranking reversal between China and Indonesia is especially important. It suggests that the recovery process was uneven across major source markets. Indonesia’s stronger position in the post-COVID period may reflect a faster rebound in short-haul regional travel, whereas China’s drop from first to second place points to a relatively slower return compared with its pre-pandemic dominance. At the same time, the continued presence of India, Malaysia, and Australia in the top five reinforces the view that Singapore’s tourism recovery remained firmly anchored in established Asia-Pacific markets.

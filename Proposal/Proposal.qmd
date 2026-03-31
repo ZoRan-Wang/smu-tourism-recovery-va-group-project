@@ -63,9 +63,9 @@ The analytical workflow prioritizes monthly variables because the main research 
 
 The project also adopts a period-based interpretation of the timeline:
 
--   `pre_covid`: December 2016 to January 2020
+-   `pre_covid`: Jan  207 to January 2020
 -   `covid_shock`: February 2020 to December 2021
--   `recovery`: January 2022 to January 2026
+-   `recovery`: January 2022 to Dec 2025
 
 ## 5. Research Questions
 
