@@ -105,6 +105,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
@@ -129,6 +133,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../prototype/module-decision-tree.html">
  <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -168,8 +176,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#storyboard-cluster-analysis-module" id="toc-storyboard-cluster-analysis-module" class="nav-link active" data-scroll-target="#storyboard-cluster-analysis-module">Storyboard: Cluster Analysis Module</a></li>
-  <li><a href="#ui-layout-plan" id="toc-ui-layout-plan" class="nav-link" data-scroll-target="#ui-layout-plan">UI Layout Plan</a></li>
+  <li><a href="#app-flow" id="toc-app-flow" class="nav-link active" data-scroll-target="#app-flow">App Flow</a></li>
+  <li><a href="#module-1-time-series-visual-analysis" id="toc-module-1-time-series-visual-analysis" class="nav-link" data-scroll-target="#module-1-time-series-visual-analysis">Module 1: Time Series Visual Analysis</a>
+  <ul class="collapse">
+  <li><a href="#ui-layout" id="toc-ui-layout" class="nav-link" data-scroll-target="#ui-layout">UI Layout</a></li>
+  </ul></li>
+  <li><a href="#module-2-time-series-clustering" id="toc-module-2-time-series-clustering" class="nav-link" data-scroll-target="#module-2-time-series-clustering">Module 2: Time Series Clustering</a>
+  <ul class="collapse">
+  <li><a href="#ui-layout-1" id="toc-ui-layout-1" class="nav-link" data-scroll-target="#ui-layout-1">UI Layout</a></li>
+  </ul></li>
+  <li><a href="#module-3-forecasting" id="toc-module-3-forecasting" class="nav-link" data-scroll-target="#module-3-forecasting">Module 3: Forecasting</a>
+  <ul class="collapse">
+  <li><a href="#ui-layout-2" id="toc-ui-layout-2" class="nav-link" data-scroll-target="#ui-layout-2">UI Layout</a></li>
+  </ul></li>
   <li><a href="#ui-component-mapping" id="toc-ui-component-mapping" class="nav-link" data-scroll-target="#ui-component-mapping">UI Component Mapping</a></li>
   <li><a href="#usability-notes" id="toc-usability-notes" class="nav-link" data-scroll-target="#usability-notes">Usability Notes</a></li>
   </ul>
@@ -197,23 +216,23 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="storyboard-cluster-analysis-module" class="level2">
-<h2 class="anchored" data-anchor-id="storyboard-cluster-analysis-module">Storyboard: Cluster Analysis Module</h2>
+<section id="app-flow" class="level2">
+<h2 class="anchored" data-anchor-id="app-flow">App Flow</h2>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-    A["Load monthly tourism dataset"] --&gt; B["Select period(s)"]
-    B --&gt; C["Set k and seed"]
-    C --&gt; D["Run clustering"]
-    D --&gt; E["View cluster scatter plot"]
-    D --&gt; F["Review cluster profile table"]
-    D --&gt; G["Check silhouette score"]
-    G --&gt; H{"Quality acceptable?"}
-    H -- "Yes" --&gt; I["Interpret market states"]
-    H -- "No" --&gt; C
+    A["Open the app"] --&gt; B["Choose a module"]
+    B --&gt; C["Configure inputs"]
+    C --&gt; D["Render outputs"]
+    D --&gt; E["Interpret results"]
+    E --&gt; F["Download or compare"]
+
+    B --&gt; M1["Time Series Visual Analysis"]
+    B --&gt; M2["Time Series Clustering"]
+    B --&gt; M3["Forecasting"]
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -221,31 +240,145 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="ui-layout-plan" class="level2">
-<h2 class="anchored" data-anchor-id="ui-layout-plan">UI Layout Plan</h2>
+<section id="module-1-time-series-visual-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="module-1-time-series-visual-analysis">Module 1: Time Series Visual Analysis</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Select countries or transport series"] --&gt; B["Choose a time window"]
+    B --&gt; C["Toggle raw, indexed, or share view"]
+    C --&gt; D["Render comparison charts"]
+    D --&gt; E["Inspect summary table"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="ui-layout" class="level3">
+<h3 class="anchored" data-anchor-id="ui-layout">UI Layout</h3>
 <div class="storyboard-box">
-<p><strong>Left Panel (Controls)</strong></p>
+<p><strong>Left Panel</strong></p>
 <ol type="1">
-<li><code>Period Filter</code> (checkboxes)</li>
-<li><code>K (Cluster Count)</code> (slider)</li>
-<li><code>Random Seed</code> (numeric input)</li>
-<li><code>Scale Features</code> (toggle)</li>
-<li><code>Run Clustering</code> (button)</li>
+<li>Country or mode selector</li>
+<li>Time window selector</li>
+<li>View mode toggle</li>
+<li>Period highlight switch</li>
+<li>Update button</li>
 </ol>
 </div>
 <div class="storyboard-box">
-<p><strong>Right Panel (Outputs)</strong></p>
+<p><strong>Right Panel</strong></p>
 <ol type="1">
-<li><code>Silhouette Score</code> (KPI card)</li>
-<li><code>Cluster Scatter Plot</code> (main chart)</li>
-<li><code>Cluster Profile Table</code> (interactive table)</li>
-<li><code>Cluster Assignment Preview</code> (download-ready table)</li>
+<li>Multi-series line chart</li>
+<li>Indexed comparison chart</li>
+<li>Share or growth chart</li>
+<li>Summary table</li>
 </ol>
 </div>
+</section>
+</section>
+<section id="module-2-time-series-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="module-2-time-series-clustering">Module 2: Time Series Clustering</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Select a set of country series"] --&gt; B["Set normalization"]
+    B --&gt; C["Choose clustering method and k"]
+    C --&gt; D["Run clustering"]
+    D --&gt; E["Review membership table"]
+    D --&gt; F["Review representative patterns"]
+    D --&gt; G["Download assignments"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="ui-layout-1" class="level3">
+<h3 class="anchored" data-anchor-id="ui-layout-1">UI Layout</h3>
+<div class="storyboard-box">
+<p><strong>Left Panel</strong></p>
+<ol type="1">
+<li>Series family selector</li>
+<li>Country multi-select</li>
+<li>Time window selector</li>
+<li>Normalization mode</li>
+<li>Distance or linkage setting</li>
+<li>Cluster count slider</li>
+<li>Run clustering button</li>
+<li>Insight note describing what to look for</li>
+</ol>
+</div>
+<div class="storyboard-box">
+<p><strong>Right Panel</strong></p>
+<ol type="1">
+<li><code>Overview</code> tab: cluster quality strip, insight card, recovery position map, diagnostic table</li>
+<li><code>Patterns</code> tab: representative pattern plot shown at full readable height</li>
+<li><code>Assignments</code> tab: membership table, assignment download, and cluster summary table</li>
+<li><code>Series Metrics</code> tab: recovery metrics table</li>
+</ol>
+</div>
+</section>
+</section>
+<section id="module-3-forecasting" class="level2">
+<h2 class="anchored" data-anchor-id="module-3-forecasting">Module 3: Forecasting</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Select a target series"] --&gt; B["Set training cutoff and horizon"]
+    B --&gt; C["Choose a forecasting model"]
+    C --&gt; D["Run forecast"]
+    D --&gt; E["Review forecast plot"]
+    D --&gt; F["Review accuracy table"]
+    D --&gt; G["Download forecast output"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="ui-layout-2" class="level3">
+<h3 class="anchored" data-anchor-id="ui-layout-2">UI Layout</h3>
+<div class="storyboard-box">
+<p><strong>Left Panel</strong></p>
+<ol type="1">
+<li>Target series selector</li>
+<li>Training cutoff input</li>
+<li>Forecast horizon slider</li>
+<li>Model selection</li>
+<li>Confidence interval setting</li>
+<li>Run forecast button</li>
+</ol>
+</div>
+<div class="storyboard-box">
+<p><strong>Right Panel</strong></p>
+<ol type="1">
+<li>Forecast plot</li>
+<li>Accuracy table</li>
+<li>Residual diagnostics</li>
+<li>Forecast download button</li>
+</ol>
+</div>
+</section>
 </section>
 <section id="ui-component-mapping" class="level2">
 <h2 class="anchored" data-anchor-id="ui-component-mapping">UI Component Mapping</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>UI Need</th>
@@ -255,29 +388,34 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Multi-period comparison</td>
-<td><code>checkboxGroupInput</code></td>
-<td>flexible grouping</td>
+<td>Multi-series comparison</td>
+<td><code>selectInput</code> / <code>pickerInput</code></td>
+<td>flexible series selection</td>
 </tr>
 <tr class="even">
-<td>Limited integer tuning</td>
+<td>Time window control</td>
+<td><code>dateRangeInput</code></td>
+<td>clear start and end selection</td>
+</tr>
+<tr class="odd">
+<td>Raw vs indexed vs share view</td>
+<td><code>radioButtons</code></td>
+<td>mutually exclusive display modes</td>
+</tr>
+<tr class="even">
+<td>Clustering parameter tuning</td>
 <td><code>sliderInput</code></td>
 <td>fast constrained control</td>
 </tr>
 <tr class="odd">
-<td>Reproducibility</td>
-<td><code>numericInput</code></td>
-<td>explicit seed control</td>
-</tr>
-<tr class="even">
-<td>Trigger heavy compute</td>
+<td>Model execution</td>
 <td><code>actionButton</code></td>
 <td>avoid unnecessary reruns</td>
 </tr>
-<tr class="odd">
-<td>Fast profile scan</td>
+<tr class="even">
+<td>Output tables</td>
 <td><code>DT::datatable</code></td>
-<td>sortable/filterable</td>
+<td>sortable and filterable</td>
 </tr>
 </tbody>
 </table>
@@ -285,9 +423,10 @@ ul.task-list li input[type="checkbox"] {
 <section id="usability-notes" class="level2">
 <h2 class="anchored" data-anchor-id="usability-notes">Usability Notes</h2>
 <ol type="1">
-<li>Keep defaults aligned with assignment baseline (<code>k = 3</code>).</li>
-<li>Keep labels domain-driven (<code>pandemic shock</code>, <code>recovery</code>, <code>high-performance</code>).</li>
-<li>Preserve color semantics across plot and table.</li>
+<li>Keep the module order aligned with the final website: visual analysis, clustering, forecasting.</li>
+<li>Keep the labels domain-driven and consistent across Proposal, storyboard, and app.</li>
+<li>Use the same country names, date windows, and color semantics in all modules.</li>
+<li>Make the interaction flow simple enough that users can move from exploration to comparison to forecasting without losing context.</li>
 </ol>
 
 
@@ -701,7 +840,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

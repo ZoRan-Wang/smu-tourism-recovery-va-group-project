@@ -112,12 +112,20 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
-    <a class="dropdown-item" href="./prototype/decision-tree.html">
- <span class="dropdown-text">Decision Tree Analysis</span></a>
+    <a class="dropdown-item" href="./prototype/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/CDA.html">
+ <span class="dropdown-text">CDA</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/module-cluster.html">
- <span class="dropdown-text">Module Prototype</span></a>
+ <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/module-decision-tree.html">
@@ -134,6 +142,10 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/wang-zhuoran-review-report.html">
+ <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -163,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
   <li><a href="#step-1-explore-the-series" id="toc-step-1-explore-the-series" class="nav-link" data-scroll-target="#step-1-explore-the-series">Step 1: Explore the Series</a></li>
-  <li><a href="#step-2-compare-recovery-states" id="toc-step-2-compare-recovery-states" class="nav-link" data-scroll-target="#step-2-compare-recovery-states">Step 2: Compare Recovery States</a></li>
+  <li><a href="#step-2-compare-country-recovery-patterns" id="toc-step-2-compare-country-recovery-patterns" class="nav-link" data-scroll-target="#step-2-compare-country-recovery-patterns">Step 2: Compare Country Recovery Patterns</a></li>
   <li><a href="#step-3-forecast-future-values" id="toc-step-3-forecast-future-values" class="nav-link" data-scroll-target="#step-3-forecast-future-values">Step 3: Forecast Future Values</a></li>
   <li><a href="#interpretation-tips" id="toc-interpretation-tips" class="nav-link" data-scroll-target="#interpretation-tips">Interpretation Tips</a></li>
   <li><a href="#data-scope" id="toc-data-scope" class="nav-link" data-scroll-target="#data-scope">Data Scope</a></li>
@@ -205,15 +217,16 @@ ul.task-list li input[type="checkbox"] {
 <li>Confirm the unit and source metadata before moving to deeper analysis.</li>
 </ol>
 </section>
-<section id="step-2-compare-recovery-states" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-compare-recovery-states">Step 2: Compare Recovery States</h2>
+<section id="step-2-compare-country-recovery-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-compare-country-recovery-patterns">Step 2: Compare Country Recovery Patterns</h2>
 <p>Open the <strong>Cluster Prototype</strong> tab to:</p>
 <ol type="1">
-<li>Select multiple country-level visitor-arrivals series.</li>
-<li>Set the lookback window and choose <code>k</code>.</li>
-<li>Decide whether each country trajectory should be normalized before clustering.</li>
-<li>Review the scatter plot, silhouette score, and cluster profile table.</li>
+<li>Select a focused set of country-level visitor-arrivals series.</li>
+<li>Set the year window and choose the normalization mode.</li>
+<li>Pick a working <code>k</code> and run the clustering.</li>
+<li>Read the module in order: <code>Dashboard</code>, <code>Pattern Explorer</code>, <code>Focus Market in Context</code>, <code>Assignments</code>.</li>
 </ol>
+<p>The clustering unit is a <strong>country trajectory</strong>, not an individual month. The module is designed to answer which markets recovered in similar ways, not to assign each month into a market state.</p>
 </section>
 <section id="step-3-forecast-future-values" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-forecast-future-values">Step 3: Forecast Future Values</h2>
@@ -221,11 +234,11 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>Select a country-level visitor-arrivals series.</li>
 <li>Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.</li>
-<li>Set the holdout horizon.</li>
-<li>Choose the forecasting model.</li>
-<li>Compare the seasonal-naive baseline with the selected model.</li>
-<li>Review the forecast plot and accuracy table.</li>
+<li>Set the holdout horizon and click <code>Run Forecasting</code>.</li>
+<li>Compare the seasonal-naive baseline with ETS and ARIMA.</li>
+<li>Review the forecast plot, decomposition views, split summary, and accuracy table.</li>
 </ol>
+<p>The forecasting module prefers the full <code>modeltime</code> workflow, but it can fall back to a lighter <code>forecast</code> implementation when that dependency chain is unavailable. The model labels and interpretation stay consistent across both paths.</p>
 </section>
 <section id="interpretation-tips" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation-tips">Interpretation Tips</h2>
@@ -237,9 +250,13 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-scope" class="level2">
 <h2 class="anchored" data-anchor-id="data-scope">Data Scope</h2>
-<p>The current app is built on:</p>
-<p><code>data/raw/Name your insight (4).xlsx</code></p>
-<p>This workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation.</p>
+<p>The current app uses two coordinated inputs:</p>
+<ul>
+<li>Shared arrivals backbone: <code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
+<li>Shared clustering artifacts: <code>data/processed/clustering_country_wide.csv</code>, <code>data/processed/clustering_country_long.csv</code>, <code>data/processed/clustering_series_metadata.csv</code></li>
+<li>Optional supporting tourism context: <code>data/raw/tourism_update.xlsx</code></li>
+</ul>
+<p>Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation.</p>
 
 
 </section>
@@ -652,7 +669,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

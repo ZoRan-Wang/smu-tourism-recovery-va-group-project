@@ -1,65 +1,121 @@
 ---
-title: "Shiny App Guide"
+title: "Shiny App"
+format:
+  html:
+    toc: false
 ---
 
-## Application Structure
-
-The app now follows a three-module structure built on one shared tourism time-series workbook:
-
-1. `app/app.R` - top-level navigation and shared reactive data loading.
-2. `app/R/data_utils.R` - common time-series ingestion, feature engineering, and forecasting helpers.
-3. `app/R/mod_cluster_ui.R` and `app/R/mod_cluster_server.R` - time-series clustering module.
-4. `app/R/mod_forecast_ui.R` and `app/R/mod_forecast_server.R` - forecasting module.
-5. The Time Series Explorer is embedded directly in `app/app.R` to keep the main comparison flow simple.
-
-## The Three Modules
-
-### 1. Time Series Explorer
-
-Purpose:
-
-1. Select a monthly tourism series.
-2. Inspect recent years of trend and volatility.
-3. Review source, unit, and series identifier before analysis.
-
-### 2. Cluster Prototype
-
-Purpose:
-
-1. Select several country-level arrival series.
-2. Align them over a shared lookback window and cluster the trajectories.
-3. Review silhouette quality, PCA separation, and cluster profiles.
-
-### 3. Forecasting Prototype
-
-Purpose:
-
-1. Select a country-level monthly visitor-arrivals series.
-2. Position that country series against hotel occupancy, average length of stay, and room revenue.
-3. Set a train/test horizon.
-4. Compare a seasonal-naive baseline with a forecasting model such as ARIMA or ETS.
-5. Review both the forecast plot and the holdout accuracy table.
-
-## Run Commands
-
-```bash
-Rscript run_app.R 3838
+```{r}
+shiny_app_url <- Sys.getenv("SHINY_APP_URL", unset = "http://127.0.0.1:3838")
+is_local_target <- grepl("127\\.0\\.0\\.1|localhost", shiny_app_url)
+shiny_target_label <- if (is_local_target) "Local target" else "Deployment target"
+shiny_target_note <- if (is_local_target) {
+  "The site currently points to a locally running Shiny process on port 3838."
+} else {
+  "The site is currently configured to point to the deployed Shiny application."
+}
 ```
 
-## What to Expect
+## Open The App
 
-The final app should let the user:
+This page is the website entry point for the Shiny application. Right now it is configured to open:
 
-1. Explore the raw tourism series.
-2. Group months into recovery states.
-3. Generate and compare forecasts for the selected target series.
+`r shiny_app_url`
 
-## Data Source
+::: {.grid-cards}
+::: {.card-block}
+### Launch Shiny App
 
-The app reads:
+[Open the Shiny app](`r shiny_app_url`){target="_blank"}
 
-`data/raw/Name your insight (4).xlsx`
+`r shiny_target_note`
+:::
 
-This workbook is treated as the common source for all three modules so that users do not need to switch between inconsistent datasets.
+::: {.card-block}
+### Current Target
 
-Within that shared workbook, the forecasting tab treats country-level visitor arrivals as the primary target series and uses hotel/stay indicators as supporting context rather than separate forecast targets.
+- Label: `r shiny_target_label`
+- URL: `r shiny_app_url`
+- Mode: `r if (is_local_target) "Local development" else "External deployment"`
+:::
+
+::: {.card-block}
+### Run Command
+
+```r
+shiny::runApp("app")
+```
+
+Or from the project root:
+
+```powershell
+Rscript run_app.R 3838
+```
+:::
+:::
+
+## Embedded Preview
+
+When the target app is available, the frame below gives the website a direct in-page preview.
+
+```{r, echo=FALSE}
+htmltools::div(
+  style = "background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);",
+  htmltools::div(
+    style = "padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;",
+    sprintf("Shiny Preview (%s)", shiny_app_url)
+  ),
+  htmltools::tags$iframe(
+    src = shiny_app_url,
+    title = "Singapore Tourism Time-Series VA Prototype",
+    style = "width:100%;height:900px;border:0;background:#fff;",
+    loading = "lazy"
+  )
+)
+```
+
+## Current Module Status
+
+| Module | Current status | Current focus |
+|---|---|---|
+| Time Series Visual Analysis | lightweight explorer | compare monthly series and metadata before deeper analysis |
+| Time Series Clustering | active prototype | Wang branch interaction and visual refinement |
+| Forecasting | active prototype | Jin branch forecasting workflow with fallback runtime support |
+
+## Data Contract
+
+The current clustering workflow reads from:
+
+- `data/raw/visitor_arrivals_full_dataset.xlsx`
+- `data/processed/clustering_country_wide.csv`
+- `data/processed/clustering_country_long.csv`
+- `data/raw/tourism_update.xlsx` for optional tourism performance context in the forecasting module
+
+## Expected User Flow
+
+1. Open the Shiny app from this page.
+2. Enter the `Time Series Clustering` tab.
+3. Select a focused set of countries.
+4. Choose a year window and normalization mode.
+5. Review the outputs in order: `Dashboard`, `Pattern Explorer`, `Focus Market in Context`, `Assignments`.
+
+## Deployment Switch
+
+For local testing, no extra configuration is needed because the page defaults to:
+
+`http://127.0.0.1:3838`
+
+When you are ready to switch to `shinyapps.io`, re-render the site with:
+
+```powershell
+$env:SHINY_APP_URL='https://YOUR-APP-NAME.shinyapps.io/YOUR-APP/'
+quarto render
+```
+
+That will update both the launch button and the embedded preview to the deployed app.
+
+## Notes For Local Testing
+
+1. Start the app first if the preview frame is blank.
+2. Use the standalone launch link if your browser blocks the embedded frame.
+3. Keep the browser window at a normal desktop width when checking layout quality.

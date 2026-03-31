@@ -11,11 +11,6 @@ library(dplyr)
 library(ggplot2)
 library(DT)
 library(lubridate)
-library(timetk)
-library(modeltime)
-library(tidymodels)
-library(tsibble)
-library(feasts)
 options(scipen = 999)
 ```
 
@@ -25,9 +20,15 @@ This prototype follows the Chapter 19 and 20 workflow from *R for Visual Analyti
 
 ## Data Contract
 
-Input dataset: `data/raw/Name your insight (4).xlsx`
+Shared arrivals backbone:
 
-For this revised forecasting prototype, the analytical scope is intentionally narrowed to **monthly visitor-arrival series by country**. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.
+- `data/raw/visitor_arrivals_full_dataset.xlsx`
+
+Optional supporting tourism context:
+
+- `data/raw/Name your insight (4).xlsx`
+
+For this revised forecasting prototype, the analytical scope is intentionally narrowed to **monthly visitor-arrival series by country**. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators. Hotel occupancy, stay length, number of hotels, and room revenue remain optional supporting context only.
 
 Examples of eligible target series are:
 
@@ -42,6 +43,30 @@ Examples of eligible target series are:
 tourism_data <- load_tourism_data()
 series_catalog <- list_country_arrival_series(tourism_data$long_monthly)
 head(series_catalog, 10)
+```
+
+## Runtime Strategy
+
+The forecasting module now supports two execution paths under one shared interface:
+
+1. `modeltime workflow` when the full Chapter 20 stack is installed.
+2. `forecast fallback` when the shared environment is missing the `modeltime` dependency chain.
+
+This keeps the app, prototype, and smoke test on one forecasting contract while still allowing the site to render on lighter environments.
+
+```{r}
+stack_status <- forecast_stack_status()
+
+tibble(
+  fallback_ready = stack_status$fallback_ready,
+  modeltime_ready = stack_status$modeltime_ready,
+  preferred_engine = stack_status$preferred_engine,
+  missing_modeltime_packages = ifelse(
+    length(stack_status$missing_modeltime_packages) == 0,
+    "None",
+    paste(stack_status$missing_modeltime_packages, collapse = ", ")
+  )
+)
 ```
 
 ## Analytical Framing
@@ -77,9 +102,10 @@ example_series <- prepare_forecast_series(
   example_label
 )
 
-forecast_results <- run_modeltime_forecast_workflow(
+forecast_results <- run_forecast_workflow(
   series_df = example_series,
-  horizon = 12
+  horizon = 12,
+  engine = "auto"
 )
 
 context_series <- prepare_country_context_panel(
@@ -87,6 +113,8 @@ context_series <- prepare_country_context_panel(
   country_label = example_label
 )
 ```
+
+For this prototype run, the selected execution engine is **`r forecast_results$engine_label`**.
 
 ## Step 1: Position the Country Series Within Tourism Performance
 
@@ -153,15 +181,15 @@ example_series |>
 ### STL-style Decomposition
 
 ```{r}
-example_tsibble <- example_series |>
-  transmute(date = yearmonth(date), value = value) |>
-  as_tsibble(index = date)
+example_ts <- ts(
+  example_series$value,
+  start = c(year(min(example_series$date)), month(min(example_series$date))),
+  frequency = 12
+)
 
-decomp_tbl <- example_tsibble |>
-  model(STL(value)) |>
-  components()
+decomp_tbl <- stats::stl(example_ts, s.window = "periodic")
 
-autoplot(decomp_tbl) +
+forecast::autoplot(decomp_tbl) +
   labs(
     title = "Trend / Seasonal / Remainder Decomposition",
     subtitle = "Used to explain the structural change before forecasting"
@@ -191,7 +219,7 @@ This prototype includes:
 2. `ETS (Modeltime)` using exponential smoothing.
 3. `ARIMA` using `auto_arima` through the modeltime workflow.
 
-These model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series.
+These model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series. When the full `modeltime` stack is unavailable, the fallback route keeps the same benchmark logic and model labels so the interpretation remains stable.
 
 ```{r}
 forecast_results$models_tbl
@@ -212,16 +240,14 @@ DT::datatable(
 ### Testing Window Forecast Plot
 
 ```{r}
-forecast_results$calibration_forecast_tbl |>
-  plot_modeltime_forecast(
-    .interactive = FALSE,
-    .legend_max_width = 25
-  ) +
+plot_forecast_results(forecast_results, type = "holdout") +
   labs(
     title = "Testing-Set Forecast Comparison",
-    subtitle = "Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives"
-  ) +
-  scale_y_continuous(labels = scales::label_comma())
+    subtitle = paste(
+      "Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives | Engine:",
+      forecast_results$engine_label
+    )
+  )
 ```
 
 ## Step 7: Refit the Best Model and Forecast Forward
@@ -229,16 +255,11 @@ forecast_results$calibration_forecast_tbl |>
 After accuracy comparison, the best-performing model is refit on the full series and projected forward for the next 12 months. This is the final step highlighted in Chapter 20.
 
 ```{r}
-forecast_results$future_forecast_tbl |>
-  plot_modeltime_forecast(
-    .interactive = FALSE,
-    .legend_max_width = 25
-  ) +
+plot_forecast_results(forecast_results, type = "future") +
   labs(
     title = "Forward Forecast After Refit",
-    subtitle = "Best model refit on the full monthly series"
-  ) +
-  scale_y_continuous(labels = scales::label_comma())
+    subtitle = paste("Best model refit on the full monthly series | Engine:", forecast_results$engine_label)
+  )
 ```
 
 ## Interpretation Notes
@@ -264,7 +285,6 @@ In presentation terms, the recommended narrative is:
 |---|---|---|---|
 | `series_label` | `selectInput` | Visitor Arrivals: China | choose the target monthly visitor-arrival series by country |
 | `horizon` | `sliderInput` | 12 | set the holdout and forward forecast horizon |
-| `model_choice` | `radioButtons` | ARIMA / ETS | compare model families in the app |
 | `run_forecast` | `actionButton` | click to run | refresh the forecast after changing controls |
 
 ## Output Exposure
@@ -284,5 +304,5 @@ In presentation terms, the recommended narrative is:
 1. The selected series must have at least 24 non-missing monthly observations.
 2. The holdout horizon must leave at least 12 points for model fitting.
 3. A baseline and at least one model-based forecast must be scored on the same testing window.
-4. The forecasting module must use the same source workbook while restricting the target catalog to country-level arrival series.
+4. The forecasting module must keep the shared arrivals workbook as the target backbone while using the tourism workbook only for supporting context indicators.
 5. The workflow must include contextual comparison and visual diagnostics before model comparison.

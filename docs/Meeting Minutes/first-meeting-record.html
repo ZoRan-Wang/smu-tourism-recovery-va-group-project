@@ -102,6 +102,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
@@ -118,6 +122,18 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
  <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/module-decision-tree.html">
+ <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -157,12 +173,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#meeting-purpose" id="toc-meeting-purpose" class="nav-link active" data-scroll-target="#meeting-purpose">Meeting Purpose</a></li>
-  <li><a href="#jin-qinhao-contribution" id="toc-jin-qinhao-contribution" class="nav-link" data-scroll-target="#jin-qinhao-contribution">Jin Qinhao Contribution</a></li>
-  <li><a href="#xi-zixuns-contributions" id="toc-xi-zixuns-contributions" class="nav-link" data-scroll-target="#xi-zixuns-contributions">Xi Zixun’s Contributions</a></li>
-  <li><a href="#wang-zhuoran-review-work" id="toc-wang-zhuoran-review-work" class="nav-link" data-scroll-target="#wang-zhuoran-review-work">Wang Zhuoran Review Work</a></li>
-  <li><a href="#meeting-outcomes" id="toc-meeting-outcomes" class="nav-link" data-scroll-target="#meeting-outcomes">Meeting Outcomes</a></li>
-  <li><a href="#follow-up-guidelines" id="toc-follow-up-guidelines" class="nav-link" data-scroll-target="#follow-up-guidelines">Follow-up Guidelines</a></li>
+  <li><a href="#meeting-description" id="toc-meeting-description" class="nav-link active" data-scroll-target="#meeting-description">Meeting Description</a></li>
+  <li><a href="#meeting-notes" id="toc-meeting-notes" class="nav-link" data-scroll-target="#meeting-notes">Meeting Notes</a>
+  <ul class="collapse">
+  <li><a href="#action-items-owner-and-deadline" id="toc-action-items-owner-and-deadline" class="nav-link" data-scroll-target="#action-items-owner-and-deadline">ACTION ITEMS (Owner and deadline)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -188,56 +203,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="meeting-purpose" class="level2">
-<h2 class="anchored" data-anchor-id="meeting-purpose">Meeting Purpose</h2>
-<p>This record documents the team’s early coordination work, code review outcomes, and ownership alignment. It intentionally avoids listing specific timestamps.</p>
+<section id="meeting-description" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-description">Meeting Description</h2>
+<p>Date / Time: 12 March 2026 (11.30pm) – 13 March 2026 (12am)</p>
+<p>Location: Online Meeting</p>
+<p>Attendees: Xi Zixun, Wang Zhuoran, Jin Qinhao</p>
 </section>
-<section id="jin-qinhao-contribution" class="level2">
-<h2 class="anchored" data-anchor-id="jin-qinhao-contribution">Jin Qinhao Contribution</h2>
-<ol type="1">
-<li>Added the personal coursework page at <code>team/jin-qinhao/Take-Home-Exercise2/Take-Home-Exercise2.qmd</code>.</li>
-<li>Contributed supporting data files, scripts, and model outputs for the classification tree and random forest analysis workflow.</li>
-<li>Added the <code>Proposal/</code> draft materials so the project site could keep a proposal page as a shared working draft.</li>
-<li>Provided the analytical baseline for decision-tree and random-forest modeling, including exported figures and result tables for later team integration.</li>
-</ol>
-</section>
-<section id="xi-zixuns-contributions" class="level2">
-<h2 class="anchored" data-anchor-id="xi-zixuns-contributions">Xi Zixun’s Contributions</h2>
-<ol type="1">
-<li>Contributed the exploratory data analysis and confirmatory data analysis materials that were later incorporated into the project site.</li>
-<li>Added branch content that expanded the analytical coverage of the prototype beyond clustering and tree-based modeling.</li>
-<li>Helped strengthen the team’s project structure by contributing coursework-ready analysis pages that align with the group storyline on tourism recovery.</li>
-<li>Provided additional visual and statistical analysis outputs that support the project’s interpretation of tourism trends across the study periods.</li>
-</ol>
-</section>
-<section id="wang-zhuoran-review-work" class="level2">
-<h2 class="anchored" data-anchor-id="wang-zhuoran-review-work">Wang Zhuoran Review Work</h2>
-<ol type="1">
-<li>Reviewed the <code>jin-qinhao</code> branch against <code>main</code> and confirmed that the uppercase <code>JIN-QINHAO</code> branch was an erroneous branch.</li>
-<li>Identified the portability issue caused by hardcoded local paths in Jin Qinhao’s coursework page and scripts.</li>
-<li>Refactored the coursework page and scripts to use project-root discovery and repository-relative paths so they can run in the shared repo and in RStudio.</li>
-<li>Verified the required dependencies and reran the Quarto render, the data-preparation script, and the decision-tree script in the current project environment.</li>
-<li>Completed the corrected branch integration work and ensured that <code>main</code> remained a usable baseline for continued team collaboration.</li>
-</ol>
-</section>
-<section id="meeting-outcomes" class="level2">
-<h2 class="anchored" data-anchor-id="meeting-outcomes">Meeting Outcomes</h2>
-<ol type="1">
-<li>The <code>Proposal</code> page remains in place as a draft reference for the team.</li>
-<li>Jin Qinghao’s coursework materials were corrected and validated in the shared repository environment.</li>
-<li>Xi Zixun’s analysis contributions were incorporated into the shared project history and recognized as part of the team’s analytical development.</li>
-<li>The current <code>main</code> branch is ready for continued development in Quarto and RStudio.</li>
-</ol>
-</section>
-<section id="follow-up-guidelines" class="level2">
-<h2 class="anchored" data-anchor-id="follow-up-guidelines">Follow-up Guidelines</h2>
-<ol type="1">
-<li>All new pages, scripts, and folders should use English names.</li>
-<li>All analysis code should use repository-relative paths instead of machine-specific local paths.</li>
-<li>Team members should run <code>quarto render</code> before submitting merge-ready changes.</li>
-</ol>
+<section id="meeting-notes" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-notes">Meeting Notes</h2>
+<ul>
+<li><p>Decided on Research / Analysis Topic Related To Singapore Tourism. Selected Dataset related to Singapore Tourism Recovery from (CEIC)[(https://insights-ceicdata-com.libproxy.smu.edu.sg/)]</p></li>
+<li><p>Distribution of work (EDA &amp; CDA, Classification Tree &amp; Random Forest, Cluster Analysis)</p></li>
+</ul>
+<section id="action-items-owner-and-deadline" class="level3">
+<h3 class="anchored" data-anchor-id="action-items-owner-and-deadline">ACTION ITEMS (Owner and deadline)</h3>
+<ul>
+<li><p>EDA, CDA – Xi Zixun (Sunday, 15 March 2026)</p></li>
+<li><p>Classification Tree, Random Forest -Jin Qinhao (Sunday, 15 March 2026)</p></li>
+<li><p>Cluster Analysis – Wang Zhuoran (Sunday, 15 March 2026)</p></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -648,7 +635,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

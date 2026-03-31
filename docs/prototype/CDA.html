@@ -185,6 +185,10 @@ window.Quarto = {
     <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
@@ -209,6 +213,10 @@ window.Quarto = {
         <li>
     <a class="dropdown-item" href="../prototype/module-decision-tree.html">
  <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -248,17 +256,17 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#preperation" id="toc-preperation" class="nav-link active" data-scroll-target="#preperation">Preperation</a>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link active" data-scroll-target="#preparation">Preparation</a>
   <ul class="collapse">
-  <li><a href="#package-installation-loading" id="toc-package-installation-loading" class="nav-link" data-scroll-target="#package-installation-loading">Package Installation &amp; Loading</a></li>
+  <li><a href="#package-loading" id="toc-package-loading" class="nav-link" data-scroll-target="#package-loading">Package Loading</a></li>
+  </ul></li>
   <li><a href="#data-loading" id="toc-data-loading" class="nav-link" data-scroll-target="#data-loading">Data Loading</a></li>
   <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a></li>
-  </ul></li>
   <li><a href="#descriptive-analysis" id="toc-descriptive-analysis" class="nav-link" data-scroll-target="#descriptive-analysis">Descriptive Analysis</a></li>
   <li><a href="#cda-confirmatory-data-analysis" id="toc-cda-confirmatory-data-analysis" class="nav-link" data-scroll-target="#cda-confirmatory-data-analysis">CDA (Confirmatory Data Analysis)</a>
   <ul class="collapse">
   <li><a href="#cda-1---statistical-impact-of-covid-19-on-visitor-arrivals" id="toc-cda-1---statistical-impact-of-covid-19-on-visitor-arrivals" class="nav-link" data-scroll-target="#cda-1---statistical-impact-of-covid-19-on-visitor-arrivals">CDA 1 - Statistical Impact of COVID-19 on Visitor Arrivals</a></li>
-  <li><a href="#cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" id="toc-cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" class="nav-link" data-scroll-target="#cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals">CDA 2 - Influence of Chinese Visitor Share on Total Visitor Arrivals</a></li>
+  <li><a href="#cda-2---influence-of-china-share-on-total-visitor-arrivals" id="toc-cda-2---influence-of-china-share-on-total-visitor-arrivals" class="nav-link" data-scroll-target="#cda-2---influence-of-china-share-on-total-visitor-arrivals">CDA 2 - Influence of China Share on Total Visitor Arrivals</a></li>
   <li><a href="#cda-3---seasonal-variation-in-visitor-arrivals" id="toc-cda-3---seasonal-variation-in-visitor-arrivals" class="nav-link" data-scroll-target="#cda-3---seasonal-variation-in-visitor-arrivals">CDA 3 - Seasonal Variation in Visitor Arrivals</a></li>
   </ul></li>
   </ul>
@@ -292,76 +300,202 @@ window.Quarto = {
 </header>
 
 
-<p>The exploratory data analysis (EDA) identified several key patterns in Singapore’s tourism data, including the sharp decline in visitor arrivals during the COVID-19 period and potential relationships between tourism indicators. Based on these observations, confirmatory data analysis (CDA) is conducted to statistically test these relationships.</p>
-<section id="preperation" class="level2">
-<h2 class="anchored" data-anchor-id="preperation">Preperation</h2>
-<p>Within This analysis, a factor to be consider is periods. <strong>pre_covid</strong> represents the year 2017 to 2019 (End). <strong>Covid_shock</strong> Represents 2020-2021 (End), <strong>recovery</strong> represents Year 2022 - 2025(End)</p>
-<section id="package-installation-loading" class="level3">
-<h3 class="anchored" data-anchor-id="package-installation-loading">Package Installation &amp; Loading</h3>
+<p>The exploratory data analysis (EDA) highlighted several structural patterns in Singapore’s tourism data, including the pandemic shock to visitor arrivals, changes in source-market importance, and possible seasonal differences. Building on these observations, confirmatory data analysis (CDA) is used to statistically test whether these patterns are supported by the data.</p>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
+<p>In this analysis, three tourism periods are defined:</p>
 <ul>
-<li><code>tidyverse</code>- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.</li>
-<li><code>plotly</code> - R library for plotting interactive statistical graphs.</li>
-<li><code>patchwork</code> - combining multiple ggplot2 graphs into one figure.</li>
-<li><code>GGally</code> - ‘GGally’ extends ‘ggplot2’ by adding several functions to reduce the complexity of combining geometric objects with transformed data</li>
-<li><code>corrplot</code> - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.</li>
-<li><code>readx1</code> - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.</li>
-<li><code>lubridate</code> - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones</li>
+<li><strong>Pre-COVID</strong>: 2017 to 2019</li>
+<li><strong>COVID Shock</strong>: 2020 to 2021</li>
+<li><strong>Recovery</strong>: 2022 to 2025</li>
+</ul>
+<section id="package-loading" class="level3">
+<h3 class="anchored" data-anchor-id="package-loading">Package Loading</h3>
+<ul>
+<li><code>tidyverse</code> for data wrangling and static visualisation</li>
+<li><code>lubridate</code> for date handling</li>
+<li><code>plotly</code> for interactive charts</li>
+<li><code>patchwork</code> for combining ggplot figures</li>
+<li><code>GGally</code> and <code>corrplot</code> for exploratory relationship checks</li>
+<li><code>readxl</code> for reading the Excel workbook</li>
+<li><code>psych</code> for descriptive statistics</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl, psych)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="data-loading" class="level3">
-<h3 class="anchored" data-anchor-id="data-loading">Data Loading</h3>
+</section>
+<section id="data-loading" class="level2">
+<h2 class="anchored" data-anchor-id="data-loading">Data Loading</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tour <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"../data/raw/tourism_four_part_analysis_ready.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(tour)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"../data/raw/tourism_update.xlsx"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>tour <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  path,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"My Series"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">skip =</span> <span class="dv">29</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">.name_repair =</span> <span class="st">"minimal"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tour) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Date"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Tourism Receipts: YTD: YoY"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Tourist Expenditure Per Capita"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: China"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Length of Stay"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Malaysia"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: India"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Indonesia"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Australia"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Number of Hotels"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Days"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hotel Room Occupancy Rate"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: West Asia"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Taiwan"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Total Room Revenue"</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Number of Hotels.1"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Length of Stay.1"</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Hong Kong SAR (China)"</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hotel Revenue: per Available Room: Luxury"</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Hotel Revenue: per Available Room: Mid-Tier"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: ASEAN"</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Italy"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Russian Federal (CIS)"</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: France"</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Philippines"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Spain"</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"No of Hotel Room Stock"</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Thailand"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Ireland"</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: United Arab Emirates"</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: United Kingdom"</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Africa"</span>,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Bangladesh"</span>,</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Iran"</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: New Zealand"</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Israel"</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: North Asia"</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: 8-10 Days"</span>,</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: 11-14 Days"</span>,</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: 15 Days &amp; Over"</span>,</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Americas"</span>,</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Germany"</span>,</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Scandinavia: Sweden"</span>,</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Switzerland"</span>,</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: USA"</span>,</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Canada"</span>,</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Mauritius"</span>,</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Kuwait"</span>,</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Egypt"</span>,</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Brunei"</span>,</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Finland"</span>,</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Japan"</span>,</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: South Korea"</span>,</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Myanmar"</span>,</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Netherlands"</span>,</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Scandinavia: Norway"</span>,</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Saudi Arabia"</span>,</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Sri Lanka"</span>,</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Vietnam"</span>,</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Pakistan"</span>,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Visitor Arrivals: Republic of South Africa"</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>tour <span class="ot">&lt;-</span> tour <span class="sc">%&gt;%</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(Date))</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(tour)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 110
-Columns: 22
-$ date                              &lt;dttm&gt; 2016-12-01, 2017-01-01, 2017-02-01,…
-$ year                              &lt;dbl&gt; 2016, 2017, 2017, 2017, 2017, 2017, …
-$ month                             &lt;dbl&gt; 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1…
-$ quarter                           &lt;dbl&gt; 4, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, …
-$ period                            &lt;chr&gt; "pre_covid", "pre_covid", "pre_covid…
-$ visitor_arrivals                  &lt;dbl&gt; 1506134, 1480479, 1361010, 1480161, …
-$ visitor_arrivals_china            &lt;dbl&gt; 226020, 316805, 268993, 264711, 2521…
-$ china_share                       &lt;dbl&gt; 0.1500663, 0.2139882, 0.1976422, 0.1…
-$ china_share_pct                   &lt;dbl&gt; 15.00663, 21.39882, 19.76422, 17.883…
-$ hotel_occ                         &lt;dbl&gt; 79.61207, 81.76737, 88.02775, 84.672…
-$ avg_stay_monthly                  &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.1505…
-$ avg_stay_monthly_capped           &lt;dbl&gt; 3.214346, 3.517353, 3.423516, 3.1505…
-$ spend_per_capita                  &lt;dbl&gt; 1569.697, NA, NA, NA, NA, NA, NA, NA…
-$ tourism_receipts                  &lt;dbl&gt; 25748.45, NA, NA, NA, NA, NA, NA, NA…
-$ avg_stay_annual                   &lt;dbl&gt; 3.429859, NA, NA, NA, NA, NA, NA, NA…
-$ cluster_z_visitor_arrivals        &lt;dbl&gt; 0.7664648, 0.7242180, 0.5274850, 0.7…
-$ cluster_z_china_share             &lt;dbl&gt; -0.203934931, 0.330691932, 0.1939780…
-$ cluster_z_hotel_occ               &lt;dbl&gt; 0.2159389, 0.3872237, 0.8847433, 0.6…
-$ cluster_z_avg_stay_monthly_capped &lt;dbl&gt; -0.5471336, -0.5161057, -0.5257146, …
-$ hotel_occ_level_tertile           &lt;chr&gt; "medium", "medium", "high", "high", …
-$ hotel_occ_level_business          &lt;chr&gt; "medium", "medium", "high", "medium"…
-$ dataset_split                     &lt;chr&gt; "train", "train", "train", "train", …</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">excel_sheets</span>(<span class="st">"../data/raw/tourism_four_part_analysis_ready.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "analysis_ready_all"</code></pre>
+<pre><code>Rows: 112
+Columns: 62
+$ Date                                          &lt;date&gt; 2015-12-01, 2016-12-01,…
+$ `Visitor Arrivals`                            &lt;dbl&gt; NA, 1506134, 1480479, 13…
+$ `Tourism Receipts: YTD: YoY`                  &lt;dbl&gt; NA, 18.2358125, NA, NA, …
+$ `Tourist Expenditure Per Capita`              &lt;dbl&gt; 1429.751, 1569.697, NA, …
+$ `Visitor Arrivals: China`                     &lt;dbl&gt; NA, 226020, 316805, 2689…
+$ `Average Length of Stay`                      &lt;dbl&gt; NA, 3.214346, 3.517353, …
+$ `Visitor Arrivals: Malaysia`                  &lt;dbl&gt; NA, 128897, 84504, 85058…
+$ `Visitor Arrivals: India`                     &lt;dbl&gt; NA, 94323, 80062, 75905,…
+$ `Visitor Arrivals: Indonesia`                 &lt;dbl&gt; NA, 329994, 254634, 2088…
+$ `Visitor Arrivals: Australia`                 &lt;dbl&gt; NA, 100849, 115930, 7141…
+$ `Number of Hotels`                            &lt;dbl&gt; NA, 237, 237, 237, 242, …
+$ `Visitor Days`                                &lt;dbl&gt; NA, 56261555, NA, NA, NA…
+$ `Hotel Room Occupancy Rate`                   &lt;dbl&gt; NA, 79.61207, 81.76737, …
+$ `Visitor Arrivals: West Asia`                 &lt;dbl&gt; NA, 14895, 12581, 11749,…
+$ `Visitor Arrivals: Taiwan`                    &lt;dbl&gt; NA, 21454, 36187, 38866,…
+$ `Total Room Revenue`                          &lt;dbl&gt; NA, 298.0526, 299.8785, …
+$ `Number of Hotels.1`                          &lt;dbl&gt; NA, 222, NA, NA, NA, NA,…
+$ `Average Length of Stay.1`                    &lt;dbl&gt; NA, 3.429859, NA, NA, NA…
+$ `Visitor Arrivals: Hong Kong SAR (China)`     &lt;dbl&gt; NA, 36763, 34436, 33169,…
+$ `Hotel Revenue: per Available Room: Luxury`   &lt;dbl&gt; NA, 399.1838, 418.3350, …
+$ `Hotel Revenue: per Available Room: Mid-Tier` &lt;dbl&gt; NA, 127.2986, 127.9719, …
+$ `Visitor Arrivals: ASEAN`                     &lt;dbl&gt; NA, 637752, 478812, 4377…
+$ `Visitor Arrivals: Italy`                     &lt;dbl&gt; NA, 5656, 6231, 5320, 54…
+$ `Visitor Arrivals: Russian Federal (CIS)`     &lt;dbl&gt; NA, 7739, 12262, 8949, 8…
+$ `Visitor Arrivals: France`                    &lt;dbl&gt; NA, 11749, 12356, 16851,…
+$ `Visitor Arrivals: Philippines`               &lt;dbl&gt; NA, 68624, 46187, 51160,…
+$ `Visitor Arrivals: Spain`                     &lt;dbl&gt; NA, 3592, 3529, 3625, 38…
+$ `No of Hotel Room Stock`                      &lt;dbl&gt; NA, 57010.33, NA, NA, 56…
+$ `Visitor Arrivals: Thailand`                  &lt;dbl&gt; NA, 43619, 36813, 38502,…
+$ `Visitor Arrivals: Ireland`                   &lt;dbl&gt; NA, 1432, 1706, 1625, 17…
+$ `Visitor Arrivals: United Arab Emirates`      &lt;dbl&gt; NA, 7575, 4578, 4834, 83…
+$ `Visitor Arrivals: United Kingdom`            &lt;dbl&gt; NA, 39465, 46364, 54456,…
+$ `Visitor Arrivals: Africa`                    &lt;dbl&gt; NA, 10784, 7040, 4403, 5…
+$ `Visitor Arrivals: Bangladesh`                &lt;dbl&gt; NA, 10960, 9712, 8788, 1…
+$ `Visitor Arrivals: Iran`                      &lt;dbl&gt; NA, 1391, 1421, 1704, 80…
+$ `Visitor Arrivals: New Zealand`               &lt;dbl&gt; NA, 9994, 10778, 6928, 8…
+$ `Visitor Arrivals: Israel`                    &lt;dbl&gt; NA, 1441, 1630, 1799, 16…
+$ `Visitor Arrivals: North Asia`                &lt;dbl&gt; NA, 101187, 113643, 1328…
+$ `Visitor Arrivals: 8-10 Days`                 &lt;dbl&gt; NA, 30488, 40952, 31169,…
+$ `Visitor Arrivals: 11-14 Days`                &lt;dbl&gt; NA, 18884, 26157, 19386,…
+$ `Visitor Arrivals: 15 Days &amp; Over`            &lt;dbl&gt; NA, 40291, 53134, 45682,…
+$ `Visitor Arrivals: Americas`                  &lt;dbl&gt; NA, 67650, 72376, 68575,…
+$ `Visitor Arrivals: Germany`                   &lt;dbl&gt; NA, 35176, 37068, 40022,…
+$ `Visitor Arrivals: Scandinavia: Sweden`       &lt;dbl&gt; NA, 4830, 6232, 5726, 46…
+$ `Visitor Arrivals: Switzerland`               &lt;dbl&gt; NA, 8513, 9079, 9867, 81…
+$ `Visitor Arrivals: USA`                       &lt;dbl&gt; NA, 50542, 51562, 49370,…
+$ `Visitor Arrivals: Canada`                    &lt;dbl&gt; NA, 10047, 11225, 11213,…
+$ `Visitor Arrivals: Mauritius`                 &lt;dbl&gt; NA, 2394, 1142, 908, 864…
+$ `Visitor Arrivals: Kuwait`                    &lt;dbl&gt; NA, 779, 1154, 508, 703,…
+$ `Visitor Arrivals: Egypt`                     &lt;dbl&gt; NA, 338, 281, 312, 390, …
+$ `Visitor Arrivals: Brunei`                    &lt;dbl&gt; NA, 10229, 5297, 4379, 7…
+$ `Visitor Arrivals: Finland`                   &lt;dbl&gt; NA, 2750, 3929, 3834, 31…
+$ `Visitor Arrivals: Japan`                     &lt;dbl&gt; NA, 62570, 53377, 72654,…
+$ `Visitor Arrivals: South Korea`               &lt;dbl&gt; NA, 38601, 60247, 60174,…
+$ `Visitor Arrivals: Myanmar`                   &lt;dbl&gt; NA, 13691, 9902, 9783, 1…
+$ `Visitor Arrivals: Netherlands`               &lt;dbl&gt; NA, 6200, 7187, 6971, 67…
+$ `Visitor Arrivals: Scandinavia: Norway`       &lt;dbl&gt; NA, 2170, 2522, 2990, 26…
+$ `Visitor Arrivals: Saudi Arabia`              &lt;dbl&gt; NA, 809, 1065, 835, 1111…
+$ `Visitor Arrivals: Sri Lanka`                 &lt;dbl&gt; NA, 12307, 5931, 6246, 7…
+$ `Visitor Arrivals: Vietnam`                   &lt;dbl&gt; NA, 35494, 35367, 34586,…
+$ `Visitor Arrivals: Pakistan`                  &lt;dbl&gt; NA, 1947, 1520, 1522, 20…
+$ `Visitor Arrivals: Republic of South Africa`  &lt;dbl&gt; NA, 5305, 3724, 1687, 27…</code></pre>
 </div>
 </div>
 </section>
-<section id="data-cleaning" class="level3">
-<h3 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h3>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> tour <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2016</span>, <span class="dv">2026</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(year, month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> tour <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">year</span>(Date) <span class="sc">&gt;=</span> <span class="dv">2017</span> <span class="sc">&amp;</span> <span class="fu">year</span>(Date) <span class="sc">&lt;=</span> <span class="dv">2025</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Year =</span> <span class="fu">year</span>(Date),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Month =</span> <span class="fu">month</span>(Date),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Period =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      Year <span class="sc">&gt;=</span> <span class="dv">2017</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2019</span> <span class="sc">~</span> <span class="st">"Pre-COVID"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      Year <span class="sc">&gt;=</span> <span class="dv">2020</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2021</span> <span class="sc">~</span> <span class="st">"COVID Shock"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      Year <span class="sc">&gt;=</span> <span class="dv">2022</span> <span class="sc">&amp;</span> Year <span class="sc">&lt;=</span> <span class="dv">2025</span> <span class="sc">~</span> <span class="st">"Recovery"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Period =</span> <span class="fu">factor</span>(Period, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Pre-COVID"</span>, <span class="st">"COVID Shock"</span>, <span class="st">"Recovery"</span>)),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">China_Share =</span> (<span class="st">`</span><span class="at">Visitor Arrivals: China</span><span class="st">`</span> <span class="sc">/</span> <span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(Year, Month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 108 × 3
-    year month     n
+    Year Month     n
    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
  1  2017     1     1
  2  2017     2     1
@@ -375,158 +509,43 @@ $ dataset_split                     &lt;chr&gt; "train", "train", "train", "trai
 10  2017    10     1
 # ℹ 98 more rows</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_clean<span class="sc">$</span><span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      date                          year          month          quarter    
- Min.   :2017-01-01 00:00:00   Min.   :2017   Min.   : 1.00   Min.   :1.00  
- 1st Qu.:2019-03-24 06:00:00   1st Qu.:2019   1st Qu.: 3.75   1st Qu.:1.75  
- Median :2021-06-16 00:00:00   Median :2021   Median : 6.50   Median :2.50  
- Mean   :2021-06-16 08:26:40   Mean   :2021   Mean   : 6.50   Mean   :2.50  
- 3rd Qu.:2023-09-08 12:00:00   3rd Qu.:2023   3rd Qu.: 9.25   3rd Qu.:3.25  
- Max.   :2025-12-01 00:00:00   Max.   :2025   Max.   :12.00   Max.   :4.00  
-                                                                            
-    period          visitor_arrivals  visitor_arrivals_china  china_share    
- Length:108         Min.   :    750   Min.   :    18         Min.   :0.0062  
- Class :character   1st Qu.: 512414   1st Qu.:  9907         1st Qu.:0.1082  
- Mode  :character   Median :1313593   Median :213296         Median :0.1697  
-                    Mean   :1032111   Mean   :170309         Mean   :0.1746  
-                    3rd Qu.:1488836   3rd Qu.:265128         3rd Qu.:0.2147  
-                    Max.   :1802593   Max.   :414488         Max.   :0.6963  
-                                                                             
- china_share_pct   hotel_occ     avg_stay_monthly avg_stay_monthly_capped
- Min.   : 0.62   Min.   :40.16   Min.   : 3.096   Min.   : 3.096         
- 1st Qu.:10.82   1st Qu.:73.65   1st Qu.: 3.423   1st Qu.: 3.423         
- Median :16.97   Median :81.45   Median : 3.559   Median : 3.559         
- Mean   :17.46   Mean   :76.83   Mean   : 9.372   Mean   : 8.654         
- 3rd Qu.:21.47   3rd Qu.:85.11   3rd Qu.: 5.723   3rd Qu.: 5.723         
- Max.   :69.63   Max.   :93.90   Max.   :55.339   Max.   :33.832         
-                                                                         
- spend_per_capita tourism_receipts avg_stay_annual  cluster_z_visitor_arrivals
- Min.   :1449     Min.   : 1894    Min.   : 3.330   Min.   :-1.71249          
- 1st Qu.:1518     1st Qu.:11841    1st Qu.: 3.376   1st Qu.:-0.86992          
- Median :1782     Median :26875    Median : 3.558   Median : 0.44940          
- Mean   :2249     Mean   :19909    Mean   : 5.849   Mean   :-0.01412          
- 3rd Qu.:2059     3rd Qu.:27289    3rd Qu.: 4.287   3rd Qu.: 0.73798          
- Max.   :5737     Max.   :29781    Max.   :22.416   Max.   : 1.25465          
- NA's   :100      NA's   :100      NA's   :99                                 
- cluster_z_china_share cluster_z_hotel_occ cluster_z_avg_stay_monthly_capped
- Min.   :-1.407198     Min.   :-2.919187   Min.   :-0.559303                
- 1st Qu.:-0.554144     1st Qu.:-0.257488   1st Qu.:-0.525796                
- Median :-0.040104     Median : 0.361707   Median :-0.511814                
- Mean   : 0.001371     Mean   :-0.005146   Mean   : 0.009926                
- 3rd Qu.: 0.336588     3rd Qu.: 0.652784   3rd Qu.:-0.290255                
- Max.   : 4.364471     Max.   : 1.351528   Max.   : 2.588077                
-                                                                            
- hotel_occ_level_tertile hotel_occ_level_business dataset_split     
- Length:108              Length:108               Length:108        
- Class :character        Class :character         Class :character  
- Mode  :character        Mode  :character         Mode  :character  
-                                                                    
-                                                                    
-                                                                    
-                                                                    </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    750  512414 1313593 1032111 1488836 1802593 </code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_clean<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(data_clean<span class="sc">$</span>date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">count</span>(year, month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 108 × 3
-    year month     n
-   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
- 1  2017     1     1
- 2  2017     2     1
- 3  2017     3     1
- 4  2017     4     1
- 5  2017     5     1
- 6  2017     6     1
- 7  2017     7     1
- 8  2017     8     1
- 9  2017     9     1
-10  2017    10     1
-# ℹ 98 more rows</code></pre>
-</div>
-</div>
-</section>
 </section>
 <section id="descriptive-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="descriptive-analysis">Descriptive Analysis</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(data_clean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>, <span class="st">`</span><span class="at">Visitor Arrivals: China</span><span class="st">`</span>, China_Share,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>           <span class="st">`</span><span class="at">Hotel Room Occupancy Rate</span><span class="st">`</span>, <span class="st">`</span><span class="at">Average Length of Stay</span><span class="st">`</span>, <span class="st">`</span><span class="at">Visitor Days</span><span class="st">`</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                  vars   n       mean        sd     median
-date                                 1 108        NaN        NA         NA
-year                                 2 108    2021.00      2.59    2021.00
-month                                3 108       6.50      3.47       6.50
-quarter                              4 108       2.50      1.12       2.50
-period*                              5 108       2.23      0.78       2.00
-visitor_arrivals                     6 108 1032111.31 612394.34 1313593.00
-visitor_arrivals_china               7 108  170309.17 134822.73  213296.00
-china_share                          8 108       0.17      0.12       0.17
-china_share_pct                      9 108      17.46     12.12      16.97
-hotel_occ                           10 108      76.83     12.75      81.45
-avg_stay_monthly                    11 108       9.37     12.09       3.56
-avg_stay_monthly_capped             12 108       8.65      9.88       3.56
-spend_per_capita                    13   8    2248.54   1436.41    1781.90
-tourism_receipts                    14   8   19909.43  11290.41   26874.52
-avg_stay_annual                     15   9       5.85      6.24       3.56
-cluster_z_visitor_arrivals          16 108      -0.01      1.01       0.45
-cluster_z_china_share               17 108       0.00      1.01      -0.04
-cluster_z_hotel_occ                 18 108      -0.01      1.01       0.36
-cluster_z_avg_stay_monthly_capped   19 108       0.01      1.01      -0.51
-hotel_occ_level_tertile*            20 108       1.97      0.81       2.00
-hotel_occ_level_business*           21 108       2.23      0.85       2.50
-dataset_split*                      22 108       1.80      0.40       2.00
-                                     trimmed       mad     min        max
-date                                     NaN        NA     Inf       -Inf
-year                                 2021.00      2.97 2017.00    2025.00
-month                                   6.50      4.45    1.00      12.00
-quarter                                 2.50      1.48    1.00       4.00
-period*                                 2.28      1.48    1.00       3.00
-visitor_arrivals                  1073270.78 375908.78  750.00 1802593.00
-visitor_arrivals_china             164503.35 169991.21   18.00  414488.00
-china_share                             0.16      0.08    0.01       0.70
-china_share_pct                        16.15      7.85    0.62      69.63
-hotel_occ                              78.43      6.84   40.16      93.90
-avg_stay_monthly                        6.59      0.42    3.10      55.34
-avg_stay_monthly_capped                 6.59      0.42    3.10      33.83
-spend_per_capita                     2248.54    421.78 1448.80    5737.25
-tourism_receipts                    19909.43   2758.03 1893.63   29781.07
-avg_stay_annual                         5.85      0.34    3.33      22.42
-cluster_z_visitor_arrivals              0.05      0.62   -1.71       1.25
-cluster_z_china_share                  -0.11      0.66   -1.41       4.36
-cluster_z_hotel_occ                     0.12      0.54   -2.92       1.35
-cluster_z_avg_stay_monthly_capped      -0.20      0.04   -0.56       2.59
-hotel_occ_level_tertile*                1.97      1.48    1.00       3.00
-hotel_occ_level_business*               2.28      0.74    1.00       3.00
-dataset_split*                          1.86      0.00    1.00       2.00
-                                       range  skew kurtosis       se
-date                                    -Inf    NA       NA       NA
-year                                    8.00  0.00    -1.26     0.25
-month                                  11.00  0.00    -1.25     0.33
-quarter                                 3.00  0.00    -1.39     0.11
-period*                                 2.00 -0.42    -1.26     0.08
-visitor_arrivals                  1801843.00 -0.75    -1.06 58927.67
-visitor_arrivals_china             414470.00  0.01    -1.38 12973.32
-china_share                             0.69  1.81     5.52     0.01
-china_share_pct                        69.01  1.81     5.52     1.17
-hotel_occ                              53.74 -1.18     0.46     1.23
-avg_stay_monthly                       52.24  2.15     3.93     1.16
-avg_stay_monthly_capped                30.74  1.62     0.96     0.95
-spend_per_capita                     4288.45  1.72     1.38   507.85
-tourism_receipts                    27887.44 -0.61    -1.62  3991.76
-avg_stay_annual                        19.09  2.04     2.54     2.08
-cluster_z_visitor_arrivals              2.97 -0.75    -1.06     0.10
-cluster_z_china_share                   5.77  1.81     5.52     0.10
-cluster_z_hotel_occ                     4.27 -1.18     0.46     0.10
-cluster_z_avg_stay_monthly_capped       3.15  1.62     0.96     0.10
-hotel_occ_level_tertile*                2.00  0.05    -1.50     0.08
-hotel_occ_level_business*               2.00 -0.45    -1.48     0.08
-dataset_split*                          1.00 -1.45     0.11     0.04</code></pre>
+<pre><code>                          vars   n        mean          sd      median
+Visitor Arrivals             1 108  1032111.32   612394.34  1313593.00
+Visitor Arrivals: China      2 108   170309.18   134822.73   213296.00
+China_Share                  3 108       17.46       12.12       16.97
+Hotel Room Occupancy Rate    4 108       76.83       12.75       81.45
+Average Length of Stay       5 108        9.37       12.09        3.56
+Visitor Days                 6   9 44984402.03 22235574.59 58801658.73
+                              trimmed        mad        min         max
+Visitor Arrivals           1073270.80  375908.78     750.00  1802593.00
+Visitor Arrivals: China     164503.36  169991.21      18.00   414488.00
+China_Share                     16.15       7.85       0.62       69.63
+Hotel Room Occupancy Rate       78.43       6.84      40.16       93.90
+Average Length of Stay           6.59       0.42       3.10       55.34
+Visitor Days              44984402.03 7914223.52 7398670.56 64139729.36
+                                range  skew kurtosis         se
+Visitor Arrivals           1801843.00 -0.75    -1.06   58927.67
+Visitor Arrivals: China     414470.00  0.01    -1.38   12973.32
+China_Share                     69.01  1.81     5.52       1.17
+Hotel Room Occupancy Rate       53.74 -1.18     0.46       1.23
+Average Length of Stay          52.24  2.15     3.93       1.16
+Visitor Days              56741058.80 -0.73    -1.38 7411858.20</code></pre>
 </div>
 </div>
 </section>
@@ -536,35 +555,37 @@ dataset_split*                          1.00 -1.45     0.11     0.04</code></pre
 <h3 class="anchored" data-anchor-id="cda-1---statistical-impact-of-covid-19-on-visitor-arrivals">CDA 1 - Statistical Impact of COVID-19 on Visitor Arrivals</h3>
 <p>Did the COVID-19 pandemic significantly affect visitor arrivals to Singapore?</p>
 <p><strong>Hypothesis</strong></p>
-<p>H₀ (Null Hypothesis) There is no significant difference in visitor arrivals across the tourism periods.</p>
-<p>H₁ (Alternative Hypothesis) Visitor arrivals differ significantly across the tourism periods.</p>
+<p>H₀ (Null Hypothesis)<br>
+There is no significant difference in visitor arrivals across the tourism periods.</p>
+<p>H₁ (Alternative Hypothesis)<br>
+Visitor arrivals differ significantly across the tourism periods.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_clean,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="sc">~</span>period,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="sc">~</span>visitor_arrivals,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="sc">~</span>period,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"box"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">boxpoints =</span> <span class="st">"outliers"</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visitor Arrivals Across Tourism Periods"</span>,</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Period"</span>),</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Visitor Arrivals (Millions)"</span>),</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">showlegend =</span> <span class="cn">FALSE</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_ly</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_clean,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="sc">~</span>Period,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="sc">~</span><span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="sc">~</span>Period,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"box"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">boxpoints =</span> <span class="st">"outliers"</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Visitor Arrivals Across Tourism Periods"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Period"</span>),</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Visitor Arrivals"</span>),</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">showlegend =</span> <span class="cn">FALSE</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-6826532fd512d5d44360" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-6826532fd512d5d44360">{"x":{"visdat":{"22c6c75ac3f31":["function () ","plotlyVisDat"]},"cur_data":"22c6c75ac3f31","attrs":{"22c6c75ac3f31":{"x":{},"y":{},"boxpoints":"outliers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visitor Arrivals Across Tourism Periods","xaxis":{"domain":[0,1],"automargin":true,"title":"Period","type":"category","categoryorder":"array","categoryarray":["covid_shock","pre_covid","recovery"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Visitor Arrivals (Millions)"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock","covid_shock"],"y":[732966,240001,750,880,2171,6843,8912,9500,13399,14749,24170,23366,18141,27202,25737,14190,10029,18517,15887,19009,24006,41179,92796],"boxpoints":"outliers","type":"box","name":"covid_shock","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid","pre_covid"],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,1688102],"boxpoints":"outliers","type":"box","name":"pre_covid","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery","recovery"],"y":[57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"boxpoints":"outliers","type":"box","name":"recovery","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-822cddd35088647f62a8" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-822cddd35088647f62a8">{"x":{"visdat":{"a8486fcc6718":["function () ","plotlyVisDat"]},"cur_data":"a8486fcc6718","attrs":{"a8486fcc6718":{"x":{},"y":{},"boxpoints":"outliers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Visitor Arrivals Across Tourism Periods","xaxis":{"domain":[0,1],"automargin":true,"title":"Period","type":"category","categoryorder":"array","categoryarray":["Pre-COVID","COVID Shock","Recovery"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Visitor Arrivals"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID","Pre-COVID"],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961],"boxpoints":"outliers","type":"box","name":"Pre-COVID","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock","COVID Shock"],"y":[1688102,732966,240001,750,880,2171,6843,8912,9500,13399,14749,24170,23366,18141,27202,25737,14190,10029,18517,15887,19009,24006,41179,92796],"boxpoints":"outliers","type":"box","name":"COVID Shock","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery","Recovery"],"y":[57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293402,1363999],"boxpoints":"outliers","type":"box","name":"Recovery","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>anova_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> period, <span class="at">data =</span> data_clean)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>anova_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span> <span class="sc">~</span> Period, <span class="at">data =</span> data_clean)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Df    Sum Sq   Mean Sq F value Pr(&gt;F)    
-period        2 3.133e+13 1.566e+13   186.9 &lt;2e-16 ***
-Residuals   105 8.801e+12 8.382e+10                   
+Period        2 2.881e+13 1.441e+13   133.7 &lt;2e-16 ***
+Residuals   105 1.132e+13 1.078e+11                   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -579,41 +600,43 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The boxplot compares the distribution of visitor arrivals across different tourism periods. A substantial decline in the median visitor arrivals is observed during the COVID-19 period compared to the pre-COVID period, indicating a significant disruption to tourism demand. The interquartile range also shifts downward during the pandemic, suggesting that the overall level of visitor arrivals was consistently lower across most observations. In contrast, the recovery period shows an upward shift in the distribution, reflecting the gradual rebound of tourism activity after travel restrictions were lifted. Overall, the distributional differences across periods support the conclusion that the COVID-19 pandemic had a significant impact on Singapore’s tourism sector.</p>
+<p>The boxplot compares the distribution of overall visitor arrivals across the three tourism periods. A marked downward shift is expected during the COVID Shock period relative to the Pre-COVID baseline, followed by a partial rebound in the Recovery period. If the ANOVA result is statistically significant, this supports the conclusion that visitor arrivals differed meaningfully across the three phases of tourism activity.</p>
 </div>
 </div>
 </section>
-<section id="cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals" class="level3">
-<h3 class="anchored" data-anchor-id="cda-2---influence-of-chinese-visitor-share-on-total-visitor-arrivals">CDA 2 - Influence of Chinese Visitor Share on Total Visitor Arrivals</h3>
-<p>Does the share of Chinese visitors significantly influence total visitor arrivals to Singapore?</p>
+<section id="cda-2---influence-of-china-share-on-total-visitor-arrivals" class="level3">
+<h3 class="anchored" data-anchor-id="cda-2---influence-of-china-share-on-total-visitor-arrivals">CDA 2 - Influence of China Share on Total Visitor Arrivals</h3>
+<p>Does China’s share of Singapore’s inbound tourism market significantly influence total visitor arrivals?</p>
 <p><strong>Hypothesis</strong></p>
-<p>H₀ (Null Hypothesis) China visitor share has no significant relationship with total visitor arrivals.</p>
-<p>H₁ (Alternative Hypothesis) China visitor share significantly influences total visitor arrivals.</p>
+<p>H₀ (Null Hypothesis)<br>
+China’s visitor share has no significant relationship with total visitor arrivals.</p>
+<p>H₁ (Alternative Hypothesis)<br>
+China’s visitor share significantly influences total visitor arrivals.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> china_share, <span class="at">y =</span> visitor_arrivals)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between China Visitor Share and Total Visitor Arrivals"</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"China Visitor Share"</span>,</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_clean, <span class="fu">aes</span>(<span class="at">x =</span> China_Share, <span class="at">y =</span> <span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between China Market Share and Total Visitor Arrivals"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"China Share of Total Visitor Arrivals (%)"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="CDA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="CDA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model_cda2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(visitor_arrivals <span class="sc">~</span> china_share, <span class="at">data =</span> data_clean)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_cda2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>model_cda2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span> <span class="sc">~</span> China_Share, <span class="at">data =</span> data_clean)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_cda2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = visitor_arrivals ~ china_share, data = data_clean)
+lm(formula = `Visitor Arrivals` ~ China_Share, data = data_clean)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
@@ -622,7 +645,7 @@ Residuals:
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
 (Intercept)  1151022     103205   11.15   &lt;2e-16 ***
-china_share  -680992     486276   -1.40    0.164    
+China_Share    -6810       4863   -1.40    0.164    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -641,56 +664,55 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>p-value &gt; 0.05, H₀ (Null Hypothesis) Cannot be rejected</p>
+<p>Interpret the regression using both the p-value and the <span class="math inline">\(R^2\)</span> value. A statistically insignificant coefficient would suggest that changes in China’s share alone do not explain much of the variation in Singapore’s total visitor arrivals.</p>
 </div>
 </div>
-<p>A linear regression analysis was conducted to examine the relationship between China’s visitor share and total visitor arrivals. The results indicate that the relationship is not statistically significant, as the coefficient for China’s visitor share is negative but insignificant (β = -680,992, p = 0.164). Since the p-value is greater than the 0.05 significance level, the null hypothesis cannot be rejected. This suggests that variations in China’s visitor share do not have a statistically significant impact on total visitor arrivals. Additionally, the low R-squared value ( <span class="math inline">\(R^2\)</span> = 0.018) indicates that China’s visitor share explains only a small proportion of the variation in overall tourism demand.</p>
 </section>
 <section id="cda-3---seasonal-variation-in-visitor-arrivals" class="level3">
 <h3 class="anchored" data-anchor-id="cda-3---seasonal-variation-in-visitor-arrivals">CDA 3 - Seasonal Variation in Visitor Arrivals</h3>
-<p>Do visitor arrivals vary significantly across different months?</p>
+<p>Do visitor arrivals vary significantly across months?</p>
 <p><strong>Hypothesis</strong></p>
-<p>H₀ (Null Hypothesis) Visitor arrivals do not differ significantly across months.</p>
-<p>H₁ (Alternative Hypothesis) Visitor arrivals vary significantly across months, indicating seasonal tourism patterns.</p>
+<p>H₀ (Null Hypothesis)<br>
+Visitor arrivals do not differ significantly across months.</p>
+<p>H₁ (Alternative Hypothesis)<br>
+Visitor arrivals vary significantly across months, indicating seasonal tourism patterns.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>data_no_covid <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data_no_covid <span class="ot">&lt;-</span> data_clean <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2020</span>, <span class="dv">2021</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month_Label =</span> <span class="fu">month</span>(Date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  data_no_covid,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> month,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> visitor_arrivals,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">paste</span>(</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Month:"</span>, month,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;br&gt;Visitor Arrivals:"</span>, <span class="fu">format</span>(visitor_arrivals, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Variation in Visitor Arrivals"</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  data_no_covid,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> Month_Label,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">paste</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Month:"</span>, Month_Label,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;br&gt;Visitor Arrivals:"</span>, <span class="fu">format</span>(<span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span>, <span class="at">big.mark =</span> <span class="st">","</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"skyblue"</span>) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Variation in Visitor Arrivals"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Month"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor Arrivals"</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p, <span class="at">tooltip =</span> <span class="st">"text"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-1d59be3c8981cad347e9" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-1d59be3c8981cad347e9">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293401,1363999],"hoverinfo":"y","type":"box","fillcolor":"rgba(135,206,235,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":66.484018264840202},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Seasonal Variation in Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30096.950000000012,1889863.95],"tickmode":"array","ticktext":["0","500000","1000000","1500000"],"tickvals":[-3.637978807091713e-12,499999.99999999994,1000000,1500000],"categoryorder":"array","categoryarray":["0","500000","1000000","1500000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"22c6c190658fb":{"x":{},"y":{},"text":{},"type":"box"}},"cur_data":"22c6c190658fb","visdat":{"22c6c190658fb":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-b31d0bbeef1a2f1860d0" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b31d0bbeef1a2f1860d0">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12],"y":[1480479,1361010,1480161,1470750,1363897,1387601,1632135,1559283,1320050,1402299,1397330,1569616,1563359,1491970,1584406,1544248,1470891,1544679,1732896,1683122,1415149,1467380,1406985,1603217,1624593,1499051,1564664,1596724,1487791,1551847,1802593,1736102,1463543,1530479,1533668,1724961,57174,67765,121207,295095,418458,543733,726739,728744,782215,816833,816340,931441,931814,957844,1021040,1128610,1112512,1129310,1419642,1312693,1130762,1125964,1100459,1231565,1419956,1417807,1464865,1343319,1277160,1250293,1602603,1539828,1270681,1314493,1234698,1390641,1633495,1377513,1296605,1403644,1374170,1245947,1680771,1609320,1254346,1379077,1293402,1363999],"hoverinfo":"y","type":"box","fillcolor":"rgba(135,206,235,1)","marker":{"opacity":null,"outliercolor":"rgba(0,0,0,1)","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"},"size":5.6692913385826778},"line":{"color":"rgba(51,51,51,1)","width":1.8897637795275593},"showlegend":false,"xaxis":"x","yaxis":"y","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":66.484018264840202},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Seasonal Variation in Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,12.6],"tickmode":"array","ticktext":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"tickvals":[1,2,3,4.0000000000000009,5,6,7.0000000000000009,8,9,10,11,12],"categoryorder":"array","categoryarray":["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Month","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-30096.950000000012,1889863.95],"tickmode":"array","ticktext":["0","500000","1000000","1500000"],"tickvals":[-3.637978807091713e-12,499999.99999999994,1000000,1500000],"categoryorder":"array","categoryarray":["0","500000","1000000","1500000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Visitor Arrivals","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"a848141e7b5d":{"x":{},"y":{},"text":{},"type":"box"}},"cur_data":"a848141e7b5d","visdat":{"a848141e7b5d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>anova_month <span class="ot">&lt;-</span> <span class="fu">aov</span>(visitor_arrivals <span class="sc">~</span> month, <span class="at">data =</span> data_no_covid)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>anova_month <span class="ot">&lt;-</span> <span class="fu">aov</span>(<span class="st">`</span><span class="at">Visitor Arrivals</span><span class="st">`</span> <span class="sc">~</span> Month_Label, <span class="at">data =</span> data_no_covid)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anova_month)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            Df    Sum Sq   Mean Sq F value Pr(&gt;F)
-month       11 8.784e+11 7.986e+10   0.525  0.881
+Month_Label 11 8.784e+11 7.986e+10   0.525  0.881
 Residuals   72 1.096e+13 1.522e+11               </code></pre>
 </div>
 </div>
@@ -704,13 +726,10 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<ul>
-<li><p>The monthly distributions are based on observations from 2017–2025, with the COVID shock years (2020–2021) excluded to avoid distortion in seasonal patterns.</p></li>
-<li><p>Pr(&gt;F): Probability of observing an F value greater than the calculated F-statistic under the null hypothesis. (It is the p-value associated with the F-statistic.)</p></li>
-</ul>
+<p>The monthly distributions are based on observations from 2017–2025, with the COVID shock years (2020–2021) excluded to reduce distortion in seasonal patterns.</p>
 </div>
 </div>
-<p>A one-way ANOVA test was conducted to examine whether visitor arrivals differ significantly across months. The analysis was performed using observations from 2017–2025, excluding the COVID shock years (2020–2021) to avoid distortion in seasonal patterns. The boxplot illustrates the distribution of visitor arrivals for each month, allowing potential seasonal variation to be visually assessed. However, the ANOVA results indicate that the effect of month on visitor arrivals is not statistically significant (F = 0.525, p = 0.881). Since the p-value is greater than the significance level of 0.05, the null hypothesis cannot be rejected. This suggests that visitor arrivals do not vary significantly across months in the dataset, indicating limited evidence of strong seasonal patterns in tourism demand during the analyzed period.</p>
+<p>A statistically significant ANOVA result would indicate that average visitor arrivals differ across months, suggesting seasonality in tourism demand. If the p-value is not significant, this would imply limited evidence of strong seasonal differences in the dataset after excluding the COVID shock years.</p>
 
 
 </section>
@@ -1124,7 +1143,7 @@ Tip
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

@@ -3,26 +3,30 @@ library(bslib)
 library(ggplot2)
 library(dplyr)
 
-resolve_app_file <- function(...) {
-  local_path <- file.path(...)
-  repo_path <- file.path("app", ...)
+find_project_root <- function(start = getwd()) {
+  current <- normalizePath(start, winslash = "/", mustWork = TRUE)
 
-  if (file.exists(local_path)) {
-    return(local_path)
+  repeat {
+    if (file.exists(file.path(current, "_quarto.yml"))) {
+      return(current)
+    }
+
+    parent <- dirname(current)
+    if (identical(parent, current)) {
+      stop("Project root not found. Expected to locate _quarto.yml.")
+    }
+
+    current <- parent
   }
-
-  if (file.exists(repo_path)) {
-    return(repo_path)
-  }
-
-  stop("Cannot locate app dependency: ", paste(..., collapse = "/"))
 }
 
-source(resolve_app_file("R", "data_utils.R"))
-source(resolve_app_file("R", "mod_cluster_ui.R"))
-source(resolve_app_file("R", "mod_cluster_server.R"))
-source(resolve_app_file("R", "mod_forecast_ui.R"))
-source(resolve_app_file("R", "mod_forecast_server.R"))
+project_root <- find_project_root()
+
+source(file.path(project_root, "app", "R", "data_utils.R"))
+source(file.path(project_root, "app", "R", "mod_cluster_ui.R"))
+source(file.path(project_root, "app", "R", "mod_cluster_server.R"))
+source(file.path(project_root, "app", "R", "mod_forecast_ui.R"))
+source(file.path(project_root, "app", "R", "mod_forecast_server.R"))
 
 series_explorer_ui <- function(id) {
   ns <- NS(id)
@@ -30,26 +34,29 @@ series_explorer_ui <- function(id) {
   layout_sidebar(
     sidebar = sidebar(
       width = 320,
-      selectInput(ns("series_label"), "Target Series", choices = NULL),
-      sliderInput(ns("lookback_years"), "Years to Display", min = 3, max = 10, value = 8),
+      selectInput(ns("series_label"), "Target series", choices = NULL),
+      sliderInput(ns("lookback_years"), "Years to display", min = 3, max = 10, value = 8),
       checkboxInput(ns("show_points"), "Show monthly points", value = TRUE)
     ),
     layout_column_wrap(
       width = 1 / 2,
       fill = FALSE,
       card(
+        class = "va-card",
         card_header("Time Series View"),
         card_body(plotOutput(ns("series_plot"), height = "360px"))
       ),
       card(
+        class = "va-card",
         card_header("Series Metadata"),
         card_body(DT::DTOutput(ns("series_meta")))
       ),
       card(
-        card_header("Interpretation Cue"),
+        class = "va-card",
+        card_header("How to Read This"),
         card_body(
-          p("Use this panel to compare country-level arrivals and monthly tourism indicators before clustering or forecasting."),
-          p("A shared dataset keeps the three modules consistent: explore the series, cluster the recovery patterns, then forecast the future path.")
+          p("Start here to compare country-level arrival series and supporting tourism indicators before moving into clustering or forecasting."),
+          p("This tab is intentionally lightweight: it helps users confirm the series scope, unit, and direction of change before they switch into the deeper analytical modules.")
         )
       )
     )
@@ -109,55 +116,73 @@ series_explorer_server <- function(id, data) {
 }
 
 ui <- page_navbar(
-  title = "Singapore Tourism Recovery Prototype",
+  title = "Singapore Tourism Time-Series VA Prototype",
   theme = bs_theme(
     bg = "#f4f2eb",
     fg = "#1f2a2e",
     primary = "#0f6b6f",
     secondary = "#d86f45",
     base_font = font_google("Space Grotesk"),
-    heading_font = font_google("Fraunces")
+    heading_font = font_google("Space Grotesk")
   ),
   nav_panel("Time Series Explorer", series_explorer_ui("series_module")),
-  nav_panel("Cluster Prototype", mod_cluster_ui("cluster_module")),
-  nav_panel("Forecasting Prototype", mod_forecast_ui("forecast_module")),
+  nav_panel("Time Series Clustering", mod_cluster_ui("cluster_module")),
+  nav_panel("Forecasting", mod_forecast_ui("forecast_module")),
   nav_panel(
     "About",
-    layout_column_wrap(
-      width = 1,
-      card(
-        card_header("Prototype Scope"),
-        card_body(
-          p("This app now follows the instructor-recommended three-module structure built on one shared tourism time-series dataset."),
-          tags$ul(
-            tags$li("Time Series Explorer: inspect monthly series by country or tourism indicator."),
-            tags$li("Cluster Prototype: compare country-arrivals trajectories through time-series clustering."),
-            tags$li("Forecasting Prototype: compare baseline and model-based forecasts.")
+    div(
+      class = "va-preview",
+      div(class = "va-kicker", "Prototype scope"),
+      h2("About this integrated build"),
+      layout_columns(
+        card(
+          class = "va-card va-preview-card",
+          card_header("Current focus"),
+          card_body(
+            p("This Shiny app now combines the latest clustering, forecasting, and series-explorer work on one tourism time-series backbone."),
+            tags$ul(
+              tags$li("Explorer: inspect monthly series and metadata before deeper analysis."),
+              tags$li("Clustering: compare country trajectories with Wang's chart-first priority-market workflow."),
+              tags$li("Forecasting: compare baseline and model-based forecasts with context indicators.")
+            )
           )
-        )
-      ),
-      card(
-        card_header("Run Notes"),
-        card_body(
-          tags$ol(
-            tags$li("Keep this app running on port 3838."),
-            tags$li("Open Quarto pages in parallel for prototype and proposal review."),
-            tags$li("Use the same target series naming across explorer and forecast tabs.")
+        ),
+        card(
+          class = "va-card va-preview-card",
+          card_header("Shared data contract"),
+          card_body(
+            tags$ul(
+              tags$li("Country-arrivals backbone: visitor_arrivals_full_dataset.xlsx"),
+              tags$li("Processed clustering artifacts under data/processed/"),
+              tags$li("Optional tourism context workbook: tourism_update.xlsx")
+            )
           )
-        )
+        ),
+        col_widths = c(6, 6)
       )
     )
   )
 )
 
+ui <- tagList(
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "app-theme.css")
+  ),
+  ui
+)
+
 server <- function(input, output, session) {
-  data <- reactive({
+  shared_data <- reactive({
     load_tourism_data()
   })
 
-  series_explorer_server("series_module", data = data)
-  mod_cluster_server("cluster_module", data = data)
-  mod_forecast_server("forecast_module", data = data)
+  cluster_data <- reactive({
+    load_clustering_country_wide()
+  })
+
+  series_explorer_server("series_module", data = shared_data)
+  mod_cluster_server("cluster_module", data = cluster_data)
+  mod_forecast_server("forecast_module", data = shared_data)
 }
 
 shinyApp(ui, server)

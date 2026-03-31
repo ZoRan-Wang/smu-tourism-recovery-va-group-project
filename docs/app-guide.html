@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Shiny App Guide – Singapore Tourism Recovery VA Prototype</title>
+<title>Shiny App – Singapore Tourism Recovery VA Prototype</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -147,12 +147,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
-    <a class="dropdown-item" href="./prototype/decision-tree.html">
- <span class="dropdown-text">Decision Tree Analysis</span></a>
+    <a class="dropdown-item" href="./prototype/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/CDA.html">
+ <span class="dropdown-text">CDA</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/module-cluster.html">
- <span class="dropdown-text">Module Prototype</span></a>
+ <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/module-decision-tree.html">
@@ -169,6 +177,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/wang-zhuoran-review-report.html">
+ <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -191,30 +203,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#application-structure" id="toc-application-structure" class="nav-link active" data-scroll-target="#application-structure">Application Structure</a></li>
-  <li><a href="#the-three-modules" id="toc-the-three-modules" class="nav-link" data-scroll-target="#the-three-modules">The Three Modules</a>
-  <ul class="collapse">
-  <li><a href="#time-series-explorer" id="toc-time-series-explorer" class="nav-link" data-scroll-target="#time-series-explorer">1. Time Series Explorer</a></li>
-  <li><a href="#cluster-prototype" id="toc-cluster-prototype" class="nav-link" data-scroll-target="#cluster-prototype">2. Cluster Prototype</a></li>
-  <li><a href="#forecasting-prototype" id="toc-forecasting-prototype" class="nav-link" data-scroll-target="#forecasting-prototype">3. Forecasting Prototype</a></li>
-  </ul></li>
-  <li><a href="#run-commands" id="toc-run-commands" class="nav-link" data-scroll-target="#run-commands">Run Commands</a></li>
-  <li><a href="#what-to-expect" id="toc-what-to-expect" class="nav-link" data-scroll-target="#what-to-expect">What to Expect</a></li>
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source">Data Source</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Shiny App Guide</h1>
+<h1 class="title">Shiny App</h1>
 </div>
 
 
@@ -231,68 +226,124 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="application-structure" class="level2">
-<h2 class="anchored" data-anchor-id="application-structure">Application Structure</h2>
-<p>The app now follows a three-module structure built on one shared tourism time-series workbook:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>shiny_app_url <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"SHINY_APP_URL"</span>, <span class="at">unset =</span> <span class="st">"http://127.0.0.1:3838"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>is_local_target <span class="ot">&lt;-</span> <span class="fu">grepl</span>(<span class="st">"127</span><span class="sc">\\</span><span class="st">.0</span><span class="sc">\\</span><span class="st">.0</span><span class="sc">\\</span><span class="st">.1|localhost"</span>, shiny_app_url)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>shiny_target_label <span class="ot">&lt;-</span> <span class="cf">if</span> (is_local_target) <span class="st">"Local target"</span> <span class="cf">else</span> <span class="st">"Deployment target"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>shiny_target_note <span class="ot">&lt;-</span> <span class="cf">if</span> (is_local_target) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"The site currently points to a locally running Shiny process on port 3838."</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"The site is currently configured to point to the deployed Shiny application."</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="open-the-app" class="level2">
+<h2 class="anchored" data-anchor-id="open-the-app">Open The App</h2>
+<p>This page is the website entry point for the Shiny application. Right now it is configured to open:</p>
+<p>http://127.0.0.1:3838</p>
+<div class="grid-cards">
+<section id="launch-shiny-app" class="level3 card-block">
+<h3 class="anchored" data-anchor-id="launch-shiny-app">Launch Shiny App</h3>
+<p><a href="http://127.0.0.1:3838" target="_blank">Open the Shiny app</a></p>
+<p>The site currently points to a locally running Shiny process on port 3838.</p>
+</section>
+<section id="current-target" class="level3 card-block">
+<h3 class="anchored" data-anchor-id="current-target">Current Target</h3>
+<ul>
+<li>Label: Local target</li>
+<li>URL: http://127.0.0.1:3838</li>
+<li>Mode: Local development</li>
+</ul>
+</section>
+<section id="run-command" class="level3 card-block">
+<h3 class="anchored" data-anchor-id="run-command">Run Command</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">runApp</span>(<span class="st">"app"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or from the project root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Rscript run_app<span class="op">.</span><span class="fu">R</span> <span class="dv">3838</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+</section>
+<section id="embedded-preview" class="level2">
+<h2 class="anchored" data-anchor-id="embedded-preview">Embedded Preview</h2>
+<p>When the target app is available, the frame below gives the website a direct in-page preview.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div style="background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);">
+<div style="padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;">Shiny Preview (http://127.0.0.1:3838)</div>
+<iframe src="http://127.0.0.1:3838" title="Singapore Tourism Time-Series VA Prototype" style="width:100%;height:900px;border:0;background:#fff;" loading="lazy"></iframe>
+</div>
+</div>
+</div>
+</section>
+<section id="current-module-status" class="level2">
+<h2 class="anchored" data-anchor-id="current-module-status">Current Module Status</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>Current status</th>
+<th>Current focus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Time Series Visual Analysis</td>
+<td>lightweight explorer</td>
+<td>compare monthly series and metadata before deeper analysis</td>
+</tr>
+<tr class="even">
+<td>Time Series Clustering</td>
+<td>active prototype</td>
+<td>Wang branch interaction and visual refinement</td>
+</tr>
+<tr class="odd">
+<td>Forecasting</td>
+<td>active prototype</td>
+<td>Jin branch forecasting workflow with fallback runtime support</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="data-contract" class="level2">
+<h2 class="anchored" data-anchor-id="data-contract">Data Contract</h2>
+<p>The current clustering workflow reads from:</p>
+<ul>
+<li><code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
+<li><code>data/processed/clustering_country_wide.csv</code></li>
+<li><code>data/processed/clustering_country_long.csv</code></li>
+<li><code>data/raw/tourism_update.xlsx</code> for optional tourism performance context in the forecasting module</li>
+</ul>
+</section>
+<section id="expected-user-flow" class="level2">
+<h2 class="anchored" data-anchor-id="expected-user-flow">Expected User Flow</h2>
 <ol type="1">
-<li><code>app/app.R</code> - top-level navigation and shared reactive data loading.</li>
-<li><code>app/R/data_utils.R</code> - common time-series ingestion, feature engineering, and forecasting helpers.</li>
-<li><code>app/R/mod_cluster_ui.R</code> and <code>app/R/mod_cluster_server.R</code> - time-series clustering module.</li>
-<li><code>app/R/mod_forecast_ui.R</code> and <code>app/R/mod_forecast_server.R</code> - forecasting module.</li>
-<li>The Time Series Explorer is embedded directly in <code>app/app.R</code> to keep the main comparison flow simple.</li>
+<li>Open the Shiny app from this page.</li>
+<li>Enter the <code>Time Series Clustering</code> tab.</li>
+<li>Select a focused set of countries.</li>
+<li>Choose a year window and normalization mode.</li>
+<li>Review the outputs in order: <code>Dashboard</code>, <code>Pattern Explorer</code>, <code>Focus Market in Context</code>, <code>Assignments</code>.</li>
 </ol>
 </section>
-<section id="the-three-modules" class="level2">
-<h2 class="anchored" data-anchor-id="the-three-modules">The Three Modules</h2>
-<section id="time-series-explorer" class="level3">
-<h3 class="anchored" data-anchor-id="time-series-explorer">1. Time Series Explorer</h3>
-<p>Purpose:</p>
+<section id="deployment-switch" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-switch">Deployment Switch</h2>
+<p>For local testing, no extra configuration is needed because the page defaults to:</p>
+<p><code>http://127.0.0.1:3838</code></p>
+<p>When you are ready to switch to <code>shinyapps.io</code>, re-render the site with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">SHINY_APP_URL</span><span class="op">=</span><span class="st">'https://YOUR-APP-NAME.shinyapps.io/YOUR-APP/'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>quarto render</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>That will update both the launch button and the embedded preview to the deployed app.</p>
+</section>
+<section id="notes-for-local-testing" class="level2">
+<h2 class="anchored" data-anchor-id="notes-for-local-testing">Notes For Local Testing</h2>
 <ol type="1">
-<li>Select a monthly tourism series.</li>
-<li>Inspect recent years of trend and volatility.</li>
-<li>Review source, unit, and series identifier before analysis.</li>
+<li>Start the app first if the preview frame is blank.</li>
+<li>Use the standalone launch link if your browser blocks the embedded frame.</li>
+<li>Keep the browser window at a normal desktop width when checking layout quality.</li>
 </ol>
-</section>
-<section id="cluster-prototype" class="level3">
-<h3 class="anchored" data-anchor-id="cluster-prototype">2. Cluster Prototype</h3>
-<p>Purpose:</p>
-<ol type="1">
-<li>Select several country-level arrival series.</li>
-<li>Align them over a shared lookback window and cluster the trajectories.</li>
-<li>Review silhouette quality, PCA separation, and cluster profiles.</li>
-</ol>
-</section>
-<section id="forecasting-prototype" class="level3">
-<h3 class="anchored" data-anchor-id="forecasting-prototype">3. Forecasting Prototype</h3>
-<p>Purpose:</p>
-<ol type="1">
-<li>Select a country-level monthly visitor-arrivals series.</li>
-<li>Position that country series against hotel occupancy, average length of stay, and room revenue.</li>
-<li>Set a train/test horizon.</li>
-<li>Compare a seasonal-naive baseline with a forecasting model such as ARIMA or ETS.</li>
-<li>Review both the forecast plot and the holdout accuracy table.</li>
-</ol>
-</section>
-</section>
-<section id="run-commands" class="level2">
-<h2 class="anchored" data-anchor-id="run-commands">Run Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="what-to-expect" class="level2">
-<h2 class="anchored" data-anchor-id="what-to-expect">What to Expect</h2>
-<p>The final app should let the user:</p>
-<ol type="1">
-<li>Explore the raw tourism series.</li>
-<li>Group months into recovery states.</li>
-<li>Generate and compare forecasts for the selected target series.</li>
-</ol>
-</section>
-<section id="data-source" class="level2">
-<h2 class="anchored" data-anchor-id="data-source">Data Source</h2>
-<p>The app reads:</p>
-<p><code>data/raw/Name your insight (4).xlsx</code></p>
-<p>This workbook is treated as the common source for all three modules so that users do not need to switch between inconsistent datasets.</p>
-<p>Within that shared workbook, the forecasting tab treats country-level visitor arrivals as the primary target series and uses hotel/stay indicators as supporting context rather than separate forecast targets.</p>
 
 
 </section>
@@ -705,7 +756,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

@@ -1,81 +1,89 @@
 # Singapore Tourism Recovery Visual Analytics Prototype
 
-This project now centers on a **shared tourism time-series dataset** and a **three-module Shiny prototype**:
+This project combines **Quarto publishing** and a **modular Shiny prototype** around one shared tourism time-series backbone:
 
-1. Time Series Explorer
+1. Time Series Visual Analysis
 2. Time Series Clustering
 3. Time Series Forecasting
 
-The older decision-tree and random-forest work under `team/jin-qinhao/Take-Home-Exercise2/` is kept as a legacy archive and is not the live project module.
+The older decision-tree work under `team/jin-qinhao/Take-Home-Exercise2/` is kept as an archive and is not part of the live shared prototype contract.
 
-## Core Dataset
+## Core Data Contract
 
-Primary workbook:
+Shared arrivals backbone:
 
-- `data/raw/Name your insight (4).xlsx`
+- `data/raw/visitor_arrivals_full_dataset.xlsx`
+- `data/processed/clustering_country_wide.csv`
+- `data/processed/clustering_country_long.csv`
+- `data/processed/clustering_series_metadata.csv`
 
-This workbook contains monthly tourism indicators such as:
+Optional supporting tourism context:
 
-- total visitor arrivals
-- arrivals by country or region
-- hotel room occupancy rate
-- average length of stay
-- number of hotels
-- total room revenue
+- `data/raw/tourism_update.xlsx`
 
-For the final forecasting direction, **country-level visitor arrivals** act as the common core dataset, while hotel occupancy, average length of stay, and room revenue are used as supporting indicators to explain how demand recovery is reflected in tourism performance.
+Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation when that workbook is present.
 
-## Project Structure
+## Folder Structure
 
 ```text
-group_project/
-├── _quarto.yml
-├── index.qmd
-├── app-guide.qmd
-├── user-guide.qmd
-├── Proposal/
-├── prototype/
-│   ├── module-cluster.qmd
-│   ├── forecasting.qmd
-│   ├── package-audit.qmd
-│   └── ui-storyboard.qmd
-├── app/
-│   ├── app.R
-│   └── R/
-│       ├── data_utils.R
-│       ├── mod_cluster_ui.R
-│       ├── mod_cluster_server.R
-│       ├── mod_forecast_ui.R
-│       └── mod_forecast_server.R
-├── scripts/
-│   ├── check_cran_support.R
-│   └── prototype_smoke_test.R
-├── data/
-│   └── raw/
-└── docs/
+smu-tourism-recovery-va-group-project/
+├─ _quarto.yml
+├─ index.qmd
+├─ app-guide.qmd
+├─ user-guide.qmd
+├─ Proposal/
+├─ prototype/
+│  ├─ EDA.qmd
+│  ├─ CDA.qmd
+│  ├─ module-cluster.qmd
+│  ├─ forecasting.qmd
+│  ├─ package-audit.qmd
+│  ├─ ui-storyboard.qmd
+│  └─ wang-zhuoran-review-report.qmd
+├─ app/
+│  ├─ app.R
+│  ├─ R/
+│  │  ├─ data_utils.R
+│  │  ├─ mod_cluster_ui.R
+│  │  ├─ mod_cluster_server.R
+│  │  ├─ mod_forecast_ui.R
+│  │  └─ mod_forecast_server.R
+│  └─ www/
+│     └─ app-theme.css
+├─ scripts/
+│  ├─ check_cran_support.R
+│  ├─ prepare_clustering_country_data.R
+│  └─ prototype_smoke_test.R
+├─ data/
+│  ├─ raw/
+│  └─ processed/
+├─ docs/
+└─ team/
 ```
 
 ## What Each Module Does
 
-### Time Series Explorer
+### Time Series Visual Analysis
 
 - choose a monthly tourism series
 - inspect recent trend and volatility
 - check metadata such as source and unit
 
-### Cluster Prototype
+### Time Series Clustering
 
-- align country-level arrivals series over a shared lookback window
-- group similar recovery trajectories into time-series clusters
-- review silhouette score, PCA scatter, and cluster profile table
+- align country-level arrivals series over a shared year window
+- normalize them into comparable trajectories
+- group similar recovery patterns into country-level time-series clusters
+- review the dashboard, representative pattern atlas, focus-market placement, and assignment tables
 
-### Forecasting Prototype
+### Time Series Forecasting
 
 - select a country-level arrivals series
 - choose a test horizon
-- compare a baseline forecast and a model-based forecast
-- compare the chosen country series against hotel and stay indicators
-- inspect forecast accuracy and projected path
+- compare a seasonal-naive baseline with ETS and ARIMA
+- position the chosen country series against hotel occupancy, average stay, and room revenue
+- inspect holdout accuracy and projected future path
+- run the full `modeltime` workflow when available, otherwise fall back to a lighter `forecast` implementation with the same benchmark labels
 
 ## Quick Start
 
@@ -85,27 +93,33 @@ group_project/
 "C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/check_cran_support.R
 ```
 
-### 2. Run smoke test
+### 2. Refresh the clustering processed files if needed
+
+```bash
+"C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/prepare_clustering_country_data.R
+```
+
+### 3. Run the smoke test
 
 ```bash
 "C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/prototype_smoke_test.R
 ```
 
-### 3. Preview the Quarto site
+### 4. Preview the Quarto site
 
 ```bash
 quarto preview
 ```
 
-### 4. Run the Shiny app
+### 5. Run the Shiny app
 
 ```bash
 Rscript run_app.R 3838
 ```
 
-## Definition of Done for Current Direction
+## Definition of Done for the Current Direction
 
-1. `prototype/forecasting.qmd` renders successfully.
+1. `prototype/module-cluster.qmd` and `prototype/forecasting.qmd` render successfully.
 2. The app contains the explorer, clustering, and forecasting modules.
-3. The user guide explains how to use the new app.
+3. The user guide explains the shared arrivals backbone and supporting tourism context.
 4. Validation scripts cover both clustering and forecasting dependencies.

@@ -167,12 +167,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-prototype">    
         <li>
-    <a class="dropdown-item" href="../prototype/decision-tree.html">
- <span class="dropdown-text">Decision Tree Analysis</span></a>
+    <a class="dropdown-item" href="../prototype/EDA.html">
+ <span class="dropdown-text">EDA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/CDA.html">
+ <span class="dropdown-text">CDA</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
- <span class="dropdown-text">Module Prototype</span></a>
+ <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/module-decision-tree.html">
@@ -189,6 +197,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
+ <span class="dropdown-text">Review Report</span></a>
   </li>  
     </ul>
   </li>
@@ -218,6 +230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective">Objective</a></li>
   <li><a href="#data-contract" id="toc-data-contract" class="nav-link" data-scroll-target="#data-contract">Data Contract</a></li>
+  <li><a href="#runtime-strategy" id="toc-runtime-strategy" class="nav-link" data-scroll-target="#runtime-strategy">Runtime Strategy</a></li>
   <li><a href="#analytical-framing" id="toc-analytical-framing" class="nav-link" data-scroll-target="#analytical-framing">Analytical Framing</a></li>
   <li><a href="#forecasting-workflow" id="toc-forecasting-workflow" class="nav-link" data-scroll-target="#forecasting-workflow">Forecasting Workflow</a></li>
   <li><a href="#example-target-series" id="toc-example-target-series" class="nav-link" data-scroll-target="#example-target-series">Example Target Series</a></li>
@@ -271,12 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(timetk)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modeltime)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibble)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="objective" class="level2">
 <h2 class="anchored" data-anchor-id="objective">Objective</h2>
@@ -284,8 +292,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-contract" class="level2">
 <h2 class="anchored" data-anchor-id="data-contract">Data Contract</h2>
-<p>Input dataset: <code>data/raw/Name your insight (4).xlsx</code></p>
-<p>For this revised forecasting prototype, the analytical scope is intentionally narrowed to <strong>monthly visitor-arrival series by country</strong>. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators.</p>
+<p>Shared arrivals backbone:</p>
+<ul>
+<li><code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
+</ul>
+<p>Optional supporting tourism context:</p>
+<ul>
+<li><code>data/raw/Name your insight (4).xlsx</code></li>
+</ul>
+<p>For this revised forecasting prototype, the analytical scope is intentionally narrowed to <strong>monthly visitor-arrival series by country</strong>. This matches the instructor guidance and the Chapter 19/20 forecasting workflow more closely than mixing arrivals with hotel or revenue indicators. Hotel occupancy, stay length, number of hotels, and room revenue remain optional supporting context only.</p>
 <p>Examples of eligible target series are:</p>
 <ol type="1">
 <li><code>Visitor Arrivals: China</code></li>
@@ -301,18 +316,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(series_catalog, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 5
-   label                                   unit   n_obs start_date end_date  
-   &lt;chr&gt;                                   &lt;chr&gt;  &lt;int&gt; &lt;date&gt;     &lt;date&gt;    
- 1 Visitor Arrivals: Australia             Person   111 2016-12-01 2026-02-01
- 2 Visitor Arrivals: Bangladesh            Person   111 2016-12-01 2026-02-01
- 3 Visitor Arrivals: Brunei                Person   111 2016-12-01 2026-02-01
- 4 Visitor Arrivals: Canada                Person   111 2016-12-01 2026-02-01
- 5 Visitor Arrivals: China                 Person   111 2016-12-01 2026-02-01
- 6 Visitor Arrivals: Egypt                 Person   111 2016-12-01 2026-02-01
- 7 Visitor Arrivals: Finland               Person   111 2016-12-01 2026-02-01
- 8 Visitor Arrivals: France                Person   111 2016-12-01 2026-02-01
- 9 Visitor Arrivals: Germany               Person   111 2016-12-01 2026-02-01
-10 Visitor Arrivals: Hong Kong SAR (China) Person   111 2016-12-01 2026-02-01</code></pre>
+   label                                       unit  n_obs start_date end_date  
+   &lt;chr&gt;                                       &lt;chr&gt; &lt;int&gt; &lt;date&gt;     &lt;date&gt;    
+ 1 Visitor Arrivals: Age: Males                Pers…   111 2016-12-01 2026-02-01
+ 2 Visitor Arrivals: Air                       Pers…   111 2016-12-01 2026-02-01
+ 3 Visitor Arrivals: Air: ASEAN                Pers…   111 2016-12-01 2026-02-01
+ 4 Visitor Arrivals: Air: Africa               Pers…   111 2016-12-01 2026-02-01
+ 5 Visitor Arrivals: Air: Americas             Pers…   111 2016-12-01 2026-02-01
+ 6 Visitor Arrivals: Air: Asia                 Pers…   111 2016-12-01 2026-02-01
+ 7 Visitor Arrivals: Air: Australia            Pers…   111 2016-12-01 2026-02-01
+ 8 Visitor Arrivals: Air: Bangladesh           Pers…   111 2016-12-01 2026-02-01
+ 9 Visitor Arrivals: Air: Belgium &amp; Luxembourg Pers…   111 2016-12-01 2026-02-01
+10 Visitor Arrivals: Air: Brunei               Pers…   111 2016-12-01 2026-02-01</code></pre>
+</div>
+</div>
+</section>
+<section id="runtime-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="runtime-strategy">Runtime Strategy</h2>
+<p>The forecasting module now supports two execution paths under one shared interface:</p>
+<ol type="1">
+<li><code>modeltime workflow</code> when the full Chapter 20 stack is installed.</li>
+<li><code>forecast fallback</code> when the shared environment is missing the <code>modeltime</code> dependency chain.</li>
+</ol>
+<p>This keeps the app, prototype, and smoke test on one forecasting contract while still allowing the site to render on lighter environments.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stack_status <span class="ot">&lt;-</span> <span class="fu">forecast_stack_status</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fallback_ready =</span> stack_status<span class="sc">$</span>fallback_ready,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">modeltime_ready =</span> stack_status<span class="sc">$</span>modeltime_ready,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">preferred_engine =</span> stack_status<span class="sc">$</span>preferred_engine,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_modeltime_packages =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(stack_status<span class="sc">$</span>missing_modeltime_packages) <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"None"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(stack_status<span class="sc">$</span>missing_modeltime_packages, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  fallback_ready modeltime_ready preferred_engine missing_modeltime_packages    
+  &lt;lgl&gt;          &lt;lgl&gt;           &lt;chr&gt;            &lt;chr&gt;                         
+1 TRUE           FALSE           fallback         rsample, parsnip, modeltime, …</code></pre>
 </div>
 </div>
 </section>
@@ -342,42 +386,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="example-target-series">Example Target Series</h2>
 <p><code>Visitor Arrivals: China</code> is used here because it is one of the clearest country-level recovery indicators in the dataset and it shows strong shock, rebound, and seasonal dynamics.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>example_label <span class="ot">&lt;-</span> <span class="st">"Visitor Arrivals: China"</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>example_series <span class="ot">&lt;-</span> <span class="fu">prepare_forecast_series</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tourism_data<span class="sc">$</span>long_monthly,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  example_label</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>forecast_results <span class="ot">&lt;-</span> <span class="fu">run_modeltime_forecast_workflow</span>(</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">series_df =</span> example_series,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>context_series <span class="ot">&lt;-</span> <span class="fu">prepare_country_context_panel</span>(</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  tourism_data<span class="sc">$</span>long_monthly,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">country_label =</span> example_label</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>example_label <span class="ot">&lt;-</span> <span class="st">"Visitor Arrivals: China"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>example_series <span class="ot">&lt;-</span> <span class="fu">prepare_forecast_series</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  tourism_data<span class="sc">$</span>long_monthly,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  example_label</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>forecast_results <span class="ot">&lt;-</span> <span class="fu">run_forecast_workflow</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">series_df =</span> example_series,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">engine =</span> <span class="st">"auto"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>context_series <span class="ot">&lt;-</span> <span class="fu">prepare_country_context_panel</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  tourism_data<span class="sc">$</span>long_monthly,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">country_label =</span> example_label</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>For this prototype run, the selected execution engine is <strong>forecast fallback</strong>.</p>
 </section>
 <section id="step-1-position-the-country-series-within-tourism-performance" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-position-the-country-series-within-tourism-performance">Step 1: Position the Country Series Within Tourism Performance</h2>
 <p>Before forecasting, the selected country-arrivals series should be interpreted together with hotel and stay indicators. The values are normalized so the focus stays on <strong>shared turning points</strong> rather than raw units.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(context_series, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> normalized_value, <span class="at">color =</span> label)) <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Country Arrivals Compared with Supporting Tourism Indicators"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Normalized z-scores show whether demand recovery aligns with occupancy, stay length, and room revenue"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Normalized z-score"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(context_series, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> normalized_value, <span class="at">color =</span> label)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Country Arrivals Compared with Supporting Tourism Indicators"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Normalized z-scores show whether demand recovery aligns with occupancy, stay length, and room revenue"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Normalized z-score"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -387,21 +433,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-2-visualise-the-raw-time-series">Step 2: Visualise the Raw Time Series</h2>
 <p>Chapter 19 emphasises that time-series work should begin with a direct inspection of trend, turning points, and volatility. The chart below shows the full monthly path of the selected country-arrivals series.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(example_series, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"#0f6b6f"</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.8</span>, <span class="at">color =</span> <span class="st">"#d86f45"</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> example_label,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Monthly country-level visitor arrivals used for forecasting"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor arrivals (person)"</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>()) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(example_series, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> value)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"#0f6b6f"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.8</span>, <span class="at">color =</span> <span class="st">"#d86f45"</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> example_label,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Monthly country-level visitor arrivals used for forecasting"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor arrivals (person)"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -413,28 +459,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="seasonal-pattern-by-month" class="level3">
 <h3 class="anchored" data-anchor-id="seasonal-pattern-by-month">Seasonal Pattern by Month</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>example_series <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">month_lab =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_num =</span> <span class="fu">year</span>(date)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month_lab, <span class="at">y =</span> value, <span class="at">group =</span> year_num, <span class="at">color =</span> <span class="fu">factor</span>(year_num))) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.65</span>) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Comparison by Month"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each coloured line represents one year"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor arrivals (person)"</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Year"</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>()) <span class="sc">+</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>example_series <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">month_lab =</span> <span class="fu">month</span>(date, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">year_num =</span> <span class="fu">year</span>(date)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month_lab, <span class="at">y =</span> value, <span class="at">group =</span> year_num, <span class="at">color =</span> <span class="fu">factor</span>(year_num))) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.65</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Seasonal Comparison by Month"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each coloured line represents one year"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Visitor arrivals (person)"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Year"</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -443,23 +489,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="stl-style-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="stl-style-decomposition">STL-style Decomposition</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>example_tsibble <span class="ot">&lt;-</span> example_series <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">date =</span> <span class="fu">yearmonth</span>(date), <span class="at">value =</span> value) <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>decomp_tbl <span class="ot">&lt;-</span> example_tsibble <span class="sc">|&gt;</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(value)) <span class="sc">|&gt;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>()</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(decomp_tbl) <span class="sc">+</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Trend / Seasonal / Remainder Decomposition"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Used to explain the structural change before forecasting"</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>example_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  example_series<span class="sc">$</span>value,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">year</span>(<span class="fu">min</span>(example_series<span class="sc">$</span>date)), <span class="fu">month</span>(<span class="fu">min</span>(example_series<span class="sc">$</span>date))),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">frequency =</span> <span class="dv">12</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>decomp_tbl <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">stl</span>(example_ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>forecast<span class="sc">::</span><span class="fu">autoplot</span>(decomp_tbl) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Trend / Seasonal / Remainder Decomposition"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Used to explain the structural change before forecasting"</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -470,14 +516,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-4-create-the-training-and-testing-split">Step 4: Create the Training and Testing Split</h2>
 <p>Following Chapter 20, the final 12 months are reserved as a holdout set. This keeps the evaluation time-aware and avoids random sampling.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>split_summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">segment =</span> <span class="fu">c</span>(<span class="st">"Training"</span>, <span class="st">"Testing"</span>),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">min</span>(forecast_results<span class="sc">$</span>training<span class="sc">$</span>date), <span class="fu">min</span>(forecast_results<span class="sc">$</span>testing<span class="sc">$</span>date)),</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="fu">c</span>(<span class="fu">max</span>(forecast_results<span class="sc">$</span>training<span class="sc">$</span>date), <span class="fu">max</span>(forecast_results<span class="sc">$</span>testing<span class="sc">$</span>date)),</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(forecast_results<span class="sc">$</span>training), <span class="fu">nrow</span>(forecast_results<span class="sc">$</span>testing))</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>split_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>split_summary <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">segment =</span> <span class="fu">c</span>(<span class="st">"Training"</span>, <span class="st">"Testing"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">min</span>(forecast_results<span class="sc">$</span>training<span class="sc">$</span>date), <span class="fu">min</span>(forecast_results<span class="sc">$</span>testing<span class="sc">$</span>date)),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">end =</span> <span class="fu">c</span>(<span class="fu">max</span>(forecast_results<span class="sc">$</span>training<span class="sc">$</span>date), <span class="fu">max</span>(forecast_results<span class="sc">$</span>testing<span class="sc">$</span>date)),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_obs =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(forecast_results<span class="sc">$</span>training), <span class="fu">nrow</span>(forecast_results<span class="sc">$</span>testing))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>split_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 4
   segment  start      end        n_obs
@@ -495,16 +541,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>ETS (Modeltime)</code> using exponential smoothing.</li>
 <li><code>ARIMA</code> using <code>auto_arima</code> through the modeltime workflow.</li>
 </ol>
-<p>These model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series.</p>
+<p>These model choices match the Chapter 20 recommendation to compare exponential smoothing and ARIMA techniques after building a time-aware train/test split for one selected time series. When the full <code>modeltime</code> stack is unavailable, the fallback route keeps the same benchmark logic and model labels so the interpretation remains stable.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>forecast_results<span class="sc">$</span>models_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>forecast_results<span class="sc">$</span>models_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># Modeltime Table
-# A tibble: 2 × 3
-  .model_id .model   .model_desc            
-      &lt;int&gt; &lt;list&gt;   &lt;chr&gt;                  
-1         1 &lt;fit[+]&gt; ETS(M,AD,M)            
-2         2 &lt;fit[+]&gt; ARIMA(0,1,2)(0,0,1)[12]</code></pre>
+<pre><code># A tibble: 3 × 3
+  .model_id .model_desc    engine  
+      &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;   
+1         0 Seasonal Naive forecast
+2         1 ETS            forecast
+3         2 ARIMA          forecast</code></pre>
 </div>
 </div>
 </section>
@@ -513,34 +559,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="accuracy-table" class="level3">
 <h3 class="anchored" data-anchor-id="accuracy-table">Accuracy Table</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  forecast_results<span class="sc">$</span>accuracy_tbl,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">dom =</span> <span class="st">"t"</span>, <span class="at">pageLength =</span> <span class="dv">6</span>, <span class="at">scrollX =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  forecast_results<span class="sc">$</span>accuracy_tbl,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">dom =</span> <span class="st">"t"</span>, <span class="at">pageLength =</span> <span class="dv">6</span>, <span class="at">scrollX =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-f3ef1d5952141c1b1892" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-f3ef1d5952141c1b1892">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS(M,AD,M)","ARIMA(0,1,2)(0,0,1)[12]"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,0.875,0.723],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-1ff06d8ab982574e8924" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1ff06d8ab982574e8924">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS","ARIMA"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,null,null],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
 <section id="testing-window-forecast-plot" class="level3">
 <h3 class="anchored" data-anchor-id="testing-window-forecast-plot">Testing Window Forecast Plot</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>forecast_results<span class="sc">$</span>calibration_forecast_tbl <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_modeltime_forecast</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.interactive =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.legend_max_width =</span> <span class="dv">25</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Testing-Set Forecast Comparison"</span>,</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives"</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_forecast_results</span>(forecast_results, <span class="at">type =</span> <span class="st">"holdout"</span>) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Testing-Set Forecast Comparison"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Seasonal naive is the benchmark; ETS and ARIMA are model-based alternatives | Engine:"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      forecast_results<span class="sc">$</span>engine_label</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -551,20 +595,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="step-7-refit-the-best-model-and-forecast-forward">Step 7: Refit the Best Model and Forecast Forward</h2>
 <p>After accuracy comparison, the best-performing model is refit on the full series and projected forward for the next 12 months. This is the final step highlighted in Chapter 20.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>forecast_results<span class="sc">$</span>future_forecast_tbl <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_modeltime_forecast</span>(</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.interactive =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.legend_max_width =</span> <span class="dv">25</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Forward Forecast After Refit"</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Best model refit on the full monthly series"</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_comma</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_forecast_results</span>(forecast_results, <span class="at">type =</span> <span class="st">"future"</span>) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Forward Forecast After Refit"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Best model refit on the full monthly series | Engine:"</span>, forecast_results<span class="sc">$</span>engine_label)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="forecasting_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="forecasting_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -619,12 +658,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>set the holdout and forward forecast horizon</td>
 </tr>
 <tr class="odd">
-<td><code>model_choice</code></td>
-<td><code>radioButtons</code></td>
-<td>ARIMA / ETS</td>
-<td>compare model families in the app</td>
-</tr>
-<tr class="even">
 <td><code>run_forecast</code></td>
 <td><code>actionButton</code></td>
 <td>click to run</td>
@@ -693,7 +726,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The selected series must have at least 24 non-missing monthly observations.</li>
 <li>The holdout horizon must leave at least 12 points for model fitting.</li>
 <li>A baseline and at least one model-based forecast must be scored on the same testing window.</li>
-<li>The forecasting module must use the same source workbook while restricting the target catalog to country-level arrival series.</li>
+<li>The forecasting module must keep the shared arrivals workbook as the target backbone while using the tourism workbook only for supporting context indicators.</li>
 <li>The workflow must include contextual comparison and visual diagnostics before model comparison.</li>
 </ol>
 
@@ -1108,7 +1141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

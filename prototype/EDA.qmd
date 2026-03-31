@@ -6,273 +6,412 @@ author: "Xi Zixun"
 
 ## Background
 
-Singapore’s tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and the share of the Chinese source market all suggest distinct recovery stages. Static charts alone are insufficient for users who need to explore these structural shifts from multiple perspectives. This project therefore proposes an interactive visual analytics prototype to help users understand how Singapore’s tourism market moved from pandemic shock toward recovery and high-performance states.
+Singapore’s inbound tourism landscape is characterised by a concentrated set of major source markets and a geographical distribution that evolves over time. Analysis of visitor arrivals from 2017 to 2025 indicates that Singapore’s tourism demand is anchored primarily in the Asia-Pacific region, while the relative importance of individual source countries shifts across different years. Such variation is visible not only in country rankings and market shares, but also in the wider spatial pattern of visitor origins. These dynamics make it insufficient to rely on static summary figures alone. A more effective approach is to integrate geospatial and comparative visual analysis in order to examine both the global distribution of visitor origins and the changing prominence of leading markets. Accordingly, this project proposes an interactive visual analytics prototype to support a clearer understanding of where Singapore’s visitors come from and how the structure of its source markets changes over time.
 
 ## Preparation
 
-### Package Insatllation & Loading
+### Package Installation & Loading
 
 -   `tidyverse`- A family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
 -   `plotly` - R library for plotting interactive statistical graphs.
 -   `patchwork` - combining multiple ggplot2 graphs into one figure.
--   `GGally` - 'GGally' extends 'ggplot2' by adding several functions to reduce the complexity of combining geometric objects with transformed data
--   `corrplot` - a visual exploratory tool on correlation matrix that supports automatic variable reordering to help detect hidden patterns among variables.
 -   `readx1` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends.
 -   `lubridate` - provides intuitive functions for parsing, manipulating, and performing arithmetic on dates, times, and time zones
 
+-   `cellranger` - Translate Spreadsheet Cell Ranges to Rows and Columns
+-   `knitr` - Provides a general-purpose tool for dynamic report generation in R using Literate Programming techniques
+-   `scales` - Graphical scales map data to aesthetics, and provide methods for automatically determining breaks and labels for axes and legends
 ```{r}
-pacman::p_load(tidyverse, lubridate, plotly, patchwork, GGally, corrplot, readxl)
+pacman::p_load(tidyverse, lubridate, plotly, patchwork, readxl, cellranger, knitr, scales)
 ```
 
-## Data Exploration
+## Data Exploration & Cleaning
 
 ```{r}
-#| message: false
-tour <- read_excel("../data/raw/tourism_four_part_analysis_ready.xlsx")
+path <- "../data/raw/tourism_update.xlsx"
+
+tour <- read_excel(
+  path,
+  sheet = "My Series",
+  skip = 29,
+  col_names = FALSE,
+  .name_repair = "minimal"
+)
+
+names(tour) <- c(
+  "Date",
+  "Visitor Arrivals",
+  "Tourism Receipts: YTD: YoY",
+  "Tourist Expenditure Per Capita",
+  "Visitor Arrivals: China",
+  "Average Length of Stay",
+  "Visitor Arrivals: Malaysia",
+  "Visitor Arrivals: India",
+  "Visitor Arrivals: Indonesia",
+  "Visitor Arrivals: Australia",
+  "Number of Hotels",
+  "Visitor Days",
+  "Hotel Room Occupancy Rate",
+  "Visitor Arrivals: West Asia",
+  "Visitor Arrivals: Taiwan",
+  "Total Room Revenue",
+  "Number of Hotels.1",
+  "Average Length of Stay.1",
+  "Visitor Arrivals: Hong Kong SAR (China)",
+  "Hotel Revenue: per Available Room: Luxury",
+  "Hotel Revenue: per Available Room: Mid-Tier",
+  "Visitor Arrivals: ASEAN",
+  "Visitor Arrivals: Italy",
+  "Visitor Arrivals: Russian Federal (CIS)",
+  "Visitor Arrivals: France",
+  "Visitor Arrivals: Philippines",
+  "Visitor Arrivals: Spain",
+  "No of Hotel Room Stock",
+  "Visitor Arrivals: Thailand",
+  "Visitor Arrivals: Ireland",
+  "Visitor Arrivals: United Arab Emirates",
+  "Visitor Arrivals: United Kingdom",
+  "Visitor Arrivals: Africa",
+  "Visitor Arrivals: Bangladesh",
+  "Visitor Arrivals: Iran",
+  "Visitor Arrivals: New Zealand",
+  "Visitor Arrivals: Israel",
+  "Visitor Arrivals: North Asia",
+  "Visitor Arrivals: 8-10 Days",
+  "Visitor Arrivals: 11-14 Days",
+  "Visitor Arrivals: 15 Days & Over",
+  "Visitor Arrivals: Americas",
+  "Visitor Arrivals: Germany",
+  "Visitor Arrivals: Scandinavia: Sweden",
+  "Visitor Arrivals: Switzerland",
+  "Visitor Arrivals: USA",
+  "Visitor Arrivals: Canada",
+  "Visitor Arrivals: Mauritius",
+  "Visitor Arrivals: Kuwait",
+  "Visitor Arrivals: Egypt",
+  "Visitor Arrivals: Brunei",
+  "Visitor Arrivals: Finland",
+  "Visitor Arrivals: Japan",
+  "Visitor Arrivals: South Korea",
+  "Visitor Arrivals: Myanmar",
+  "Visitor Arrivals: Netherlands",
+  "Visitor Arrivals: Scandinavia: Norway",
+  "Visitor Arrivals: Saudi Arabia",
+  "Visitor Arrivals: Sri Lanka",
+  "Visitor Arrivals: Vietnam",
+  "Visitor Arrivals: Pakistan",
+  "Visitor Arrivals: Republic of South Africa"
+)
+
+tour <- tour %>%
+  mutate(Date = as.Date(Date))
+
+tour_clean <- tour %>%
+  filter(year(Date) >= 2017, year(Date) != 2026)
 ```
 
 ```{r}
-glimpse(tour)
+names(tour)
+head(tour$Date)
+class(tour$Date)
+unique(year(tour_clean$Date))
 ```
 
 ::: callout-tip
-`glimpse()` is used for checking columns, rows and variable types for the data sheet
+Some preparation of data to be noticed:
 
-`excel_sheets()` is used for checking how many data sheet are in the excel workbook
+-   The year 2015, 2016 and 2026 were removed because they do not consist of full year data from **Jan to Dec**
 :::
 
 ```{r}
-excel_sheets("../data/raw/tourism_four_part_analysis_ready.xlsx")
-```
+country_cols <- c(
+  "Visitor Arrivals: China",
+  "Visitor Arrivals: Malaysia",
+  "Visitor Arrivals: India",
+  "Visitor Arrivals: Indonesia",
+  "Visitor Arrivals: Australia",
+  "Visitor Arrivals: Taiwan",
+  "Visitor Arrivals: Hong Kong SAR (China)",
+  "Visitor Arrivals: Italy",
+  "Visitor Arrivals: Russian Federal (CIS)",
+  "Visitor Arrivals: France",
+  "Visitor Arrivals: Philippines",
+  "Visitor Arrivals: Spain",
+  "Visitor Arrivals: Thailand",
+  "Visitor Arrivals: Ireland",
+  "Visitor Arrivals: United Arab Emirates",
+  "Visitor Arrivals: United Kingdom",
+  "Visitor Arrivals: Bangladesh",
+  "Visitor Arrivals: Iran",
+  "Visitor Arrivals: New Zealand",
+  "Visitor Arrivals: Israel",
+  "Visitor Arrivals: Germany",
+  "Visitor Arrivals: Scandinavia: Sweden",
+  "Visitor Arrivals: Switzerland",
+  "Visitor Arrivals: USA",
+  "Visitor Arrivals: Canada",
+  "Visitor Arrivals: Mauritius",
+  "Visitor Arrivals: Kuwait",
+  "Visitor Arrivals: Egypt",
+  "Visitor Arrivals: Brunei",
+  "Visitor Arrivals: Finland",
+  "Visitor Arrivals: Japan",
+  "Visitor Arrivals: South Korea",
+  "Visitor Arrivals: Myanmar",
+  "Visitor Arrivals: Netherlands",
+  "Visitor Arrivals: Scandinavia: Norway",
+  "Visitor Arrivals: Saudi Arabia",
+  "Visitor Arrivals: Sri Lanka",
+  "Visitor Arrivals: Vietnam",
+  "Visitor Arrivals: Pakistan",
+  "Visitor Arrivals: Republic of South Africa"
+)
 
-### Data Cleaning
-
-We will now check on the the year from 2016 - 2026, to make sure that all years are a full year from Jan to Dec, and remove years that are not
-
-```{r}
-tour %>% count(year, month)
-```
-
-```{r}
-data_clean <- tour %>%
-  filter(!year %in% c(2016, 2026))
-
-data_clean %>% count(year, month)
-summary(data_clean)
-```
-
-## EDA
-
-### EDA 1 - Tourism Trends in Singapore
-
-```{r}
-data_clean$date <- as.Date(data_clean$date)
-
-eda1 <- ggplot(
-  data_clean,
-  aes(
-    x = date,
-    y = visitor_arrivals / 1e6,
-    color = period,
-    group = period
+tour_long <- tour_clean %>%
+  select(Date, all_of(country_cols)) %>%
+  pivot_longer(
+    cols = -Date,
+    names_to = "Country",
+    values_to = "Arrivals"
+  ) %>%
+  mutate(
+    Country = str_remove(Country, "^Visitor Arrivals: ")
   )
-) +
-  geom_line(
-    aes(
-      text = paste0(
-        "Date: ", format(date, "%Y-%m-%d"),
-        "<br>Visitor Arrivals: ", round(visitor_arrivals / 1e6, 2), "M",
-        "<br>Tourism Phase: ", period
-      )
-    ),
-    linewidth = 1.1,
-    alpha = 0.9
-  ) +
-  scale_color_manual(values = c(
-    "pre_covid" = "#2E8B57",
-    "covid_shock" = "#E63946",
-    "recovery" = "#457B9D"
-  )) +
-  labs(
-    title = "Singapore Visitor Arrivals Trend",
-    x = "Date",
-    y = "Visitor Arrivals (Millions)",
-    color = "Tourism Phase"
-  ) +
-  theme_minimal()
+```
 
-ggplotly(eda1, tooltip = "text") %>%
+::: callout-note
+The dataset was reshaped into long format so that each row represents one country’s visitor arrivals for one specific month. The resulting structure contains three main variables: `Date`, `Country`, and `Arrivals`. This format is more suitable for time-series visualization and comparative analysis in R, as it allows countries to be treated as categories within a single variable rather than as separate columns. As a result, it supports cleaner code, easier grouping and filtering, and more effective use of ggplot2 for visualizing changes in visitor arrivals over time.
+:::
+
+Before we continue with analysis results, some Date periods should be noticed: **AY2017 Start** - **AY2019 End** is consider as pre_covid period, **AY2020 Start** - **AY2021 End** is Consider as covid_shock, **AY2022 Star**t - **AY2025 End** is considered as recovery period
+
+## EDA 1 - Singapore Visitors
+
+```{r}
+country_cols <- c(
+  "Visitor Arrivals: China",
+  "Visitor Arrivals: Malaysia",
+  "Visitor Arrivals: India",
+  "Visitor Arrivals: Indonesia",
+  "Visitor Arrivals: Australia",
+  "Visitor Arrivals: Taiwan",
+  "Visitor Arrivals: Hong Kong SAR (China)",
+  "Visitor Arrivals: Italy",
+  "Visitor Arrivals: Russian Federal (CIS)",
+  "Visitor Arrivals: France",
+  "Visitor Arrivals: Philippines",
+  "Visitor Arrivals: Spain",
+  "Visitor Arrivals: Thailand",
+  "Visitor Arrivals: Ireland",
+  "Visitor Arrivals: United Arab Emirates",
+  "Visitor Arrivals: United Kingdom",
+  "Visitor Arrivals: Bangladesh",
+  "Visitor Arrivals: Iran",
+  "Visitor Arrivals: New Zealand",
+  "Visitor Arrivals: Israel",
+  "Visitor Arrivals: Germany",
+  "Visitor Arrivals: Scandinavia: Sweden",
+  "Visitor Arrivals: Switzerland",
+  "Visitor Arrivals: USA",
+  "Visitor Arrivals: Canada",
+  "Visitor Arrivals: Mauritius",
+  "Visitor Arrivals: Kuwait",
+  "Visitor Arrivals: Egypt",
+  "Visitor Arrivals: Brunei",
+  "Visitor Arrivals: Finland",
+  "Visitor Arrivals: Japan",
+  "Visitor Arrivals: South Korea",
+  "Visitor Arrivals: Myanmar",
+  "Visitor Arrivals: Netherlands",
+  "Visitor Arrivals: Scandinavia: Norway",
+  "Visitor Arrivals: Saudi Arabia",
+  "Visitor Arrivals: Sri Lanka",
+  "Visitor Arrivals: Vietnam",
+  "Visitor Arrivals: Pakistan",
+  "Visitor Arrivals: Republic of South Africa"
+)
+
+tour_long <- tour_clean %>%
+  select(Date, all_of(country_cols)) %>%
+  pivot_longer(
+    cols = -Date,
+    names_to = "Country",
+    values_to = "Arrivals"
+  ) %>%
+  mutate(
+    Country = str_remove(Country, "^Visitor Arrivals: "),
+    Year = year(Date)
+  )
+```
+
+```{r}
+geo_year <- tour_long %>%
+  group_by(Year, Country) %>%
+  summarise(
+    Arrivals = sum(Arrivals, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+geo_year <- geo_year %>%
+  mutate(
+    Country_map = recode(
+      Country,
+      "USA" = "United States",
+      "Russian Federal (CIS)" = "Russia",
+      "Hong Kong SAR (China)" = "Hong Kong",
+      "Scandinavia: Sweden" = "Sweden",
+      "Scandinavia: Norway" = "Norway",
+      "Republic of South Africa" = "South Africa"
+    )
+  )
+
+```
+
+```{r}
+plot_ly(
+  data = geo_year,
+  type = "choropleth",
+  locations = ~Country_map,
+  locationmode = "country names",
+  z = ~Arrivals,
+  frame = ~Year,
+  text = ~paste(
+    "Country:", Country,
+    "<br>Year:", Year,
+    "<br>Arrivals:", format(Arrivals, big.mark = ",")
+  ),
+  hoverinfo = "text",
+  colorscale = "Reds"
+) %>%
   layout(
-    xaxis = list(
-      title = "Date",
-      tickformat = "%Y-%m"
-    )
+    title = "Visitor Arrivals to Singapore by Source Country (2017-2025)",
+    geo = list(showframe = FALSE, showcoastlines = TRUE)
   )
+
 ```
 
-Before the COVID-19 pandemic, the average number of visitors arriving in Singapore was around 1.5 million per month. However, due to lockdowns and international travel restrictions during the pandemic period, tourism dropped sharply to nearly zero. Since 2022, the tourism sector has gradually recovered. Nevertheless, possibly due to broader economic conditions, the number of visitors arriving in Singapore remains slightly lower than the pre-pandemic level.
+The geospatial results indicate that Singapore’s visitor arrivals are heavily concentrated in Asia, with nearby regional markets contributing the largest share of tourism inflows. This highlights the continued importance of geographical proximity, regional connectivity, and established travel links in shaping visitor demand. The map also shows that arrivals are not evenly distributed across the world, but are instead clustered around a limited number of key source markets.
 
-### EDA 2 - China Market Dynamics in Singapore Tourism Recovery
+Over time, the spatial pattern changes noticeably, especially around the pandemic period. Visitor distribution weakens during the years of disruption and gradually strengthens again in the later years, although the pace of recovery appears uneven across countries. This suggests that while Singapore’s tourism sector has recovered, the composition of its visitor markets may not have returned uniformly to its earlier pattern. Overall, the findings show that Singapore’s tourism demand remains regionally concentrated, but also sensitive to major external disruptions.
+
+## EDA 2 - Top Visitor Countries Comparison Pre and Post Covid
 
 ```{r}
-data_clean$date <- as.Date(data_clean$date)
+p1_data <- tour_long %>%
+  filter(year(Date) >= 2017 & year(Date) <= 2019)
 
-p1 <- ggplot(data_clean, aes(x = date)) +
-  geom_line(
-    aes(
-      y = visitor_arrivals / 1e6,
-      color = "Total Visitors",
-      group = "Total Visitors",
-      text = paste0(
-        "Date: ", format(date, "%Y-%m-%d"),
-        "<br>Total Visitors: ", round(visitor_arrivals / 1e6, 2), "M"
-      )
-    ),
-    linewidth = 1
-  ) +
-  geom_line(
-    aes(
-      y = visitor_arrivals_china / 1e6,
-      color = "China Visitors",
-      group = "China Visitors",
-      text = paste0(
-        "Date: ", format(date, "%Y-%m-%d"),
-        "<br>China Visitors: ", round(visitor_arrivals_china / 1e6, 2), "M"
-      )
-    ),
-    linewidth = 1
-  ) +
-  scale_color_manual(values = c(
-    "Total Visitors" = "#457B9D",
-    "China Visitors" = "#E63946"
-  )) +
-  labs(
-    title = "China Market Contribution to Singapore Tourism Recovery",
-    x = "Date",
-    y = "Visitor Arrivals (Millions)",
-    color = "Series"
-  ) +
-  theme_minimal()
+p2_data <- tour_long %>%
+  filter(year(Date) >= 2022 & year(Date) <= 2025)
+```
 
-ggplotly(p1, tooltip = "text") %>%
+::: panel-tabset
+## Table - Pre_Covid
+
+```{r}
+p1_total_market <- tour_clean %>%
+  filter(year(Date) >= 2017 & year(Date) <= 2019) %>%
+  summarise(
+    Total_Market_Avg = round(mean(`Visitor Arrivals`, na.rm = TRUE), 0)
+  ) %>%
+  pull(Total_Market_Avg)
+
+# Country ranking in P1
+p1_rank <- p1_data %>%
+  group_by(Country) %>%
+  summarise(
+    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Overall_Share_Percent = (Avg_Monthly_Arrivals / p1_total_market) * 100
+  ) %>%
+  arrange(desc(Avg_Monthly_Arrivals)) %>%
+  mutate(Rank = row_number()) %>%
+  slice_head(n = 5)
+
+p1_rank
+```
+
+## Chart - Pre_Covid
+
+```{r}
+plot_ly(
+  data = p1_rank,
+  x = ~Avg_Monthly_Arrivals,
+  y = ~reorder(Country, Avg_Monthly_Arrivals),
+  type = "bar",
+  orientation = "h",
+  text = ~paste0(round(Overall_Share_Percent, 1), "%"),
+  textposition = "outside",
+  hovertemplate = "Average Monthly Arrivals: %{x:,}<extra></extra>"
+) %>%
   layout(
-    xaxis = list(
-      title = "Date",
-      tickformat = "%Y-%m"
-    )
+    title = "P1 (2017-2019): Top 5 Visitor Countries",
+    xaxis = list(title = "Average Monthly Arrivals"),
+    yaxis = list(title = "Country")
   )
+```
+:::
 
-p2 <- ggplot(data_clean, aes(x = date)) +
-  geom_line(
-    aes(
-      y = china_share_pct,
-      group = 1,
-      text = paste0(
-        "Date: ", format(date, "%Y-%m-%d"),
-        "<br>China Visitor Share: ", round(china_share_pct, 2), "%"
-      )
-    ),
-    color = "#2E8B57",
-    linewidth = 1
-  ) +
-  labs(
-    title = "China Visitor Share Over Time",
-    x = "Date",
-    y = "China Visitor Share (%)"
-  ) +
-  theme_minimal()
+During the pre-COVID period (2017–2019), Singapore’s inbound tourism market was led by China and Indonesia, which recorded average monthly arrivals of 285,357 and 252,402 respectively. Their corresponding overall market shares, 18.66% and 16.51%, show that these two countries formed the dominant core of Singapore’s visitor market before the pandemic. India, Malaysia, and Australia followed at a noticeably lower level, with average monthly arrivals of 114,787, 101,198, and 92,571, accounting for 7.51%, 6.62%, and 6.05% of Singapore’s total inbound visitor arrivals respectively.
 
+These results indicate that Singapore’s pre-pandemic visitor structure was concentrated in a relatively small number of major source markets, with China and Indonesia clearly occupying the most prominent positions. The gap between the top two countries and the remaining three suggests that the market was not evenly distributed even among the leading visitor sources. Instead, a substantial share of total visitor demand was anchored in a narrow group of dominant markets. This pattern points to a relatively concentrated tourism structure prior to COVID-19.
 
-ggplotly(p2, tooltip = "text") %>%
+From a regional perspective, the composition of the top five also highlights Singapore’s strong dependence on Asia-Pacific markets. China, Indonesia, India, and Malaysia all belong to Asia, while Australia further reinforces the importance of the broader regional travel network. This suggests that geographical proximity, strong transport connectivity, and established regional travel demand were important drivers of Singapore’s inbound tourism performance before the pandemic.
+
+::: panel-tabset
+## Table - Post_Covid
+
+```{r}
+p2_total_market <- tour_clean %>%
+  filter(year(Date) >= 2022 & year(Date) <= 2025) %>%
+  summarise(
+    Total_Market_Avg = round(mean(`Visitor Arrivals`, na.rm = TRUE), 0)
+  ) %>%
+  pull(Total_Market_Avg)
+
+# Country ranking in P2
+p2_rank <- p2_data %>%
+  group_by(Country) %>%
+  summarise(
+    Avg_Monthly_Arrivals = round(mean(Arrivals, na.rm = TRUE), 0),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Overall_Share_Percent = (Avg_Monthly_Arrivals / p2_total_market) * 100
+  ) %>%
+  arrange(desc(Avg_Monthly_Arrivals)) %>%
+  mutate(Rank = row_number()) %>%
+  slice_head(n = 5)
+
+p2_rank
+```
+
+## Chart - Post_Covid
+
+```{r}
+plot_ly(
+  data = p2_rank,
+  x = ~Avg_Monthly_Arrivals,
+  y = ~reorder(Country, Avg_Monthly_Arrivals),
+  type = "bar",
+  orientation = "h",
+  text = ~paste0(round(Overall_Share_Percent, 1), "%"),
+  textposition = "outside",
+  hovertemplate = "Average Monthly Arrivals: %{x:,}<extra></extra>"
+) %>%
   layout(
-    xaxis = list(
-      title = "Date",
-      tickformat = "%Y-%m"
-    )
+    title = "P2 (2022-2025): Top 5 Visitor Countries",
+    xaxis = list(title = "Average Monthly Arrivals"),
+    yaxis = list(title = "Country")
   )
-
-eda2_combined <- p1 / p2
-
-eda2_combined
-
-
 ```
+:::
 
-This analysis compares total visitor arrivals with Chinese visitor arrivals and examines the share of Chinese visitors over time. Prior to the pandemic, Chinese visitors consistently accounted for a substantial portion of Singapore’s tourism demand and moved closely with overall visitor trends. During the COVID-19 shock in 2020–2021, both total and Chinese visitor arrivals declined sharply due to global travel restrictions. In the recovery period after 2022, total visitor arrivals rebounded more rapidly than Chinese visitor arrivals, indicating that Singapore’s tourism recovery was supported by multiple international markets rather than relying solely on the Chinese market.
+During the post-COVID recovery period (2022–2025), Singapore’s visitor market recovered with a structure that remained broadly similar to the pre-pandemic period, but with some notable changes in relative ranking and market share. Indonesia ranked first during this period with an average monthly arrival figure of 173,636, accounting for 15.62% of Singapore’s total inbound visitor arrivals. China followed in second place with 159,896 average monthly arrivals and an overall market share of 14.39%. This indicates that although both countries remained central to Singapore’s tourism recovery, Indonesia overtook China in the post-pandemic period and emerged as the largest individual source market.
 
-### EDA 3 - Tourism Demand and Hotel Utilisation
+India remained in third place with an average monthly arrival level of 86,675, representing 7.80% of Singapore’s overall inbound market. Malaysia and Australia followed closely with 86,258 (7.76%) and 85,258 (7.67%) respectively. Compared with the pre-COVID period, the composition of the top five visitor source countries remained unchanged, suggesting that Singapore’s core visitor base demonstrated a relatively high degree of structural stability. However, the reduced arrival levels across all five countries indicate that recovery remained incomplete in absolute terms, even though the same major source markets continued to dominate the visitor mix.
 
-```{r}
-ggplot(
-  data_clean,
-  aes(x = visitor_arrivals/1e6, y = hotel_occ, color = period)
-) +
-  geom_point(size = 3, alpha = 0.8) +
+A clearer view of recovery emerges when the P2 results are compared directly with the pre-COVID baseline. China’s average monthly arrivals declined from 285,357 in P1 to 159,896 in P2, while Indonesia fell from 252,402 to 173,636. Similar reductions are also observed for India, Malaysia, and Australia. These changes suggest that by 2022–2025, Singapore’s tourism sector had largely regained its core market structure, but not yet its earlier scale. In other words, recovery appears to have been stronger in terms of preserving the composition of key source markets than in terms of fully restoring visitor volume.
 
-  geom_smooth(
-    aes(group = 1),
-    method = "lm",
-    se = FALSE,
-    color = "black",
-    linewidth = 1.2
-  ) +
-
-  theme_minimal() +
-  labs(
-    title = "Relationship Between Tourism Demand and Hotel Utilisation",
-    x = "Visitor Arrivals (Millions)",
-    y = "Hotel Occupancy (%)",
-    color = "Tourism Phase"
-  ) 
-
-```
-
-This analysis examines the relationship between visitor arrivals and hotel occupancy in Singapore. The scatter plot shows a clear positive relationship, where higher visitor arrivals are generally associated with higher hotel occupancy rates. During the COVID-19 shock period, visitor arrivals dropped sharply to near zero due to travel restrictions, while hotel occupancy declined but remained above 40–60%. This suggests that hotel demand was partially supported by domestic staycations or essential travel. As tourism gradually recovered after 2022, both visitor arrivals and hotel occupancy increased, moving closer to pre-pandemic levels. Overall, the results indicate that hotel utilisation closely follows tourism demand.
-
-### EDA 4 - Tourism Demand and Visitor Spending Behaviour
-
-```{r}
-eda4 <- ggplot(
-  data_clean,
-  aes(
-    x = visitor_arrivals/1e6,
-    y = spend_per_capita,
-    color = period,
-    text = paste0(
-      "Date: ", format(date, "%Y-%m-%d"),
-      "<br>Visitor Arrivals: ", round(visitor_arrivals/1e6,2), "M",
-      "<br>Spend Per Capita: $", round(spend_per_capita,0)
-    )
-  )
-) +
-
-geom_point(size = 3, alpha = 0.8) +
-
-geom_smooth(
-  aes(group = 1),
-  method = "lm",
-  se = FALSE,
-  color = "black",
-  linewidth = 1.2
-) +
-
-scale_color_manual(values = c(
-  "pre_covid" = "#2E8B57",
-  "covid_shock" = "#E63946",
-  "recovery" = "#457B9D"
-)) +
-
-labs(
-  title = "Tourism Demand and Visitor Spending Behaviour",
-  x = "Visitor Arrivals (Millions)",
-  y = "Spend Per Capita (SGD)",
-  color = "Tourism Phase"
-) +
-
-theme_minimal()
-
-ggplotly(eda4, tooltip = "text")
-
-```
-
-This analysis explores the relationship between visitor arrivals and tourism spending behaviour. The results indicate that higher visitor arrivals are generally associated with higher tourism spending levels. However, the recovery period shows variations in spending behaviour, suggesting that tourism recovery may not only depend on visitor volume but also on visitor spending patterns. Understanding these patterns is important for evaluating whether tourism recovery reflects a return to high-value tourism or simply an increase in visitor numbers.
+The ranking reversal between China and Indonesia is especially important. It suggests that the recovery process was uneven across major source markets. Indonesia’s stronger position in the post-COVID period may reflect a faster rebound in short-haul regional travel, whereas China’s drop from first to second place points to a relatively slower return compared with its pre-pandemic dominance. At the same time, the continued presence of India, Malaysia, and Australia in the top five reinforces the view that Singapore’s tourism recovery remained firmly anchored in established Asia-Pacific markets.

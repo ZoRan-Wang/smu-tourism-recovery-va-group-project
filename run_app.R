@@ -1,17 +1,12 @@
-required_pkgs <- c(
-  "shiny",
-  "bslib",
-  "DT",
-  "dplyr",
-  "ggplot2",
-  "readr",
-  "tidyr",
-  "scales"
+﻿required_pkgs <- c(
+  "shiny", "bslib", "readxl", "dplyr", "ggplot2", "cluster", "DT", "plotly",
+  "tidyr", "purrr", "lubridate", "forecast"
 )
 missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing_pkgs) > 0) {
   stop(
-    sprintf("Missing packages: %s. Run install.packages(c(%s)).",
+    sprintf(
+      "Missing packages: %s. Run install.packages(c(%s)).",
       paste(missing_pkgs, collapse = ", "),
       paste(sprintf("\"%s\"", missing_pkgs), collapse = ", ")
     ),

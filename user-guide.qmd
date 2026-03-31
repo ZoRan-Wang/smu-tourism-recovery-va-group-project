@@ -14,14 +14,16 @@ Open the **Time Series Explorer** tab to:
 2. Inspect the recent trend with a line chart.
 3. Confirm the unit and source metadata before moving to deeper analysis.
 
-## Step 2: Compare Recovery States
+## Step 2: Compare Country Recovery Patterns
 
 Open the **Cluster Prototype** tab to:
 
-1. Select multiple country-level visitor-arrivals series.
-2. Set the lookback window and choose `k`.
-3. Decide whether each country trajectory should be normalized before clustering.
-4. Review the scatter plot, silhouette score, and cluster profile table.
+1. Select a focused set of country-level visitor-arrivals series.
+2. Set the year window and choose the normalization mode.
+3. Pick a working `k` and run the clustering.
+4. Read the module in order: `Dashboard`, `Pattern Explorer`, `Focus Market in Context`, `Assignments`.
+
+The clustering unit is a **country trajectory**, not an individual month. The module is designed to answer which markets recovered in similar ways, not to assign each month into a market state.
 
 ## Step 3: Forecast Future Values
 
@@ -29,10 +31,11 @@ Open the **Forecasting Prototype** tab to:
 
 1. Select a country-level visitor-arrivals series.
 2. Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.
-3. Set the holdout horizon.
-4. Choose the forecasting model.
-5. Compare the seasonal-naive baseline with the selected model.
-6. Review the forecast plot and accuracy table.
+3. Set the holdout horizon and click `Run Forecasting`.
+4. Compare the seasonal-naive baseline with ETS and ARIMA.
+5. Review the forecast plot, decomposition views, split summary, and accuracy table.
+
+The forecasting module prefers the full `modeltime` workflow, but it can fall back to a lighter `forecast` implementation when that dependency chain is unavailable. The model labels and interpretation stay consistent across both paths.
 
 ## Interpretation Tips
 
@@ -42,8 +45,10 @@ Open the **Forecasting Prototype** tab to:
 
 ## Data Scope
 
-The current app is built on:
+The current app uses two coordinated inputs:
 
-`data/raw/Name your insight (4).xlsx`
+- Shared arrivals backbone: `data/raw/visitor_arrivals_full_dataset.xlsx`
+- Shared clustering artifacts: `data/processed/clustering_country_wide.csv`, `data/processed/clustering_country_long.csv`, `data/processed/clustering_series_metadata.csv`
+- Optional supporting tourism context: `data/raw/tourism_update.xlsx`
 
-This workbook provides monthly tourism time series for total visitor arrivals, selected countries and regions, hotel occupancy, average length of stay, and selected hotel indicators. In the forecasting module, country-level arrivals are the main forecast target and the hotel/stay indicators provide supporting interpretation.
+Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation.

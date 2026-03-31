@@ -1,4 +1,4 @@
-project:
+﻿project:
   type: website
   output-dir: docs
   render:
@@ -6,7 +6,7 @@ project:
     - "prototype/*.qmd"
     - "team/*.qmd"
     - "team/jin-qinhao/**/*.qmd"
-    - "meeting-records/*.qmd"
+    - "Meeting Minutes/*.qmd"
     - "!templates/"
     - "!artifacts/"
     - "!app/"
@@ -51,7 +51,7 @@ website:
       - href: team/onboarding.qmd
         text: Team
   page-footer:
-    center: "SMU Visual Analytics Group Project | Updated 2026-03-12"
+    center: "SMU Visual Analytics Group Project | Updated 2026-03-31"
 
 format:
   html:

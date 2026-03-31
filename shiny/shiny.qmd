@@ -1,12 +1,43 @@
----
-title: "Take-home Exercise 2"
-subtitle: "Prototyping Module for Visual Analytics Shiny Application"
+﻿---
+title: "Shiny App Launch"
+subtitle: "Static launch page for local or deployed Shiny access"
 author: "Group Project Starter"
-date: "2026-03-12"
+date: "2026-03-31"
+format:
+  html:
+    toc: false
 ---
-
-## shiny
 
 ```{r}
-shiny::runApp("C:/Users/12697/Documents/Playground/smu-tourism-recovery-va-group-project/team/jin-qinhao/Take-Home-Exercise2/shiny")
+shiny_app_url <- Sys.getenv("SHINY_APP_URL", unset = "http://127.0.0.1:3838")
+is_local_target <- grepl("127\\.0\\.1|localhost", shiny_app_url)
 ```
+
+## Launch Target
+
+Current target:
+
+`r shiny_app_url`
+
+- Mode: `r if (is_local_target) "Local development" else "External deployment"`
+- Recommended website entry page: [app-guide.qmd](../app-guide.qmd)
+
+## Open The App
+
+[Open the Shiny app](`r shiny_app_url`){target="_blank"}
+
+## Local Run Command
+
+```r
+shiny::runApp("app")
+```
+
+Or from the project root:
+
+```powershell
+Rscript run_app.R 3838
+```
+
+## Deployment Note
+
+For Netlify plus `shinyapps.io`, set `SHINY_APP_URL` to the deployed app before rendering the website so the launch button points to the public target instead of localhost.

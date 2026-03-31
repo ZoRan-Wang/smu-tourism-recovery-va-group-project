@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="SMU Visual Analytics Group Project">
-<meta name="dcterms.date" content="2026-03-15">
+<meta name="author" content="Group Project Starter">
+<meta name="dcterms.date" content="2026-03-29">
 
 <title>Singapore Tourism Recovery Visual Analytics Prototype – Singapore Tourism Recovery VA Prototype</title>
 <style>
@@ -104,6 +104,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../take-home-ex2.html"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
@@ -120,6 +124,18 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="../prototype/module-cluster.html">
  <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/module-decision-tree.html">
+ <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/package-audit.html">
@@ -159,26 +175,15 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview-and-motivation" id="toc-overview-and-motivation" class="nav-link active" data-scroll-target="#overview-and-motivation">1. Overview and Motivation</a></li>
+  <li><a href="#overview-motivation" id="toc-overview-motivation" class="nav-link active" data-scroll-target="#overview-motivation">1. Overview &amp; Motivation</a></li>
   <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">2. Problem Statement</a></li>
   <li><a href="#project-aim" id="toc-project-aim" class="nav-link" data-scroll-target="#project-aim">3. Project Aim</a></li>
-  <li><a href="#data-and-preparation" id="toc-data-and-preparation" class="nav-link" data-scroll-target="#data-and-preparation">4. Data and Preparation</a>
-  <ul class="collapse">
-  <li><a href="#core-monthly-variables" id="toc-core-monthly-variables" class="nav-link" data-scroll-target="#core-monthly-variables">Core monthly variables</a></li>
-  <li><a href="#derived-monthly-variables" id="toc-derived-monthly-variables" class="nav-link" data-scroll-target="#derived-monthly-variables">Derived monthly variables</a></li>
-  <li><a href="#supplementary-contextual-variables" id="toc-supplementary-contextual-variables" class="nav-link" data-scroll-target="#supplementary-contextual-variables">Supplementary contextual variables</a></li>
-  </ul></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">4. The Data</a></li>
   <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">5. Research Questions</a></li>
-  <li><a href="#analytical-approach" id="toc-analytical-approach" class="nav-link" data-scroll-target="#analytical-approach">6. Analytical Approach</a>
-  <ul class="collapse">
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">6.1 Exploratory Data Analysis</a></li>
-  <li><a href="#confirmatory-data-analysis" id="toc-confirmatory-data-analysis" class="nav-link" data-scroll-target="#confirmatory-data-analysis">6.2 Confirmatory Data Analysis</a></li>
-  <li><a href="#clustering-analysis" id="toc-clustering-analysis" class="nav-link" data-scroll-target="#clustering-analysis">6.3 Clustering Analysis</a></li>
-  <li><a href="#decision-tree-and-random-forest" id="toc-decision-tree-and-random-forest" class="nav-link" data-scroll-target="#decision-tree-and-random-forest">6.4 Decision Tree and Random Forest</a></li>
-  </ul></li>
-  <li><a href="#proposed-visual-and-interaction-design" id="toc-proposed-visual-and-interaction-design" class="nav-link" data-scroll-target="#proposed-visual-and-interaction-design">7. Proposed Visual and Interaction Design</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">8. R Packages</a></li>
-  <li><a href="#expected-contribution-of-the-prototype" id="toc-expected-contribution-of-the-prototype" class="nav-link" data-scroll-target="#expected-contribution-of-the-prototype">9. Expected Contribution of the Prototype</a></li>
+  <li><a href="#methodology-and-analytical-approach" id="toc-methodology-and-analytical-approach" class="nav-link" data-scroll-target="#methodology-and-analytical-approach">6. Methodology and Analytical Approach</a></li>
+  <li><a href="#forecasting-module" id="toc-forecasting-module" class="nav-link" data-scroll-target="#forecasting-module">7. Forecasting Module</a></li>
+  <li><a href="#data-visualisation-methods" id="toc-data-visualisation-methods" class="nav-link" data-scroll-target="#data-visualisation-methods">8. Data Visualisation Methods</a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages">9. R Packages</a></li>
   </ul>
 </nav>
     </div>
@@ -188,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Singapore Tourism Recovery Visual Analytics Prototype</h1>
-<p class="subtitle lead">Project Proposal</p>
+<p class="subtitle lead">Proposal</p>
 </div>
 
 
@@ -198,14 +203,14 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>SMU Visual Analytics Group Project </p>
+             <p>Group Project Starter </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 15, 2026</p>
+      <p class="date">March 29, 2026</p>
     </div>
   </div>
   
@@ -217,186 +222,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview-and-motivation" class="level2">
-<h2 class="anchored" data-anchor-id="overview-and-motivation">1. Overview and Motivation</h2>
-<p>Singapore’s tourism recovery should not be read as a simple question of whether total arrivals have returned to their pre-pandemic level. The monthly tourism record shows a more layered story: visitor arrivals collapsed during the COVID shock, hotel occupancy recovered at a different pace, the Chinese source market did not rebound in exactly the same pattern as total arrivals, and some months behave like distinct market states rather than points on one smooth trajectory.</p>
-<p>This proposal draws directly on the team’s completed prototype work in <a href="../prototype/EDA.html">EDA</a>, <a href="../prototype/CDA.html">CDA</a>, and <a href="../prototype/module-cluster.html">Clustering</a>. Together, these modules show that Singapore’s recovery is best understood as a monthly market-condition problem rather than a traveller-profile problem. The proposed visual analytics application will therefore focus on state changes over time, cross-variable relationships, and interpretable analytical modules that help users explain both disruption and recovery.</p>
+<section id="overview-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="overview-motivation">1. Overview &amp; Motivation</h2>
+<p>Singapore’s tourism sector experienced a severe shock during the pandemic and entered an uneven recovery phase in the years that followed. Monthly patterns in visitor arrivals, hotel occupancy, length of stay, and hotel performance indicators all suggest distinct recovery stages. Static charts alone are insufficient for users who need to compare series, detect structural shifts, and assess what may happen next. This project therefore proposes an interactive visual analytics prototype to support exploration, clustering, and forecasting on one shared tourism time-series dataset.</p>
 </section>
 <section id="problem-statement" class="level2">
 <h2 class="anchored" data-anchor-id="problem-statement">2. Problem Statement</h2>
-<p>Public discussion of tourism recovery often reduces the issue to a single volume indicator: whether arrivals are up or down. That framing is too narrow for this project. For Singapore, recovery also involves:</p>
-<ul>
-<li>shifts in the contribution of the Chinese source market,</li>
-<li>differences between tourism demand and hotel utilisation,</li>
-<li>possible structural breaks between pre-COVID, shock, and recovery periods, and</li>
-<li>the emergence of different tourism market states across months.</li>
-</ul>
-<p>Without an integrated visual analytics workflow, these relationships remain fragmented across disconnected charts and summary tables. The project therefore needs a coordinated prototype that combines descriptive views, confirmatory analysis, clustering, and predictive modeling in one coherent interface.</p>
+<p>Current discussions on tourism recovery often focus narrowly on whether visitor numbers have returned, without adequately examining seasonality, source-market differences, or the way recovery paths vary across tourism series. In particular, there is a lack of an interactive time-series framework that allows users to compare country-level arrivals, detect recovery regimes, and assess how future demand may evolve.</p>
 </section>
 <section id="project-aim" class="level2">
 <h2 class="anchored" data-anchor-id="project-aim">3. Project Aim</h2>
-<p>The project aims to develop a visual analytics prototype that allows users to:</p>
-<ol type="1">
-<li>compare tourism conditions across the pre-COVID, COVID shock, and recovery periods;</li>
-<li>evaluate how the Chinese source market changed relative to total visitor arrivals;</li>
-<li>examine how visitor arrivals, hotel occupancy, and stay duration move together;</li>
-<li>group monthly observations into interpretable tourism market states; and</li>
-<li>explain hotel occupancy outcomes using rule-based and ensemble models.</li>
-</ol>
+<p>The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism market states evolve and how selected demand series may move in the near future.</p>
 </section>
-<section id="data-and-preparation" class="level2">
-<h2 class="anchored" data-anchor-id="data-and-preparation">4. Data and Preparation</h2>
-<p>The project uses a cleaned monthly tourism workbook sourced from CEIC. The main analytical sheet spans <strong>December 2016 to January 2026</strong> and treats each month as one observation.</p>
-<section id="core-monthly-variables" class="level3">
-<h3 class="anchored" data-anchor-id="core-monthly-variables">Core monthly variables</h3>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">4. The Data</h2>
+<p>The project data is sourced from CEIC and Singapore Tourism Board related series and is reliable in terms of data origin. The current prototype uses two coordinated workbook layers built from the same tourism-arrivals backbone:</p>
 <ul>
-<li><code>date</code></li>
-<li><code>visitor_arrivals</code></li>
-<li><code>visitor_arrivals_china</code></li>
-<li><code>hotel_occ</code></li>
-<li><code>avg_stay_monthly</code></li>
+<li><code>visitor_arrivals_full_dataset.xlsx</code> for the shared country-arrivals backbone used in clustering and forecasting</li>
+<li><code>tourism_update.xlsx</code> for the EDA/CDA views that compare arrivals, China share, hotel occupancy, and stay indicators in one curated sheet</li>
 </ul>
-</section>
-<section id="derived-monthly-variables" class="level3">
-<h3 class="anchored" data-anchor-id="derived-monthly-variables">Derived monthly variables</h3>
-<ul>
-<li><code>china_share</code></li>
-<li><code>year</code></li>
-<li><code>month</code></li>
-<li><code>quarter</code></li>
-<li><code>period</code></li>
-<li><code>avg_stay_monthly_capped</code></li>
-</ul>
-</section>
-<section id="supplementary-contextual-variables" class="level3">
-<h3 class="anchored" data-anchor-id="supplementary-contextual-variables">Supplementary contextual variables</h3>
-<ul>
-<li><code>spend_per_capita</code></li>
-<li><code>tourism_receipts</code></li>
-<li><code>avg_stay_annual</code></li>
-</ul>
-<p>The analytical workflow prioritizes monthly variables because the main research questions focus on tourism market conditions over time. Annual variables are retained as supporting context but are not treated as the core inputs for clustering or occupancy classification.</p>
-<p>The project also adopts a period-based interpretation of the timeline:</p>
-<ul>
-<li><code>pre_covid</code>: December 2016 to January 2020</li>
-<li><code>covid_shock</code>: February 2020 to December 2021</li>
-<li><code>recovery</code>: January 2022 to January 2026</li>
-</ul>
-</section>
+<p>Across these connected inputs, the analytical focus remains monthly visitor arrivals, arrivals from selected countries and regions such as China, hotel room occupancy rate, monthly average length of stay, number of hotels, and total room revenue. The app uses one shared country-arrivals backbone for clustering and forecasting, while the EDA/CDA pages rely on a curated workbook derived from the same tourism context so that descriptive and confirmatory views still speak to the same recovery story.</p>
 </section>
 <section id="research-questions" class="level2">
 <h2 class="anchored" data-anchor-id="research-questions">5. Research Questions</h2>
-<p>The proposal is guided by four project-level questions:</p>
+<p>The project focuses on the following questions:</p>
 <ol type="1">
-<li>How did Singapore’s tourism market differ across the pre-COVID, COVID shock, and recovery periods?</li>
-<li>Did the Chinese source market recover in step with the broader inbound tourism market?</li>
-<li>Can monthly observations be grouped into a small number of interpretable tourism market states?</li>
-<li>Which indicators are most useful for explaining low, medium, and high hotel occupancy outcomes?</li>
+<li>How did Singapore’s tourism market differ across the pre-COVID, shock, and recovery periods?</li>
+<li>Did the recovery of selected source markets move in tandem with the broader tourism market?</li>
+<li>Can country-level arrivals trajectories be grouped into meaningful recovery-pattern clusters?</li>
+<li>How well can selected country-level visitor-arrivals series be forecast using a baseline method and a model-based approach?</li>
 </ol>
 </section>
-<section id="analytical-approach" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-approach">6. Analytical Approach</h2>
-<p>The current proposal is no longer a purely conceptual plan. It is informed by working prototypes that already define the analytical logic of the application.</p>
-<section id="exploratory-data-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="exploratory-data-analysis">6.1 Exploratory Data Analysis</h3>
-<p>The exploratory data analysis module provides the descriptive entry point of the proposed visual analytics system. Rather than starting with a predictive model, the project first establishes how the tourism market moved over time and how different indicators changed together. This module is built from interactive time-series charts and relationship plots that help users read the recovery as a sequence of changing monthly conditions instead of a single headline number.</p>
-<p>The completed EDA prototype addresses four descriptive questions. First, it shows how total visitor arrivals changed across the pre-COVID, COVID shock, and recovery periods. Second, it compares total arrivals with Chinese arrivals and China’s market share. Third, it examines how hotel occupancy responded to changes in tourism demand. Fourth, it checks whether spending behavior moved in the same direction as visitor volume. These views are especially useful at the proposal stage because they define the variables, visual forms, and interactions that the final application should preserve.</p>
-<p>One of the clearest findings from the EDA work is that Singapore’s recovery cannot be understood through total arrivals alone. The China-focused comparative view shows that Chinese arrivals dropped with the broader market during the disruption period, but their rebound after 2022 lagged behind the recovery in total arrivals. This means that Singapore’s tourism recovery was supported by a more diversified mix of source markets rather than a simple restoration of the old demand structure.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/eda-china-market.png" class="img-fluid figure-img" style="width:78.0%"></p>
-<figcaption>EDA: China Market Contribution and Visitor Share</figcaption>
-</figure>
-</div>
-<p>The EDA prototype also demonstrates that hotel occupancy remains strongly connected to visitor arrivals, but not in a perfectly mechanical way. During the COVID shock period, arrivals collapsed to near zero while hotel occupancy remained above zero, which implies that domestic demand, essential travel, and other non-tourism hotel uses still mattered. In the recovery period, occupancy rose alongside arrivals, making this relationship an important bridge between descriptive analysis and the later occupancy-classification module.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/eda-hotel-utilisation.png" class="img-fluid figure-img" style="width:72.0%"></p>
-<figcaption>EDA: Tourism Demand and Hotel Utilisation</figcaption>
-</figure>
-</div>
-<p>From a proposal perspective, this module contributes two design decisions to the final application. First, the app should foreground linked time-series views that let users compare market volume and source-market composition at the same time. Second, the app should retain relationship plots that connect demand indicators to hotel performance, because these visuals help users see why the same month can represent very different tourism conditions even when total arrivals look similar.</p>
+<section id="methodology-and-analytical-approach" class="level2">
+<h2 class="anchored" data-anchor-id="methodology-and-analytical-approach">6. Methodology and Analytical Approach</h2>
+<p>The project adopts three main analytical modules:</p>
+<ol type="1">
+<li><strong>Time-series exploration</strong> to reveal trends, seasonality, and unusual shifts across target series.</li>
+<li><strong>Time-series clustering</strong> to group country-level arrivals trajectories into interpretable recovery-pattern clusters.</li>
+<li><strong>Forecasting</strong> to compare a baseline method against a model-based approach on selected country-arrivals series and evaluate holdout accuracy, while interpreting those forecasts against hotel and stay indicators.</li>
+</ol>
+<p>These modules are designed to use the same monthly dataset so that users can move from description to structure to prediction without changing data context.</p>
 </section>
-<section id="confirmatory-data-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="confirmatory-data-analysis">6.2 Confirmatory Data Analysis</h3>
-<p>The confirmatory data analysis module extends the EDA findings by asking whether the strongest visual patterns remain meaningful once they are tested more formally. In the current prototype, this section is organized around three questions: whether visitor arrivals differ across historical periods, whether China’s visitor share is associated with total arrivals, and whether there is strong month-level seasonality after the most distorted shock years are handled separately.</p>
-<p>The current CDA workflow uses a mix of boxplots, ANOVA, regression, and monthly comparison views. This is important for the project because the final Shiny application should not only show users attractive charts; it should also help them distinguish between patterns that are visually striking and patterns that are analytically defensible. In other words, CDA gives the project its evaluation layer.</p>
-<p>The prototype results already suggest that period is the most reliable explanatory structure in the dataset. Visitor arrivals clearly differ across the pre-COVID, shock, and recovery periods, which supports the use of period-based filters and period-aware storytelling in the final application. By contrast, the China-share regression view is more cautious: it shows that a higher China share does not automatically translate into higher total arrivals, which means the Chinese market is important but should not be treated as a single dominant driver of overall recovery.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/cda-china-share-regression.png" class="img-fluid figure-img" style="width:72.0%"></p>
-<figcaption>CDA: China Share and Total Visitor Arrivals</figcaption>
-</figure>
-</div>
-<p>This module therefore contributes an important logical safeguard to the proposal. It prevents the final application from making overly simple claims such as “China recovered, therefore tourism recovered” or “seasonality explains the recovery pattern.” Instead, the application can use CDA results to frame more disciplined interpretations, where period effects are emphasized, source-market composition is treated carefully, and statistical summaries sit beside visual exploration rather than being replaced by it.</p>
+<section id="forecasting-module" class="level2">
+<h2 class="anchored" data-anchor-id="forecasting-module">7. Forecasting Module</h2>
+<p>The forecasting module will follow the Chapter 19 and 20 time-series workflow used in <em>R for Visual Analytics</em>. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks. The deployed app prefers the full modeltime workflow when those packages are available, but it can fall back to a lighter forecast-package implementation without changing the high-level comparison logic. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.</p>
+<p>The expected outputs are:</p>
+<ol type="1">
+<li>a selectable target series</li>
+<li>a raw time-series view with seasonal and decomposition diagnostics</li>
+<li>a forecast plot showing training, test, and forecast paths</li>
+<li>an accuracy table comparing RMSE, MAE, and MAPE</li>
+<li>explanatory notes on the difference between the baseline and the forecasting model</li>
+</ol>
 </section>
-<section id="clustering-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="clustering-analysis">6.3 Clustering Analysis</h3>
-<p>The clustering module, developed from Wang Zhuoran’s prototype work, adds a structural layer that neither EDA nor CDA can provide on their own. Instead of asking only whether one variable increased or decreased, it asks whether the monthly observations naturally form a small number of interpretable tourism market states. This is central to the project logic because the unit of analysis is the month, and the core analytical question is whether recovery unfolded through distinct market conditions rather than one smooth trend.</p>
-<p>The model uses four standardized monthly indicators: <code>visitor_arrivals</code>, <code>china_share</code>, <code>hotel_occ</code>, and <code>avg_stay_monthly_capped</code>. These variables were chosen because together they capture tourism scale, market composition, accommodation performance, and stay behavior. Standardization is necessary so that visitor counts do not dominate the clustering simply because they are measured on a larger numeric scale than the other indicators.</p>
-<p>The prototype first evaluates candidate cluster counts using elbow and silhouette diagnostics. This step matters because the goal is not to force an arbitrary number of groups onto the data, but to justify a cluster structure that is both statistically reasonable and substantively interpretable. The diagnostics support selecting <code>k = 3</code>, which offers a workable balance between compactness and interpretability.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/cluster-elbow.png" class="img-fluid figure-img" style="width:72.0%"></p>
-<figcaption>Clustering: Elbow Diagnostic for Selecting k</figcaption>
-</figure>
-</div>
-<p>After fitting the final k-means model, the three cluster states can be interpreted as pandemic shock months, recovery transition months, and high-performance months. The reduced-space cluster map shows that these states are not random labels. They occupy different regions of the feature space and align with meaningful differences in arrivals, hotel occupancy, and China’s market contribution.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/cluster-state-map.png" class="img-fluid figure-img" style="width:76.0%"></p>
-<figcaption>Clustering: State Map in Reduced Feature Space</figcaption>
-</figure>
-</div>
-<p>The historical timeline view makes the interpretation even more persuasive. Pandemic shock months concentrate inside the disruption period, recovery transition months bridge the early reopening phase, and high-performance months dominate the pre-COVID and later recovery periods. This is exactly the kind of structure the final application should expose to users: not only whether recovery happened, but what kind of market state each month represents.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/cluster-timeline.png" class="img-fluid figure-img" style="width:74.0%"></p>
-<figcaption>Clustering: Timeline of Inferred Market States</figcaption>
-</figure>
-</div>
-<p>In the final Shiny application, this module will support exploratory state comparison, timeline interpretation, and state-level downloads. It is also an effective bridge between descriptive analysis and model-based explanation, because the inferred states provide a compact summary of how multiple tourism indicators move together over time.</p>
-</section>
-<section id="decision-tree-and-random-forest" class="level3">
-<h3 class="anchored" data-anchor-id="decision-tree-and-random-forest">6.4 Decision Tree and Random Forest</h3>
-<p>The decision tree and random forest module focuses on hotel occupancy classification. The goal is to identify which tourism indicators best explain whether a month belongs to a low, medium, or high occupancy state.</p>
-<p>The decision tree component emphasizes interpretability by expressing model logic as explicit branching rules. The random forest component strengthens the analysis by testing the same question with a more robust ensemble method, allowing the team to compare predictive stability and variable importance. Together, these methods support both explanation and validation.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/P2.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Decision Tree Visualization</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/P1.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Random Forest Confusion Matrix</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="picture/P3.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Random Forest Variable Importance</figcaption>
-</figure>
-</div>
-</section>
-</section>
-<section id="proposed-visual-and-interaction-design" class="level2">
-<h2 class="anchored" data-anchor-id="proposed-visual-and-interaction-design">7. Proposed Visual and Interaction Design</h2>
-<p>The final prototype is designed as a modular visual analytics system rather than a single static report. The interaction design is built around the analytical work already completed by Xi Zixun and Wang Zhuoran:</p>
-<ul>
-<li>interactive time-series charts for tracking visitor arrivals and China’s market share,</li>
-<li>scatterplots and boxplots for period comparison and relationship checks,</li>
-<li>clustering diagnostics such as elbow and silhouette views,</li>
-<li>state maps and timelines that anchor cluster assignments back to historical months,</li>
-<li>interactive data tables for cluster profiles and month-level assignments, and</li>
-<li>model interpretation views for decision tree and random forest outputs.</li>
-</ul>
-<p>The Shiny application will expose a focused set of controls, such as period filters, cluster parameters, random seeds, and export functions, so that users can test alternative settings without losing the interpretability of the workflow. The design principle is to keep each module analytically meaningful, visually legible, and easy to compare with the written coursework narrative.</p>
+<section id="data-visualisation-methods" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualisation-methods">8. Data Visualisation Methods</h2>
+<p>The prototype will include time-series line charts, target-series comparison views, pattern atlases, recovery position maps, cluster profile tables, forecast plots, and forecast accuracy tables. These visualizations are designed not merely to display results, but to reveal seasonal structure, regime shifts, recovery-pattern similarities, and the relative performance of competing forecasting methods.</p>
 </section>
 <section id="r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="r-packages">8. R Packages</h2>
-<p>The proposal relies on a set of packages that support data import, transformation, visualization, clustering, and modeling.</p>
+<h2 class="anchored" data-anchor-id="r-packages">9. R Packages</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -404,95 +288,73 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Package</th>
-<th>Purpose</th>
+<th style="text-align: left;"><strong>Package</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>readxl</code></td>
-<td>Import the cleaned Excel workbook and project sheets.</td>
+<td style="text-align: left;">tidyverse</td>
+<td style="text-align: left;">Used for data cleaning, transformation, filtering, summarisation, and general data manipulation.</td>
 </tr>
 <tr class="even">
-<td><code>dplyr</code></td>
-<td>Filter, transform, summarize, and reshape monthly tourism data.</td>
+<td style="text-align: left;">readxl</td>
+<td style="text-align: left;">Used to import the original Excel dataset into R.</td>
 </tr>
 <tr class="odd">
-<td><code>lubridate</code></td>
-<td>Parse dates and derive time-based fields such as year, month, and quarter.</td>
+<td style="text-align: left;">lubridate</td>
+<td style="text-align: left;">Used to process date variables and create time-based fields.</td>
 </tr>
 <tr class="even">
-<td><code>ggplot2</code></td>
-<td>Build the core statistical graphics used across all modules.</td>
+<td style="text-align: left;">ggplot2</td>
+<td style="text-align: left;">Used to create line charts, clustering plots, and forecast visualisations.</td>
 </tr>
 <tr class="odd">
-<td><code>plotly</code></td>
-<td>Add interactivity to selected EDA and CDA charts.</td>
+<td style="text-align: left;">plotly</td>
+<td style="text-align: left;">Used to add interactivity to selected visualisations where needed.</td>
 </tr>
 <tr class="even">
-<td><code>patchwork</code></td>
-<td>Combine multiple <code>ggplot2</code> charts into shared analytical views.</td>
+<td style="text-align: left;">DT</td>
+<td style="text-align: left;">Used to display interactive data tables in the prototype.</td>
 </tr>
 <tr class="odd">
-<td><code>GGally</code></td>
-<td>Support paired visual exploration and relationship checks.</td>
+<td style="text-align: left;">cluster</td>
+<td style="text-align: left;">Used for clustering analysis and cluster quality assessment such as silhouette scores.</td>
 </tr>
 <tr class="even">
-<td><code>corrplot</code></td>
-<td>Visualize correlation structures among tourism indicators.</td>
+<td style="text-align: left;">factoextra</td>
+<td style="text-align: left;">Used to visualise clustering results, elbow plots, and cluster profiles.</td>
 </tr>
 <tr class="odd">
-<td><code>cluster</code></td>
-<td>Estimate k-means diagnostics and silhouette scores.</td>
+<td style="text-align: left;">forecast</td>
+<td style="text-align: left;">Used to fit baseline and model-based time-series forecasts such as seasonal naive, ETS, and ARIMA.</td>
 </tr>
 <tr class="even">
-<td><code>DT</code></td>
-<td>Present interactive tables in the Quarto pages and Shiny application.</td>
+<td style="text-align: left;">tidymodels</td>
+<td style="text-align: left;">Used to support time-aware train/test splitting and the forecasting modelling workflow.</td>
 </tr>
 <tr class="odd">
-<td><code>rpart</code></td>
-<td>Train the decision tree classification model.</td>
+<td style="text-align: left;">timetk</td>
+<td style="text-align: left;">Used to support time-series exploration and modeltime-friendly forecasting workflows.</td>
 </tr>
 <tr class="even">
-<td><code>rpart.plot</code></td>
-<td>Render readable static decision tree diagrams.</td>
+<td style="text-align: left;">modeltime</td>
+<td style="text-align: left;">Used to calibrate, compare, refit, and forecast time-series models in a unified workflow.</td>
 </tr>
 <tr class="odd">
-<td><code>caret</code></td>
-<td>Standardize model training, evaluation, and confusion-matrix reporting.</td>
+<td style="text-align: left;">tsibble</td>
+<td style="text-align: left;">Used to represent time-indexed series for decomposition and temporal analysis.</td>
 </tr>
 <tr class="even">
-<td><code>ranger</code></td>
-<td>Fit the random forest classification model efficiently.</td>
+<td style="text-align: left;">feasts</td>
+<td style="text-align: left;">Used to derive decomposition and seasonal diagnostics before model fitting.</td>
 </tr>
 <tr class="odd">
-<td><code>visNetwork</code></td>
-<td>Support interactive tree-style model visualization.</td>
-</tr>
-<tr class="even">
-<td><code>htmlwidgets</code></td>
-<td>Preserve interactive outputs inside the website.</td>
-</tr>
-<tr class="odd">
-<td><code>shiny</code></td>
-<td>Provide the modular interactive application framework for the final prototype.</td>
-</tr>
-<tr class="even">
-<td><code>bslib</code></td>
-<td>Support theme control and layout customization in the Shiny interface.</td>
+<td style="text-align: left;">patchwork</td>
+<td style="text-align: left;">Used to combine multiple ggplot charts into one display layout.</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="expected-contribution-of-the-prototype" class="level2">
-<h2 class="anchored" data-anchor-id="expected-contribution-of-the-prototype">9. Expected Contribution of the Prototype</h2>
-<p>The proposed system contributes more than a set of charts. It offers a structured way to understand tourism recovery through three linked ideas:</p>
-<ol type="1">
-<li>recovery should be compared across historically meaningful periods;</li>
-<li>the Chinese source market matters, but it does not fully explain overall tourism performance; and</li>
-<li>monthly tourism conditions can be grouped into interpretable states that support both exploration and modeling.</li>
-</ol>
-<p>By combining Xi Zixun’s descriptive and confirmatory work with Wang Zhuoran’s clustering module and the occupancy-classification module, the project moves from a general tourism dashboard toward a more analytical visual system for explaining recovery dynamics in Singapore.</p>
 
 
 </section>
@@ -905,7 +767,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

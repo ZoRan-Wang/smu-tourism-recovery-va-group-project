@@ -19,16 +19,12 @@ The project aims to develop a visual analytics prototype based on monthly touris
 
 ## 4. The Data
 
-The project data is sourced from CEIC and Singapore Tourism Board related series and is reliable in terms of data origin. The selected workbook contains monthly tourism indicators such as:
+The project data is sourced from CEIC and Singapore Tourism Board related series and is reliable in terms of data origin. The current prototype uses two coordinated workbook layers built from the same tourism-arrivals backbone:
 
-- Visitor Arrivals
-- Visitor Arrivals by selected countries and regions
-- Hotel Room Occupancy Rate
-- Average Length of Stay
-- Number of Hotels
-- Total Room Revenue
+- `visitor_arrivals_full_dataset.xlsx` for the shared country-arrivals backbone used in clustering and forecasting
+- `tourism_update.xlsx` for the EDA/CDA views that compare arrivals, China share, hotel occupancy, and stay indicators in one curated sheet
 
-The project uses a compiled tourism time-series workbook spanning **December 2015 onward**, with the main analytical focus on monthly series. Core variables include total visitor arrivals, arrivals from selected countries and regions such as China, hotel room occupancy rate, monthly average length of stay, number of hotels, and total room revenue. The app will use one common monthly dataset across all modules so that exploration, clustering, and forecasting remain consistent. Within that shared dataset, the forecasting module will treat **country-level monthly visitor arrivals** as the primary target series, while hotel occupancy, stay length, and room revenue will be used as supporting indicators for interpretation.
+Across these connected inputs, the analytical focus remains monthly visitor arrivals, arrivals from selected countries and regions such as China, hotel room occupancy rate, monthly average length of stay, number of hotels, and total room revenue. The app uses one shared country-arrivals backbone for clustering and forecasting, while the EDA/CDA pages rely on a curated workbook derived from the same tourism context so that descriptive and confirmatory views still speak to the same recovery story.
 
 ## 5. Research Questions
 
@@ -36,7 +32,7 @@ The project focuses on the following questions:
 
 1. How did Singapore's tourism market differ across the pre-COVID, shock, and recovery periods?
 2. Did the recovery of selected source markets move in tandem with the broader tourism market?
-3. Can monthly tourism observations be grouped into meaningful recovery-state clusters?
+3. Can country-level arrivals trajectories be grouped into meaningful recovery-pattern clusters?
 4. How well can selected country-level visitor-arrivals series be forecast using a baseline method and a model-based approach?
 
 ## 6. Methodology and Analytical Approach
@@ -51,7 +47,7 @@ These modules are designed to use the same monthly dataset so that users can mov
 
 ## 7. Forecasting Module
 
-The forecasting module will follow the Chapter 19 and 20 time-series workflow used in *R for Visual Analytics*. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks through the modeltime workflow. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.
+The forecasting module will follow the Chapter 19 and 20 time-series workflow used in *R for Visual Analytics*. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks. The deployed app prefers the full modeltime workflow when those packages are available, but it can fall back to a lighter forecast-package implementation without changing the high-level comparison logic. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.
 
 The expected outputs are:
 
@@ -63,7 +59,7 @@ The expected outputs are:
 
 ## 8. Data Visualisation Methods
 
-The prototype will include time-series line charts, target-series comparison views, cluster scatter plots, cluster profile tables, forecast plots, and forecast accuracy tables. These visualizations are designed not merely to display results, but to reveal seasonal structure, regime shifts, recovery-state similarities, and the relative performance of competing forecasting methods.
+The prototype will include time-series line charts, target-series comparison views, pattern atlases, recovery position maps, cluster profile tables, forecast plots, and forecast accuracy tables. These visualizations are designed not merely to display results, but to reveal seasonal structure, regime shifts, recovery-pattern similarities, and the relative performance of competing forecasting methods.
 
 ## 9. R Packages
 

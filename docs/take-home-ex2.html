@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Group Project Starter">
-<meta name="dcterms.date" content="2026-03-12">
+<meta name="author" content="JIN QINHAO">
+<meta name="dcterms.date" content="2026-03-27">
 
 <title>Take-home Exercise 2 – Singapore Tourism Recovery VA Prototype</title>
 <style>
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -104,6 +139,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./take-home-ex2.html" aria-current="page"> 
 <span class="menu-text">Take-home 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Prototype</span>
@@ -120,6 +159,18 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./prototype/module-cluster.html">
  <span class="dropdown-text">Clustering Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/decision-tree.html">
+ <span class="dropdown-text">Decision Tree Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/module-decision-tree.html">
+ <span class="dropdown-text">Decision Tree Prototype</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting Prototype</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./prototype/package-audit.html">
@@ -151,7 +202,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
@@ -160,40 +211,68 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#submission-scope" id="toc-submission-scope" class="nav-link active" data-scroll-target="#submission-scope">Submission Scope</a></li>
-  <li><a href="#data-preparation-process" id="toc-data-preparation-process" class="nav-link" data-scroll-target="#data-preparation-process">1. Data Preparation Process</a></li>
-  <li><a href="#package-support-cran" id="toc-package-support-cran" class="nav-link" data-scroll-target="#package-support-cran">2. Package Support (CRAN)</a></li>
-  <li><a href="#prototype-code-test-and-expected-visual-output" id="toc-prototype-code-test-and-expected-visual-output" class="nav-link" data-scroll-target="#prototype-code-test-and-expected-visual-output">3. Prototype Code Test and Expected Visual Output</a></li>
-  <li><a href="#exposed-parameters-and-outputs" id="toc-exposed-parameters-and-outputs" class="nav-link" data-scroll-target="#exposed-parameters-and-outputs">4. Exposed Parameters and Outputs</a></li>
-  <li><a href="#ui-design" id="toc-ui-design" class="nav-link" data-scroll-target="#ui-design">5. UI Design</a></li>
-  <li><a href="#visual-design-interactivity-practices" id="toc-visual-design-interactivity-practices" class="nav-link" data-scroll-target="#visual-design-interactivity-practices">6. Visual Design &amp; Interactivity Practices</a></li>
-  <li><a href="#current-status-and-next-step" id="toc-current-status-and-next-step" class="nav-link" data-scroll-target="#current-status-and-next-step">7. Current Status and Next Step</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">1. Data Preparation</a>
+  <ul class="collapse">
+  <li><a href="#input-data" id="toc-input-data" class="nav-link" data-scroll-target="#input-data">Input Data</a></li>
+  <li><a href="#preparation-logic" id="toc-preparation-logic" class="nav-link" data-scroll-target="#preparation-logic">Preparation Logic</a></li>
+  <li><a href="#scripts-used" id="toc-scripts-used" class="nav-link" data-scroll-target="#scripts-used">Scripts Used</a></li>
+  <li><a href="#exported-tables" id="toc-exported-tables" class="nav-link" data-scroll-target="#exported-tables">Exported Tables</a></li>
+  </ul></li>
+  <li><a href="#classification-tree-prototype" id="toc-classification-tree-prototype" class="nav-link" data-scroll-target="#classification-tree-prototype">2. Classification Tree Prototype</a>
+  <ul class="collapse">
+  <li><a href="#modeling-goal" id="toc-modeling-goal" class="nav-link" data-scroll-target="#modeling-goal">Modeling Goal</a></li>
+  <li><a href="#why-this-method-fits-the-project" id="toc-why-this-method-fits-the-project" class="nav-link" data-scroll-target="#why-this-method-fits-the-project">Why This Method Fits the Project</a></li>
+  <li><a href="#core-outputs" id="toc-core-outputs" class="nav-link" data-scroll-target="#core-outputs">Core Outputs</a>
+  <ul class="collapse">
+  <li><a href="#visual-outputs" id="toc-visual-outputs" class="nav-link" data-scroll-target="#visual-outputs">Visual outputs</a></li>
+  <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a></li>
+  </ul></li>
+  <li><a href="#interpretation-focus" id="toc-interpretation-focus" class="nav-link" data-scroll-target="#interpretation-focus">Interpretation Focus</a></li>
+  </ul></li>
+  <li><a href="#random-forest-prototype" id="toc-random-forest-prototype" class="nav-link" data-scroll-target="#random-forest-prototype">3. Random Forest Prototype</a>
+  <ul class="collapse">
+  <li><a href="#modeling-goal-1" id="toc-modeling-goal-1" class="nav-link" data-scroll-target="#modeling-goal-1">Modeling Goal</a></li>
+  <li><a href="#why-this-method-fits-the-project-1" id="toc-why-this-method-fits-the-project-1" class="nav-link" data-scroll-target="#why-this-method-fits-the-project-1">Why This Method Fits the Project</a></li>
+  <li><a href="#core-outputs-1" id="toc-core-outputs-1" class="nav-link" data-scroll-target="#core-outputs-1">Core Outputs</a>
+  <ul class="collapse">
+  <li><a href="#visual-outputs-1" id="toc-visual-outputs-1" class="nav-link" data-scroll-target="#visual-outputs-1">Visual outputs</a></li>
+  <li><a href="#tables-1" id="toc-tables-1" class="nav-link" data-scroll-target="#tables-1">Tables</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#shiny-deployment" id="toc-shiny-deployment" class="nav-link" data-scroll-target="#shiny-deployment">4. Shiny Deployment</a>
+  <ul class="collapse">
+  <li><a href="#deployment-arrangement" id="toc-deployment-arrangement" class="nav-link" data-scroll-target="#deployment-arrangement">Deployment Arrangement</a></li>
+  <li><a href="#launch-method" id="toc-launch-method" class="nav-link" data-scroll-target="#launch-method">Launch Method</a></li>
+  </ul></li>
+  <li><a href="#ui-and-interaction-design" id="toc-ui-and-interaction-design" class="nav-link" data-scroll-target="#ui-and-interaction-design">5. UI and Interaction Design</a></li>
+  <li><a href="#current-status" id="toc-current-status" class="nav-link" data-scroll-target="#current-status">6. Current Status</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Take-home Exercise 2</h1>
-<p class="subtitle lead">Prototyping Module for Visual Analytics Shiny Application</p>
+<div class="quarto-title-block"><div><h1 class="title">Take-home Exercise 2</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Classification Tree and Random Forest Prototype</p>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Group Project Starter </p>
+             <p>JIN QINHAO </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 12, 2026</p>
+      <p class="date">March 27, 2026</p>
     </div>
   </div>
   
@@ -205,181 +284,236 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="submission-scope" class="level2">
-<h2 class="anchored" data-anchor-id="submission-scope">Submission Scope</h2>
-<p>This page is structured as an individual <strong>Take-home Exercise 2</strong> submission and focuses on one prototype module:</p>
-<p><strong>Selected module:</strong> <code>Cluster Analysis</code> for monthly tourism market states.</p>
-<p>The module uses monthly observations to identify interpretable tourism states:</p>
+<section id="submission-scope" class="level1">
+<h1>Submission Scope</h1>
+<p>This take-home exercise documents my prototype contribution for the tourism recovery visual analytics project.<br>
+The selected prototype focuses on <strong>classification tree</strong> and <strong>random forest</strong> analysis for monthly hotel occupancy classification.</p>
+<p>The prototype covers four linked tasks:</p>
 <ol type="1">
-<li>Pandemic shock months.</li>
-<li>Recovery transition months.</li>
-<li>High-performance months.</li>
+<li>preparing monthly tourism data for modeling,</li>
+<li>building an interpretable classification tree,</li>
+<li>evaluating a random forest benchmark,</li>
+<li>packaging the outputs into a deployable Shiny application.</li>
 </ol>
 </section>
-<section id="data-preparation-process" class="level2">
-<h2 class="anchored" data-anchor-id="data-preparation-process">1. Data Preparation Process</h2>
-<p>Data preparation follows the imported bilingual plan and detailed cleaning notes in <code>data/references/</code>.</p>
-<p>Key preparation decisions:</p>
+<section id="data-preparation" class="level1">
+<h1>1. Data Preparation</h1>
+<section id="input-data" class="level2">
+<h2 class="anchored" data-anchor-id="input-data">Input Data</h2>
+<p>The original workbook used for my analysis has been moved into the project data area:</p>
+<ul>
+<li><code>data/raw/Name your insight (2).xlsx</code></li>
+</ul>
+<p>Derived datasets and exported tables are stored in:</p>
+<ul>
+<li><code>artifacts/tables/</code></li>
+</ul>
+</section>
+<section id="preparation-logic" class="level2">
+<h2 class="anchored" data-anchor-id="preparation-logic">Preparation Logic</h2>
+<p>The preparation process follows the same workflow used in my individual prototype:</p>
 <ol type="1">
-<li>Remove metadata rows and invalid <code>2015-12-01</code> record.</li>
-<li>Use monthly variables for model features.</li>
-<li>Keep annual variables only for supplementary visual context.</li>
-<li>Create <code>china_share</code>, <code>period</code>, and calendar fields (<code>year</code>, <code>month</code>, <code>quarter</code>).</li>
-<li>Use capped stay-length and z-score fields for stable clustering.</li>
+<li>Read monthly tourism indicators from the Excel workbook.</li>
+<li>Remove incomplete rows and retain valid monthly observations.</li>
+<li>Create calendar fields such as <code>year</code>, <code>month</code>, and <code>quarter</code>.</li>
+<li>Create the recovery-stage field <code>period</code>.</li>
+<li>Derive <code>china_share</code> and <code>china_share_pct</code>.</li>
+<li>Cap extreme stay values to stabilize modeling.</li>
+<li>Create occupancy classes:
+<ul>
+<li><code>low</code></li>
+<li><code>medium</code></li>
+<li><code>high</code></li>
+</ul></li>
+<li>Split the data into <code>train</code> and <code>test</code>.</li>
 </ol>
 </section>
-<section id="package-support-cran" class="level2">
-<h2 class="anchored" data-anchor-id="package-support-cran">2. Package Support (CRAN)</h2>
-<p>The module package audit is documented in <a href="./prototype/package-audit.html">Package Audit</a>.</p>
-<p>Core stack for this prototype:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Package</th>
-<th>Purpose</th>
-<th>CRAN</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>shiny</code></td>
-<td>UI/server runtime</td>
-<td>Yes</td>
-</tr>
-<tr class="even">
-<td><code>readxl</code></td>
-<td>Load <code>.xlsx</code> data</td>
-<td>Yes</td>
-</tr>
-<tr class="odd">
-<td><code>dplyr</code></td>
-<td>Data wrangling</td>
-<td>Yes</td>
-</tr>
-<tr class="even">
-<td><code>ggplot2</code></td>
-<td>Visual outputs</td>
-<td>Yes</td>
-</tr>
-<tr class="odd">
-<td><code>cluster</code></td>
-<td>Silhouette scoring</td>
-<td>Yes</td>
-</tr>
-<tr class="even">
-<td><code>DT</code></td>
-<td>Interactive result table</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
+<section id="scripts-used" class="level2">
+<h2 class="anchored" data-anchor-id="scripts-used">Scripts Used</h2>
+<p>The original scripts from my take-home work have been moved into the root project script folder:</p>
+<ul>
+<li><a href="scripts/tourism_data_prep_rstudio.R">scripts/tourism_data_prep_rstudio.R</a></li>
+<li><a href="scripts/tourism_decision_tree_rstudio.R">scripts/tourism_decision_tree_rstudio.R</a></li>
+</ul>
 </section>
-<section id="prototype-code-test-and-expected-visual-output" class="level2">
-<h2 class="anchored" data-anchor-id="prototype-code-test-and-expected-visual-output">3. Prototype Code Test and Expected Visual Output</h2>
-<p>Smoke-test script: <code>scripts/prototype_smoke_test.R</code></p>
-<p>Generated outputs:</p>
+<section id="exported-tables" class="level2">
+<h2 class="anchored" data-anchor-id="exported-tables">Exported Tables</h2>
+<p>Prepared data and model-ready tables are now stored in the shared artifact location:</p>
+<ul>
+<li><a href="artifacts/tables/tourism_monthly_clean.csv">artifacts/tables/tourism_monthly_clean.csv</a></li>
+<li><a href="artifacts/tables/tourism_decision_tree_ready.csv">artifacts/tables/tourism_decision_tree_ready.csv</a></li>
+<li><a href="artifacts/tables/tourism_four_part_analysis_ready.csv">artifacts/tables/tourism_four_part_analysis_ready.csv</a></li>
+<li><a href="artifacts/tables/tourism_four_part_analysis_ready.xlsx">artifacts/tables/tourism_four_part_analysis_ready.xlsx</a></li>
+</ul>
+</section>
+</section>
+<section id="classification-tree-prototype" class="level1">
+<h1>2. Classification Tree Prototype</h1>
+<section id="modeling-goal" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-goal">Modeling Goal</h2>
+<p>The classification tree predicts the hotel occupancy category:</p>
+<ul>
+<li><code>low</code></li>
+<li><code>medium</code></li>
+<li><code>high</code></li>
+</ul>
+<p>using the following explanatory variables:</p>
+<ul>
+<li>visitor arrivals,</li>
+<li>China share,</li>
+<li>capped stay length,</li>
+<li>month.</li>
+</ul>
+</section>
+<section id="why-this-method-fits-the-project" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-method-fits-the-project">Why This Method Fits the Project</h2>
+<p>The classification tree is useful because it provides:</p>
 <ol type="1">
-<li>Elbow curve for candidate K.</li>
-<li>Cluster-state scatter visualization.</li>
-<li>Cluster profile table.</li>
+<li>clear split rules,</li>
+<li>interpretable structure,</li>
+<li>easy classroom presentation value,</li>
+<li>direct comparison with the random forest model.</li>
 </ol>
+</section>
+<section id="core-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="core-outputs">Core Outputs</h2>
+<p>The exported classification tree outputs have been moved into the shared artifacts structure.</p>
+<section id="visual-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="visual-outputs">Visual outputs</h3>
+<ul>
+<li><a href="artifacts/plots/decision_tree_plot.png">artifacts/plots/decision_tree_plot.png</a></li>
+<li><a href="artifacts/plots/decision_tree_static.png">artifacts/plots/decision_tree_static.png</a></li>
+<li><a href="artifacts/plots/decision_tree_visual.html">artifacts/plots/decision_tree_visual.html</a></li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="artifacts/plots/elbow_plot.png" class="img-fluid figure-img"></p>
-<figcaption>Elbow Plot</figcaption>
+<p><img src="artifacts/plots/decision_tree_static.png" class="img-fluid figure-img"></p>
+<figcaption>Decision Tree Static Plot</figcaption>
 </figure>
 </div>
+</section>
+<section id="tables" class="level3">
+<h3 class="anchored" data-anchor-id="tables">Tables</h3>
+<ul>
+<li><a href="artifacts/tables/decision_tree_metrics.csv">artifacts/tables/decision_tree_metrics.csv</a></li>
+<li><a href="artifacts/tables/decision_tree_confusion_matrix.csv">artifacts/tables/decision_tree_confusion_matrix.csv</a></li>
+<li><a href="artifacts/tables/decision_tree_test_predictions.csv">artifacts/tables/decision_tree_test_predictions.csv</a></li>
+<li><a href="artifacts/tables/decision_tree_variable_importance.csv">artifacts/tables/decision_tree_variable_importance.csv</a></li>
+</ul>
+</section>
+</section>
+<section id="interpretation-focus" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-focus">Interpretation Focus</h2>
+<p>This prototype uses the tree model primarily as an <strong>interpretability-first model</strong>:</p>
+<ol type="1">
+<li>to show which variables split the occupancy classes,</li>
+<li>to explain why some months are grouped into low, medium, or high occupancy,</li>
+<li>to provide a presentation-friendly structure before introducing the random forest.</li>
+</ol>
+</section>
+</section>
+<section id="random-forest-prototype" class="level1">
+<h1>3. Random Forest Prototype</h1>
+<section id="modeling-goal-1" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-goal-1">Modeling Goal</h2>
+<p>The random forest uses the same predictors as the classification tree, but emphasizes predictive stability and stronger benchmark performance.</p>
+</section>
+<section id="why-this-method-fits-the-project-1" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-method-fits-the-project-1">Why This Method Fits the Project</h2>
+<p>The random forest is used because it can:</p>
+<ol type="1">
+<li>reduce single-tree instability,</li>
+<li>provide variable importance ranking,</li>
+<li>support model comparison against the classification tree,</li>
+<li>show out-of-bag performance trends.</li>
+</ol>
+</section>
+<section id="core-outputs-1" class="level2">
+<h2 class="anchored" data-anchor-id="core-outputs-1">Core Outputs</h2>
+<section id="visual-outputs-1" class="level3">
+<h3 class="anchored" data-anchor-id="visual-outputs-1">Visual outputs</h3>
+<ul>
+<li><a href="artifacts/plots/random_forest_importance.png">artifacts/plots/random_forest_importance.png</a></li>
+<li><a href="artifacts/plots/random_forest_oob_accuracy.png">artifacts/plots/random_forest_oob_accuracy.png</a></li>
+<li><a href="artifacts/plots/random_forest_actual_vs_predicted.png">artifacts/plots/random_forest_actual_vs_predicted.png</a></li>
+<li><a href="artifacts/plots/random_forest_confusion_heatmap.png">artifacts/plots/random_forest_confusion_heatmap.png</a></li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="artifacts/plots/cluster_scatter.png" class="img-fluid figure-img"></p>
-<figcaption>Cluster Scatter</figcaption>
+<p><img src="artifacts/plots/random_forest_importance.png" class="img-fluid figure-img"></p>
+<figcaption>Random Forest Importance Plot</figcaption>
 </figure>
 </div>
 </section>
-<section id="exposed-parameters-and-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="exposed-parameters-and-outputs">4. Exposed Parameters and Outputs</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Item</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Input</td>
-<td><code>period_filter</code></td>
-<td>Filter period: pre-COVID, shock, recovery</td>
-</tr>
-<tr class="even">
-<td>Input</td>
-<td><code>k_value</code></td>
-<td>Number of clusters (<code>2</code>-<code>6</code>)</td>
-</tr>
-<tr class="odd">
-<td>Input</td>
-<td><code>scale_features</code></td>
-<td>Enable/disable z-score standardization</td>
-</tr>
-<tr class="even">
-<td>Input</td>
-<td><code>random_seed</code></td>
-<td>Reproducible k-means assignment</td>
-</tr>
-<tr class="odd">
-<td>Output</td>
-<td>Cluster scatter plot</td>
-<td>2D visual state map</td>
-</tr>
-<tr class="even">
-<td>Output</td>
-<td>Cluster profile table</td>
-<td>Mean values by cluster</td>
-</tr>
-<tr class="odd">
-<td>Output</td>
-<td>Silhouette score</td>
-<td>Quick quality indicator</td>
-</tr>
-</tbody>
-</table>
+<section id="tables-1" class="level3">
+<h3 class="anchored" data-anchor-id="tables-1">Tables</h3>
+<ul>
+<li><a href="artifacts/tables/random_forest_metrics.csv">artifacts/tables/random_forest_metrics.csv</a></li>
+<li><a href="artifacts/tables/random_forest_confusion_matrix.csv">artifacts/tables/random_forest_confusion_matrix.csv</a></li>
+<li><a href="artifacts/tables/random_forest_oob_accuracy.csv">artifacts/tables/random_forest_oob_accuracy.csv</a></li>
+<li><a href="artifacts/tables/random_forest_test_predictions.csv">artifacts/tables/random_forest_test_predictions.csv</a></li>
+<li><a href="artifacts/tables/random_forest_variable_importance.csv">artifacts/tables/random_forest_variable_importance.csv</a></li>
+</ul>
 </section>
-<section id="ui-design" class="level2">
-<h2 class="anchored" data-anchor-id="ui-design">5. UI Design</h2>
-<p>UI design principles in this prototype:</p>
+</section>
+</section>
+<section id="shiny-deployment" class="level1">
+<h1>4. Shiny Deployment</h1>
+<section id="deployment-arrangement" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-arrangement">Deployment Arrangement</h2>
+<p>The final Shiny app is now deployed in the repository as a self-contained app bundle:</p>
+<ul>
+<li><a href="shiny/app.R">shiny/app.R</a></li>
+</ul>
+<p>The app bundle keeps:</p>
 <ol type="1">
-<li><strong>Progressive disclosure:</strong> show defaults first, advanced controls optional.</li>
-<li><strong>Interpretability-first:</strong> output labels use domain terms, not only model terms.</li>
-<li><strong>Comparability:</strong> consistent color mapping between plot and table.</li>
+<li><code>app.R</code></li>
+<li><code>data/</code></li>
+<li><code>outputs/</code></li>
+<li><code>README.md</code></li>
 </ol>
-<p>Detailed storyboard and component mapping are provided at <a href="./prototype/ui-storyboard.html">UI Storyboard</a>.</p>
+<p>together so the app can run directly after cloning the repository.</p>
 </section>
-<section id="visual-design-interactivity-practices" class="level2">
-<h2 class="anchored" data-anchor-id="visual-design-interactivity-practices">6. Visual Design &amp; Interactivity Practices</h2>
-<p>This prototype applies:</p>
+<section id="launch-method" class="level2">
+<h2 class="anchored" data-anchor-id="launch-method">Launch Method</h2>
+<p>The repository-level startup command remains:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Rscript run_app.R <span class="dv">3838</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and it now opens the deployed final Shiny app through the root app launcher.</p>
+</section>
+</section>
+<section id="ui-and-interaction-design" class="level1">
+<h1>5. UI and Interaction Design</h1>
+<p>The deployed Shiny application includes:</p>
 <ol type="1">
-<li>Clear visual hierarchy for decision steps.</li>
-<li>Explicit mapping between controls and outputs.</li>
-<li>Responsive layout for laptop and mobile viewport.</li>
-<li>Data-informed defaults to reduce trial-and-error.</li>
+<li>a data exploration page for trend interpretation,</li>
+<li>a classification tree page for interpretable rule-based explanation,</li>
+<li>a random forest page for predictive benchmarking,</li>
+<li>model comparison summaries.</li>
 </ol>
+<p>Key interface features include:</p>
+<ul>
+<li>metric selection,</li>
+<li>date filtering,</li>
+<li>tree tuning controls,</li>
+<li>forest tuning controls,</li>
+<li>visual tabs,</li>
+<li>metric cards,</li>
+<li>prediction comparison charts.</li>
+</ul>
 </section>
-<section id="current-status-and-next-step" class="level2">
-<h2 class="anchored" data-anchor-id="current-status-and-next-step">7. Current Status and Next Step</h2>
+<section id="current-status" class="level1">
+<h1>6. Current Status</h1>
 <p>Completed:</p>
 <ol type="1">
-<li>Modular app skeleton.</li>
-<li>Data integration and smoke-test artifacts.</li>
-<li>Quarto write-up scaffold aligned to assignment requirements.</li>
+<li>moved the take-home scripts into the shared <code>scripts/</code> folder,</li>
+<li>moved model outputs into <code>artifacts/plots</code> and <code>artifacts/tables</code>,</li>
+<li>deployed the final Shiny app in the repository,</li>
+<li>aligned the app launch entry point with the deployed app.</li>
 </ol>
-<p>Next:</p>
-<ol type="1">
-<li>Add confirmatory stats module.</li>
-<li>Add decision-tree module with feature importance panel.</li>
-<li>Add deployment pipeline for GitHub Pages + hosted Shiny endpoint.</li>
-</ol>
+<p>This root-level structure now follows the README more closely than storing the complete work only inside <code>team/jin-qinhao/Take-Home-Exercise2/</code>.</p>
 
+
+<!-- -->
 
 </section>
 
@@ -454,6 +588,57 @@ ul.task-list li input[type="checkbox"] {
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -783,7 +968,225 @@ ul.task-list li input[type="checkbox"] {
       }
     }
   });
-  </script>
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Take-home Exercise 2"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Classification Tree and Random Forest Prototype"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "JIN QINHAO"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2026-03-27"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: "Show the code"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: full</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu"># Submission Scope</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>This take-home exercise documents my prototype contribution for the tourism recovery visual analytics project.  </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>The selected prototype focuses on **classification tree** and **random forest** analysis for monthly hotel occupancy classification.</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>The prototype covers four linked tasks:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>preparing monthly tourism data for modeling,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>building an interpretable classification tree,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>evaluating a random forest benchmark,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>packaging the outputs into a deployable Shiny application.</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># 1. Data Preparation</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Input Data</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>The original workbook used for my analysis has been moved into the project data area:</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`data/raw/Name your insight (2).xlsx`</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>Derived datasets and exported tables are stored in:</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`artifacts/tables/`</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation Logic</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>The preparation process follows the same workflow used in my individual prototype:</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Read monthly tourism indicators from the Excel workbook.</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Remove incomplete rows and retain valid monthly observations.</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Create calendar fields such as <span class="in">`year`</span>, <span class="in">`month`</span>, and <span class="in">`quarter`</span>.</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Create the recovery-stage field <span class="in">`period`</span>.</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Derive <span class="in">`china_share`</span> and <span class="in">`china_share_pct`</span>.</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Cap extreme stay values to stabilize modeling.</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Create occupancy classes:</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`low`</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`medium`</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`high`</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="ss">8. </span>Split the data into <span class="in">`train`</span> and <span class="in">`test`</span>.</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Scripts Used</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>The original scripts from my take-home work have been moved into the root project script folder:</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">scripts/tourism_data_prep_rstudio.R</span><span class="co">](scripts/tourism_data_prep_rstudio.R)</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">scripts/tourism_decision_tree_rstudio.R</span><span class="co">](scripts/tourism_decision_tree_rstudio.R)</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exported Tables</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>Prepared data and model-ready tables are now stored in the shared artifact location:</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/tourism_monthly_clean.csv</span><span class="co">](artifacts/tables/tourism_monthly_clean.csv)</span></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/tourism_decision_tree_ready.csv</span><span class="co">](artifacts/tables/tourism_decision_tree_ready.csv)</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/tourism_four_part_analysis_ready.csv</span><span class="co">](artifacts/tables/tourism_four_part_analysis_ready.csv)</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/tourism_four_part_analysis_ready.xlsx</span><span class="co">](artifacts/tables/tourism_four_part_analysis_ready.xlsx)</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="fu"># 2. Classification Tree Prototype</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Modeling Goal</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>The classification tree predicts the hotel occupancy category:</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`low`</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`medium`</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`high`</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>using the following explanatory variables:</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>visitor arrivals,</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>China share,</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>capped stay length,</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>month.</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why This Method Fits the Project</span></span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>The classification tree is useful because it provides:</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>clear split rules,</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>interpretable structure,</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>easy classroom presentation value,</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>direct comparison with the random forest model.</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Outputs</span></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>The exported classification tree outputs have been moved into the shared artifacts structure.</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visual outputs</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/decision_tree_plot.png</span><span class="co">](artifacts/plots/decision_tree_plot.png)</span></span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/decision_tree_static.png</span><span class="co">](artifacts/plots/decision_tree_static.png)</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/decision_tree_visual.html</span><span class="co">](artifacts/plots/decision_tree_visual.html)</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a><span class="al">![Decision Tree Static Plot](artifacts/plots/decision_tree_static.png)</span></span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tables</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/decision_tree_metrics.csv</span><span class="co">](artifacts/tables/decision_tree_metrics.csv)</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/decision_tree_confusion_matrix.csv</span><span class="co">](artifacts/tables/decision_tree_confusion_matrix.csv)</span></span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/decision_tree_test_predictions.csv</span><span class="co">](artifacts/tables/decision_tree_test_predictions.csv)</span></span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/decision_tree_variable_importance.csv</span><span class="co">](artifacts/tables/decision_tree_variable_importance.csv)</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Interpretation Focus</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>This prototype uses the tree model primarily as an **interpretability-first model**:</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>to show which variables split the occupancy classes,</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>to explain why some months are grouped into low, medium, or high occupancy,</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>to provide a presentation-friendly structure before introducing the random forest.</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a><span class="fu"># 3. Random Forest Prototype</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## Modeling Goal</span></span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>The random forest uses the same predictors as the classification tree, but emphasizes predictive stability and stronger benchmark performance.</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why This Method Fits the Project</span></span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>The random forest is used because it can:</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>reduce single-tree instability,</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>provide variable importance ranking,</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>support model comparison against the classification tree,</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>show out-of-bag performance trends.</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Core Outputs</span></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visual outputs</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/random_forest_importance.png</span><span class="co">](artifacts/plots/random_forest_importance.png)</span></span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/random_forest_oob_accuracy.png</span><span class="co">](artifacts/plots/random_forest_oob_accuracy.png)</span></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/random_forest_actual_vs_predicted.png</span><span class="co">](artifacts/plots/random_forest_actual_vs_predicted.png)</span></span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/plots/random_forest_confusion_heatmap.png</span><span class="co">](artifacts/plots/random_forest_confusion_heatmap.png)</span></span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="al">![Random Forest Importance Plot](artifacts/plots/random_forest_importance.png)</span></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tables</span></span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/random_forest_metrics.csv</span><span class="co">](artifacts/tables/random_forest_metrics.csv)</span></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/random_forest_confusion_matrix.csv</span><span class="co">](artifacts/tables/random_forest_confusion_matrix.csv)</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/random_forest_oob_accuracy.csv</span><span class="co">](artifacts/tables/random_forest_oob_accuracy.csv)</span></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/random_forest_test_predictions.csv</span><span class="co">](artifacts/tables/random_forest_test_predictions.csv)</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">artifacts/tables/random_forest_variable_importance.csv</span><span class="co">](artifacts/tables/random_forest_variable_importance.csv)</span></span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a><span class="fu"># 4. Shiny Deployment</span></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Deployment Arrangement</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>The final Shiny app is now deployed in the repository as a self-contained app bundle:</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">shiny/app.R</span><span class="co">](shiny/app.R)</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>The app bundle keeps:</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="in">`app.R`</span></span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="in">`data/`</span></span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="in">`outputs/`</span></span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="in">`README.md`</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>together so the app can run directly after cloning the repository.</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a><span class="fu">## Launch Method</span></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>The repository-level startup command remains:</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>Rscript run_app.R <span class="dv">3838</span></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>and it now opens the deployed final Shiny app through the root app launcher.</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a><span class="fu"># 5. UI and Interaction Design</span></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>The deployed Shiny application includes:</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>a data exploration page for trend interpretation,</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>a classification tree page for interpretable rule-based explanation,</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>a random forest page for predictive benchmarking,</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>model comparison summaries.</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>Key interface features include:</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>metric selection,</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>date filtering,</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>tree tuning controls,</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>forest tuning controls,</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>visual tabs,</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>metric cards,</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>prediction comparison charts.</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a><span class="fu"># 6. Current Status</span></span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>Completed:</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>moved the take-home scripts into the shared <span class="in">`scripts/`</span> folder,</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>moved model outputs into <span class="in">`artifacts/plots`</span> and <span class="in">`artifacts/tables`</span>,</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>deployed the final Shiny app in the repository,</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>aligned the app launch entry point with the deployed app.</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>This root-level structure now follows the README more closely than storing the complete work only inside <span class="in">`team/jin-qinhao/Take-Home-Exercise2/`</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -791,7 +1194,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-03-31</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
