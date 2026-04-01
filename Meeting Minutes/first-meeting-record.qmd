@@ -1,10 +1,10 @@
----
+﻿---
 title: "First Meeting Record"
 ---
 
 ## Meeting Description
 
-Date / Time: 12 March 2026 (11.30pm) – 13 March 2026 (12am)
+Date / Time: 12 March 2026 (11.30pm) - 13 March 2026 (12am)
 
 Location: Online Meeting
 
@@ -14,12 +14,13 @@ Attendees: Xi Zixun, Wang Zhuoran, Jin Qinhao
 
 -   Decided on Research / Analysis Topic Related To Singapore Tourism. Selected Dataset related to Singapore Tourism Recovery from (CEIC)\[(https://insights-ceicdata-com.libproxy.smu.edu.sg/)\]
 
--   Distribution of work (EDA & CDA, Classification Tree & Random Forest, Cluster Analysis)
+-   Distribution of early work across exploratory analysis, modelling, and clustering.
 
 ### ACTION ITEMS (Owner and deadline)
 
--   EDA, CDA – Xi Zixun (Sunday, 15 March 2026)
+-   Exploratory analysis - Xi Zixun (Sunday, 15 March 2026)
 
--   Classification Tree, Random Forest -Jin Qinhao (Sunday, 15 March 2026)
+-   Initial modelling prototype - Jin Qinhao (Sunday, 15 March 2026)
 
--   Cluster Analysis – Wang Zhuoran (Sunday, 15 March 2026)
+-   Cluster analysis - Wang Zhuoran (Sunday, 15 March 2026)
+

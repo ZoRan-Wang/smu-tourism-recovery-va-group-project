@@ -1,4 +1,10 @@
-timestamp: 2026-03-12 16:18:12
-rows_used: 110
-k_selected: 3
-silhouette_mean: 0.6317
+timestamp: 2026-04-01 03:06:19
+cluster_series_count: 6
+cluster_window_months: 108
+cluster_selected_k: 3
+cluster_silhouette_mean: 0.26
+forecast_series: Visitor Arrivals: China
+forecast_auto_engine: forecast fallback
+forecast_fallback_engine: forecast fallback
+forecast_modeltime_ready: FALSE
+forecast_models: Seasonal Naive, ETS, ARIMA

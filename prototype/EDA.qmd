@@ -108,6 +108,19 @@ tour <- tour %>%
 
 tour_clean <- tour %>%
   filter(year(Date) >= 2017, year(Date) != 2026)
+
+shared_arrivals <- read.csv(
+  "../data/processed/arrivals_country_long.csv",
+  stringsAsFactors = FALSE,
+  check.names = FALSE
+) %>%
+  mutate(
+    date = as.Date(date),
+    Country = country,
+    Arrivals = arrivals,
+    Year = year
+  ) %>%
+  filter(date >= as.Date("2017-01-01"), date <= as.Date("2025-12-01"))
 ```
 
 ```{r}
@@ -167,15 +180,11 @@ country_cols <- c(
   "Visitor Arrivals: Republic of South Africa"
 )
 
-tour_long <- tour_clean %>%
-  select(Date, all_of(country_cols)) %>%
-  pivot_longer(
-    cols = -Date,
-    names_to = "Country",
-    values_to = "Arrivals"
-  ) %>%
-  mutate(
-    Country = str_remove(Country, "^Visitor Arrivals: ")
+tour_long <- shared_arrivals %>%
+  transmute(
+    Date = date,
+    Country,
+    Arrivals
   )
 ```
 
@@ -231,16 +240,12 @@ country_cols <- c(
   "Visitor Arrivals: Republic of South Africa"
 )
 
-tour_long <- tour_clean %>%
-  select(Date, all_of(country_cols)) %>%
-  pivot_longer(
-    cols = -Date,
-    names_to = "Country",
-    values_to = "Arrivals"
-  ) %>%
-  mutate(
-    Country = str_remove(Country, "^Visitor Arrivals: "),
-    Year = year(Date)
+tour_long <- shared_arrivals %>%
+  transmute(
+    Date = date,
+    Country,
+    Arrivals,
+    Year
   )
 ```
 

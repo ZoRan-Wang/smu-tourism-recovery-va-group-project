@@ -3,8 +3,19 @@
 "bslib","App theming",TRUE,TRUE
 "readxl","Excel ingestion",TRUE,TRUE
 "dplyr","Data wrangling",TRUE,TRUE
-"ggplot2","Charting",TRUE,TRUE
-"cluster","Silhouette metric",TRUE,TRUE
-"DT","Interactive table",TRUE,TRUE
-"rpart","Decision-tree module prep",TRUE,TRUE
 "tidyr","Data reshaping",TRUE,TRUE
+"purrr","Iteration helpers",TRUE,TRUE
+"lubridate","Date handling",TRUE,TRUE
+"ggplot2","Charting",TRUE,TRUE
+"plotly","Interactive charting",TRUE,TRUE
+"DT","Interactive table",TRUE,TRUE
+"cluster","Clustering metrics",TRUE,TRUE
+"forecast","Baseline forecasting models",TRUE,TRUE
+"parsnip","Forecast model specification layer",FALSE,TRUE
+"rsample","Time-aware train/test split",FALSE,TRUE
+"tidymodels","Forecasting workflow framework",FALSE,TRUE
+"timetk","Time-series visualisation helpers",FALSE,TRUE
+"modeltime","Modeltime forecasting pipeline",FALSE,TRUE
+"tsibble","Time-indexed tibble support",FALSE,TRUE
+"feasts","Decomposition and seasonal diagnostics",FALSE,TRUE
+"yardstick","Forecast accuracy metrics",FALSE,TRUE

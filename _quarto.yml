@@ -1,4 +1,4 @@
-project:
+﻿project:
   type: website
   output-dir: docs
   render:
@@ -6,7 +6,7 @@ project:
     - "prototype/*.qmd"
     - "team/*.qmd"
     - "team/jin-qinhao/**/*.qmd"
-    - "meeting-records/*.qmd"
+    - "Meeting Minutes/*.qmd"
     - "!templates/"
     - "!artifacts/"
     - "!app/"
@@ -22,8 +22,12 @@ website:
         text: Home
       - href: Proposal/Proposal.qmd
         text: Proposal
-      - href: take-home-ex2.qmd
-        text: Take-home 2
+      - href: poster.qmd
+        text: Poster
+      - href: app-guide.qmd
+        text: Shiny App
+      - href: user-guide.qmd
+        text: User Guide
       - text: Prototype
         menu:
           - href: prototype/EDA.qmd
@@ -32,22 +36,20 @@ website:
             text: CDA
           - href: prototype/module-cluster.qmd
             text: Clustering Prototype
-          - href: prototype/decision-tree.qmd
-            text: Decision Tree Analysis
-          - href: prototype/module-decision-tree.qmd
-            text: Decision Tree Prototype
-          - href: prototype/package-audit.qmd
-            text: Package Audit
+          - href: prototype/forecasting.qmd
+            text: Forecasting
           - href: prototype/ui-storyboard.qmd
             text: UI Storyboard
-          - href: prototype/wang-zhuoran-review-report.qmd
-            text: Review Report
-      - href: app-guide.qmd
-        text: Shiny App
+      - text: Documentation
+        menu:
+          - href: Meeting Minutes/first-meeting-record.qmd
+            text: First Meeting Record
+          - href: Meeting Minutes/second-meeting-record.qmd
+            text: Pivot Meeting Record
       - href: team/onboarding.qmd
         text: Team
   page-footer:
-    center: "SMU Visual Analytics Group Project | Updated 2026-03-12"
+    center: "SMU Visual Analytics Group Project | Updated 2026-04-01"
 
 format:
   html:

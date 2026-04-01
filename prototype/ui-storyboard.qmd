@@ -2,54 +2,133 @@
 title: "UI Storyboard"
 ---
 
-## Storyboard: Cluster Analysis Module
+## App Flow
 
 ```{mermaid}
 flowchart LR
-    A["Load monthly tourism dataset"] --> B["Select period(s)"]
-    B --> C["Set k and seed"]
-    C --> D["Run clustering"]
-    D --> E["View cluster scatter plot"]
-    D --> F["Review cluster profile table"]
-    D --> G["Check silhouette score"]
-    G --> H{"Quality acceptable?"}
-    H -- "Yes" --> I["Interpret market states"]
-    H -- "No" --> C
+    A["Open the app"] --> B["Choose a module"]
+    B --> C["Configure inputs"]
+    C --> D["Render outputs"]
+    D --> E["Interpret results"]
+    E --> F["Download or compare"]
+
+    B --> M1["Time Series Visual Analysis"]
+    B --> M2["Time Series Clustering"]
+    B --> M3["Forecasting"]
 ```
 
-## UI Layout Plan
+## Module 1: Time Series Visual Analysis
+
+```{mermaid}
+flowchart LR
+    A["Select a tourism series"] --> B["Choose the lookback window"]
+    B --> C["Toggle monthly points"]
+    C --> D["Render the comparison chart"]
+    D --> E["Inspect the metadata table"]
+```
+
+### UI Layout
 
 ::: {.storyboard-box}
-**Left Panel (Controls)**
+**Left Panel**
 
-1. `Period Filter` (checkboxes)
-2. `K (Cluster Count)` (slider)
-3. `Random Seed` (numeric input)
-4. `Scale Features` (toggle)
-5. `Run Clustering` (button)
+1. Country or mode selector
+2. Lookback-year selector
+3. Show-points toggle
+4. Module guidance text
 :::
 
 ::: {.storyboard-box}
-**Right Panel (Outputs)**
+**Right Panel**
 
-1. `Silhouette Score` (KPI card)
-2. `Cluster Scatter Plot` (main chart)
-3. `Cluster Profile Table` (interactive table)
-4. `Cluster Assignment Preview` (download-ready table)
+1. Time-series view
+2. Metadata table
+3. Read-this-first guidance card
+:::
+
+## Module 2: Time Series Clustering
+
+```{mermaid}
+flowchart LR
+    A["Select a set of country series"] --> B["Pick a focus market"]
+    B --> C["Set the year window and normalization"]
+    C --> D["Choose k and run clustering"]
+    D --> E["Read the dashboard"]
+    E --> F["Inspect pattern explorer"]
+    F --> G["Check focus market placement"]
+    G --> H["Download assignments"]
+```
+
+### UI Layout
+
+::: {.storyboard-box}
+**Left Panel**
+
+1. Series family selector
+2. Country multi-select
+3. Focus market selector
+4. Time window selector
+5. Normalization mode
+6. Cluster count slider
+7. Run clustering button
+8. Reading guide describing how to navigate the module
+:::
+
+::: {.storyboard-box}
+**Right Panel**
+
+1. `Dashboard` tab: quality strip, insight card, pattern atlas, cluster profile, recovery position map, silhouette scan, focus comparison, and priority-market placement
+2. `Pattern Explorer` tab: representative pattern plot plus pattern summary chips
+3. `Focus Market in Context` tab: focused recovery position map, cluster explorer, and placement narrative
+4. `Assignments` tab: membership table, assignment download, cluster summary, and series metrics
+:::
+
+## Module 3: Forecasting
+
+```{mermaid}
+flowchart LR
+    A["Select a target series"] --> B["Set the forecast horizon"]
+    B --> C["Choose the model set"]
+    C --> D["Run forecasting"]
+    D --> E["Review the forecast plot and accuracy table"]
+    D --> F["Inspect tourism context, seasonality, and decomposition"]
+```
+
+### UI Layout
+
+::: {.storyboard-box}
+**Left Panel**
+
+1. Target series selector
+2. Forecast horizon slider
+3. Model selection checklist
+4. Run forecast button
+:::
+
+::: {.storyboard-box}
+**Right Panel**
+
+1. `Forecast Plot` tab: holdout comparison, accuracy table, split summary
+2. `Tourism Performance Context` tab: arrivals versus hotel/stay indicators
+3. `Trend and Seasonal` tab: raw series and seasonal pattern
+4. `Decomposition` tab: trend, seasonal, remainder view
+5. `Forecast Notes` tab: interpretation guide
 :::
 
 ## UI Component Mapping
 
 | UI Need | Shiny Component | Reason |
 |---|---|---|
-| Multi-period comparison | `checkboxGroupInput` | flexible grouping |
-| Limited integer tuning | `sliderInput` | fast constrained control |
-| Reproducibility | `numericInput` | explicit seed control |
-| Trigger heavy compute | `actionButton` | avoid unnecessary reruns |
-| Fast profile scan | `DT::datatable` | sortable/filterable |
+| Multi-series comparison | `selectInput` / `pickerInput` | flexible series selection |
+| Time window control | `dateRangeInput` | clear start and end selection |
+| Raw vs indexed vs share view | `radioButtons` | mutually exclusive display modes |
+| Clustering parameter tuning | `sliderInput` | fast constrained control |
+| Model execution | `actionButton` | avoid unnecessary reruns |
+| Output tables | `DT::datatable` | sortable and filterable |
 
 ## Usability Notes
 
-1. Keep defaults aligned with assignment baseline (`k = 3`).
-2. Keep labels domain-driven (`pandemic shock`, `recovery`, `high-performance`).
-3. Preserve color semantics across plot and table.
+1. Keep the module order aligned with the final website: visual analysis, clustering, forecasting.
+2. Keep the labels domain-driven and consistent across Proposal, storyboard, and app.
+3. Use the same country names, date windows, and color semantics in all modules.
+4. Make the interaction flow simple enough that users can move from exploration to comparison to forecasting without losing context.

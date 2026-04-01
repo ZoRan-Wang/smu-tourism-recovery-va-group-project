@@ -134,8 +134,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Proposal</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../take-home-ex2.html"> 
-<span class="menu-text">Take-home 2</span></a>
+    <a class="nav-link" href="../poster.html"> 
+<span class="menu-text">Poster</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../app-guide.html"> 
+<span class="menu-text">Shiny App</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -155,23 +163,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Clustering Prototype</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../prototype/package-audit.html">
- <span class="dropdown-text">Package Audit</span></a>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Documentation</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-documentation">    
         <li>
-    <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
- <span class="dropdown-text">Review Report</span></a>
+    <a class="dropdown-item" href="../Meeting Minutes/first-meeting-record.html">
+ <span class="dropdown-text">First Meeting Record</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Meeting Minutes/second-meeting-record.html">
+ <span class="dropdown-text">Pivot Meeting Record</span></a>
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../app-guide.html"> 
-<span class="menu-text">Shiny App</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../team/onboarding.html" aria-current="page"> 
 <span class="menu-text">Team</span></a>
@@ -231,10 +246,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="suggested-team-split" class="level2">
 <h2 class="anchored" data-anchor-id="suggested-team-split">Suggested Team Split</h2>
 <ol type="1">
-<li>Member A: EDA + confirmatory module.</li>
-<li>Member B: cluster module.</li>
-<li>Member C: decision tree module.</li>
-<li>Member D (optional): integration, QA, and deployment.</li>
+<li>Member A: time-series visual analysis.</li>
+<li>Member B: time-series clustering.</li>
+<li>Member C: forecasting.</li>
+<li>Member D: integration, QA, deployment, and documentation sync.</li>
 </ol>
 </section>
 <section id="branching-convention" class="level2">
@@ -255,7 +270,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="meeting-records" class="level2">
 <h2 class="anchored" data-anchor-id="meeting-records">Meeting Records</h2>
 <ol type="1">
-<li><a href="../meeting-records/first-meeting-record.html">First Meeting Record</a></li>
+<li><a href="../Meeting Minutes/first-meeting-record.html">First Meeting Record</a></li>
+<li><a href="../Meeting Minutes/second-meeting-record.html">Pivot Meeting Record</a></li>
 </ol>
 </section>
 <section id="shared-files-to-update-carefully" class="level2">
@@ -264,6 +280,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>_quarto.yml</code> (navigation and build behavior)</li>
 <li><code>styles/theme.scss</code> (global styling)</li>
 <li><code>app/app.R</code> (module registration)</li>
+<li><code>Proposal/Proposal.qmd</code> (shared story and data contract)</li>
+<li><code>app-guide.qmd</code> and <code>user-guide.qmd</code> (must match the shipped UI)</li>
 </ol>
 </section>
 <section id="team-info-cards" class="level2">
@@ -271,18 +289,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="team-grid">
 <section id="member-1" class="level3 team-card">
 <h3 class="anchored" data-anchor-id="member-1">Member 1</h3>
-<p>Role: Module Owner<br>
-Status: add name/contact</p>
+<p>Role: Visual Analysis Owner<br>
+Status: Xi Zixun</p>
 </section>
 <section id="member-2" class="level3 team-card">
 <h3 class="anchored" data-anchor-id="member-2">Member 2</h3>
-<p>Role: Module Owner<br>
-Status: add name/contact</p>
+<p>Role: Clustering Owner<br>
+Status: Wang Zhuoran</p>
 </section>
 <section id="member-3" class="level3 team-card">
 <h3 class="anchored" data-anchor-id="member-3">Member 3</h3>
-<p>Role: Module Owner<br>
-Status: add name/contact</p>
+<p>Role: Forecasting Owner<br>
+Status: Jin Qinhao</p>
 </section>
 </div>
 
@@ -697,7 +715,7 @@ Status: add name/contact</p>
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-04-01</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

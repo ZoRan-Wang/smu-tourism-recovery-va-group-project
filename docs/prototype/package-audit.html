@@ -99,8 +99,16 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Proposal</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../take-home-ex2.html"> 
-<span class="menu-text">Take-home 2</span></a>
+    <a class="nav-link" href="../poster.html"> 
+<span class="menu-text">Poster</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../app-guide.html"> 
+<span class="menu-text">Shiny App</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../user-guide.html"> 
+<span class="menu-text">User Guide</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-prototype" role="link" data-bs-toggle="dropdown" aria-expanded="false">
@@ -120,31 +128,30 @@ ul.task-list li input[type="checkbox"] {
  <span class="dropdown-text">Clustering Prototype</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../prototype/decision-tree.html">
- <span class="dropdown-text">Decision Tree Analysis</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../prototype/module-decision-tree.html">
- <span class="dropdown-text">Decision Tree Prototype</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../prototype/package-audit.html">
- <span class="dropdown-text">Package Audit</span></a>
+    <a class="dropdown-item" href="../prototype/forecasting.html">
+ <span class="dropdown-text">Forecasting</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../prototype/ui-storyboard.html">
  <span class="dropdown-text">UI Storyboard</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-documentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Documentation</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-documentation">    
         <li>
-    <a class="dropdown-item" href="../prototype/wang-zhuoran-review-report.html">
- <span class="dropdown-text">Review Report</span></a>
+    <a class="dropdown-item" href="../Meeting Minutes/first-meeting-record.html">
+ <span class="dropdown-text">First Meeting Record</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../Meeting Minutes/second-meeting-record.html">
+ <span class="dropdown-text">Pivot Meeting Record</span></a>
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../app-guide.html"> 
-<span class="menu-text">Shiny App</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../team/onboarding.html"> 
 <span class="menu-text">Team</span></a>
@@ -204,6 +211,12 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 52%">
+<col style="width: 13%">
+<col style="width: 20%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">package</th>
@@ -238,33 +251,99 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">TRUE</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">tidyr</td>
+<td style="text-align: left;">Data reshaping</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">purrr</td>
+<td style="text-align: left;">Iteration helpers</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lubridate</td>
+<td style="text-align: left;">Date handling</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">ggplot2</td>
 <td style="text-align: left;">Charting</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">cluster</td>
-<td style="text-align: left;">Silhouette metric</td>
+<tr class="odd">
+<td style="text-align: left;">plotly</td>
+<td style="text-align: left;">Interactive charting</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">DT</td>
 <td style="text-align: left;">Interactive table</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">cluster</td>
+<td style="text-align: left;">Clustering metrics</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
 <tr class="even">
-<td style="text-align: left;">rpart</td>
-<td style="text-align: left;">Decision-tree module prep</td>
+<td style="text-align: left;">forecast</td>
+<td style="text-align: left;">Baseline forecasting models</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">tidyr</td>
-<td style="text-align: left;">Data reshaping</td>
+<td style="text-align: left;">parsnip</td>
+<td style="text-align: left;">Forecast model specification layer</td>
+<td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rsample</td>
+<td style="text-align: left;">Time-aware train/test split</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tidymodels</td>
+<td style="text-align: left;">Forecasting workflow framework</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">timetk</td>
+<td style="text-align: left;">Time-series visualisation helpers</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">modeltime</td>
+<td style="text-align: left;">Modeltime forecasting pipeline</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tsibble</td>
+<td style="text-align: left;">Time-indexed tibble support</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">feasts</td>
+<td style="text-align: left;">Decomposition and seasonal diagnostics</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yardstick</td>
+<td style="text-align: left;">Forecast accuracy metrics</td>
+<td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
 </tr>
 </tbody>
@@ -691,7 +770,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>SMU Visual Analytics Group Project | Updated 2026-03-12</p>
+<p>SMU Visual Analytics Group Project | Updated 2026-04-01</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

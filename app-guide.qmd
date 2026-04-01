@@ -1,38 +1,136 @@
 ---
-title: "Shiny App Guide"
+title: "Shiny App"
+format:
+  html:
+    toc: false
 ---
 
-## Application Structure
-
-The app follows a modular structure:
-
-1. `app/app.R` - top-level layout and module wiring.
-2. `app/R/data_utils.R` - dataset loading and preprocessing helpers.
-3. `app/R/mod_cluster_ui.R` - cluster module UI.
-4. `app/R/mod_cluster_server.R` - cluster module logic.
-
-## Run Commands
-
-```bash
-Rscript run_app.R 3838
+```{r}
+shiny_app_url <- trimws(Sys.getenv("SHINY_APP_URL", unset = ""))
+has_shiny_target <- nzchar(shiny_app_url)
+is_local_target <- has_shiny_target && grepl("127\\.0\\.0\\.1|localhost", shiny_app_url)
+shiny_target_label <- if (!has_shiny_target) {
+  "No target configured"
+} else if (is_local_target) {
+  "Local target"
+} else {
+  "Deployment target"
+}
+shiny_target_note <- if (!has_shiny_target) {
+  "No external Shiny URL is configured yet. Use the setup instructions below before publishing the static site."
+} else if (is_local_target) {
+  "The site currently points to a locally running Shiny process."
+} else {
+  "The site is currently configured to point to the deployed Shiny application."
+}
 ```
 
-## What to Expect
+## Open The App
 
-Current module available in app:
+This page is the website entry point for the Shiny application.
 
-1. Cluster analysis prototype
-2. Adjustable `k`, period filter, and seed
-3. Scatter plot + profile table + silhouette score
+`r if (has_shiny_target) paste("Current target:", shiny_app_url) else "Current target: not configured yet."`
 
-## One-Click Dev Start (PowerShell)
+::: {.grid-cards}
+::: {.card-block}
+### Launch Shiny App
+
+`r if (has_shiny_target) sprintf("[Open the Shiny app](%s){target=\"_blank\"}", shiny_app_url) else "Set SHINY_APP_URL before expecting a public launch link here."`
+
+`r shiny_target_note`
+:::
+
+::: {.card-block}
+### Current Target
+
+- Label: `r shiny_target_label`
+- URL: `r if (has_shiny_target) shiny_app_url else "Not configured"`
+- Mode: `r if (!has_shiny_target) "Configuration required" else if (is_local_target) "Local development" else "External deployment"`
+:::
+
+::: {.card-block}
+### Run Command
+
+```r
+shiny::runApp("app")
+```
+
+Or from the project root:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/start-dev.ps1
+Rscript run_app.R 3838
+```
+:::
+:::
+
+## Embedded Preview
+
+When the target app is available, the frame below gives the website a direct in-page preview.
+
+```{r, echo=FALSE}
+if (!has_shiny_target) {
+  htmltools::div(
+    style = "background:#fff8ef;border:1px solid #eadfce;border-radius:18px;padding:1rem 1.1rem;color:#4f5f68;",
+    htmltools::tags$strong("Preview unavailable."),
+    htmltools::tags$div("Set SHINY_APP_URL to a deployed app URL, then re-render the site to enable the launch link and embedded preview.")
+  )
+} else {
+  htmltools::div(
+    style = "background:#fff;border:1px solid #e3d8c8;border-radius:18px;overflow:hidden;box-shadow:0 12px 28px rgba(27,41,45,0.06);",
+    htmltools::div(
+      style = "padding:0.9rem 1rem;border-bottom:1px solid #eadfce;background:#fffaf3;font-weight:700;",
+      sprintf("Shiny Preview (%s)", shiny_app_url)
+    ),
+    htmltools::tags$iframe(
+      src = shiny_app_url,
+      title = "Singapore Tourism Time-Series VA Prototype",
+      style = "width:100%;height:900px;border:0;background:#fff;",
+      loading = "lazy"
+    )
+  )
+}
 ```
 
-## Data Source
+## Current Module Status
 
-App reads:
+| Module | Current status | Current focus |
+|---|---|---|
+| Time Series Visual Analysis | lightweight explorer | compare monthly series and metadata before deeper analysis |
+| Time Series Clustering | active prototype | Wang branch interaction and visual refinement |
+| Forecasting | active prototype | Jin branch forecasting workflow with selectable model comparison and fallback runtime support |
 
-`data/raw/tourism_four_part_analysis_ready.xlsx`
+## Data Contract
+
+The current clustering workflow reads from:
+
+- `data/raw/visitor_arrivals_full_dataset.xlsx`
+- `data/processed/clustering_country_wide.csv`
+- `data/processed/clustering_country_long.csv`
+- `data/raw/tourism_update.xlsx` for optional tourism performance context in the forecasting module
+
+## Expected User Flow
+
+1. Open the Shiny app from this page.
+2. Enter the `Time Series Clustering` tab.
+3. Select a focused set of countries.
+4. Choose a year window and normalization mode.
+5. Review the outputs in order: `Dashboard`, `Pattern Explorer`, `Focus Market in Context`, `Assignments`.
+
+## Deployment Switch
+
+For local testing, start the app directly with `shiny::runApp("app")` or `Rscript run_app.R 3838`.
+
+When you are ready to switch to `shinyapps.io`, re-render the site with:
+
+```powershell
+$env:SHINY_APP_URL='https://YOUR-APP-NAME.shinyapps.io/YOUR-APP/'
+quarto render
+```
+
+That will update both the launch button and the embedded preview to the deployed app.
+
+## Notes For Local Testing
+
+1. Start the app first if the preview frame is blank.
+2. Use the standalone launch link if your browser blocks the embedded frame.
+3. Keep the browser window at a normal desktop width when checking layout quality.

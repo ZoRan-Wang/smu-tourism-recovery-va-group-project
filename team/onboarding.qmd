@@ -8,10 +8,10 @@ Set up one shared base where each member can own one prototype module while keep
 
 ## Suggested Team Split
 
-1. Member A: EDA + confirmatory module.
-2. Member B: cluster module.
-3. Member C: decision tree module.
-4. Member D (optional): integration, QA, and deployment.
+1. Member A: time-series visual analysis.
+2. Member B: time-series clustering.
+3. Member C: forecasting.
+4. Member D: integration, QA, deployment, and documentation sync.
 
 ## Branching Convention
 
@@ -30,30 +30,33 @@ Rscript run_app.R 3838
 
 ## Meeting Records
 
-1. [First Meeting Record](../meeting-records/first-meeting-record.html)
+1. [First Meeting Record](../Meeting%20Minutes/first-meeting-record.html)
+2. [Pivot Meeting Record](../Meeting%20Minutes/second-meeting-record.html)
 
 ## Shared Files to Update Carefully
 
 1. `_quarto.yml` (navigation and build behavior)
 2. `styles/theme.scss` (global styling)
 3. `app/app.R` (module registration)
+4. `Proposal/Proposal.qmd` (shared story and data contract)
+5. `app-guide.qmd` and `user-guide.qmd` (must match the shipped UI)
 
 ## Team Info Cards
 
 ::: {.team-grid}
 ::: {.team-card}
 ### Member 1
-Role: Module Owner  
-Status: add name/contact
+Role: Visual Analysis Owner  
+Status: Xi Zixun
 :::
 ::: {.team-card}
 ### Member 2
-Role: Module Owner  
-Status: add name/contact
+Role: Clustering Owner  
+Status: Wang Zhuoran
 :::
 ::: {.team-card}
 ### Member 3
-Role: Module Owner  
-Status: add name/contact
+Role: Forecasting Owner  
+Status: Jin Qinhao
 :::
 :::

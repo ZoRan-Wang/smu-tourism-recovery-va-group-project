@@ -2,63 +2,66 @@
 title: "Project Home"
 ---
 
+```{r}
+shiny_app_url <- trimws(Sys.getenv("SHINY_APP_URL", unset = ""))
+shiny_launch_href <- if (nzchar(shiny_app_url)) shiny_app_url else "./app-guide.html"
+shiny_launch_label <- if (nzchar(shiny_app_url)) "Launch Shiny App" else "Open Shiny Setup"
+```
+
 ::: {.hero-panel}
-<div class="tagline">Visual Analytics · Quarto + Shiny · AY2025/26</div>
+<div class="tagline">Visual Analytics | Quarto + Shiny | AY2025/26</div>
 
-# Singapore Tourism Recovery Prototype
+# Singapore Tourism Time-Series Visual Analytics
 
-## Core Question
-Did the recovery of Chinese visitor demand help Singapore shift from pandemic shock to high-performance tourism states?
+## Core Direction
+This project reframes Singapore tourism recovery as a comparative time-series problem. The final system combines visual analysis, time-series clustering, and forecasting into one Shiny-supported workflow.
 
-This site is an integrated workspace for:
+This site is the working base for:
 
-1. Take-home Exercise 2 write-up.
-2. Prototype module design and validation.
-3. Team collaboration and onboarding.
-4. Linked Shiny module development.
+1. Project proposal updates
+2. Prototype modules
+3. Shiny integration
+4. Team coordination and documentation
 
 <div class="quick-links">
-<a href="./take-home-ex2.html">Open Take-home 2</a>
-<a href="./prototype/module-cluster.html">Open Prototype Module</a>
-<a href="./app-guide.html">Open Shiny Guide</a>
+<a href="./Proposal/Proposal.html">Open Proposal</a>
+<a href="./prototype/module-cluster.html">Open Clustering Prototype</a>
+<a href="./poster.html">Open Poster</a>
+<a href="./app-guide.html">Open Shiny App Page</a>
+<a href="`r shiny_launch_href`" target="_blank">`r shiny_launch_label`</a>
 </div>
 :::
 
-## Why This Structure
-
-The information architecture is adapted from the strengths of these references:
-
-1. [Habari Tanzania](https://thehabaritanzania.netlify.app/#team): one-page storytelling with section anchors and team visibility.
-2. [Decoding Chaos](https://decoding-chaos.netlify.app/): Quarto-native multi-page prototype navigation.
-
-## Workstreams
+## Working Modules
 
 ::: {.grid-cards}
 ::: {.card-block}
-#### A. Submission-Ready Report
-`take-home-ex2.qmd` is the individual submission page in Quarto HTML format.
+#### Time Series Visual Analysis
+Compare selected countries and transport modes through raw, indexed, and share-based views.
 :::
 ::: {.card-block}
-#### B. Prototype Module
-`prototype/module-cluster.qmd` defines module logic, parameters, UI, and output behavior.
+#### Time Series Clustering
+Group country trajectories with similar recovery paths and interpret how a selected priority market sits in the wider recovery landscape.
 :::
 ::: {.card-block}
-#### C. Running Shiny App
-`app/app.R` with modular server code in `app/R/`.
+#### Forecasting
+Move from historical comparison into short-term prediction for selected tourism series.
 :::
 ::: {.card-block}
-#### D. Shared Team Base
-`team/onboarding.qmd` documents setup, roles, and branch workflow.
+#### Shiny Integration
+Use the website as the entry point, then open or embed the running Shiny app from the Shiny page.
 :::
 :::
 
-## Data & References Imported
+## Key Pages
 
-1. `data/raw/tourism_four_part_analysis_ready.xlsx`
-2. `data/references/tourism_analysis_bilingual_plan.txt`
-3. `data/references/tourism_data_cleaning_detailed_report.md`
+1. [Proposal](./Proposal/Proposal.html)
+2. [Time Series Clustering Prototype](./prototype/module-cluster.html)
+3. [Project Poster](./poster.html)
+4. [UI Storyboard](./prototype/ui-storyboard.html)
+5. [Shiny App](./app-guide.html)
 
-## Start Development
+## Local Run Commands
 
 ```bash
 quarto preview
@@ -67,3 +70,9 @@ quarto preview
 ```bash
 Rscript run_app.R 3838
 ```
+
+## Deployment Notes
+
+`r if (nzchar(shiny_app_url)) paste("Current Shiny target:", shiny_app_url) else "No deployed Shiny URL is configured in the current render."`
+
+When the app is deployed to `shinyapps.io`, re-render the site with `SHINY_APP_URL` set to the deployed URL so the website button and preview frame point to the public app instead of the setup page.
