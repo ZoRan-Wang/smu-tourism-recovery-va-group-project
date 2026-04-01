@@ -86,6 +86,20 @@ smu-tourism-recovery-va-group-project/
 - inspect holdout accuracy and projected future path
 - run the full `modeltime` workflow when available, otherwise fall back to a lighter `forecast` implementation with the same benchmark labels
 
+## Poster Files
+
+The final poster materials are stored in the following locations:
+
+- Poster source file: `poster.qmd`
+- Poster stylesheet: `styles/poster.css`
+- Rendered website poster page: `docs/poster.html`
+- Rendered poster stylesheet copy: `docs/styles/poster.css`
+- A1 poster image export (PNG): `docs/poster-a1.png`
+- A1 poster image export (JPEG): `docs/poster-a1.jpg`
+
+Use `poster.qmd` and `styles/poster.css` when editing the poster.  
+Use the files under `docs/` when checking the rendered version that will be published or shared.
+
 ## Quick Start
 
 ### 1. Check required packages
