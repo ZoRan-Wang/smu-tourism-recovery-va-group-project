@@ -123,12 +123,12 @@ The explorer establishes the main recovery narrative before modelling begins.
 - Hotel occupancy remains positively linked to arrivals, so visitor recovery still matters operationally.
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/eda-china-market.png)
+![](poster-assets/eda-china-market.png)
 *Country-level demand and total arrivals recover at different speeds rather than following one shared rebound path.*
 :::
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/eda-hotel-utilisation.png)
+![](poster-assets/eda-hotel-utilisation.png)
 *Recovery in arrivals is reflected in accommodation utilisation, giving business meaning to the time-series signal.*
 :::
 :::
@@ -145,18 +145,18 @@ Clustering changes the question from "what happened overall" to "which countries
 
 ::: {.two-up}
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-scatter.png)
+![](poster-assets/cluster-scatter.png)
 *The reduced-space view reveals clear grouping among recovery trajectories.*
 :::
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-timeline.png)
+![](poster-assets/cluster-timeline.png)
 *The timeline view shows when the tourism system exits the shock regime and enters recovery phases.*
 :::
 :::
 
 ::: {.figure-frame .figure-compact}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/cluster-elbow.png)
+![](poster-assets/cluster-elbow.png)
 *The cluster-count diagnostic keeps the grouping choice transparent instead of arbitrary.*
 :::
 :::
@@ -176,17 +176,17 @@ Forecasting follows the Chapter 19 and Chapter 20 workflow from *R for Visual An
 - Seasonal Naive, ETS, and ARIMA can be compared on one shared horizon for transparent evaluation.
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-series.png)
+![](poster-assets/forecast-series.png)
 *The input series preserves the pandemic shock, reopening phase, and renewed seasonal peaks.*
 :::
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-decomposition.png)
+![](poster-assets/forecast-decomposition.png)
 *Trend, seasonality, and residual components are separated before model comparison.*
 :::
 
 ::: {.figure-frame}
-![](/C:/Users/12697/Desktop/VAA%20final/poster-assets/forecast-holdout.png)
+![](poster-assets/forecast-holdout.png)
 *A shared holdout window makes benchmark and model-based forecasts directly comparable.*
 :::
 :::

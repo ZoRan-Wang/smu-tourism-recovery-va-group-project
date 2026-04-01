@@ -79,6 +79,23 @@ first_existing <- function(paths) {
   }
 }
 
+rel_to_project <- function(path, root) {
+  if (is.na(path) || !nzchar(path)) {
+    return(NA_character_)
+  }
+  root_norm <- normalizePath(root, winslash = "/", mustWork = TRUE)
+  path_norm <- normalizePath(path, winslash = "/", mustWork = TRUE)
+  rel <- sub(
+    paste0("^", gsub("([][{}()+*^$|\\\\?.])", "\\\\\\1", root_norm), "/?"),
+    "",
+    path_norm
+  )
+  if (identical(rel, path_norm)) {
+    return(basename(path_norm))
+  }
+  rel
+}
+
 clean_series_name <- function(x) {
   x <- gsub("^Visitor Arrivals: ", "", x)
   x <- gsub("^\\s+|\\s+$", "", x)
@@ -175,8 +192,8 @@ import_summary <- data.frame(
     "China series"
   ),
   Value = c(
-    ifelse(is.na(wide_processed_path), "Derived from raw workbook", wide_processed_path),
-    ifelse(is.na(long_processed_path), "Derived from wide input", long_processed_path),
+    ifelse(is.na(wide_processed_path), "Derived from raw workbook", rel_to_project(wide_processed_path, project_root)),
+    ifelse(is.na(long_processed_path), "Derived from wide input", rel_to_project(long_processed_path, project_root)),
     paste(format(analysis_start, "%Y-%m"), "to", format(analysis_end, "%Y-%m")),
     length(series_cols),
     nrow(country_wide),

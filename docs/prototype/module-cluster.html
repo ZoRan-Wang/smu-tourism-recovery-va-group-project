@@ -345,118 +345,131 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>clean_series_name <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^Visitor Arrivals: "</span>, <span class="st">""</span>, x)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^</span><span class="sc">\\</span><span class="st">s+|</span><span class="sc">\\</span><span class="st">s+$"</span>, <span class="st">""</span>, x)</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  x</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>coerce_series_numeric <span class="ot">&lt;-</span> <span class="cf">function</span>(df, cols) {</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (col <span class="cf">in</span> cols) {</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    df[[col]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, df[[col]]))</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  df</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>project_root <span class="ot">&lt;-</span> <span class="fu">find_project_root</span>()</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(project_root, <span class="st">"app"</span>, <span class="st">"R"</span>, <span class="st">"data_utils.R"</span>))</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>analysis_start <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2017-01-01"</span>)</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>analysis_end <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2025-12-01"</span>)</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>wide_processed_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_wide.csv"</span>),</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_wide.csv"</span>)</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>long_processed_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_long.csv"</span>),</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_long.csv"</span>)</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>raw_workbook_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"visitor_arrivals_full_dataset.xlsx"</span>),</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"visitor_arrivals_full_dataset.xlsx"</span>)</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(wide_processed_path)) {</span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wide_processed_path, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  country_wide<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(country_wide<span class="sc">$</span>date)</span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> country_wide <span class="sc">|&gt;</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  raw_wide <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(raw_workbook_path, <span class="at">sheet =</span> <span class="st">"My Series"</span>)</span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  raw_wide<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(raw_wide[[<span class="dv">1</span>]])</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  raw_wide <span class="ot">&lt;-</span> raw_wide <span class="sc">|&gt;</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  fallback_series <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: China"</span>,</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: India"</span>,</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Malaysia"</span>,</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Australia"</span>,</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Japan"</span>,</span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Philippines"</span>,</span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: United Kingdom"</span>,</span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Germany"</span>,</span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Thailand"</span>,</span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Hong Kong SAR (China)"</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  available_series <span class="ot">&lt;-</span> <span class="fu">intersect</span>(fallback_series, <span class="fu">names</span>(raw_wide))</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> raw_wide <span class="sc">|&gt;</span></span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(date, dplyr<span class="sc">::</span><span class="fu">all_of</span>(available_series))</span>
-<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(country_wide) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="fu">clean_series_name</span>(<span class="fu">names</span>(country_wide)[<span class="sc">-</span><span class="dv">1</span>]))</span>
-<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>series_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(country_wide), <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"quarter"</span>, <span class="st">"period"</span>))</span>
-<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>series_cols <span class="ot">&lt;-</span> series_cols[<span class="fu">vapply</span>(country_wide[series_cols], is.numeric, <span class="fu">logical</span>(<span class="dv">1</span>))]</span>
-<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>country_wide <span class="ot">&lt;-</span> <span class="fu">coerce_series_numeric</span>(country_wide, series_cols)</span>
-<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(long_processed_path)) {</span>
-<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(long_processed_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(country_long<span class="sc">$</span>date)</span>
-<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> country_long <span class="sc">|&gt;</span></span>
-<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
-<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">rep</span>(country_wide<span class="sc">$</span>date, <span class="at">times =</span> <span class="fu">length</span>(series_cols)),</span>
-<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="fu">rep</span>(series_cols, <span class="at">each =</span> <span class="fu">nrow</span>(country_wide)),</span>
-<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrivals =</span> <span class="fu">as.vector</span>(<span class="fu">as.matrix</span>(country_wide[series_cols]))</span>
-<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(country_long<span class="sc">$</span>date, <span class="st">"%Y"</span>))</span>
-<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(country_long<span class="sc">$</span>date, <span class="st">"%m"</span>))</span>
-<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>indexed_arrivals <span class="ot">&lt;-</span> <span class="fu">ave</span>(country_long<span class="sc">$</span>arrivals, country_long<span class="sc">$</span>country, <span class="at">FUN =</span> <span class="cf">function</span>(x) x <span class="sc">/</span> x[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>zscore_arrivals <span class="ot">&lt;-</span> <span class="fu">ave</span>(country_long<span class="sc">$</span>arrivals, country_long<span class="sc">$</span>country, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">as.numeric</span>(<span class="fu">scale</span>(x)))</span>
-<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>rel_to_project <span class="ot">&lt;-</span> <span class="cf">function</span>(path, root) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(path) <span class="sc">||</span> <span class="sc">!</span><span class="fu">nzchar</span>(path)) {</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NA_character_</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  root_norm <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(root, <span class="at">winslash =</span> <span class="st">"/"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  path_norm <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(path, <span class="at">winslash =</span> <span class="st">"/"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  rel <span class="ot">&lt;-</span> <span class="fu">sub</span>(</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste0</span>(<span class="st">"^"</span>, <span class="fu">gsub</span>(<span class="st">"([][{}()+*^$|</span><span class="sc">\\\\</span><span class="st">?.])"</span>, <span class="st">"</span><span class="sc">\\\\\\</span><span class="st">1"</span>, root_norm), <span class="st">"/?"</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">""</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    path_norm</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">identical</span>(rel, path_norm)) {</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">basename</span>(path_norm))</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  rel</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>clean_series_name <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^Visitor Arrivals: "</span>, <span class="st">""</span>, x)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"^</span><span class="sc">\\</span><span class="st">s+|</span><span class="sc">\\</span><span class="st">s+$"</span>, <span class="st">""</span>, x)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  x</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>coerce_series_numeric <span class="ot">&lt;-</span> <span class="cf">function</span>(df, cols) {</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (col <span class="cf">in</span> cols) {</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    df[[col]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">","</span>, <span class="st">""</span>, df[[col]]))</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  df</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>project_root <span class="ot">&lt;-</span> <span class="fu">find_project_root</span>()</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(project_root, <span class="st">"app"</span>, <span class="st">"R"</span>, <span class="st">"data_utils.R"</span>))</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>analysis_start <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2017-01-01"</span>)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>analysis_end <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2025-12-01"</span>)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>wide_processed_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_wide.csv"</span>),</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_wide.csv"</span>)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>long_processed_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_long.csv"</span>),</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"processed"</span>, <span class="st">"clustering_country_long.csv"</span>)</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>raw_workbook_path <span class="ot">&lt;-</span> <span class="fu">first_existing</span>(<span class="fu">c</span>(</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(project_root, <span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"visitor_arrivals_full_dataset.xlsx"</span>),</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"raw"</span>, <span class="st">"visitor_arrivals_full_dataset.xlsx"</span>)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(wide_processed_path)) {</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wide_processed_path, <span class="at">check.names =</span> <span class="cn">FALSE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  country_wide<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(country_wide<span class="sc">$</span>date)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> country_wide <span class="sc">|&gt;</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  raw_wide <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(raw_workbook_path, <span class="at">sheet =</span> <span class="st">"My Series"</span>)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  raw_wide<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(raw_wide[[<span class="dv">1</span>]])</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  raw_wide <span class="ot">&lt;-</span> raw_wide <span class="sc">|&gt;</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  fallback_series <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: China"</span>,</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: India"</span>,</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Malaysia"</span>,</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Australia"</span>,</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Japan"</span>,</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Philippines"</span>,</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: United Kingdom"</span>,</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Germany"</span>,</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Thailand"</span>,</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Visitor Arrivals: Hong Kong SAR (China)"</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>  available_series <span class="ot">&lt;-</span> <span class="fu">intersect</span>(fallback_series, <span class="fu">names</span>(raw_wide))</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>  country_wide <span class="ot">&lt;-</span> raw_wide <span class="sc">|&gt;</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">select</span>(date, dplyr<span class="sc">::</span><span class="fu">all_of</span>(available_series))</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(country_wide) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="fu">clean_series_name</span>(<span class="fu">names</span>(country_wide)[<span class="sc">-</span><span class="dv">1</span>]))</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>series_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(country_wide), <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"quarter"</span>, <span class="st">"period"</span>))</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>series_cols <span class="ot">&lt;-</span> series_cols[<span class="fu">vapply</span>(country_wide[series_cols], is.numeric, <span class="fu">logical</span>(<span class="dv">1</span>))]</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>country_wide <span class="ot">&lt;-</span> <span class="fu">coerce_series_numeric</span>(country_wide, series_cols)</span>
 <span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>china_series <span class="ot">&lt;-</span> series_cols[<span class="fu">grepl</span>(<span class="st">"china"</span>, series_cols, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)][<span class="dv">1</span>]</span>
-<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.na</span>(china_series) <span class="sc">||</span> <span class="sc">!</span><span class="fu">nzchar</span>(china_series)) {</span>
-<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Unable to identify the China series in the clustering input."</span>)</span>
-<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>import_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">Item =</span> <span class="fu">c</span>(</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wide input"</span>,</span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Long companion"</span>,</span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Analysis window"</span>,</span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Number of countries"</span>,</span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Months"</span>,</span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>    <span class="st">"China series"</span></span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(</span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(<span class="fu">is.na</span>(wide_processed_path), <span class="st">"Derived from raw workbook"</span>, wide_processed_path),</span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(<span class="fu">is.na</span>(long_processed_path), <span class="st">"Derived from wide input"</span>, long_processed_path),</span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="fu">format</span>(analysis_start, <span class="st">"%Y-%m"</span>), <span class="st">"to"</span>, <span class="fu">format</span>(analysis_end, <span class="st">"%Y-%m"</span>)),</span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(series_cols),</span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(country_wide),</span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>    china_series</span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(import_summary, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(long_processed_path)) {</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(long_processed_path, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(country_long<span class="sc">$</span>date)</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> country_long <span class="sc">|&gt;</span></span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(date <span class="sc">&gt;=</span> analysis_start, date <span class="sc">&lt;=</span> analysis_end)</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>  country_long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">rep</span>(country_wide<span class="sc">$</span>date, <span class="at">times =</span> <span class="fu">length</span>(series_cols)),</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> <span class="fu">rep</span>(series_cols, <span class="at">each =</span> <span class="fu">nrow</span>(country_wide)),</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrivals =</span> <span class="fu">as.vector</span>(<span class="fu">as.matrix</span>(country_wide[series_cols]))</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(country_long<span class="sc">$</span>date, <span class="st">"%Y"</span>))</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(country_long<span class="sc">$</span>date, <span class="st">"%m"</span>))</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>indexed_arrivals <span class="ot">&lt;-</span> <span class="fu">ave</span>(country_long<span class="sc">$</span>arrivals, country_long<span class="sc">$</span>country, <span class="at">FUN =</span> <span class="cf">function</span>(x) x <span class="sc">/</span> x[<span class="dv">1</span>] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>  country_long<span class="sc">$</span>zscore_arrivals <span class="ot">&lt;-</span> <span class="fu">ave</span>(country_long<span class="sc">$</span>arrivals, country_long<span class="sc">$</span>country, <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">as.numeric</span>(<span class="fu">scale</span>(x)))</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>china_series <span class="ot">&lt;-</span> series_cols[<span class="fu">grepl</span>(<span class="st">"china"</span>, series_cols, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)][<span class="dv">1</span>]</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.na</span>(china_series) <span class="sc">||</span> <span class="sc">!</span><span class="fu">nzchar</span>(china_series)) {</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Unable to identify the China series in the clustering input."</span>)</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>import_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">Item =</span> <span class="fu">c</span>(</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wide input"</span>,</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Long companion"</span>,</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Analysis window"</span>,</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Number of countries"</span>,</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Months"</span>,</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>    <span class="st">"China series"</span></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">Value =</span> <span class="fu">c</span>(</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(<span class="fu">is.na</span>(wide_processed_path), <span class="st">"Derived from raw workbook"</span>, <span class="fu">rel_to_project</span>(wide_processed_path, project_root)),</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ifelse</span>(<span class="fu">is.na</span>(long_processed_path), <span class="st">"Derived from wide input"</span>, <span class="fu">rel_to_project</span>(long_processed_path, project_root)),</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="fu">format</span>(analysis_start, <span class="st">"%Y-%m"</span>), <span class="st">"to"</span>, <span class="fu">format</span>(analysis_end, <span class="st">"%Y-%m"</span>)),</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(series_cols),</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(country_wide),</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>    china_series</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(import_summary, <span class="at">align =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="st">"l"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 79%">
-</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Item</th>
@@ -466,11 +479,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Wide input</td>
-<td style="text-align: left;">C:/Users/12697/Desktop/VAA final/data/processed/clustering_country_wide.csv</td>
+<td style="text-align: left;">data/processed/clustering_country_wide.csv</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Long companion</td>
-<td style="text-align: left;">C:/Users/12697/Desktop/VAA final/data/processed/clustering_country_long.csv</td>
+<td style="text-align: left;">data/processed/clustering_country_long.csv</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Analysis window</td>
