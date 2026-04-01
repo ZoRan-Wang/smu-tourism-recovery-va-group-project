@@ -22,6 +22,8 @@ website:
         text: Home
       - href: Proposal/Proposal.qmd
         text: Proposal
+      - href: poster.qmd
+        text: Poster
       - href: app-guide.qmd
         text: Shiny App
       - href: user-guide.qmd

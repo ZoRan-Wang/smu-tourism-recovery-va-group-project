@@ -4,7 +4,7 @@ Updated: 2026-03-29
 Branch: `jin-qinhao`
 
 ## Core Goal
-Replace the legacy decision-tree and random-forest direction with a forecasting module built on the new full tourism time-series dataset.
+Build the forecasting module on the new full tourism time-series dataset and keep the final project aligned to the shared three-module architecture.
 
 ## Required Deliverables
 1. Create `prototype/forecasting.qmd`.
@@ -14,7 +14,7 @@ Replace the legacy decision-tree and random-forest direction with a forecasting 
 5. Update the forecasting section and package list in `Proposal/Proposal.qmd`.
 6. Update `scripts/check_cran_support.R` and `scripts/prototype_smoke_test.R` to include forecasting dependencies and checks.
 7. Rewrite `README.md` so it matches the new data/model/app architecture.
-8. Keep `team/jin-qinhao/Take-Home-Exercise2/` as a legacy archive and do not extend it as the main project module.
+8. Keep the final branch focused on the shared app, prototype, and docs structure only.
 
 ## Must Show
 - A selectable target series.
@@ -35,9 +35,9 @@ Replace the legacy decision-tree and random-forest direction with a forecasting 
 - `README.md`
 
 ## Do Not Spend Time On
-- Extending decision tree or random forest as the final core module.
-- Wiring the new app to the old take-home data folder.
-- Treating `team/jin-qinhao/Take-Home-Exercise2/` as the live project app.
+- Re-introducing retired standalone modelling modules.
+- Wiring the new app to removed legacy take-home folders.
+- Treating archived side work as the live project app.
 
 ## Definition of Done
 - `quarto render prototype/forecasting.qmd` passes.

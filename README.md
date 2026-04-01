@@ -6,8 +6,6 @@ This project combines **Quarto publishing** and a **modular Shiny prototype** ar
 2. Time Series Clustering
 3. Time Series Forecasting
 
-The older decision-tree work under `team/jin-qinhao/Take-Home-Exercise2/` is kept as an archive and is not part of the live shared prototype contract.
-
 ## Core Data Contract
 
 Shared arrivals backbone:
@@ -29,39 +27,42 @@ Country-level visitor arrivals remain the common analytical target across explor
 
 ```text
 smu-tourism-recovery-va-group-project/
-├─ _quarto.yml
-├─ index.qmd
-├─ app-guide.qmd
-├─ user-guide.qmd
-├─ Proposal/
-├─ prototype/
-│  ├─ EDA.qmd
-│  ├─ CDA.qmd
-│  ├─ module-cluster.qmd
-│  ├─ forecasting.qmd
-│  ├─ package-audit.qmd
-│  ├─ ui-storyboard.qmd
-│  └─ wang-zhuoran-review-report.qmd
-├─ app/
-│  ├─ app.R
-│  ├─ R/
-│  │  ├─ data_utils.R
-│  │  ├─ mod_cluster_ui.R
-│  │  ├─ mod_cluster_server.R
-│  │  ├─ mod_forecast_ui.R
-│  │  └─ mod_forecast_server.R
-│  └─ www/
-│     └─ app-theme.css
-├─ scripts/
-│  ├─ check_cran_support.R
-│  ├─ prepare_clustering_country_data.R
-│  ├─ prepare_common_timeseries_data.R
-│  └─ prototype_smoke_test.R
-├─ data/
-│  ├─ raw/
-│  └─ processed/
-├─ docs/
-└─ team/
+├── _quarto.yml
+├── index.qmd
+├── app-guide.qmd
+├── user-guide.qmd
+├── poster.qmd
+├── Proposal/
+├── prototype/
+│   ├── EDA.qmd
+│   ├── CDA.qmd
+│   ├── module-cluster.qmd
+│   ├── forecasting.qmd
+│   ├── package-audit.qmd
+│   ├── ui-storyboard.qmd
+│   └── wang-zhuoran-review-report.qmd
+├── app/
+│   ├── app.R
+│   ├── R/
+│   │   ├── data_utils.R
+│   │   ├── mod_cluster_ui.R
+│   │   ├── mod_cluster_server.R
+│   │   ├── mod_forecast_ui.R
+│   │   └── mod_forecast_server.R
+│   └── www/
+│       └── app-theme.css
+├── scripts/
+│   ├── check_cran_support.R
+│   ├── prepare_clustering_country_data.R
+│   ├── prepare_common_timeseries_data.R
+│   └── prototype_smoke_test.R
+├── styles/
+│   └── poster.css
+├── data/
+│   ├── raw/
+│   └── processed/
+├── docs/
+└── team/
 ```
 
 ## What Each Module Does
@@ -88,30 +89,63 @@ smu-tourism-recovery-va-group-project/
 - inspect holdout accuracy and projected future path
 - run the full `modeltime` workflow when available, otherwise fall back to a lighter `forecast` implementation with the same benchmark labels
 
+## Poster Files
+
+The final poster materials are stored in the following relative locations:
+
+- Poster source file: `poster.qmd`
+- Poster stylesheet: `styles/poster.css`
+- Rendered website poster page: `docs/poster.html`
+- Rendered poster stylesheet copy: `docs/styles/poster.css`
+- A1 poster image export (PNG): `docs/poster-a1.png`
+- A1 poster image export (JPEG): `docs/poster-a1.jpg`
+
+Use `poster.qmd` and `styles/poster.css` when editing the poster.  
+Use the files under `docs/` when checking the rendered version that will be published or shared.
+
+## Legacy Content Removed
+
+The project previously contained an older standalone modelling direction built around decision-tree and random-forest materials. Those files have now been removed so the final branch stays focused on the current three-module time-series workflow.
+
+The cleanup included:
+
+- removing legacy prototype pages such as the older decision-tree pages
+- removing the retired standalone `take-home-ex2.qmd` path
+- removing the old `shiny/` bundle that was tied to the retired modelling workflow
+- removing archived decision-tree and random-forest plots, tables, and exported widgets
+- removing the old `team/jin-qinhao/Take-Home-Exercise2/` module from the live project structure
+- updating the poster and documentation so they no longer reference the retired modelling panels
+
+The live project scope is now limited to:
+
+1. Time Series Visual Analysis
+2. Time Series Clustering
+3. Time Series Forecasting
+
 ## Quick Start
 
 ### 1. Check required packages
 
 ```bash
-"C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/check_cran_support.R
+Rscript scripts/check_cran_support.R
 ```
 
 ### 2. Refresh the clustering processed files if needed
 
 ```bash
-"C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/prepare_clustering_country_data.R
+Rscript scripts/prepare_clustering_country_data.R
 ```
 
 ### 3. Refresh the shared arrivals backbone if needed
 
 ```bash
-"C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/prepare_common_timeseries_data.R
+Rscript scripts/prepare_common_timeseries_data.R
 ```
 
 ### 4. Run the smoke test
 
 ```bash
-"C:/Program Files/R/R-4.5.2/bin/Rscript.exe" scripts/prototype_smoke_test.R
+Rscript scripts/prototype_smoke_test.R
 ```
 
 ### 5. Preview the Quarto site

@@ -26,6 +26,7 @@ This site is the working base for:
 <div class="quick-links">
 <a href="./Proposal/Proposal.html">Open Proposal</a>
 <a href="./prototype/module-cluster.html">Open Clustering Prototype</a>
+<a href="./poster.html">Open Poster</a>
 <a href="./app-guide.html">Open Shiny App Page</a>
 <a href="`r shiny_launch_href`" target="_blank">`r shiny_launch_label`</a>
 </div>
@@ -56,8 +57,9 @@ Use the website as the entry point, then open or embed the running Shiny app fro
 
 1. [Proposal](./Proposal/Proposal.html)
 2. [Time Series Clustering Prototype](./prototype/module-cluster.html)
-3. [UI Storyboard](./prototype/ui-storyboard.html)
-4. [Shiny App](./app-guide.html)
+3. [Project Poster](./poster.html)
+4. [UI Storyboard](./prototype/ui-storyboard.html)
+5. [Shiny App](./app-guide.html)
 
 ## Local Run Commands
 

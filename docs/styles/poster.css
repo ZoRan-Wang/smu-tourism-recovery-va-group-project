@@ -1,0 +1,325 @@
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(233, 239, 234, 0.9), transparent 18%),
+    radial-gradient(circle at 90% 8%, rgba(248, 223, 203, 0.86), transparent 20%),
+    radial-gradient(circle at 16% 86%, rgba(213, 228, 239, 0.55), transparent 16%),
+    radial-gradient(circle at 86% 82%, rgba(236, 222, 194, 0.44), transparent 16%),
+    linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0) 18%),
+    #f4eee4;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: #213036;
+}
+
+#title-block-header,
+.quarto-title-block {
+  display: none !important;
+}
+
+#quarto-content,
+main.content.column-page,
+.content.column-page {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.page-columns,
+.page-rows-contents,
+.column-page {
+  grid-template-columns: 1fr !important;
+}
+
+.poster-canvas {
+  width: min(1540px, calc(100vw - 8px));
+  margin: 4px auto;
+  padding: 8px;
+  background: #fcf8f1;
+  border: 4px solid #1f325f;
+  box-shadow: 0 14px 34px rgba(24, 41, 61, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.poster-canvas::before,
+.poster-canvas::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.poster-canvas::before {
+  width: 220px;
+  height: 220px;
+  top: -72px;
+  right: -62px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.78) 0 22%, transparent 23%),
+    radial-gradient(circle at center, rgba(224, 175, 82, 0.22) 0 46%, transparent 47%),
+    radial-gradient(circle at center, rgba(45, 87, 117, 0.14) 0 68%, transparent 69%);
+}
+
+.poster-canvas::after {
+  width: 210px;
+  height: 210px;
+  left: -56px;
+  bottom: -66px;
+  border-radius: 32px;
+  transform: rotate(16deg);
+  background:
+    linear-gradient(135deg, rgba(37, 85, 98, 0.18), transparent 58%),
+    radial-gradient(circle at 34% 34%, rgba(224, 175, 82, 0.18) 0 20%, transparent 21%),
+    radial-gradient(circle at 72% 72%, rgba(37, 63, 111, 0.16) 0 22%, transparent 23%);
+}
+
+.poster-hero {
+  background: linear-gradient(90deg, #1d275d 0%, #26497a 60%, #1c5f64 100%);
+  color: #fff;
+  padding: 14px 16px 12px 16px;
+  border-bottom: 6px solid #e0ab47;
+}
+
+.poster-hero h1,
+.poster-hero h2 {
+  color: #fff;
+  margin: 0;
+}
+
+.hero-kicker {
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #d6e8fb;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.poster-hero h1 {
+  font-size: clamp(30px, 3.4vw, 48px);
+  line-height: 1;
+  font-weight: 800;
+  max-width: 1080px;
+}
+
+.poster-hero h2 {
+  font-size: clamp(14px, 1.25vw, 21px);
+  line-height: 1.2;
+  margin-top: 8px;
+  max-width: 1080px;
+  font-weight: 500;
+}
+
+.hero-meta {
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.poster-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.08fr 1.02fr;
+  gap: 8px;
+  padding-top: 8px;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+.grid-left,
+.grid-center,
+.grid-right {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.section-box {
+  background: #fffefb;
+  border: 1.5px solid #d8cfbf;
+  padding: 9px 10px 10px 10px;
+  box-shadow: 0 5px 10px rgba(44, 52, 57, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-box h3 {
+  margin: -9px -10px 9px -10px;
+  padding: 7px 10px;
+  font-size: 20px;
+  line-height: 1.1;
+  color: #173144;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+  font-weight: 800;
+}
+
+.section-box::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 58px;
+  height: 58px;
+  opacity: 0.5;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0) 0 42%, rgba(255,255,255,0.56) 43% 46%, rgba(255,255,255,0) 47% 100%),
+    radial-gradient(circle at 70% 30%, rgba(209, 219, 225, 0.35) 0 17%, transparent 18%);
+}
+
+.section-problem h3 {
+  background: linear-gradient(90deg, #e9d0c1 0%, #f6e7dd 100%);
+}
+
+.section-motivation h3 {
+  background: linear-gradient(90deg, #f0dcc6 0%, #faece0 100%);
+}
+
+.section-approach h3 {
+  background: linear-gradient(90deg, #d9e6ee 0%, #ecf4f8 100%);
+}
+
+.section-results h3 {
+  background: linear-gradient(90deg, #ebdfb5 0%, #f6efd6 100%);
+}
+
+.section-future h3 {
+  background: linear-gradient(90deg, #dbe9d7 0%, #edf5ea 100%);
+}
+
+.section-problem {
+  border-left: 4px solid #dd8f69;
+}
+
+.section-motivation {
+  border-left: 4px solid #d7a16e;
+}
+
+.section-approach {
+  border-left: 4px solid #6a9fc4;
+}
+
+.section-results {
+  border-left: 4px solid #b7a14e;
+}
+
+.section-future {
+  border-left: 4px solid #79a77c;
+}
+
+.section-box p,
+.section-box li {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.section-box ul,
+.section-box ol {
+  padding-left: 18px;
+  margin: 5px 0;
+}
+
+.section-box li {
+  margin-bottom: 4px;
+}
+
+.section-box h4 {
+  font-size: 15px;
+  margin: 7px 0 4px 0;
+  color: #294a60;
+  font-weight: 800;
+}
+
+.figure-frame {
+  background: #ffffff;
+  border: 1px solid #d9cfbf;
+  padding: 5px;
+  margin-top: 6px;
+}
+
+.figure-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.figure-frame p {
+  margin: 4px 0 0 0;
+  font-size: 10px;
+  line-height: 1.3;
+  color: #5b666d;
+}
+
+.two-up {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.figure-compact p {
+  font-size: 10px;
+}
+
+.poster-footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-box {
+  background: #1f2d52;
+  color: #f5f8fc;
+  padding: 8px 10px;
+  min-height: 64px;
+  border-top: 4px solid #dca445;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.footer-box strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+@media (max-width: 1380px) {
+  .poster-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .poster-canvas {
+    width: calc(100vw - 8px);
+    margin: 4px auto;
+    padding: 4px;
+    border-width: 2px;
+  }
+
+  .poster-hero {
+    padding: 10px 10px 8px 10px;
+  }
+
+  .section-box h3 {
+    font-size: 18px;
+  }
+
+  .section-box p,
+  .section-box li,
+  .hero-meta {
+    font-size: 12px;
+  }
+
+  .two-up {
+    grid-template-columns: 1fr;
+  }
+}
