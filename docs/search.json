@@ -151,7 +151,7 @@
     "href": "prototype/forecasting.html#runtime-strategy",
     "title": "Module Prototype: Forecasting",
     "section": "Runtime Strategy",
-    "text": "Runtime Strategy\n\nstack_status &lt;- forecast_stack_status()\n\ntibble(\n  fallback_ready = stack_status$fallback_ready,\n  modeltime_ready = stack_status$modeltime_ready,\n  preferred_engine = stack_status$preferred_engine,\n  missing_modeltime_packages = ifelse(\n    length(stack_status$missing_modeltime_packages) == 0,\n    \"None\",\n    paste(stack_status$missing_modeltime_packages, collapse = \", \")\n  )\n)\n\n# A tibble: 1 × 4\n  fallback_ready modeltime_ready preferred_engine missing_modeltime_packages\n  &lt;lgl&gt;          &lt;lgl&gt;           &lt;chr&gt;            &lt;chr&gt;                     \n1 TRUE           TRUE            modeltime        None"
+    "text": "Runtime Strategy\n\nstack_status &lt;- forecast_stack_status()\n\ntibble(\n  fallback_ready = stack_status$fallback_ready,\n  modeltime_ready = stack_status$modeltime_ready,\n  preferred_engine = stack_status$preferred_engine,\n  missing_modeltime_packages = ifelse(\n    length(stack_status$missing_modeltime_packages) == 0,\n    \"None\",\n    paste(stack_status$missing_modeltime_packages, collapse = \", \")\n  )\n)\n\n# A tibble: 1 × 4\n  fallback_ready modeltime_ready preferred_engine missing_modeltime_packages    \n  &lt;lgl&gt;          &lt;lgl&gt;           &lt;chr&gt;            &lt;chr&gt;                         \n1 TRUE           FALSE           fallback         rsample, parsnip, modeltime, …"
   },
   {
     "objectID": "prototype/forecasting.html#analytical-framing",
@@ -172,7 +172,7 @@
     "href": "prototype/forecasting.html#example-target-series",
     "title": "Module Prototype: Forecasting",
     "section": "Example Target Series",
-    "text": "Example Target Series\nVisitor Arrivals: China is used here because it is one of the clearest country-level recovery indicators in the dataset and it shows strong shock, rebound, and seasonal dynamics.\n\nexample_label &lt;- \"Visitor Arrivals: China\"\n\nexample_series &lt;- prepare_forecast_series(\n  tourism_data$long_monthly,\n  example_label\n)\n\nforecast_results &lt;- run_forecast_workflow(\n  series_df = example_series,\n  horizon = 12,\n  engine = \"auto\"\n)\n\ncontext_series &lt;- prepare_country_context_panel(\n  tourism_data$long_monthly,\n  country_label = example_label\n)\n\nFor this prototype run, the selected execution engine is modeltime workflow."
+    "text": "Example Target Series\nVisitor Arrivals: China is used here because it is one of the clearest country-level recovery indicators in the dataset and it shows strong shock, rebound, and seasonal dynamics.\n\nexample_label &lt;- \"Visitor Arrivals: China\"\n\nexample_series &lt;- prepare_forecast_series(\n  tourism_data$long_monthly,\n  example_label\n)\n\nforecast_results &lt;- run_forecast_workflow(\n  series_df = example_series,\n  horizon = 12,\n  engine = \"auto\"\n)\n\ncontext_series &lt;- prepare_country_context_panel(\n  tourism_data$long_monthly,\n  country_label = example_label\n)\n\nFor this prototype run, the selected execution engine is forecast fallback."
   },
   {
     "objectID": "prototype/forecasting.html#step-1-position-the-country-series-within-tourism-performance",
@@ -207,7 +207,7 @@
     "href": "prototype/forecasting.html#step-5-fit-baseline-and-forecasting-models",
     "title": "Module Prototype: Forecasting",
     "section": "Step 5: Fit Baseline and Forecasting Models",
-    "text": "Step 5: Fit Baseline and Forecasting Models\nThis prototype includes:\n\nSeasonal Naive as the baseline benchmark.\nETS (Modeltime) using exponential smoothing.\nARIMA using auto_arima through the modeltime workflow.\n\n\nforecast_results$models_tbl\n\n# A tibble: 3 × 3\n  .model_id .model_desc     engine   \n      &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    \n1         0 Seasonal Naive  forecast \n2         1 ETS (Modeltime) modeltime\n3         2 ARIMA           modeltime"
+    "text": "Step 5: Fit Baseline and Forecasting Models\nThis prototype includes:\n\nSeasonal Naive as the baseline benchmark.\nETS (Modeltime) using exponential smoothing.\nARIMA using auto_arima through the modeltime workflow.\n\n\nforecast_results$models_tbl\n\n# A tibble: 3 × 3\n  .model_id .model_desc    engine  \n      &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;   \n1         0 Seasonal Naive forecast\n2         1 ETS            forecast\n3         2 ARIMA          forecast"
   },
   {
     "objectID": "prototype/forecasting.html#step-6-testing-set-forecast-and-accuracy-comparison",
@@ -546,53 +546,11 @@
     "text": "ISSS608 Visual Analytics & Applications | Singapore Management University\n\n\n\n\n\n\nTeam Members\nXi Zixun | Wang Zhuoran | Jin Qinhao\nPoster Scope\nIssues and Problems | Motivation | Approach | Results | Future Work\n\n\n\n\n\n\n\n\nSingapore’s tourism recovery cannot be understood well from total visitor counts alone. After the pandemic shock, different source markets returned at different speeds, while hotel occupancy and average stay length reacted with different timing and intensity.\nThe project addresses three linked problems:\n\naggregate visitor totals hide uneven recovery across countries\ndecision-makers need clearer recovery patterns, not only raw charts\nshort-term planning requires forecasting rather than only descriptive reporting\n\nBecause these issues are time-dependent, the project must analyse tourism as a time-series system instead of as a static snapshot.\n\n\n\nThis problem is important because tourism recovery affects hotel utilisation, pricing pressure, and the broader service economy. It is also difficult because:\n\nthe pandemic created a structural break in the data\nreopening did not happen uniformly across source markets\nseasonal patterns resumed unevenly after the shock\nbusiness indicators such as hotel occupancy and stay length do not move in perfect lockstep with arrivals\n\nThe motivation of the project is therefore to build a visual workflow that helps users understand who returned, how they returned, and what that means for tourism performance.\n\n\n\nThe final solution uses one coordinated analytical design.\n\n\n\nMonthly visitor arrivals by country\n\n\n\n\n\nHotel occupancy\nAverage length of stay\nRoom revenue\n\n\n\n\n\nTime Series Explorer to inspect trend, shock, rebound, and seasonal structure\nTrajectory Clustering to group countries with similar recovery paths\nForecasting to compare Seasonal Naive, ETS, and ARIMA on a time-aware holdout split\n\n\n\n\n\nQuarto website for documentation and prototype pages\nShiny app for interactive analysis and comparison\n\n\n\n\n\nThe completed system is not only a report. It is a working visual analytics workflow delivered through:\n\nQuarto project website\nprototype pages\nmodular Shiny app\n\nThis makes the results reviewable, repeatable, and interactive for end users rather than static-only.\n\n\n\nThe three modules are designed to answer different decision questions, but they also reinforce one another.\n\nExplorer explains where the shock and rebound occurred.\nClustering shows which source markets behaved similarly through recovery.\nForecasting translates those patterns into short-term planning support.\n\nThis layered design makes the poster stronger than a chart collection because each section contributes a different level of interpretation: description, grouping, and projection.\nFor tourism planners, the most practical takeaway is that country-level arrivals are not only descriptive indicators. They are useful signals for monitoring recovery strength, identifying comparable markets, and anticipating near-term demand pressure on hotels and tourism services.\n\n\n\n\n\nThe explorer establishes the main recovery narrative before modelling begins.\n\n\n\nChina and total arrivals collapse together during the pandemic shock.\nRecovery is visible but not fully symmetric with the pre-2020 pattern.\nHotel occupancy remains positively linked to arrivals, so visitor recovery still matters operationally.\n\n\n Country-level demand and total arrivals recover at different speeds rather than following one shared rebound path.\n\n\n Recovery in arrivals is reflected in accommodation utilisation, giving business meaning to the time-series signal.\n\n\n\n\n\nClustering changes the question from “what happened overall” to “which countries behave similarly over time.”\n\n\n\nCountries naturally separate into interpretable recovery groups.\nThe cluster timeline shows a progression from shock-related patterns to recovery-oriented behaviour.\nThe elbow diagnostic supports a compact cluster structure that remains explainable to app users.\n\n\n\n The reduced-space view reveals clear grouping among recovery trajectories.\n\n\n The timeline view shows when the tourism system exits the shock regime and enters recovery phases.\n\n\n\n The cluster-count diagnostic keeps the grouping choice transparent instead of arbitrary.\n\n\n\n\n\n\n\nForecasting follows the Chapter 19 and Chapter 20 workflow from R for Visual Analytics: inspect the series, check decomposition, make a time-aware split, benchmark models, and evaluate holdout performance.\n\n\n\nThe selected source market keeps strong seasonal structure after the shock period.\nDecomposition makes the structural break explicit before forecasting starts.\nSeasonal Naive, ETS, and ARIMA can be compared on one shared horizon for transparent evaluation.\n\n\n The input series preserves the pandemic shock, reopening phase, and renewed seasonal peaks.\n\n\n Trend, seasonality, and residual components are separated before model comparison.\n\n\n A shared holdout window makes benchmark and model-based forecasts directly comparable.\n\n\n\n\n\n\nextend forecasting to additional source markets and transport modes\ndeploy the Shiny app to a public host for wider access\ntranslate cluster outputs into reusable market personas\nadd more business-side indicators for pricing and utilisation decisions\n\n\n\n\nThis poster is intended to be read from left to right:\n\nProblem and motivation explain why aggregate totals are insufficient.\nApproach defines the shared data backbone and the three-module workflow.\nResults demonstrate how exploration, clustering, and forecasting each add a different layer of evidence.\nFuture work shows how the current system can be extended into a fuller decision-support tool.\n\nBy arranging the poster this way, the visual evidence and narrative evidence remain aligned, which helps the audience understand both the analytical process and the value of the final system.\n\n\n\n\n\nProblem Focus\nUneven tourism recovery across countries and its implications for tourism performance\n\n\nMethods\nTime-series exploration | clustering | forecasting benchmark comparison\n\n\nSystem Output\nHigh-resolution website poster plus an interactive Shiny analytics workflow"
   },
   {
-    "objectID": "poster.html#motivation-and-problem",
-    "href": "poster.html#motivation-and-problem",
+    "objectID": "poster.html#integrating-exploration-clustering-and-forecasting-on-a-shared-tourism-time-series-backbone",
+    "href": "poster.html#integrating-exploration-clustering-and-forecasting-on-a-shared-tourism-time-series-backbone",
     "title": "Singapore Tourism Recovery Poster",
     "section": "",
-    "text": "Singapore tourism did not recover as one smooth curve after the pandemic. Source markets returned at different speeds, while hotel utilisation and length-of-stay dynamics responded with their own lag. Static summary charts are not enough for users who need to:\n\ncompare recovery paths across source markets\nidentify common trajectory patterns\nassess near-term demand using time-aware forecasting\n\nThis project therefore reframes tourism recovery as a visual time-series decision workflow rather than a single aggregate KPI story."
-  },
-  {
-    "objectID": "poster.html#data-backbone-and-method",
-    "href": "poster.html#data-backbone-and-method",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "The final prototype uses one coordinated data contract:\n\nShared backbone: monthly visitor arrivals by country\nContext layer: hotel occupancy, average length of stay, number of hotels, and room revenue\n\nThis keeps all modules consistent while still allowing the app to explain whether changes in arrivals are reflected in broader tourism performance.\n\n\n\nExplore trend, shock, rebound, and seasonality.\nCluster country trajectories with similar recovery shapes.\nForecast selected source markets with a time-aware holdout split.\n\n\n\n\n\nIt preserves one common analytical target across modules.\nIt supports both explanation and short-term planning.\nIt connects demand signals to business-facing tourism indicators."
-  },
-  {
-    "objectID": "poster.html#shiny-app-experience",
-    "href": "poster.html#shiny-app-experience",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "The project is delivered as a website-plus-Shiny system rather than a static report.\n\nThe website documents the data contract, prototypes, and methods.\nThe Shiny app exposes the final module flow in one place.\nPackage audit and smoke tests support deployment reliability.\n\n\n\n1. Explorer\nRead raw series and confirm metadata.\n2. Clustering\nSee which country trajectories recover in similar ways.\n3. Forecasting\nBenchmark Seasonal Naive, ETS, and ARIMA on the same testing horizon."
-  },
-  {
-    "objectID": "poster.html#time-series-explorer",
-    "href": "poster.html#time-series-explorer",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "The explorer establishes the narrative baseline: a collapse in 2020, a staggered reopening period, and an uneven return of source-market demand. It also tests whether demand recovery aligns with hotel utilisation.\n\n\n\nChina’s contribution clearly shows the magnitude of the pandemic shock.\nRecovery is real, but it is not symmetric with the pre-2020 level.\nHotel occupancy still moves positively with arrivals, even when recovery is phased.\n\n\n China and total arrivals collapse together in 2020, then recover at different speeds.\n\n\n Demand recovery is positively associated with hotel occupancy, supporting the business interpretation of the series."
-  },
-  {
-    "objectID": "poster.html#clustering-recovery-trajectories",
-    "href": "poster.html#clustering-recovery-trajectories",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "Clustering moves the project from “what happened” to “which markets behave similarly.” In the final design, the clustering unit is a country trajectory, not an individual month, which keeps the method aligned with the shared time-series backbone.\n\n\n\nThe reduced-space scatter separates recovery shapes into three interpretable groups.\nThe timeline indicates that the system moved through persistent phases rather than random monthly noise.\nThe elbow diagnostic supports a compact solution that remains explainable inside the Shiny app.\n\n\n Three clusters separate high-performance, transition, and shock-related recovery patterns.\n\n\n\n The market-state chronology reveals when the system leaves the shock period and enters recovery.\n\n\n The elbow view keeps the clustering choice transparent rather than arbitrary."
-  },
-  {
-    "objectID": "poster.html#forecasting-source-market-demand",
-    "href": "poster.html#forecasting-source-market-demand",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "The forecasting module follows the Chapter 19 and 20 workflow from R for Visual Analytics: inspect the time path, confirm seasonality, build a time-aware split, and compare benchmark versus model-based forecasts.\n\n\n\nThe selected country series preserves strong seasonality even after the shock period.\nDecomposition makes the structural break explicit, which justifies a forecasting workflow.\nSeasonal Naive, ETS, and ARIMA are compared on the same holdout window, keeping performance interpretation transparent.\n\n\n China arrivals provide a clear example of shock, reopening, and renewed seasonal peaks.\n\n\n Trend, seasonal, and remainder components reveal the structural change before forecasting begins.\n\n\n The holdout comparison benchmarks Seasonal Naive, ETS, and ARIMA on one common testing horizon."
-  },
-  {
-    "objectID": "poster.html#key-takeaways-and-next-step",
-    "href": "poster.html#key-takeaways-and-next-step",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "Tourism recovery is better understood as a time-series system than as a single headline total.\nCountry-level arrivals provide one shared backbone that keeps exploration, clustering, and forecasting consistent.\nHotel occupancy and stay indicators add business meaning by showing whether demand recovery translates into tourism performance.\nThe final app supports comparison, explanation, and short-term planning in one workflow without relying on legacy tree-model panels.\n\n\n\n\n\nextend forecasting to more source markets\ndeploy the Shiny app to a public host\nturn cluster interpretation into reusable market personas for decision support"
+    "text": "Team Members\nXi Zixun | Wang Zhuoran | Jin Qinhao\nPoster Scope\nIssues and Problems | Motivation | Approach | Results | Future Work"
   },
   {
     "objectID": "prototype/EDA.html",
@@ -655,7 +613,7 @@
     "href": "prototype/module-cluster.html#load-packages",
     "title": "Prototype: Time Series Clustering",
     "section": "2. Load Packages",
-    "text": "2. Load Packages\nThe first step is to load the packages used throughout the prototype.\n\npackages &lt;- c(\"readxl\", \"dplyr\", \"ggplot2\", \"cluster\", \"knitr\")\ninvisible(lapply(packages, library, character.only = TRUE))\n\npackage_table &lt;- data.frame(\n  Package = packages,\n  Version = vapply(packages, function(pkg) as.character(packageVersion(pkg)), character(1))\n)\n\nknitr::kable(package_table, align = c(\"l\", \"l\"))\n\n\n\n\n\nPackage\nVersion\n\n\n\n\nreadxl\nreadxl\n1.4.5\n\n\ndplyr\ndplyr\n1.1.4\n\n\nggplot2\nggplot2\n4.0.1\n\n\ncluster\ncluster\n2.1.8.1\n\n\nknitr\nknitr\n1.51\n\n\n\n\n\nThe package table confirms that the prototype uses a small, base-project-friendly set of tools for reading data, shaping trajectories, clustering country series, and reporting results."
+    "text": "2. Load Packages\nThe first step is to load the packages used throughout the prototype.\n\npackages &lt;- c(\"readxl\", \"dplyr\", \"ggplot2\", \"cluster\", \"knitr\")\ninvisible(lapply(packages, library, character.only = TRUE))\n\npackage_table &lt;- data.frame(\n  Package = packages,\n  Version = vapply(packages, function(pkg) as.character(packageVersion(pkg)), character(1))\n)\n\nknitr::kable(package_table, align = c(\"l\", \"l\"))\n\n\n\n\n\nPackage\nVersion\n\n\n\n\nreadxl\nreadxl\n1.4.5\n\n\ndplyr\ndplyr\n1.2.0\n\n\nggplot2\nggplot2\n4.0.2\n\n\ncluster\ncluster\n2.1.8.1\n\n\nknitr\nknitr\n1.51\n\n\n\n\n\nThe package table confirms that the prototype uses a small, base-project-friendly set of tools for reading data, shaping trajectories, clustering country series, and reporting results."
   },
   {
     "objectID": "prototype/module-cluster.html#import-the-series-files",
@@ -831,19 +789,5 @@
     "title": "Team Onboarding",
     "section": "Team Info Cards",
     "text": "Team Info Cards\n\n\nMember 1\nRole: Visual Analysis Owner\nStatus: Xi Zixun\n\n\nMember 2\nRole: Clustering Owner\nStatus: Wang Zhuoran\n\n\nMember 3\nRole: Forecasting Owner\nStatus: Jin Qinhao"
-  },
-  {
-    "objectID": "poster.html#a-unified-visual-analytics-workflow-for-source-market-demand-recovery-trajectories-and-short-term-forecasting",
-    "href": "poster.html#a-unified-visual-analytics-workflow-for-source-market-demand-recovery-trajectories-and-short-term-forecasting",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "Team Members\nXi Zixun | Wang Zhuoran | Jin Qinhao\nCore Data Backbone\nCountry-level monthly visitor arrivals, interpreted with hotel occupancy, stay length, and room revenue"
-  },
-  {
-    "objectID": "poster.html#integrating-exploration-clustering-and-forecasting-on-a-shared-tourism-time-series-backbone",
-    "href": "poster.html#integrating-exploration-clustering-and-forecasting-on-a-shared-tourism-time-series-backbone",
-    "title": "Singapore Tourism Recovery Poster",
-    "section": "",
-    "text": "Team Members\nXi Zixun | Wang Zhuoran | Jin Qinhao\nPoster Scope\nIssues and Problems | Motivation | Approach | Results | Future Work"
   }
 ]

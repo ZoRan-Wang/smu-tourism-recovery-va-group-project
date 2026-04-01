@@ -154,6 +154,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Proposal</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../poster.html"> 
+<span class="menu-text">Poster</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../app-guide.html"> 
 <span class="menu-text">Shiny App</span></a>
   </li>  
@@ -343,9 +347,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
-  fallback_ready modeltime_ready preferred_engine missing_modeltime_packages
-  &lt;lgl&gt;          &lt;lgl&gt;           &lt;chr&gt;            &lt;chr&gt;                     
-1 TRUE           TRUE            modeltime        None                      </code></pre>
+  fallback_ready modeltime_ready preferred_engine missing_modeltime_packages    
+  &lt;lgl&gt;          &lt;lgl&gt;           &lt;chr&gt;            &lt;chr&gt;                         
+1 TRUE           FALSE           fallback         rsample, parsnip, modeltime, …</code></pre>
 </div>
 </div>
 </section>
@@ -393,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">country_label =</span> example_label</span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>For this prototype run, the selected execution engine is <strong>modeltime workflow</strong>.</p>
+<p>For this prototype run, the selected execution engine is <strong>forecast fallback</strong>.</p>
 </section>
 <section id="step-1-position-the-country-series-within-tourism-performance" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-position-the-country-series-within-tourism-performance">Step 1: Position the Country Series Within Tourism Performance</h2>
@@ -534,11 +538,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>forecast_results<span class="sc">$</span>models_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
-  .model_id .model_desc     engine   
-      &lt;int&gt; &lt;chr&gt;           &lt;chr&gt;    
-1         0 Seasonal Naive  forecast 
-2         1 ETS (Modeltime) modeltime
-3         2 ARIMA           modeltime</code></pre>
+  .model_id .model_desc    engine  
+      &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;   
+1         0 Seasonal Naive forecast
+2         1 ETS            forecast
+3         2 ARIMA          forecast</code></pre>
 </div>
 </div>
 </section>
@@ -553,8 +557,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">dom =</span> <span class="st">"t"</span>, <span class="at">pageLength =</span> <span class="dv">6</span>, <span class="at">scrollX =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-c3e2f7c6b5aebad37fd0" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-c3e2f7c6b5aebad37fd0">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS (Modeltime)","ARIMA"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,null,null],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-324acff02aa53ef1cb0c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-324acff02aa53ef1cb0c">{"x":{"filter":"none","vertical":false,"data":[[0,1,2],["Seasonal Naive","ETS","ARIMA"],["Test","Test","Test"],[38014,68132.069,56320.962],[14.119,28.729,18.965],[null,null,null],[13.964,25.009,19.949],[60551.507,81359.861,79180.067],[0.574,0.42,0.431]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>.model_id<\/th>\n      <th>.model_desc<\/th>\n      <th>.type<\/th>\n      <th>mae<\/th>\n      <th>mape<\/th>\n      <th>mase<\/th>\n      <th>smape<\/th>\n      <th>rmse<\/th>\n      <th>rsq<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":6,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,3,4,5,6,7,8]},{"name":".model_id","targets":0},{"name":".model_desc","targets":1},{"name":".type","targets":2},{"name":"mae","targets":3},{"name":"mape","targets":4},{"name":"mase","targets":5},{"name":"smape","targets":6},{"name":"rmse","targets":7},{"name":"rsq","targets":8}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
