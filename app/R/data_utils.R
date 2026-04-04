@@ -783,11 +783,25 @@ load_support_indicator_long_data <- function(path = resolve_context_workbook()) 
     filter(label %in% support_labels)
 }
 
+eda_context_labels <- function() {
+  c("Visitor Arrivals", eda_notebook_country_labels())
+}
+
 load_tourism_data <- function(
     arrivals_path = resolve_arrival_workbook(),
     context_path = resolve_context_workbook()) {
   arrivals_long <- load_shared_arrival_long_data(arrivals_path)
-  context_long <- load_support_indicator_long_data(context_path)
+  support_labels <- c(
+    "Hotel Room Occupancy Rate",
+    "Average Length of Stay",
+    "Number of Hotels",
+    "Total Room Revenue"
+  )
+  context_monthly <- load_tourism_long_data(context_path, only_monthly = TRUE)
+  context_long <- context_monthly |>
+    filter(label %in% support_labels)
+  eda_context_long <- context_monthly |>
+    filter(label %in% eda_context_labels())
   long_monthly <- bind_rows(arrivals_long, context_long) |>
     arrange(label, date)
 
@@ -806,25 +820,21 @@ load_tourism_data <- function(
         series_id = trimws(series_id),
         series_key = make.names(tolower(trimws(raw_name)), unique = TRUE)
       ),
-    read_tourism_metadata(context_path) |>
-      filter(
-        label %in% c(
-          "Hotel Room Occupancy Rate",
-          "Average Length of Stay",
-          "Number of Hotels",
-          "Total Room Revenue"
-        )
-      ) |>
-      select(label, frequency, unit, source, series_id, series_key)
-  ) |>
+      read_tourism_metadata(context_path) |>
+        filter(label %in% support_labels) |>
+        select(label, frequency, unit, source, series_id, series_key)
+    ) |>
     distinct(series_key, .keep_all = TRUE)
 
   monthly_features <- build_monthly_feature_table(long_monthly)
+  eda_country_long <- prepare_eda_country_long(long_monthly = eda_context_long)
 
   list(
     long_monthly = long_monthly,
     monthly_features = monthly_features,
-    metadata = metadata
+    metadata = metadata,
+    eda_context_long = eda_context_long,
+    eda_country_long = eda_country_long
   )
 }
 
@@ -916,8 +926,12 @@ eda_notebook_country_labels <- function() {
   )
 }
 
-prepare_eda_country_long <- function(path = resolve_context_workbook(required = TRUE)) {
-  load_tourism_long_data(path, only_monthly = TRUE) |>
+prepare_eda_country_long <- function(long_monthly = NULL, path = resolve_context_workbook(required = TRUE)) {
+  if (is.null(long_monthly)) {
+    long_monthly <- load_tourism_long_data(path, only_monthly = TRUE)
+  }
+
+  long_monthly |>
     filter(label %in% eda_notebook_country_labels()) |>
     transmute(
       date,
@@ -947,16 +961,25 @@ prepare_eda_geo_year <- function(country_long) {
 prepare_eda_period_rankings <- function(
     period = c("pre_covid", "covid_shock", "recovery"),
     top_n = 5,
+    country_long = NULL,
+    total_arrivals_long = NULL,
     path = resolve_context_workbook(required = TRUE)) {
   selected_period <- match.arg(period)
   ref <- tourism_period_reference() |>
     filter(period == selected_period)
 
-  country_long <- prepare_eda_country_long(path = path)
+  if (is.null(country_long)) {
+    country_long <- prepare_eda_country_long(path = path)
+  }
+
+  if (is.null(total_arrivals_long)) {
+    total_arrivals_long <- load_tourism_long_data(path, only_monthly = TRUE)
+  }
+
   start_year <- ref$start_year[[1]]
   end_year <- ref$end_year[[1]]
 
-  total_market_avg <- load_tourism_long_data(path, only_monthly = TRUE) |>
+  total_market_avg <- total_arrivals_long |>
     filter(
       label == "Visitor Arrivals",
       year(date) >= start_year,

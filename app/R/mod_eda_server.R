@@ -95,6 +95,18 @@ eda_rank_plot_object <- function(df, highlight_label = NULL) {
 
 mod_eda_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
+    shared_eda_data <- reactive({
+      shared <- data()
+      req(shared)
+
+      required_fields <- c("eda_context_long", "eda_country_long")
+      if (!all(required_fields %in% names(shared))) {
+        stop("Shared EDA data is missing from load_tourism_data().")
+      }
+
+      shared
+    })
+
     selected_period_ref <- reactive({
       tourism_period_reference() |>
         filter(period == input$ranking_period)
@@ -115,7 +127,7 @@ mod_eda_server <- function(id, data) {
     }, ignoreNULL = FALSE)
 
     country_long <- reactive({
-      prepare_eda_country_long()
+      shared_eda_data()$eda_country_long
     })
 
     geo_year <- reactive({
@@ -125,35 +137,45 @@ mod_eda_server <- function(id, data) {
     selected_ranking <- reactive({
       prepare_eda_period_rankings(
         period = input$ranking_period,
-        top_n = input$top_n
+        top_n = input$top_n,
+        country_long = country_long(),
+        total_arrivals_long = shared_eda_data()$eda_context_long
       )
     })
 
     pre_ranking <- reactive({
       prepare_eda_period_rankings(
         period = "pre_covid",
-        top_n = input$top_n
+        top_n = input$top_n,
+        country_long = country_long(),
+        total_arrivals_long = shared_eda_data()$eda_context_long
       )
     })
 
     recovery_ranking <- reactive({
       prepare_eda_period_rankings(
         period = "recovery",
-        top_n = input$top_n
+        top_n = input$top_n,
+        country_long = country_long(),
+        total_arrivals_long = shared_eda_data()$eda_context_long
       )
     })
 
     full_pre_ranking <- reactive({
       prepare_eda_period_rankings(
         period = "pre_covid",
-        top_n = dplyr::n_distinct(country_long()$country)
+        top_n = dplyr::n_distinct(country_long()$country),
+        country_long = country_long(),
+        total_arrivals_long = shared_eda_data()$eda_context_long
       )
     })
 
     full_recovery_ranking <- reactive({
       prepare_eda_period_rankings(
         period = "recovery",
-        top_n = dplyr::n_distinct(country_long()$country)
+        top_n = dplyr::n_distinct(country_long()$country),
+        country_long = country_long(),
+        total_arrivals_long = shared_eda_data()$eda_context_long
       )
     })
 

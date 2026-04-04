@@ -9,11 +9,13 @@ dir.create(file.path("artifacts", "tables"), recursive = TRUE, showWarnings = FA
 
 # EDA smoke check
 tourism_data <- load_tourism_data()
-eda_country_long <- prepare_eda_country_long()
+eda_country_long <- tourism_data$eda_country_long
 eda_geo_year <- prepare_eda_geo_year(eda_country_long)
 eda_recovery_ranking <- prepare_eda_period_rankings(
   period = "recovery",
-  top_n = 5
+  top_n = 5,
+  country_long = tourism_data$eda_country_long,
+  total_arrivals_long = tourism_data$eda_context_long
 )
 
 write.csv(
