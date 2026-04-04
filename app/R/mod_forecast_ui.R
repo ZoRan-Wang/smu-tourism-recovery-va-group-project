@@ -12,13 +12,13 @@ mod_forecast_ui <- function(id) {
         class = "forecast-header-copy",
         div(class = "va-kicker", "Forecasting Studio"),
         h2("Singapore tourism demand forecasting"),
-        p("Compare benchmark and model-based forecasts on country-level arrivals, then read the result through diagnostics and tourism-performance context within the integrated application.")
+        p("Build and compare forecasting models on country-level arrivals, then interpret the forecast through diagnostics and tourism-performance context in one single-page workspace.")
       ),
       div(
         class = "forecast-header-meta",
-        div(class = "forecast-meta-chip", "Integrated with the shared arrivals backbone"),
-        div(class = "forecast-meta-chip", "Holdout, diagnostics, and context in one module"),
-        div(class = "forecast-meta-chip", "Preserves the three-module app structure")
+        div(class = "forecast-meta-chip", "Interactive analytics, not static charts"),
+        div(class = "forecast-meta-chip", "Forecast + diagnostics + context"),
+        div(class = "forecast-meta-chip", "Single-page model studio")
       )
     ),
     div(
@@ -26,10 +26,6 @@ mod_forecast_ui <- function(id) {
       div(
         class = "forecast-controls",
         h3("Model controls"),
-        p(
-          class = "forecast-controls-intro",
-          "Choose a source market, decide how the forecast engine should behave, and run the model comparison once the setup is ready."
-        ),
         selectInput(ns("series_label"), "Country arrival series", choices = NULL),
         selectInput(
           ns("engine_preference"),
@@ -69,23 +65,14 @@ mod_forecast_ui <- function(id) {
           selected = "rmse",
           inline = TRUE
         ),
-        actionButton(ns("run_forecast"), "Run Forecasting", class = "btn-primary"),
-        div(
-          class = "forecast-controls-note",
-          h4("What this module adds"),
-          tags$ul(
-            tags$li("It keeps the integrated app intact while giving forecasting a richer workspace."),
-            tags$li("It exposes engine choice, diagnostics, residuals, and tourism context in one place."),
-            tags$li("It compares models on the same holdout window and surfaces the best result automatically.")
-          )
-        )
+        actionButton(ns("run_forecast"), "Run Forecasting", class = "btn-primary")
       ),
       div(
         class = "forecast-main",
-        uiOutput(ns("summary_cards")),
         navset_card_tab(
           id = ns("forecast_pages"),
           full_screen = FALSE,
+          height = "100%",
           nav_panel(
             "Forecast",
             div(
@@ -93,25 +80,28 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Holdout comparison"),
-                card_body(plotOutput(ns("forecast_plot"), height = "100%"))
+                card_body(plotOutput(ns("forecast_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Forward forecast"),
-                card_body(plotOutput(ns("future_plot"), height = "100%"))
+                card_body(plotOutput(ns("future_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel",
-                card_header("Accuracy table"),
+                card_header("Accuracy summary"),
                 card_body(
-                  class = "forecast-table-panel",
-                  div(class = "forecast-table-wrap", DT::DTOutput(ns("accuracy_table")))
+                  class = "forecast-copy-panel",
+                  uiOutput(ns("accuracy_summary"))
                 )
               ),
               card(
                 class = "forecast-panel",
                 card_header("Series summary"),
-                card_body(textOutput(ns("series_summary")))
+                card_body(
+                  class = "forecast-copy-panel",
+                  uiOutput(ns("series_summary"))
+                )
               )
             )
           ),
@@ -122,20 +112,20 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Model leaderboard"),
-                card_body(plotOutput(ns("leaderboard_plot"), height = "100%"))
+                card_body(plotOutput(ns("leaderboard_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Holdout residual comparison"),
-                card_body(plotOutput(ns("residual_plot"), height = "100%"))
+                card_body(plotOutput(ns("residual_plot"), height = "300px"))
               ),
               card(
-                class = "forecast-panel",
+                class = "forecast-panel forecast-panel--compact-copy",
                 card_header("Engine status"),
                 card_body(uiOutput(ns("engine_status")))
               ),
               card(
-                class = "forecast-panel",
+                class = "forecast-panel forecast-panel--compact-copy",
                 card_header("Model interpretation"),
                 card_body(uiOutput(ns("model_interpretation")))
               )
@@ -148,17 +138,17 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Raw time series"),
-                card_body(plotOutput(ns("raw_series_plot"), height = "100%"))
+                card_body(plotOutput(ns("raw_series_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Seasonal pattern"),
-                card_body(plotOutput(ns("seasonal_plot"), height = "100%"))
+                card_body(plotOutput(ns("seasonal_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Decomposition"),
-                card_body(plotOutput(ns("decomposition_plot"), height = "100%"))
+                card_body(plotOutput(ns("decomposition_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel",
@@ -177,17 +167,17 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--wide",
                 card_header("Tourism performance context"),
-                card_body(plotOutput(ns("context_plot"), height = "100%"))
+                card_body(plotOutput(ns("context_plot"), height = "360px"))
               ),
               card(
                 class = "forecast-panel",
                 card_header("Interpretation guide"),
                 card_body(
                   tags$ol(
-                    tags$li("Start from the holdout comparison to check whether the selected models improve on the baseline."),
-                    tags$li("Use Model Studio to compare ranking results and residual behavior."),
-                    tags$li("Read the diagnostic views before trusting a model that looks good on only one metric."),
-                    tags$li("Use the tourism context panel to connect country arrivals with hotel pressure and broader performance indicators.")
+                    tags$li("Start from Holdout comparison to judge whether the model beats the baseline on unseen months."),
+                    tags$li("Move to Model Studio to understand which model wins and where forecast errors remain."),
+                    tags$li("Use Diagnostics to decide whether trend breaks or seasonality help explain the model result."),
+                    tags$li("Use Context to compare arrivals against hotel occupancy, stay length, and room revenue before drawing business conclusions.")
                   )
                 )
               )

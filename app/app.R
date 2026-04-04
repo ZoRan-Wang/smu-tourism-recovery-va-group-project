@@ -30,6 +30,7 @@ source(file.path(project_root, "app", "R", "mod_forecast_server.R"))
 
 ui <- page_navbar(
   title = "Singapore Tourism Time-Series VA Prototype",
+  fillable = TRUE,
   theme = bs_theme(
     bg = "#f4f2eb",
     fg = "#1f2a2e",

@@ -62,6 +62,25 @@ The completed system is a working visual analytics workflow delivered through a 
 The three modules answer different decision questions and reinforce one another through a common data backbone. The explorer reveals where the shock was deepest and how market structure changed. The clustering module identifies groups of countries with similar recovery trajectories. The forecasting module turns these recovery signals into short-term planning evidence. Country-level arrivals therefore function as operational indicators for recovery strength, market comparability, and near-term tourism demand.
 :::
 
+::: {.section-box .section-results}
+### Data Scope and Operational Implications
+
+The project uses one shared arrivals backbone so that all modules remain comparable, but the interpretation layer extends beyond arrivals alone.
+
+#### What the poster combines
+- country-level monthly visitor arrivals as the primary time-series signal
+- hotel occupancy as a utilisation indicator
+- average stay length as a visitor-behaviour indicator
+- room revenue as a commercial context indicator
+
+#### Why this matters
+- a rise in arrivals without a similar rise in occupancy suggests incomplete accommodation recovery
+- stronger arrivals with shorter stays may indicate returning demand but weaker downstream spend
+- synchronized growth across arrivals, occupancy, and revenue points to a more complete tourism rebound
+
+This section turns the analytical workflow into a business story: the project does not stop at showing tourism demand patterns, but connects them to operational pressure on hotels and tourism services.
+:::
+
 :::
 
 ::: {.grid-center}
