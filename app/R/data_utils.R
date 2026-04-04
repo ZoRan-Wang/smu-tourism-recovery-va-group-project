@@ -783,11 +783,25 @@ load_support_indicator_long_data <- function(path = resolve_context_workbook()) 
     filter(label %in% support_labels)
 }
 
+eda_context_labels <- function() {
+  c("Visitor Arrivals", eda_notebook_country_labels())
+}
+
 load_tourism_data <- function(
     arrivals_path = resolve_arrival_workbook(),
     context_path = resolve_context_workbook()) {
   arrivals_long <- load_shared_arrival_long_data(arrivals_path)
-  context_long <- load_support_indicator_long_data(context_path)
+  support_labels <- c(
+    "Hotel Room Occupancy Rate",
+    "Average Length of Stay",
+    "Number of Hotels",
+    "Total Room Revenue"
+  )
+  context_monthly <- load_tourism_long_data(context_path, only_monthly = TRUE)
+  context_long <- context_monthly |>
+    filter(label %in% support_labels)
+  eda_context_long <- context_monthly |>
+    filter(label %in% eda_context_labels())
   long_monthly <- bind_rows(arrivals_long, context_long) |>
     arrange(label, date)
 
@@ -806,26 +820,199 @@ load_tourism_data <- function(
         series_id = trimws(series_id),
         series_key = make.names(tolower(trimws(raw_name)), unique = TRUE)
       ),
-    read_tourism_metadata(context_path) |>
-      filter(
-        label %in% c(
-          "Hotel Room Occupancy Rate",
-          "Average Length of Stay",
-          "Number of Hotels",
-          "Total Room Revenue"
-        )
-      ) |>
-      select(label, frequency, unit, source, series_id, series_key)
-  ) |>
+      read_tourism_metadata(context_path) |>
+        filter(label %in% support_labels) |>
+        select(label, frequency, unit, source, series_id, series_key)
+    ) |>
     distinct(series_key, .keep_all = TRUE)
 
   monthly_features <- build_monthly_feature_table(long_monthly)
+  eda_country_long <- prepare_eda_country_long(long_monthly = eda_context_long)
 
   list(
     long_monthly = long_monthly,
     monthly_features = monthly_features,
-    metadata = metadata
+    metadata = metadata,
+    eda_context_long = eda_context_long,
+    eda_country_long = eda_country_long
   )
+}
+
+tourism_period_reference <- function() {
+  data.frame(
+    period = c("pre_covid", "covid_shock", "recovery"),
+    period_label = c(
+      "Pre-COVID (2017-2019)",
+      "COVID Shock (2020-2021)",
+      "Recovery (2022-2025)"
+    ),
+    start_year = c(2017L, 2020L, 2022L),
+    end_year = c(2019L, 2021L, 2025L),
+    stringsAsFactors = FALSE
+  )
+}
+
+tourism_period_label <- function(period) {
+  ref <- tourism_period_reference()
+  lookup <- ref$period_label
+  names(lookup) <- ref$period
+  unname(lookup[period])
+}
+
+classify_tourism_period <- function(date) {
+  case_when(
+    year(date) >= 2017 & year(date) <= 2019 ~ "pre_covid",
+    year(date) >= 2020 & year(date) <= 2021 ~ "covid_shock",
+    year(date) >= 2022 & year(date) <= 2025 ~ "recovery",
+    TRUE ~ NA_character_
+  )
+}
+
+map_country_name_for_choropleth <- function(country) {
+  recode(
+    country,
+    "USA" = "United States",
+    "Russian Federal (CIS)" = "Russia",
+    "Hong Kong SAR (China)" = "Hong Kong",
+    "Scandinavia: Sweden" = "Sweden",
+    "Scandinavia: Norway" = "Norway",
+    "Republic of South Africa" = "South Africa",
+    .default = country
+  )
+}
+
+eda_notebook_country_labels <- function() {
+  c(
+    "Visitor Arrivals: China",
+    "Visitor Arrivals: Malaysia",
+    "Visitor Arrivals: India",
+    "Visitor Arrivals: Indonesia",
+    "Visitor Arrivals: Australia",
+    "Visitor Arrivals: Taiwan",
+    "Visitor Arrivals: Hong Kong SAR (China)",
+    "Visitor Arrivals: Italy",
+    "Visitor Arrivals: Russian Federal (CIS)",
+    "Visitor Arrivals: France",
+    "Visitor Arrivals: Philippines",
+    "Visitor Arrivals: Spain",
+    "Visitor Arrivals: Thailand",
+    "Visitor Arrivals: Ireland",
+    "Visitor Arrivals: United Arab Emirates",
+    "Visitor Arrivals: United Kingdom",
+    "Visitor Arrivals: Bangladesh",
+    "Visitor Arrivals: Iran",
+    "Visitor Arrivals: New Zealand",
+    "Visitor Arrivals: Israel",
+    "Visitor Arrivals: Germany",
+    "Visitor Arrivals: Scandinavia: Sweden",
+    "Visitor Arrivals: Switzerland",
+    "Visitor Arrivals: USA",
+    "Visitor Arrivals: Canada",
+    "Visitor Arrivals: Mauritius",
+    "Visitor Arrivals: Kuwait",
+    "Visitor Arrivals: Egypt",
+    "Visitor Arrivals: Brunei",
+    "Visitor Arrivals: Finland",
+    "Visitor Arrivals: Japan",
+    "Visitor Arrivals: South Korea",
+    "Visitor Arrivals: Myanmar",
+    "Visitor Arrivals: Netherlands",
+    "Visitor Arrivals: Scandinavia: Norway",
+    "Visitor Arrivals: Saudi Arabia",
+    "Visitor Arrivals: Sri Lanka",
+    "Visitor Arrivals: Vietnam",
+    "Visitor Arrivals: Pakistan",
+    "Visitor Arrivals: Republic of South Africa"
+  )
+}
+
+prepare_eda_country_long <- function(long_monthly = NULL, path = resolve_context_workbook(required = TRUE)) {
+  if (is.null(long_monthly)) {
+    long_monthly <- load_tourism_long_data(path, only_monthly = TRUE)
+  }
+
+  long_monthly |>
+    filter(label %in% eda_notebook_country_labels()) |>
+    transmute(
+      date,
+      year = year(date),
+      month = month(date),
+      period = classify_tourism_period(date),
+      label,
+      country = clean_country_series_label(label),
+      map_country = map_country_name_for_choropleth(clean_country_series_label(label)),
+      arrivals = as.numeric(value)
+    ) |>
+    filter(!is.na(period)) |>
+    arrange(country, date)
+}
+
+prepare_eda_geo_year <- function(country_long) {
+  country_long |>
+    group_by(year, country, map_country) |>
+    summarise(
+      total_arrivals = sum(arrivals, na.rm = TRUE),
+      avg_monthly_arrivals = mean(arrivals, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    arrange(year, desc(total_arrivals))
+}
+
+prepare_eda_period_rankings <- function(
+    period = c("pre_covid", "covid_shock", "recovery"),
+    top_n = 5,
+    country_long = NULL,
+    total_arrivals_long = NULL,
+    path = resolve_context_workbook(required = TRUE)) {
+  selected_period <- match.arg(period)
+  ref <- tourism_period_reference() |>
+    filter(period == selected_period)
+
+  if (is.null(country_long)) {
+    country_long <- prepare_eda_country_long(path = path)
+  }
+
+  if (is.null(total_arrivals_long)) {
+    total_arrivals_long <- load_tourism_long_data(path, only_monthly = TRUE)
+  }
+
+  start_year <- ref$start_year[[1]]
+  end_year <- ref$end_year[[1]]
+
+  total_market_avg <- total_arrivals_long |>
+    filter(
+      label == "Visitor Arrivals",
+      year(date) >= start_year,
+      year(date) <= end_year
+    ) |>
+    summarise(avg_total_arrivals = mean(value, na.rm = TRUE)) |>
+    pull(avg_total_arrivals)
+
+  ranking <- country_long |>
+    filter(year >= start_year, year <= end_year) |>
+    group_by(country, label) |>
+    summarise(
+      avg_monthly_arrivals = mean(arrivals, na.rm = TRUE),
+      total_arrivals = sum(arrivals, na.rm = TRUE),
+      .groups = "drop"
+    )
+
+  if (is.na(total_market_avg) || total_market_avg <= 0) {
+    ranking$overall_share_percent <- NA_real_
+  } else {
+    ranking$overall_share_percent <- (ranking$avg_monthly_arrivals / total_market_avg) * 100
+  }
+
+  ranking <- ranking |>
+    arrange(desc(avg_monthly_arrivals), country) |>
+    mutate(
+      rank = row_number(),
+      period = selected_period,
+      period_label = ref$period_label[[1]]
+    )
+
+  ranking |>
+    slice_head(n = min(top_n, nrow(ranking)))
 }
 
 list_forecast_series <- function(long_monthly, min_obs = 24) {

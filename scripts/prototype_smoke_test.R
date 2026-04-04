@@ -7,6 +7,46 @@ source(file.path("app", "R", "data_utils.R"))
 dir.create(file.path("artifacts", "plots"), recursive = TRUE, showWarnings = FALSE)
 dir.create(file.path("artifacts", "tables"), recursive = TRUE, showWarnings = FALSE)
 
+# EDA smoke check
+tourism_data <- load_tourism_data()
+eda_country_long <- tourism_data$eda_country_long
+eda_geo_year <- prepare_eda_geo_year(eda_country_long)
+eda_recovery_ranking <- prepare_eda_period_rankings(
+  period = "recovery",
+  top_n = 5,
+  country_long = tourism_data$eda_country_long,
+  total_arrivals_long = tourism_data$eda_context_long
+)
+
+write.csv(
+  eda_recovery_ranking,
+  file.path("artifacts", "tables", "eda_recovery_top_markets.csv"),
+  row.names = FALSE
+)
+
+eda_ranking_plot <- ggplot(
+  eda_recovery_ranking,
+  aes(x = reorder(country, avg_monthly_arrivals), y = avg_monthly_arrivals)
+) +
+  geom_col(fill = "#0f6b6f", width = 0.7) +
+  coord_flip() +
+  labs(
+    title = "EDA Smoke Test",
+    subtitle = "Recovery-period top markets",
+    x = NULL,
+    y = "Average monthly arrivals"
+  ) +
+  scale_y_continuous(labels = scales::label_comma()) +
+  theme_minimal(base_size = 12)
+
+ggsave(
+  filename = file.path("artifacts", "plots", "eda_recovery_rank_plot.png"),
+  plot = eda_ranking_plot,
+  width = 8,
+  height = 4.5,
+  dpi = 160
+)
+
 # Shared clustering contract smoke check
 country_wide <- load_clustering_country_wide()
 selected_series <- default_clustering_series(n = 6)
@@ -56,7 +96,6 @@ ggsave(
 )
 
 # Forecast smoke check
-tourism_data <- load_tourism_data()
 forecast_status <- forecast_stack_status()
 
 forecast_series <- prepare_forecast_series(
@@ -105,6 +144,9 @@ write.csv(forecast_results$accuracy_tbl, file.path("artifacts", "tables", "forec
 
 summary_lines <- c(
   paste("timestamp:", format(Sys.time(), "%Y-%m-%d %H:%M:%S")),
+  paste("eda_country_rows:", nrow(eda_country_long)),
+  paste("eda_yearly_country_rows:", nrow(eda_geo_year)),
+  paste("eda_recovery_top_market:", eda_recovery_ranking$country[[1]]),
   paste("cluster_series_count:", nrow(cluster_panel$matrix)),
   paste("cluster_window_months:", ncol(cluster_panel$matrix)),
   paste("cluster_selected_k:", 3),

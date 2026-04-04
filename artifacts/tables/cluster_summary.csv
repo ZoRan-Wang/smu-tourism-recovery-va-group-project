@@ -1,0 +1,4 @@
+"cluster","n_series","representative_series","representative_series_name","mean_silhouette","avg_end_index","avg_trough_index","avg_rebound_multiple","members","cluster_label"
+"Cluster 1",2,"australia","Australia",0.216,82.2,0,13901.746,"Australia, China","Broad recovery 1"
+"Cluster 2",3,"philippines","Philippines",0.376,133.3,0.1,3769.347,"Philippines, India, Malaysia","Stronger rebound"
+"Cluster 3",1,"japan","Japan",0,79.8,0,1703.68,"Japan","Delayed recovery"
