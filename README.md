@@ -109,8 +109,9 @@ The final poster materials are stored in the following relative locations:
 - Poster stylesheet: `styles/poster.css`
 - Rendered website poster page: `docs/poster.html`
 - Rendered poster stylesheet copy: `docs/styles/poster.css`
-- A1 poster image export (PNG): `docs/poster-a1.png`
-- A1 poster image export (JPEG): `docs/poster-a1.jpg`
+- Printable poster export page: `docs/poster-export.html`
+- Final A1 poster image export (JPEG): `docs/poster-a1-final.jpeg`
+- Final A1 poster image export (JPEG alias): `docs/poster-a1-final.jpg`
 
 Use `poster.qmd` and `styles/poster.css` when editing the poster.  
 Use the files under `docs/` when checking the rendered version that will be published or shared.

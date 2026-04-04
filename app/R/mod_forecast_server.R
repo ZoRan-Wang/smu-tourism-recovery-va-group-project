@@ -6,6 +6,14 @@ library(bslib)
 
 mod_forecast_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
+    normalize_model_choice <- function(model_name) {
+      dplyr::case_when(
+        grepl("^ETS", model_name) ~ "ETS",
+        grepl("^ARIMA", model_name) ~ "ARIMA",
+        TRUE ~ "Seasonal Naive"
+      )
+    }
+
     observe({
       choices <- list_country_arrival_series(data()$long_monthly)
       updateSelectInput(
@@ -21,49 +29,81 @@ mod_forecast_server <- function(id, data) {
       prepare_forecast_series(data()$long_monthly, input$series_label)
     })
 
-    forecast_results <- eventReactive(input$run_forecast, {
+    forecast_state <- eventReactive(input$run_forecast, {
       series_df <- selected_series()
       selected_models <- input$model_choices
+      stack_status <- forecast_stack_status()
 
       validate(
         need(nrow(series_df) > input$horizon + 12, "Series is too short for the current horizon."),
         need(length(selected_models) > 0, "Select at least one forecasting model.")
       )
 
-      res <- run_forecast_workflow(
-        series_df = series_df,
-        horizon = input$horizon,
-        engine = input$engine_preference
-      )
-
-      normalize_model_choice <- function(model_name) {
-        dplyr::case_when(
-          grepl("^ETS", model_name) ~ "ETS",
-          grepl("^ARIMA", model_name) ~ "ARIMA",
-          TRUE ~ "Seasonal Naive"
+      tryCatch({
+        res <- run_forecast_workflow(
+          series_df = series_df,
+          horizon = input$horizon,
+          engine = input$engine_preference
         )
-      }
 
-      selected_holdout <- res$holdout_forecast_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+        selected_holdout <- res$holdout_forecast_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      selected_accuracy <- res$accuracy_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+        selected_accuracy <- res$accuracy_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      selected_models_tbl <- res$models_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+        selected_models_tbl <- res$models_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      if (nrow(selected_accuracy) == 0 || nrow(selected_holdout) == 0) {
-        stop("No forecast results matched the selected model choices.")
-      }
+        selected_future <- res$future_forecast_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      res$holdout_forecast_tbl <- selected_holdout
-      res$accuracy_tbl <- selected_accuracy
-      res$models_tbl <- selected_models_tbl
-      res$selected_models <- selected_models
-      res$requested_engine <- input$engine_preference
-      res
+        if (nrow(selected_accuracy) == 0 || nrow(selected_holdout) == 0 || nrow(selected_future) == 0) {
+          stop("No forecast results matched the selected model choices.")
+        }
+
+        rank_metric <- req(input$rank_metric)
+        best_model_desc <- selected_accuracy |>
+          arrange(.data[[rank_metric]]) |>
+          slice(1) |>
+          pull(.model_desc)
+
+        if (length(best_model_desc) != 1 || is.na(best_model_desc)) {
+          stop("Could not determine the best model for the selected ranking metric.")
+        }
+
+        res$holdout_forecast_tbl <- selected_holdout
+        res$accuracy_tbl <- selected_accuracy
+        res$models_tbl <- selected_models_tbl
+        res$future_forecast_tbl <- selected_future |>
+          filter(.model_desc == best_model_desc)
+        res$selected_models <- selected_models
+        res$requested_engine <- input$engine_preference
+        res$best_model_desc <- best_model_desc
+
+        list(
+          ok = TRUE,
+          result = res,
+          stack_status = stack_status,
+          requested_engine = input$engine_preference,
+          error_message = NULL
+        )
+      }, error = function(e) {
+        list(
+          ok = FALSE,
+          result = NULL,
+          stack_status = stack_status,
+          requested_engine = input$engine_preference,
+          error_message = conditionMessage(e)
+        )
+      })
     }, ignoreNULL = TRUE)
+
+    forecast_results <- reactive({
+      state <- forecast_state()
+      validate(need(isTRUE(state$ok), state$error_message))
+      state$result
+    })
 
     output$series_summary <- renderUI({
       series_df <- selected_series()
@@ -281,22 +321,26 @@ mod_forecast_server <- function(id, data) {
 
     output$engine_status <- renderUI({
       req(input$run_forecast > 0)
-      res <- forecast_results()
-      stack_status <- forecast_stack_status()
+      state <- forecast_state()
+      stack_status <- state$stack_status
+      executed_engine <- if (isTRUE(state$ok)) state$result$engine_label else "Not executed"
 
       missing_pkgs <- stack_status$missing_modeltime_packages
       missing_text <- if (length(missing_pkgs) == 0) "None" else paste(missing_pkgs, collapse = ", ")
 
       div(
         class = "forecast-copy-stack",
-        div(class = "forecast-copy-row", tags$strong("Requested:"), res$requested_engine),
-        div(class = "forecast-copy-row", tags$strong("Executed:"), res$engine_label),
+        div(class = "forecast-copy-row", tags$strong("Requested:"), state$requested_engine),
+        div(class = "forecast-copy-row", tags$strong("Executed:"), executed_engine),
         div(class = "forecast-copy-row", tags$strong("Fallback ready:"), ifelse(stack_status$fallback_ready, "Yes", "No")),
         div(class = "forecast-copy-row", tags$strong("Modeltime ready:"), ifelse(stack_status$modeltime_ready, "Yes", "No")),
         div(class = "forecast-copy-row forecast-copy-row--small", tags$strong("Missing packages:"), missing_text),
+        if (!isTRUE(state$ok)) {
+          div(class = "forecast-copy-row forecast-copy-row--small", tags$strong("Run status:"), state$error_message)
+        },
         div(
           class = "forecast-copy-note",
-          if (identical(res$requested_engine, "modeltime")) {
+          if (identical(state$requested_engine, "modeltime")) {
             "Require modeltime is a strict mode. If that stack is unavailable, the app stops instead of falling back."
           } else {
             "Auto mode prefers modeltime when available and otherwise uses the lightweight fallback."
