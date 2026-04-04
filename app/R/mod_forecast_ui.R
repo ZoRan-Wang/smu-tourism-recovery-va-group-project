@@ -93,12 +93,12 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Holdout comparison"),
-                card_body(plotOutput(ns("forecast_plot"), height = "100%"))
+                card_body(plotOutput(ns("forecast_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Forward forecast"),
-                card_body(plotOutput(ns("future_plot"), height = "100%"))
+                card_body(plotOutput(ns("future_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel",
@@ -122,12 +122,12 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Model leaderboard"),
-                card_body(plotOutput(ns("leaderboard_plot"), height = "100%"))
+                card_body(plotOutput(ns("leaderboard_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Holdout residual comparison"),
-                card_body(plotOutput(ns("residual_plot"), height = "100%"))
+                card_body(plotOutput(ns("residual_plot"), height = "300px"))
               ),
               card(
                 class = "forecast-panel",
@@ -148,17 +148,17 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Raw time series"),
-                card_body(plotOutput(ns("raw_series_plot"), height = "100%"))
+                card_body(plotOutput(ns("raw_series_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Seasonal pattern"),
-                card_body(plotOutput(ns("seasonal_plot"), height = "100%"))
+                card_body(plotOutput(ns("seasonal_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel forecast-panel--hero",
                 card_header("Decomposition"),
-                card_body(plotOutput(ns("decomposition_plot"), height = "100%"))
+                card_body(plotOutput(ns("decomposition_plot"), height = "250px"))
               ),
               card(
                 class = "forecast-panel",
@@ -177,7 +177,7 @@ mod_forecast_ui <- function(id) {
               card(
                 class = "forecast-panel forecast-panel--wide",
                 card_header("Tourism performance context"),
-                card_body(plotOutput(ns("context_plot"), height = "100%"))
+                card_body(plotOutput(ns("context_plot"), height = "360px"))
               ),
               card(
                 class = "forecast-panel",

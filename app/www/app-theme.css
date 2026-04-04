@@ -2,12 +2,31 @@
   box-shadow: 0 8px 28px rgba(16, 36, 40, 0.08);
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.bslib-page-navbar {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .bslib-page-navbar > .container-fluid,
 .bslib-page-fill {
   background:
     radial-gradient(circle at 0% 0%, rgba(225, 236, 232, 0.9), rgba(225, 236, 232, 0) 32%),
     radial-gradient(circle at 100% 0%, rgba(250, 226, 211, 0.75), rgba(250, 226, 211, 0) 24%),
     #f6f2ea;
+  height: 100%;
+}
+
+.bslib-page-navbar > .tab-content,
+.bslib-page-navbar .tab-content,
+.bslib-page-navbar .tab-pane.active {
+  height: 100%;
+  overflow: hidden;
 }
 
 .forecast-shell {
@@ -64,6 +83,8 @@
   grid-template-columns: 300px minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
+  min-height: 0;
+  height: calc(100vh - 186px);
 }
 
 .forecast-controls {
@@ -130,11 +151,13 @@
   display: grid;
   gap: 0.8rem;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .forecast-stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
@@ -173,6 +196,7 @@
 
 .forecast-main .tab-content {
   padding-top: 0.65rem;
+  min-height: 0;
 }
 
 .forecast-main .nav-tabs {
@@ -197,12 +221,15 @@
 
 .forecast-main .tab-pane {
   min-height: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .forecast-tab-grid {
   display: grid;
   gap: 0.75rem;
   min-height: 0;
+  align-content: start;
 }
 
 .forecast-tab-grid > .forecast-panel {
@@ -305,10 +332,15 @@
 
   .forecast-workspace {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
   .forecast-controls {
     position: static;
+  }
+
+  .forecast-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .forecast-tab-grid--forecast,
@@ -382,6 +414,8 @@
   grid-template-columns: 300px minmax(0, 1fr);
   gap: 1.25rem;
   align-items: start;
+  min-height: 0;
+  height: calc(100vh - 194px);
 }
 
 .cluster-controls {
@@ -444,10 +478,13 @@
 
 .cluster-main .card {
   border-radius: 20px;
+  min-height: 0;
 }
 
 .cluster-main .tab-content {
   padding-top: 1rem;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .cluster-main .nav-tabs {
@@ -473,6 +510,8 @@
 .cluster-tab-stack {
   display: grid;
   gap: 1rem;
+  min-height: 0;
+  align-content: start;
 }
 
 .cluster-helper-text {
@@ -748,6 +787,7 @@
 @media (max-width: 1100px) {
   .cluster-workspace {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
   .cluster-controls {

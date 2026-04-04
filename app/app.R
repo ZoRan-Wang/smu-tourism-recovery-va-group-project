@@ -117,6 +117,7 @@ series_explorer_server <- function(id, data) {
 
 ui <- page_navbar(
   title = "Singapore Tourism Time-Series VA Prototype",
+  fillable = TRUE,
   theme = bs_theme(
     bg = "#f4f2eb",
     fg = "#1f2a2e",
