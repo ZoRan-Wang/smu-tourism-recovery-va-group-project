@@ -10,6 +10,316 @@
     #f6f2ea;
 }
 
+.forecast-shell {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.forecast-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0 0.65rem;
+  margin: 0 0 0.35rem;
+  border-bottom: 1px solid #dfd5c6;
+}
+
+.forecast-header-copy {
+  max-width: 900px;
+}
+
+.forecast-header h2 {
+  margin: 0.1rem 0 0.3rem;
+  color: #173337;
+  font-size: clamp(1.55rem, 2.1vw, 2.25rem);
+  letter-spacing: -0.03em;
+}
+
+.forecast-header p {
+  margin: 0;
+  color: #526266;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.forecast-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+
+.forecast-meta-chip {
+  padding: 0.38rem 0.68rem;
+  border: 1px solid #d8cab7;
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.88);
+  color: #415054;
+  font-size: 0.84rem;
+}
+
+.forecast-workspace {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.forecast-controls {
+  position: sticky;
+  top: 1rem;
+  padding: 1rem 0.95rem;
+  background: rgba(255, 252, 247, 0.92);
+  border: 1px solid #e4d8c8;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(27, 41, 45, 0.06);
+}
+
+.forecast-controls .form-group,
+.forecast-controls .shiny-input-checkboxgroup,
+.forecast-controls .shiny-input-radiogroup {
+  margin-bottom: 0.85rem;
+}
+
+.forecast-controls .selectize-input,
+.forecast-controls .form-control {
+  border-radius: 14px;
+  border-color: #e0d4c3;
+  box-shadow: none;
+}
+
+.forecast-controls h3 {
+  margin: 0 0 0.35rem;
+  color: #20373a;
+  font-size: 1.05rem;
+}
+
+.forecast-controls-intro {
+  color: #5f6d70;
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+.forecast-controls .btn-primary {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  font-weight: 700;
+}
+
+.forecast-controls-note {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #eadfce;
+}
+
+.forecast-controls-note h4 {
+  font-size: 0.94rem;
+  margin-bottom: 0.45rem;
+  color: #2d4548;
+}
+
+.forecast-controls-note ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: #667578;
+}
+
+.forecast-main {
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.forecast-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+}
+
+.forecast-stat {
+  background: #fffdf8;
+  border: 1px solid #ece1d3;
+  border-radius: 14px;
+  padding: 0.8rem 0.9rem;
+}
+
+.forecast-panel {
+  border: 1px solid #e6dccd;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(27, 41, 45, 0.06);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.forecast-panel .card-header {
+  background: linear-gradient(180deg, #fffdf9 0%, #f6eee4 100%);
+  border-bottom: 1px solid #eadfce;
+  font-weight: 700;
+  padding: 0.62rem 0.95rem;
+  font-size: 0.92rem;
+}
+
+.forecast-panel .card-body {
+  background: rgba(255, 255, 252, 0.96);
+  min-height: 0;
+  padding: 0.75rem;
+}
+
+.forecast-main > .card {
+  min-height: 0;
+}
+
+.forecast-main .tab-content {
+  padding-top: 0.65rem;
+}
+
+.forecast-main .nav-tabs {
+  border-bottom: 1px solid #e3d8c8;
+  gap: 0.3rem;
+}
+
+.forecast-main .nav-tabs .nav-link {
+  border: 0;
+  border-radius: 999px;
+  color: #4f5f63;
+  background: transparent;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+}
+
+.forecast-main .nav-tabs .nav-link.active {
+  background: #0f6b6f;
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(15, 107, 111, 0.22);
+}
+
+.forecast-main .tab-pane {
+  min-height: 0;
+}
+
+.forecast-tab-grid {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+.forecast-tab-grid > .forecast-panel {
+  min-width: 0;
+}
+
+.forecast-tab-grid--forecast {
+  grid-template-columns: 1.1fr 1.1fr;
+  grid-template-areas:
+    "holdout forward"
+    "accuracy summary";
+}
+
+.forecast-tab-grid--forecast > .forecast-panel:nth-child(1) {
+  grid-area: holdout;
+}
+
+.forecast-tab-grid--forecast > .forecast-panel:nth-child(2) {
+  grid-area: forward;
+}
+
+.forecast-tab-grid--forecast > .forecast-panel:nth-child(3) {
+  grid-area: accuracy;
+}
+
+.forecast-tab-grid--forecast > .forecast-panel:nth-child(4) {
+  grid-area: summary;
+}
+
+.forecast-tab-grid--diagnostics {
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "raw seasonal"
+    "decomp split";
+}
+
+.forecast-tab-grid--diagnostics > .forecast-panel:nth-child(1) {
+  grid-area: raw;
+}
+
+.forecast-tab-grid--diagnostics > .forecast-panel:nth-child(2) {
+  grid-area: seasonal;
+}
+
+.forecast-tab-grid--diagnostics > .forecast-panel:nth-child(3) {
+  grid-area: decomp;
+}
+
+.forecast-tab-grid--diagnostics > .forecast-panel:nth-child(4) {
+  grid-area: split;
+}
+
+.forecast-tab-grid--model {
+  grid-template-columns: 1.1fr 1.1fr;
+  grid-template-areas:
+    "leader residual"
+    "engine interpret";
+}
+
+.forecast-tab-grid--model > .forecast-panel:nth-child(1) {
+  grid-area: leader;
+}
+
+.forecast-tab-grid--model > .forecast-panel:nth-child(2) {
+  grid-area: residual;
+}
+
+.forecast-tab-grid--model > .forecast-panel:nth-child(3) {
+  grid-area: engine;
+}
+
+.forecast-tab-grid--model > .forecast-panel:nth-child(4) {
+  grid-area: interpret;
+}
+
+.forecast-tab-grid--context {
+  grid-template-columns: 1.55fr 0.85fr;
+}
+
+.forecast-table-wrap {
+  min-height: 180px;
+  overflow: auto;
+}
+
+.forecast-table-wrap .dataTables_wrapper,
+.forecast-table-wrap .dataTables_scroll,
+.forecast-table-wrap .dataTables_scrollBody {
+  height: 100% !important;
+}
+
+@media (max-width: 1100px) {
+  .forecast-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .forecast-header-meta {
+    justify-content: flex-start;
+  }
+
+  .forecast-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-controls {
+    position: static;
+  }
+
+  .forecast-tab-grid--forecast,
+  .forecast-tab-grid--diagnostics,
+  .forecast-tab-grid--model,
+  .forecast-tab-grid--context {
+    grid-template-columns: 1fr;
+    grid-template-areas: none;
+  }
+}
+
 .cluster-header,
 .va-preview {
   display: flex;
