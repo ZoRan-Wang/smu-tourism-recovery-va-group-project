@@ -2,6 +2,7 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 library(lubridate)
+library(bslib)
 
 mod_forecast_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
@@ -20,19 +21,14 @@ mod_forecast_server <- function(id, data) {
       prepare_forecast_series(data()$long_monthly, input$series_label)
     })
 
-    forecast_results <- eventReactive(input$run_forecast, {
+    forecast_state <- eventReactive(input$run_forecast, {
       series_df <- selected_series()
       selected_models <- input$model_choices
+      stack_status <- forecast_stack_status()
 
       validate(
         need(nrow(series_df) > input$horizon + 12, "Series is too short for the current horizon."),
         need(length(selected_models) > 0, "Select at least one forecasting model.")
-      )
-
-      res <- run_forecast_workflow(
-        series_df = series_df,
-        horizon = input$horizon,
-        engine = "auto"
       )
 
       normalize_model_choice <- function(model_name) {
@@ -43,25 +39,72 @@ mod_forecast_server <- function(id, data) {
         )
       }
 
-      selected_holdout <- res$holdout_forecast_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+      tryCatch({
+        res <- run_forecast_workflow(
+          series_df = series_df,
+          horizon = input$horizon,
+          engine = input$engine_preference
+        )
 
-      selected_accuracy <- res$accuracy_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+        selected_holdout <- res$holdout_forecast_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      selected_models_tbl <- res$models_tbl |>
-        filter(normalize_model_choice(.model_desc) %in% selected_models)
+        selected_accuracy <- res$accuracy_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      if (nrow(selected_accuracy) == 0 || nrow(selected_holdout) == 0) {
-        stop("No forecast results matched the selected model choices.")
-      }
+        selected_models_tbl <- res$models_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
 
-      res$holdout_forecast_tbl <- selected_holdout
-      res$accuracy_tbl <- selected_accuracy
-      res$models_tbl <- selected_models_tbl
-      res$selected_models <- selected_models
-      res
+        selected_future <- res$future_forecast_tbl |>
+          filter(normalize_model_choice(.model_desc) %in% selected_models)
+
+        if (nrow(selected_accuracy) == 0 || nrow(selected_holdout) == 0 || nrow(selected_future) == 0) {
+          stop("No forecast results matched the selected model choices.")
+        }
+
+        res$holdout_forecast_tbl <- selected_holdout
+        res$accuracy_tbl <- selected_accuracy
+        res$models_tbl <- selected_models_tbl
+        res$future_forecast_tbl <- selected_future
+        res$selected_models <- selected_models
+        res$requested_engine <- input$engine_preference
+
+        list(
+          ok = TRUE,
+          result = res,
+          stack_status = stack_status,
+          requested_engine = input$engine_preference
+        )
+      }, error = function(e) {
+        list(
+          ok = FALSE,
+          error_message = conditionMessage(e),
+          stack_status = stack_status,
+          requested_engine = input$engine_preference
+        )
+      })
     }, ignoreNULL = TRUE)
+
+    forecast_results <- reactive({
+      state <- forecast_state()
+      validate(
+        need(isTRUE(state$ok), state$error_message)
+      )
+      state$result
+    })
+
+    ranked_models <- reactive({
+      res <- forecast_results()
+      metric <- req(input$rank_metric)
+
+      res$accuracy_tbl |>
+        arrange(.data[[metric]])
+    })
+
+    best_model_row <- reactive({
+      ranked_models() |>
+        slice(1)
+    })
 
     output$series_summary <- renderText({
       series_df <- selected_series()
@@ -71,6 +114,64 @@ mod_forecast_server <- function(id, data) {
         "| End:", format(max(series_df$date), "%Y-%m"),
         "| Scope: country-level arrivals",
         "| Models:", paste(input$model_choices, collapse = ", ")
+      )
+    })
+
+    output$summary_cards <- renderUI({
+      req(input$run_forecast > 0)
+      res <- forecast_results()
+      metric <- req(input$rank_metric)
+      metric_label <- toupper(metric)
+
+      best_row <- best_model_row()
+      second_row <- ranked_models() |>
+        slice(2)
+
+      improvement_note <- if (nrow(second_row) == 1 &&
+        !is.na(second_row[[metric]]) &&
+        !is.na(best_row[[metric]])) {
+        paste0(
+          "Best model improves on the next candidate by ",
+          round(second_row[[metric]] - best_row[[metric]], 2),
+          " ",
+          metric_label,
+          "."
+        )
+      } else {
+        "Only one model result is currently selected."
+      }
+
+      div(
+        class = "forecast-stat-grid",
+        div(
+          class = "forecast-stat",
+          div(class = "forecast-stat-label", "Selected series"),
+          div(class = "forecast-stat-value forecast-stat-value--text", input$series_label),
+          div(class = "forecast-stat-note", "Country-level arrivals")
+        ),
+        div(
+          class = "forecast-stat",
+          div(class = "forecast-stat-label", "Best model"),
+          div(class = "forecast-stat-value forecast-stat-value--text", best_row$.model_desc),
+          div(class = "forecast-stat-note", paste("Executed with", res$engine_label))
+        ),
+        div(
+          class = "forecast-stat",
+          div(class = "forecast-stat-label", paste("Best", metric_label)),
+          div(class = "forecast-stat-value", format(round(best_row[[metric]], 2), big.mark = ",")),
+          div(class = "forecast-stat-note", paste("Holdout", metric_label))
+        ),
+        div(
+          class = "forecast-stat",
+          div(class = "forecast-stat-label", "Forecast horizon"),
+          div(class = "forecast-stat-value", input$horizon),
+          div(class = "forecast-stat-note", "Months ahead")
+        ),
+        div(
+          class = "forecast-stat forecast-stat--wide",
+          div(class = "forecast-stat-label", "Quick interpretation"),
+          div(class = "forecast-stat-copy", improvement_note)
+        )
       )
     })
 
@@ -87,7 +188,14 @@ mod_forecast_server <- function(id, data) {
       DT::datatable(
         split_tbl,
         rownames = FALSE,
-        options = list(dom = "t", paging = FALSE, ordering = FALSE, scrollX = TRUE)
+        options = list(
+          dom = "t",
+          paging = FALSE,
+          ordering = FALSE,
+          scrollX = TRUE,
+          scrollY = "170px",
+          scrollCollapse = TRUE
+        )
       )
     })
 
@@ -105,12 +213,32 @@ mod_forecast_server <- function(id, data) {
         )
     })
 
+    output$future_plot <- renderPlot({
+      req(input$run_forecast > 0)
+      res <- forecast_results()
+      best_row <- best_model_row()
+      future_tbl <- res$future_forecast_tbl |>
+        filter(.model_desc == best_row$.model_desc)
+      future_res <- res
+      future_res$future_forecast_tbl <- future_tbl
+
+      plot_forecast_results(
+        future_res,
+        type = "future"
+      ) +
+        labs(
+          title = input$series_label,
+          subtitle = paste("Forward projection using best holdout model:", best_row$.model_desc)
+        )
+    })
+
     output$context_plot <- renderPlot({
       req(input$series_label)
 
       context_df <- prepare_country_context_panel(
         data()$long_monthly,
-        country_label = input$series_label
+        country_label = input$series_label,
+        support_labels = input$context_indicators
       )
 
       validate(
@@ -127,6 +255,129 @@ mod_forecast_server <- function(id, data) {
           color = NULL
         ) +
         theme_minimal(base_size = 13)
+    })
+
+    output$leaderboard_plot <- renderPlot({
+      req(input$run_forecast > 0)
+      res <- forecast_results()
+      metric <- req(input$rank_metric)
+
+      plot_tbl <- res$accuracy_tbl |>
+        mutate(
+          metric_value = .data[[metric]],
+          .model_desc = reorder(.model_desc, metric_value)
+        )
+
+      validate(
+        need(nrow(plot_tbl) > 0, "No model results are available for plotting.")
+      )
+
+      ggplot(plot_tbl, aes(x = .model_desc, y = metric_value, fill = .model_desc)) +
+        geom_col(width = 0.7, show.legend = FALSE) +
+        geom_text(aes(label = scales::number(metric_value, accuracy = 0.01)), hjust = -0.05, size = 4) +
+        coord_flip(clip = "off") +
+        scale_fill_manual(values = c(
+          "Seasonal Naive" = "#d86f45",
+          "ETS (Modeltime)" = "#0f6b6f",
+          "ETS" = "#0f6b6f",
+          "ARIMA" = "#6b4eff"
+        )) +
+        labs(
+          title = paste("Models ranked by", toupper(metric)),
+          subtitle = "Lower is better for RMSE, MAE, and MAPE",
+          x = NULL,
+          y = toupper(metric)
+        ) +
+        theme_minimal(base_size = 13) +
+        theme(plot.margin = margin(5.5, 35, 5.5, 5.5))
+    })
+
+    output$residual_plot <- renderPlot({
+      req(input$run_forecast > 0)
+      res <- forecast_results()
+
+      residual_tbl <- res$holdout_forecast_tbl |>
+        mutate(residual = actual - prediction)
+
+      ggplot(residual_tbl, aes(x = date, y = residual, color = .model_desc)) +
+        geom_hline(yintercept = 0, color = "#8a9199", linetype = "dashed") +
+        geom_line(linewidth = 0.9) +
+        geom_point(size = 2) +
+        scale_color_manual(values = c(
+          "Seasonal Naive" = "#d86f45",
+          "ETS (Modeltime)" = "#0f6b6f",
+          "ETS" = "#0f6b6f",
+          "ARIMA" = "#6b4eff"
+        )) +
+        labs(
+          title = "Residual path on the holdout window",
+          subtitle = "A tighter band around zero suggests better month-to-month tracking",
+          x = NULL,
+          y = "Actual - predicted",
+          color = "Model"
+        ) +
+        scale_y_continuous(labels = scales::label_comma()) +
+        theme_minimal(base_size = 13)
+    })
+
+    output$engine_status <- renderUI({
+      req(input$run_forecast > 0)
+      state <- forecast_state()
+      stack_status <- state$stack_status
+
+      missing_pkgs <- stack_status$missing_modeltime_packages
+      missing_text <- if (length(missing_pkgs) == 0) {
+        "None"
+      } else {
+        paste(missing_pkgs, collapse = ", ")
+      }
+
+      tagList(
+        tags$p(tags$strong("Requested engine: "), state$requested_engine),
+        tags$p(tags$strong("Executed engine: "), if (isTRUE(state$ok)) state$result$engine_label else "Run did not complete"),
+        tags$p(tags$strong("Fallback ready: "), ifelse(stack_status$fallback_ready, "Yes", "No")),
+        tags$p(tags$strong("Modeltime ready: "), ifelse(stack_status$modeltime_ready, "Yes", "No")),
+        tags$p(tags$strong("Missing modeltime packages: "), missing_text),
+        tags$p(
+          tags$strong("Execution note: "),
+          if (!isTRUE(state$ok)) {
+            state$error_message
+          } else if (identical(state$requested_engine, "modeltime")) {
+            "Require modeltime was selected, so the app will not fall back automatically if that stack is unavailable."
+          } else {
+            "Auto may choose modeltime when available and otherwise use the lightweight fallback."
+          }
+        )
+      )
+    })
+
+    output$model_interpretation <- renderUI({
+      req(input$run_forecast > 0)
+      best_row <- best_model_row()
+      second_row <- ranked_models() |>
+        slice(2)
+
+      gap_note <- if (nrow(second_row) == 1) {
+        paste0(
+          "On ",
+          toupper(input$rank_metric),
+          ", the winning model leads the next candidate by ",
+          round(second_row[[input$rank_metric]] - best_row[[input$rank_metric]], 2),
+          "."
+        )
+      } else {
+        "Only one forecast line is currently active, so there is no direct model gap to compare."
+      }
+
+      tagList(
+        tags$p(tags$strong("Best model: "), best_row$.model_desc),
+        tags$p(gap_note),
+        tags$ul(
+          tags$li("Seasonal Naive is the benchmark and shows what happens if we only repeat the historical seasonal pattern."),
+          tags$li("ETS is useful when level, trend, and seasonality evolve smoothly over time."),
+          tags$li("ARIMA is useful when autocorrelation structure adds forecasting signal beyond seasonality.")
+        )
+      )
     })
 
     output$raw_series_plot <- renderPlot({
@@ -199,7 +450,14 @@ mod_forecast_server <- function(id, data) {
       DT::datatable(
         accuracy_tbl,
         rownames = FALSE,
-        options = list(dom = "t", pageLength = 6, scrollX = TRUE)
+        options = list(
+          dom = "t",
+          paging = FALSE,
+          ordering = TRUE,
+          scrollX = TRUE,
+          scrollY = "190px",
+          scrollCollapse = TRUE
+        )
       )
     })
   })
