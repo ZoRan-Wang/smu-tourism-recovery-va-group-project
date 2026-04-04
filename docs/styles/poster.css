@@ -136,6 +136,10 @@ main.content.column-page,
   align-content: start;
 }
 
+.grid-left {
+  gap: 10px;
+}
+
 .section-box {
   background: #fffefb;
   border: 1.5px solid #d8cfbf;
@@ -213,6 +217,22 @@ main.content.column-page,
 .section-box li {
   font-size: 13px;
   line-height: 1.35;
+}
+
+.grid-left .section-box {
+  padding: 11px 12px 13px 12px;
+}
+
+.grid-left .section-box h3 {
+  margin: -11px -12px 11px -12px;
+  padding: 8px 12px;
+  font-size: 22px;
+}
+
+.grid-left .section-box p,
+.grid-left .section-box li {
+  font-size: 14.6px;
+  line-height: 1.5;
 }
 
 .section-box ul,
