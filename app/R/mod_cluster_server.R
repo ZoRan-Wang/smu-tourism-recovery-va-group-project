@@ -759,7 +759,15 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         membership,
         rownames = FALSE,
-        options = list(pageLength = 8, scrollX = FALSE, autoWidth = TRUE)
+        class = "compact stripe",
+        options = list(
+          pageLength = 6,
+          lengthChange = FALSE,
+          info = FALSE,
+          dom = "tp",
+          scrollX = FALSE,
+          autoWidth = FALSE
+        )
       )
     })
 
@@ -781,7 +789,14 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         summary_tbl,
         rownames = FALSE,
-        options = list(pageLength = 6, dom = "tip", autoWidth = TRUE)
+        class = "compact stripe",
+        options = list(
+          pageLength = 5,
+          lengthChange = FALSE,
+          info = FALSE,
+          dom = "tp",
+          autoWidth = FALSE
+        )
       )
     })
 
@@ -801,7 +816,15 @@ mod_cluster_server <- function(id, data) {
       DT::datatable(
         metrics_tbl,
         rownames = FALSE,
-        options = list(pageLength = 8, scrollX = FALSE, autoWidth = TRUE)
+        class = "compact stripe",
+        options = list(
+          pageLength = 6,
+          lengthChange = FALSE,
+          info = FALSE,
+          dom = "tp",
+          scrollX = FALSE,
+          autoWidth = FALSE
+        )
       )
     })
 

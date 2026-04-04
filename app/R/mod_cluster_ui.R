@@ -69,17 +69,7 @@ mod_cluster_ui <- function(id) {
           value = 3,
           step = 1
         ),
-        actionButton(ns("run_cluster"), "Run clustering", class = "btn-primary"),
-        div(
-          class = "cluster-controls-note",
-          h4("Reading guide"),
-          tags$ul(
-            tags$li("Start Here: confirm whether the clustering is stable and what the lead patterns are."),
-            tags$li("Pattern Explorer: hover a line to inspect a country path, then compare it against the cluster mean."),
-            tags$li("Focus Market in Context: use the position map after narrowing the market set."),
-            tags$li("Assignments: export the final cluster labels after the picture is clear.")
-          )
-        )
+        actionButton(ns("run_cluster"), "Run clustering", class = "btn-primary")
       ),
       div(
         class = "cluster-main",
