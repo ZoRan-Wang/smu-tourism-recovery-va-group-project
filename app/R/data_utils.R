@@ -1072,12 +1072,14 @@ build_holdout_forecast_tbl <- function(actual_df, prediction_map) {
   }))
 }
 
-build_future_forecast_tbl <- function(future_dates, prediction_map, best_model) {
-  tibble(
-    date = future_dates$date,
-    prediction = as.numeric(prediction_map[[best_model]]),
-    .model_desc = best_model
-  )
+build_future_forecast_tbl <- function(future_dates, prediction_map) {
+  bind_rows(lapply(names(prediction_map), function(model_name) {
+    tibble(
+      date = future_dates$date,
+      prediction = as.numeric(prediction_map[[model_name]]),
+      .model_desc = model_name
+    )
+  }))
 }
 
 plot_forecast_results <- function(results, type = c("holdout", "future")) {
@@ -1198,11 +1200,10 @@ run_fallback_forecast_workflow <- function(series_df, horizon = 12) {
     pull(.model_desc)
 
   future_dates <- make_future_data(series_df, horizon = horizon)
-  future_prediction_map <- switch(
-    best_model,
-    "Seasonal Naive" = list("Seasonal Naive" = as.numeric(forecast::snaive(full_ts, h = horizon)$mean)),
-    "ETS" = list("ETS" = as.numeric(forecast::forecast(forecast::ets(full_ts), h = horizon)$mean)),
-    "ARIMA" = list("ARIMA" = as.numeric(forecast::forecast(forecast::auto.arima(full_ts), h = horizon)$mean))
+  future_prediction_map <- list(
+    "Seasonal Naive" = as.numeric(forecast::snaive(full_ts, h = horizon)$mean),
+    "ETS" = as.numeric(forecast::forecast(forecast::ets(full_ts), h = horizon)$mean),
+    "ARIMA" = as.numeric(forecast::forecast(forecast::auto.arima(full_ts), h = horizon)$mean)
   )
 
   list(
@@ -1218,7 +1219,7 @@ run_fallback_forecast_workflow <- function(series_df, horizon = 12) {
     ),
     accuracy_tbl = accuracy_tbl,
     holdout_forecast_tbl = build_holdout_forecast_tbl(testing_df, prediction_map),
-    future_forecast_tbl = build_future_forecast_tbl(future_dates, future_prediction_map, best_model),
+    future_forecast_tbl = build_future_forecast_tbl(future_dates, future_prediction_map),
     best_model_desc = best_model
   )
 }
@@ -1293,28 +1294,24 @@ run_modeltime_forecast_workflow <- function(series_df, horizon = 12) {
     pull(.model_desc)
 
   future_dates <- make_future_data(series_df, horizon = horizon)
-  future_prediction_map <- switch(
-    best_model,
-    "Seasonal Naive" = list("Seasonal Naive" = as.numeric(forecast::snaive(
-      ts(
-        series_df$value,
-        start = c(lubridate::year(min(series_df$date)), lubridate::month(min(series_df$date))),
-        frequency = 12
-      ),
-      h = horizon
-    )$mean)),
-    "ETS (Modeltime)" = {
-      refit <- modeltime::exp_smoothing() |>
-        parsnip::set_engine("ets") |>
-        parsnip::fit(value ~ date, data = series_df)
-      list("ETS (Modeltime)" = as.numeric(predict(refit, new_data = future_dates)$.pred))
-    },
-    "ARIMA" = {
-      refit <- modeltime::arima_reg() |>
-        parsnip::set_engine("auto_arima") |>
-        parsnip::fit(value ~ date, data = series_df)
-      list("ARIMA" = as.numeric(predict(refit, new_data = future_dates)$.pred))
-    }
+  full_ts <- ts(
+    series_df$value,
+    start = c(lubridate::year(min(series_df$date)), lubridate::month(min(series_df$date))),
+    frequency = 12
+  )
+
+  ets_refit <- modeltime::exp_smoothing() |>
+    parsnip::set_engine("ets") |>
+    parsnip::fit(value ~ date, data = series_df)
+
+  arima_refit <- modeltime::arima_reg() |>
+    parsnip::set_engine("auto_arima") |>
+    parsnip::fit(value ~ date, data = series_df)
+
+  future_prediction_map <- list(
+    "Seasonal Naive" = as.numeric(forecast::snaive(full_ts, h = horizon)$mean),
+    "ETS (Modeltime)" = as.numeric(predict(ets_refit, new_data = future_dates)$.pred),
+    "ARIMA" = as.numeric(predict(arima_refit, new_data = future_dates)$.pred)
   )
 
   list(
@@ -1331,7 +1328,7 @@ run_modeltime_forecast_workflow <- function(series_df, horizon = 12) {
     ),
     accuracy_tbl = accuracy_tbl,
     holdout_forecast_tbl = build_holdout_forecast_tbl(testing_df, prediction_map),
-    future_forecast_tbl = build_future_forecast_tbl(future_dates, future_prediction_map, best_model),
+    future_forecast_tbl = build_future_forecast_tbl(future_dates, future_prediction_map),
     best_model_desc = best_model
   )
 }
