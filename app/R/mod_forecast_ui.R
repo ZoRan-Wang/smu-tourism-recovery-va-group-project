@@ -26,10 +26,6 @@ mod_forecast_ui <- function(id) {
       div(
         class = "forecast-controls",
         h3("Model controls"),
-        p(
-          class = "forecast-controls-intro",
-          "Choose a source market, configure the workflow, and click once to run the forecasting studio."
-        ),
         selectInput(ns("series_label"), "Country arrival series", choices = NULL),
         selectInput(
           ns("engine_preference"),
@@ -69,21 +65,10 @@ mod_forecast_ui <- function(id) {
           selected = "rmse",
           inline = TRUE
         ),
-        actionButton(ns("run_forecast"), "Run Forecasting", class = "btn-primary"),
-        div(
-          class = "forecast-controls-note",
-          h4("What this app demonstrates"),
-          tags$ul(
-            tags$li("It waits for user input before running the model."),
-            tags$li("It compares benchmark and model-based forecasts on the same holdout window."),
-            tags$li("It exposes diagnostics, residual behaviour, and supporting tourism context."),
-            tags$li("It turns the Shiny page into a small analytics workstation rather than a static dashboard.")
-          )
-        )
+        actionButton(ns("run_forecast"), "Run Forecasting", class = "btn-primary")
       ),
       div(
         class = "forecast-main",
-        uiOutput(ns("summary_cards")),
         navset_card_tab(
           id = ns("forecast_pages"),
           full_screen = FALSE,
@@ -104,16 +89,19 @@ mod_forecast_ui <- function(id) {
               ),
               card(
                 class = "forecast-panel",
-                card_header("Accuracy table"),
+                card_header("Accuracy summary"),
                 card_body(
-                  class = "forecast-table-panel",
-                  div(class = "forecast-table-wrap", DT::DTOutput(ns("accuracy_table")))
+                  class = "forecast-copy-panel",
+                  uiOutput(ns("accuracy_summary"))
                 )
               ),
               card(
                 class = "forecast-panel",
                 card_header("Series summary"),
-                card_body(textOutput(ns("series_summary")))
+                card_body(
+                  class = "forecast-copy-panel",
+                  uiOutput(ns("series_summary"))
+                )
               )
             )
           ),
@@ -132,12 +120,12 @@ mod_forecast_ui <- function(id) {
                 card_body(plotOutput(ns("residual_plot"), height = "100%"))
               ),
               card(
-                class = "forecast-panel",
+                class = "forecast-panel forecast-panel--compact-copy",
                 card_header("Engine status"),
                 card_body(uiOutput(ns("engine_status")))
               ),
               card(
-                class = "forecast-panel",
+                class = "forecast-panel forecast-panel--compact-copy",
                 card_header("Model interpretation"),
                 card_body(uiOutput(ns("model_interpretation")))
               )

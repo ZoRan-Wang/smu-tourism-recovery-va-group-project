@@ -108,6 +108,25 @@ This layered design makes the poster stronger than a chart collection because ea
 For tourism planners, the most practical takeaway is that country-level arrivals are not only descriptive indicators. They are useful signals for monitoring recovery strength, identifying comparable markets, and anticipating near-term demand pressure on hotels and tourism services.
 :::
 
+::: {.section-box .section-results}
+### Data Scope and Operational Implications
+
+The project uses one shared arrivals backbone so that all modules remain comparable, but the interpretation layer extends beyond arrivals alone.
+
+#### What the poster combines
+- country-level monthly visitor arrivals as the primary time-series signal
+- hotel occupancy as a utilisation indicator
+- average stay length as a visitor-behaviour indicator
+- room revenue as a commercial context indicator
+
+#### Why this matters
+- a rise in arrivals without a similar rise in occupancy suggests incomplete accommodation recovery
+- stronger arrivals with shorter stays may indicate returning demand but weaker downstream spend
+- synchronized growth across arrivals, occupancy, and revenue points to a more complete tourism rebound
+
+This section turns the analytical workflow into a business story: the project does not stop at showing tourism demand patterns, but connects them to operational pressure on hotels and tourism services.
+:::
+
 :::
 
 ::: {.grid-center}

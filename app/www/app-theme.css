@@ -83,14 +83,14 @@ html, body {
 
 .forecast-workspace {
   display: grid;
-  grid-template-columns: 270px minmax(0, 1fr);
-  gap: 0.75rem;
+  grid-template-columns: 235px minmax(0, 1fr);
+  gap: 0.6rem;
   min-height: 0;
   overflow: hidden;
 }
 
 .forecast-controls {
-  padding: 0.8rem 0.85rem;
+  padding: 0.65rem 0.7rem;
   background: rgba(255, 252, 247, 0.92);
   border: 1px solid #e4d8c8;
   border-radius: 18px;
@@ -101,7 +101,23 @@ html, body {
 .forecast-controls .form-group,
 .forecast-controls .shiny-input-checkboxgroup,
 .forecast-controls .shiny-input-radiogroup {
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.55rem;
+}
+
+.forecast-controls label,
+.forecast-controls .control-label,
+.forecast-controls .checkbox label,
+.forecast-controls .radio label,
+.forecast-controls .irs,
+.forecast-controls .irs-single,
+.forecast-controls .irs-min,
+.forecast-controls .irs-max,
+.forecast-controls .selectize-input,
+.forecast-controls .form-control,
+.forecast-controls .selectize-dropdown,
+.forecast-controls .shiny-input-radiogroup,
+.forecast-controls .shiny-input-checkboxgroup {
+  font-size: 0.76rem;
 }
 
 .forecast-controls .selectize-input,
@@ -112,47 +128,22 @@ html, body {
 }
 
 .forecast-controls h3 {
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.15rem;
   color: #20373a;
-  font-size: 1.02rem;
-}
-
-.forecast-controls-intro {
-  color: #5f6d70;
-  margin-bottom: 0.65rem;
-  line-height: 1.38;
-  font-size: 0.84rem;
+  font-size: 0.9rem;
 }
 
 .forecast-controls .btn-primary {
   width: 100%;
   border-radius: 999px;
-  padding: 0.62rem 0.9rem;
+  padding: 0.56rem 0.85rem;
   font-weight: 700;
-}
-
-.forecast-controls-note {
-  margin-top: 0.7rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid #eadfce;
-}
-
-.forecast-controls-note h4 {
-  font-size: 0.92rem;
-  margin-bottom: 0.35rem;
-  color: #2d4548;
-}
-
-.forecast-controls-note ul {
-  margin: 0;
-  padding-left: 1rem;
-  color: #667578;
   font-size: 0.82rem;
 }
 
 .forecast-controls .radio-inline {
-  margin-right: 0.75rem;
-  font-size: 0.82rem;
+  margin-right: 0.58rem;
+  font-size: 0.74rem;
 }
 
 .forecast-main {
@@ -216,7 +207,7 @@ html, body {
   height: calc(100% - 52px);
   min-height: 0;
   padding-top: 0.5rem;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .forecast-main .nav-tabs {
@@ -241,7 +232,7 @@ html, body {
 
 .forecast-main .tab-pane {
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .forecast-tab-grid {
@@ -253,12 +244,12 @@ html, body {
 
 .forecast-tab-grid--forecast {
   grid-template-columns: 1.1fr 1.1fr;
-  grid-template-rows: minmax(260px, 0.95fr) minmax(190px, 0.75fr);
+  grid-template-rows: minmax(240px, 1fr) minmax(150px, 0.56fr);
   grid-template-areas:
     "holdout forward"
     "accuracy summary";
-  height: auto;
-  min-height: min-content;
+  height: 100%;
+  min-height: 0;
 }
 
 .forecast-tab-grid--forecast > .forecast-panel:nth-child(1) { grid-area: holdout; }
@@ -281,12 +272,12 @@ html, body {
 
 .forecast-tab-grid--model {
   grid-template-columns: 1.1fr 1.1fr;
-  grid-template-rows: minmax(260px, 0.95fr) minmax(190px, 0.75fr);
+  grid-template-rows: minmax(250px, 1fr) minmax(145px, 0.52fr);
   grid-template-areas:
     "leader residual"
     "engine interpret";
-  height: auto;
-  min-height: min-content;
+  height: 100%;
+  min-height: 0;
 }
 
 .forecast-tab-grid--model > .forecast-panel:nth-child(1) { grid-area: leader; }
@@ -308,7 +299,7 @@ html, body {
 }
 
 .forecast-panel--hero {
-  min-height: 270px;
+  min-height: 250px;
 }
 
 .forecast-tab-grid--forecast > .forecast-panel:nth-child(3),
@@ -316,7 +307,7 @@ html, body {
 .forecast-tab-grid--model > .forecast-panel:nth-child(3),
 .forecast-tab-grid--model > .forecast-panel:nth-child(4),
 .forecast-tab-grid--diagnostics > .forecast-panel:nth-child(4) {
-  min-height: 185px;
+  min-height: 145px;
 }
 
 .forecast-panel .card-header {
@@ -330,25 +321,63 @@ html, body {
 .forecast-panel .card-body {
   background: rgba(255, 255, 252, 0.96);
   height: calc(100% - 44px);
-  overflow: auto;
+  overflow: hidden;
   padding: 0.55rem 0.75rem;
 }
 
-.forecast-table-panel {
+.forecast-copy-panel {
   overflow: hidden !important;
-  padding: 0.45rem 0.55rem !important;
+  padding: 0.55rem 0.75rem !important;
 }
 
-.forecast-table-wrap {
-  height: 100%;
-  min-height: 180px;
-  overflow: auto;
+.forecast-panel--compact-copy .card-body {
+  padding: 0.6rem 0.75rem;
 }
 
-.forecast-table-wrap .dataTables_wrapper,
-.forecast-table-wrap .dataTables_scroll,
-.forecast-table-wrap .dataTables_scrollBody {
-  height: 100% !important;
+.forecast-copy-stack {
+  display: grid;
+  gap: 0.38rem;
+  color: #294045;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.forecast-copy-row {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.forecast-copy-row--small {
+  font-size: 0.76rem;
+  color: #5f6b6f;
+}
+
+.forecast-copy-note {
+  font-size: 0.8rem;
+  color: #526266;
+  line-height: 1.28;
+}
+
+.forecast-copy-list {
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 0.78rem;
+  color: #425156;
+  line-height: 1.22;
+}
+
+.forecast-copy-list--spacious {
+  padding-left: 1.05rem;
+}
+
+.forecast-copy-list--spacious li + li {
+  margin-top: 0.32rem;
+}
+
+.forecast-copy-list li + li {
+  margin-top: 0.18rem;
 }
 
 .forecast-panel .dataTables_wrapper .dataTables_length,
