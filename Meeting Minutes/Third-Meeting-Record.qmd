@@ -1,0 +1,31 @@
+---
+title: "Thrid Meeting Record"
+---
+
+## Meeting Description
+
+Date / Time: 31 March 2026 (4pm - 4.30pm)
+
+Location: Zoom Meeting
+
+Attendees: Xi Zixun, Wang Zhuoran, Jin Qinhao
+
+## Purpose
+
+Review for Shiny App modules and Poster Discussion
+
+## Meeting Notes
+
+1. Reviewed About Shiny App Modules on Design and Requirements for final submission
+2. Poster Discussion
+
+## Action Item - Owner & Deadline
+
+1. Xi Zixun ( 1 April 2026) - Complete User Guide for Shiny App Module - Time Series Analysis.
+2. Wang Zhuoran (1 April 2026) Finalisation of Poster Design, and Complete User Guide for Shiny App - Time Series Clustering
+3. Jin Qinhao (1 April 2026) - Completet User Guide for Shiny App - Forecasting Model
+
+## Expected Deliverables
+
+1. Finalized Poster Design
+2. Completed User Guide
