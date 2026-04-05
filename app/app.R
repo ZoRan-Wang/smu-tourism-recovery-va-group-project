@@ -80,7 +80,7 @@ ui <- page_navbar(
 
 ui <- tagList(
   tags$head(
-    tags$link(rel = "stylesheet", type = "text/css", href = "app-theme.css")
+    includeCSS(file.path(project_root, "app", "www", "app-theme.css"))
   ),
   ui
 )
