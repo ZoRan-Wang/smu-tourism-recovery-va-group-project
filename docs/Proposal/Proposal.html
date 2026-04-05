@@ -232,7 +232,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="project-aim" class="level2">
 <h2 class="anchored" data-anchor-id="project-aim">3. Project Aim</h2>
-<p>The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism market states evolve and how selected demand series may move in the near future.</p>
+<p>The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis so that users can interpret recovery patterns and estimate how selected demand series may move in the near future.</p>
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">4. The Data</h2>
@@ -267,15 +267,16 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="forecasting-module" class="level2">
 <h2 class="anchored" data-anchor-id="forecasting-module">7. Forecasting Module</h2>
-<p>The forecasting module will follow the Chapter 19 and 20 time-series workflow used in <em>R for Visual Analytics</em>. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks. The deployed app prefers the full modeltime workflow when those packages are available, but it can fall back to a lighter forecast-package implementation without changing the high-level comparison logic. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.</p>
-<p>The expected outputs are:</p>
+<p>The forecasting module replaces the earlier tree-model direction with a time-series prediction workflow that better fits the tourism dataset. Instead of classifying recovery into tree-based outputs, this module focuses on country-level monthly visitor arrivals and estimates short-term future demand using time-aware forecasting methods.</p>
+<p>Following Chapters 19 and 20 of <em>R for Visual Analytics</em>, the module will:</p>
 <ol type="1">
-<li>a selectable target series</li>
-<li>a raw time-series view with seasonal and decomposition diagnostics</li>
-<li>a forecast plot showing training, test, and forecast paths</li>
-<li>an accuracy table comparing RMSE, MAE, and MAPE</li>
-<li>explanatory notes on the difference between the baseline and the forecasting model</li>
+<li>inspect the selected arrivals series through trend, seasonal, and decomposition views</li>
+<li>create a time-aware train/test split</li>
+<li>compare a baseline seasonal-naive forecast against ETS and ARIMA</li>
+<li>evaluate forecast quality with holdout metrics such as RMSE, MAE, and MAPE</li>
+<li>interpret the demand forecast against supporting tourism indicators such as hotel occupancy, stay length, and room revenue</li>
 </ol>
+<p>In the deployed Shiny app, users will be able to choose one country-arrival series at a time, run the forecasting workflow, compare model performance, and review both the holdout forecast and the forward projection within the same page.</p>
 </section>
 <section id="data-visualisation-methods" class="level2">
 <h2 class="anchored" data-anchor-id="data-visualisation-methods">8. Data Visualisation Methods</h2>

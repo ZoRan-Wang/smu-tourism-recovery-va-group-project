@@ -15,7 +15,7 @@ Current discussions on tourism recovery often focus narrowly on whether visitor 
 
 ## 3. Project Aim
 
-The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis to explain how tourism market states evolve and how selected demand series may move in the near future.
+The project aims to develop a visual analytics prototype based on monthly tourism time series, enabling users to understand tourism recovery at descriptive, structural, and forecasting levels. The prototype will integrate time-series exploration, time-series clustering, and forecasting analysis so that users can interpret recovery patterns and estimate how selected demand series may move in the near future.
 
 ## 4. The Data
 
@@ -50,15 +50,17 @@ Within the clustering module, the app is designed to move beyond a simple member
 
 ## 7. Forecasting Module
 
-The forecasting module will follow the Chapter 19 and 20 time-series workflow used in *R for Visual Analytics*. Users will first inspect the selected country-level monthly arrivals series through trend, seasonal, decomposition, and supporting-indicator views, then create a time-aware train/test split, and finally compare a baseline method with model-based forecasts on the same holdout window. A seasonal-naive forecast will act as the baseline, while ETS and ARIMA will provide the main model-based benchmarks. The deployed app prefers the full modeltime workflow when those packages are available, but it can fall back to a lighter forecast-package implementation without changing the high-level comparison logic. Hotel occupancy, average length of stay, and room revenue will not be treated as separate forecasting targets in the final module; instead, they will help interpret whether forecast demand recovery aligns with broader tourism performance.
+The forecasting module replaces the earlier tree-model direction with a time-series prediction workflow that better fits the tourism dataset. Instead of classifying recovery into tree-based outputs, this module focuses on country-level monthly visitor arrivals and estimates short-term future demand using time-aware forecasting methods.
 
-The expected outputs are:
+Following Chapters 19 and 20 of *R for Visual Analytics*, the module will:
 
-1. a selectable target series
-2. a raw time-series view with seasonal and decomposition diagnostics
-3. a forecast plot showing training, test, and forecast paths
-4. an accuracy table comparing RMSE, MAE, and MAPE
-5. explanatory notes on the difference between the baseline and the forecasting model
+1. inspect the selected arrivals series through trend, seasonal, and decomposition views
+2. create a time-aware train/test split
+3. compare a baseline seasonal-naive forecast against ETS and ARIMA
+4. evaluate forecast quality with holdout metrics such as RMSE, MAE, and MAPE
+5. interpret the demand forecast against supporting tourism indicators such as hotel occupancy, stay length, and room revenue
+
+In the deployed Shiny app, users will be able to choose one country-arrival series at a time, run the forecasting workflow, compare model performance, and review both the holdout forecast and the forward projection within the same page.
 
 ## 8. Data Visualisation Methods
 
