@@ -4,7 +4,7 @@
     "href": "user-guide.html",
     "title": "User Guide",
     "section": "",
-    "text": "This guide explains how to use the final tourism analytics app as one connected workflow. The three analytical modules share the same country-arrivals backbone, so the intended reading order is to begin with market structure, continue into recovery-pattern comparison, and finish with forward projection."
+    "text": "The final user guide is delivered as a PDF document. Read it in the embedded viewer below, open it in a separate tab with the browser’s PDF controls, or download it directly.\nOpen User Guide PDF in a New Tab Download User Guide PDF"
   },
   {
     "objectID": "user-guide.html#purpose",
@@ -305,7 +305,7 @@
     "href": "index.html",
     "title": "Project Home",
     "section": "",
-    "text": "Singapore Tourism Recovery | Visual Analytics Project\n\n\n\nThis project studies tourism recovery as a comparative time-series problem. The website presents the analytical story, the merged user guide explains the full workflow across all three modules, and the deployed Shiny app turns that structure into an interactive workspace for market structure, recovery pattern comparison, and forward projection.\n\nOpen Live Shiny App Read Merged User Guide View Poster\n\n\n\nLive modulesVisual Analysis, Clustering, Forecasting\n\n\nShared backboneCountry-level visitor arrivals\n\n\nDeploymentshinyapps.io linked from this homepage\n\n\n\nStart with market structure, continue into recovery clustering, and finish with forecasting. The merged user guide follows that same order and the homepage button opens the deployed app directly.\n\n\n\n\n\n\n\n\n\n\n\n\nStage 1\n\n\n\nVisual Analysis maps source-market concentration and shows how the leading countries change from the pre-COVID baseline to the recovery window.\n\n\n\n\nStage 2\n\n\n\nClustering groups country trajectories by recovery shape, then places one selected priority market back inside the wider pattern landscape.\n\n\n\n\nStage 3\n\n\n\nForecasting compares model families on a holdout window, then projects the selected arrivals series forward beside hotel occupancy, stay length, and room revenue context.\n\n\n\n\n\n\n\n\n\nModule 1\n\n\n\nStart with the market map and the period ranking view. This establishes the source-market structure, the current leaders, and the shift from pre-COVID to recovery.\n\n\n\n\nModule 2\n\n\n\nMove into the guided clustering workspace to inspect pattern quality, representative trajectories, recovery position, and focus-market placement.\n\n\n\n\nModule 3\n\n\n\nFinish in the forecasting studio to compare model families, inspect diagnostics, and explain the winning forecast with tourism-performance context.\n\n\n\n\n\n\n\n\nThe app is designed as one continuous decision surface rather than three isolated demos. The first module establishes market composition. The second module explains recovery behaviour. The third module turns that structure into a forecast narrative. This keeps the website, the Shiny build, and the final poster aligned to one analytical contract.\n\n\n\nWebsiteProposal, poster, prototypes, and team records\n\n\nAppOne integrated Shiny workspace with three linked modules\n\n\nSubmissionSite pages plus deployed shinyapps.io application\n\n\n\n\n\n\n\n Proposal Project framing, scope, and analytical direction   Shiny App Launch page, deployment target, and embedded preview   User Guide Merged walkthrough across visual analysis, clustering, and forecasting   Poster Final project poster in website form   Storyboard UI story and prototype flow across the app   Meeting Minutes Decision trail, task ownership, and pivot history \n\n\n\n\n\nEDA prototype CDA prototype Clustering prototype Forecasting prototype First meeting record Pivot meeting record\n\n\n\n\nThe site and the Shiny application are aligned to one shared arrivals backbone. The common arrival series live in data/raw/visitor_arrivals_full_dataset.xlsx, the EDA and ranking views use processed arrivals tables under data/processed/, clustering reads the coordinated clustering artifacts under data/processed/, and forecasting layers in data/raw/tourism_update.xlsx for optional tourism-performance context.\nThe homepage and the Shiny App page both point directly to the deployed application at https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/.\n\n\n\nquarto preview\nRscript run_app.R 3838"
+    "text": "Singapore Tourism Recovery | Visual Analytics Project\n\n\n\nThis website presents the project as one connected analytical workflow. Visual Analysis establishes source-market structure. Clustering compares recovery trajectories across countries. Forecasting projects the selected series forward and interprets that projection with tourism-performance context. The live Shiny app, the PDF user guide, and the poster all point to the same three-module structure.\n\nOpen Live Shiny App Open User Guide PDF View Poster\n\n\n\nModulesVisual Analysis, Clustering, Forecasting\n\n\nUser guideFinal PDF embedded on site\n\n\nDeploymentshinyapps.io app linked directly from this page\n\n\n\n\n\n\n\nThe clustering workspace is shown here because it is the central comparison surface in the live application.\n\n\n\n\n\n\nAnalytical Flow\n\n\n\nThe project moves from market structure into recovery-pattern comparison and then into projection. Every page on this site supports that reading order.\n\n\n\n\n\nStage 1\n\n\n\nRead the Visual Analysis module first to see which source markets dominate the pre-COVID baseline and how the recovery window reshapes that ranking.\n\n\n\n\nStage 2\n\n\n\nMove to the clustering workspace to compare country trajectories, identify representative recovery groups, and place one focus market back inside the cluster structure.\n\n\n\n\nStage 3\n\n\n\nFinish in the forecasting studio to compare model families, inspect diagnostics, and explain the selected forecast with hotel and tourism context indicators.\n\n\n\n\n\n\n\nInside The App\n\n\n\nThe live application is organized as a continuous workflow instead of separate demos. Each module answers a different analytical question, and together they form one decision surface.\n\n\n\n\n\nModule 1\n\n\n\nUse the map and ranking views to identify the leading visitor markets in the selected period and to compare the pre-COVID structure with the recovery period.\n\n\n\n\nModule 2\n\n\n\nInspect recovery quality, representative trajectories, recovery position, focus-market placement, and exportable membership tables from one guided interface.\n\n\n\n\nModule 3\n\n\n\nRun one forecasting experiment at a time, compare model performance on a holdout window, and read the winning forecast together with diagnostics and context plots.\n\n\n\n\n\n\n\nSite Structure\n\n\n\nThe website is the documentation layer for the project. The pages below connect the final deliverables with the supporting analytical materials.\n\n\n\n\n\nFinal deliverables\n\n Proposal Project framing, scope, and analytical direction \n Shiny App Launch page with direct deployment link and embedded preview \n User Guide PDF Final guide embedded on site and available for download \n Poster Final project poster in website form \n\n\n\nPrototypes and project records\n\n EDA prototype Market structure and pre-COVID versus recovery ranking views \n CDA prototype Supporting comparative analysis and contextual diagnostics \n Clustering prototype Trajectory grouping, recovery position, and cluster summaries \n Forecasting prototype Model comparison, diagnostics, and context interpretation \n UI storyboard Workflow logic and interface planning across the app \n Meeting records Task ownership, pivot decisions, and project history \n\n\n\n\n\n\nDeployment And Local Run\n\n\n\nThe homepage button opens the deployed Shiny application directly. The PDF guide explains the intended reading order, and the same sequence is preserved inside the website.\n\n\n\nLaunch Deployed Shiny App Open User Guide PDF\n\n\n\nLocal websitequarto preview\n\n\nLocal Shiny appRscript run_app.R 3838\n\n\nShared data backbonedata/raw/visitor_arrivals_full_dataset.xlsx"
   },
   {
     "objectID": "index.html#read-the-recovery-story-in-one-pass",
@@ -543,14 +543,14 @@
     "href": "app-guide.html",
     "title": "Shiny App",
     "section": "",
-    "text": "This page is the website entry point for the Shiny application.\nCurrent target: https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\nLaunch Shiny App Open the Shiny app\n\nThe site is currently configured to point to the deployed Shiny application.\n\n\n\nCurrent Target Deployment target\n\nhttps://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\n\nMerged User Guide Open the full guide\n\nOne combined walkthrough for visual analysis, clustering, and forecasting."
+    "text": "This page is the website entry point for the Shiny application.\nCurrent target: https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\nLaunch Shiny App Open the Shiny app\n\nThe site is currently configured to point to the deployed Shiny application.\n\n\n\nCurrent Target Deployment target\n\nhttps://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\n\nUser Guide PDF Open the embedded PDF guide\n\nOne final PDF walkthrough for visual analysis, clustering, and forecasting."
   },
   {
     "objectID": "app-guide.html#open-the-app",
     "href": "app-guide.html#open-the-app",
     "title": "Shiny App",
     "section": "",
-    "text": "This page is the website entry point for the Shiny application.\nCurrent target: https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\nLaunch Shiny App Open the Shiny app\n\nThe site is currently configured to point to the deployed Shiny application.\n\n\n\nCurrent Target Deployment target\n\nhttps://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\n\nMerged User Guide Open the full guide\n\nOne combined walkthrough for visual analysis, clustering, and forecasting."
+    "text": "This page is the website entry point for the Shiny application.\nCurrent target: https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\nLaunch Shiny App Open the Shiny app\n\nThe site is currently configured to point to the deployed Shiny application.\n\n\n\nCurrent Target Deployment target\n\nhttps://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/\n\n\n\nUser Guide PDF Open the embedded PDF guide\n\nOne final PDF walkthrough for visual analysis, clustering, and forecasting."
   },
   {
     "objectID": "app-guide.html#embedded-preview",
@@ -571,7 +571,7 @@
     "href": "app-guide.html#expected-user-flow",
     "title": "Shiny App",
     "section": "Expected User Flow",
-    "text": "Expected User Flow\nStart in Time Series Visual Analysis to understand the market structure. Move to Time Series Clustering to compare country recovery trajectories and isolate one priority market. Finish in Forecasting to compare model performance and interpret the forward projection with context indicators. The detailed workflow is documented on the User Guide page."
+    "text": "Expected User Flow\nStart in Time Series Visual Analysis to understand the market structure. Move to Time Series Clustering to compare country recovery trajectories and isolate one priority market. Finish in Forecasting to compare model performance and interpret the forward projection with context indicators. The detailed workflow is documented on the User Guide PDF page."
   },
   {
     "objectID": "app-guide.html#data-contract",
@@ -845,5 +845,40 @@
     "title": "Team Onboarding",
     "section": "Team Info Cards",
     "text": "Team Info Cards\n\n\nMember 1\nRole: Visual Analysis Owner\nStatus: Xi Zixun\n\n\nMember 2\nRole: Clustering Owner\nStatus: Wang Zhuoran\n\n\nMember 3\nRole: Forecasting Owner\nStatus: Jin Qinhao"
+  },
+  {
+    "objectID": "index.html#three-stages-one-coherent-story",
+    "href": "index.html#three-stages-one-coherent-story",
+    "title": "Project Home",
+    "section": "",
+    "text": "The project moves from market structure into recovery-pattern comparison and then into projection. Every page on this site supports that reading order."
+  },
+  {
+    "objectID": "index.html#one-shiny-workspace-three-linked-modules",
+    "href": "index.html#one-shiny-workspace-three-linked-modules",
+    "title": "Project Home",
+    "section": "",
+    "text": "The live application is organized as a continuous workflow instead of separate demos. Each module answers a different analytical question, and together they form one decision surface."
+  },
+  {
+    "objectID": "index.html#deliverables-prototypes-and-records",
+    "href": "index.html#deliverables-prototypes-and-records",
+    "title": "Project Home",
+    "section": "",
+    "text": "The website is the documentation layer for the project. The pages below connect the final deliverables with the supporting analytical materials."
+  },
+  {
+    "objectID": "index.html#launch-the-live-app-or-inspect-the-source-locally",
+    "href": "index.html#launch-the-live-app-or-inspect-the-source-locally",
+    "title": "Project Home",
+    "section": "",
+    "text": "The homepage button opens the deployed Shiny application directly. The PDF guide explains the intended reading order, and the same sequence is preserved inside the website."
+  },
+  {
+    "objectID": "user-guide.html#user-guide-pdf",
+    "href": "user-guide.html#user-guide-pdf",
+    "title": "User Guide",
+    "section": "",
+    "text": "The final user guide is delivered as a PDF document. Read it in the embedded viewer below, open it in a separate tab with the browser’s PDF controls, or download it directly.\nOpen User Guide PDF in a New Tab Download User Guide PDF"
   }
 ]

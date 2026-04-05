@@ -1,5 +1,6 @@
 ---
 title: "Project Home"
+page-layout: full
 format:
   html:
     toc: false
@@ -14,154 +15,184 @@ if (!nzchar(shiny_app_url)) {
 }
 ```
 
-::: {.home-stage}
-::: {.home-hero}
-::: {.home-hero-copy}
-<div class="home-eyebrow">Singapore Tourism Recovery | Visual Analytics Project</div>
+::: {.landing-home}
+::: {.landing-hero}
+::: {.landing-hero-copy}
+<div class="landing-eyebrow">Singapore Tourism Recovery | Visual Analytics Project</div>
 
 # Singapore Tourism Recovery
 
-This project studies tourism recovery as a comparative time-series problem. The website presents the analytical story, the final PDF user guide explains the full workflow across all three modules, and the deployed Shiny app turns that structure into an interactive workspace for market structure, recovery pattern comparison, and forward projection.
+This website presents the project as one connected analytical workflow. Visual Analysis establishes source-market structure. Clustering compares recovery trajectories across countries. Forecasting projects the selected series forward and interprets that projection with tourism-performance context. The live Shiny app, the PDF user guide, and the poster all point to the same three-module structure.
 
-::: {.home-actions}
+::: {.landing-actions}
 [Open Live Shiny App](`r shiny_app_url`){target="_blank" .btn-home-primary}
 [Open User Guide PDF](./user-guide.html){.btn-home-secondary}
 [View Poster](./poster.html){.btn-home-secondary}
 :::
 
-::: {.home-proof}
-<div><span>Live modules</span><strong>Visual Analysis, Clustering, Forecasting</strong></div>
-<div><span>Shared backbone</span><strong>Country-level visitor arrivals</strong></div>
-<div><span>Deployment</span><strong>shinyapps.io linked from this homepage</strong></div>
-:::
-
-::: {.home-hero-note}
-Start with market structure, continue into recovery clustering, and finish with forecasting. The PDF user guide follows that same order and the homepage button opens the deployed app directly.
+::: {.landing-meta}
+<div><span>Modules</span><strong>Visual Analysis, Clustering, Forecasting</strong></div>
+<div><span>User guide</span><strong>Final PDF embedded on site</strong></div>
+<div><span>Deployment</span><strong>shinyapps.io app linked directly from this page</strong></div>
 :::
 :::
 
-::: {.home-hero-media}
+::: {.landing-hero-visual}
 ![](guide-assets/home/clustering-dashboard-hero.png){.img-fluid}
+<div class="landing-visual-note">The clustering workspace is shown here because it is the central comparison surface in the live application.</div>
 :::
 :::
 
-## Read The Recovery Story In One Pass
+::: {.landing-ribbon}
+::: {.landing-section-head}
+<div class="landing-kicker">Analytical Flow</div>
+## Three stages, one coherent story
 
-::: {.home-sequence}
-::: {.home-sequence-step}
-<div class="home-step-kicker">Stage 1</div>
+The project moves from market structure into recovery-pattern comparison and then into projection. Every page on this site supports that reading order.
+:::
+
+::: {.landing-ribbon-grid}
+::: {.landing-ribbon-item}
+<div class="landing-kicker">Stage 1</div>
 ### Market Structure
 
-Visual Analysis maps source-market concentration and shows how the leading countries change from the pre-COVID baseline to the recovery window.
+Read the Visual Analysis module first to see which source markets dominate the pre-COVID baseline and how the recovery window reshapes that ranking.
 :::
 
-::: {.home-sequence-step}
-<div class="home-step-kicker">Stage 2</div>
+::: {.landing-ribbon-item}
+<div class="landing-kicker">Stage 2</div>
 ### Recovery Patterns
 
-Clustering groups country trajectories by recovery shape, then places one selected priority market back inside the wider pattern landscape.
+Move to the clustering workspace to compare country trajectories, identify representative recovery groups, and place one focus market back inside the cluster structure.
 :::
 
-::: {.home-sequence-step}
-<div class="home-step-kicker">Stage 3</div>
+::: {.landing-ribbon-item}
+<div class="landing-kicker">Stage 3</div>
 ### Forward Projection
 
-Forecasting compares model families on a holdout window, then projects the selected arrivals series forward beside hotel occupancy, stay length, and room revenue context.
+Finish in the forecasting studio to compare model families, inspect diagnostics, and explain the selected forecast with hotel and tourism context indicators.
+:::
 :::
 :::
 
-## One Workflow, Three Modules
+::: {.landing-modules}
+::: {.landing-section-head}
+<div class="landing-kicker">Inside The App</div>
+## One Shiny workspace, three linked modules
 
-::: {.home-workflow}
-::: {.home-workflow-step}
-<div class="home-step-kicker">Module 1</div>
+The live application is organized as a continuous workflow instead of separate demos. Each module answers a different analytical question, and together they form one decision surface.
+:::
+
+::: {.landing-modules-grid}
+::: {.landing-module}
+<div class="landing-kicker">Module 1</div>
 ### Time Series Visual Analysis
 
-Start with the market map and the period ranking view. This establishes the source-market structure, the current leaders, and the shift from pre-COVID to recovery.
+Use the map and ranking views to identify the leading visitor markets in the selected period and to compare the pre-COVID structure with the recovery period.
 :::
 
-::: {.home-workflow-step}
-<div class="home-step-kicker">Module 2</div>
+::: {.landing-module}
+<div class="landing-kicker">Module 2</div>
 ### Time Series Clustering
 
-Move into the guided clustering workspace to inspect pattern quality, representative trajectories, recovery position, and focus-market placement.
+Inspect recovery quality, representative trajectories, recovery position, focus-market placement, and exportable membership tables from one guided interface.
 :::
 
-::: {.home-workflow-step}
-<div class="home-step-kicker">Module 3</div>
+::: {.landing-module}
+<div class="landing-kicker">Module 3</div>
 ### Forecasting
 
-Finish in the forecasting studio to compare model families, inspect diagnostics, and explain the winning forecast with tourism-performance context.
+Run one forecasting experiment at a time, compare model performance on a holdout window, and read the winning forecast together with diagnostics and context plots.
 :::
-:::
-
-## What The App Delivers
-
-::: {.home-editorial-band}
-::: {.home-editorial-copy}
-The app is designed as one continuous decision surface rather than three isolated demos. The first module establishes market composition. The second module explains recovery behaviour. The third module turns that structure into a forecast narrative. This keeps the website, the Shiny build, and the final poster aligned to one analytical contract.
-:::
-
-::: {.home-editorial-proof}
-<div><span>Website</span><strong>Proposal, poster, prototypes, and team records</strong></div>
-<div><span>App</span><strong>One integrated Shiny workspace with three linked modules</strong></div>
-<div><span>Submission</span><strong>Site pages plus deployed shinyapps.io application</strong></div>
 :::
 :::
 
-## Deliverables On This Site
+::: {.landing-resources}
+::: {.landing-section-head}
+<div class="landing-kicker">Site Structure</div>
+## Deliverables, prototypes, and records
 
-::: {.home-deliverables}
-<a class="home-deliverable" href="./Proposal/Proposal.html">
+The website is the documentation layer for the project. The pages below connect the final deliverables with the supporting analytical materials.
+:::
+
+::: {.landing-resources-grid}
+::: {.landing-resource-column}
+<div class="landing-column-title">Final deliverables</div>
+
+<a class="landing-resource-link" href="./Proposal/Proposal.html">
 <span>Proposal</span>
 <strong>Project framing, scope, and analytical direction</strong>
 </a>
-<a class="home-deliverable" href="./app-guide.html">
+
+<a class="landing-resource-link" href="./app-guide.html">
 <span>Shiny App</span>
-<strong>Launch page, deployment target, and embedded preview</strong>
+<strong>Launch page with direct deployment link and embedded preview</strong>
 </a>
-<a class="home-deliverable" href="./user-guide.html">
-<span>User Guide</span>
-<strong>Embedded PDF walkthrough across visual analysis, clustering, and forecasting</strong>
+
+<a class="landing-resource-link" href="./user-guide.html">
+<span>User Guide PDF</span>
+<strong>Final guide embedded on site and available for download</strong>
 </a>
-<a class="home-deliverable" href="./poster.html">
+
+<a class="landing-resource-link" href="./poster.html">
 <span>Poster</span>
 <strong>Final project poster in website form</strong>
 </a>
-<a class="home-deliverable" href="./prototype/ui-storyboard.html">
-<span>Storyboard</span>
-<strong>UI story and prototype flow across the app</strong>
-</a>
-<a class="home-deliverable" href="./Meeting%20Minutes/first-meeting-record.html">
-<span>Meeting Minutes</span>
-<strong>Decision trail, task ownership, and pivot history</strong>
-</a>
 :::
 
-## Analysis Pages And Prototypes
+::: {.landing-resource-column}
+<div class="landing-column-title">Prototypes and project records</div>
 
-::: {.home-link-grid}
-<a href="./prototype/EDA.html">EDA prototype</a>
-<a href="./prototype/CDA.html">CDA prototype</a>
-<a href="./prototype/module-cluster.html">Clustering prototype</a>
-<a href="./prototype/forecasting.html">Forecasting prototype</a>
-<a href="./Meeting%20Minutes/first-meeting-record.html">First meeting record</a>
-<a href="./Meeting%20Minutes/second-meeting-record.html">Pivot meeting record</a>
+<a class="landing-resource-link" href="./prototype/EDA.html">
+<span>EDA prototype</span>
+<strong>Market structure and pre-COVID versus recovery ranking views</strong>
+</a>
+
+<a class="landing-resource-link" href="./prototype/CDA.html">
+<span>CDA prototype</span>
+<strong>Supporting comparative analysis and contextual diagnostics</strong>
+</a>
+
+<a class="landing-resource-link" href="./prototype/module-cluster.html">
+<span>Clustering prototype</span>
+<strong>Trajectory grouping, recovery position, and cluster summaries</strong>
+</a>
+
+<a class="landing-resource-link" href="./prototype/forecasting.html">
+<span>Forecasting prototype</span>
+<strong>Model comparison, diagnostics, and context interpretation</strong>
+</a>
+
+<a class="landing-resource-link" href="./prototype/ui-storyboard.html">
+<span>UI storyboard</span>
+<strong>Workflow logic and interface planning across the app</strong>
+</a>
+
+<a class="landing-resource-link" href="./Meeting%20Minutes/first-meeting-record.html">
+<span>Meeting records</span>
+<strong>Task ownership, pivot decisions, and project history</strong>
+</a>
+:::
+:::
 :::
 
-## Data Contract And Deployment
+::: {.landing-final}
+::: {.landing-final-copy}
+<div class="landing-kicker">Deployment And Local Run</div>
+## Launch the live app or inspect the source locally
 
-The site and the Shiny application are aligned to one shared arrivals backbone. The common arrival series live in `data/raw/visitor_arrivals_full_dataset.xlsx`, the EDA and ranking views use processed arrivals tables under `data/processed/`, clustering reads the coordinated clustering artifacts under `data/processed/`, and forecasting layers in `data/raw/tourism_update.xlsx` for optional tourism-performance context.
+The homepage button opens the deployed Shiny application directly. The PDF guide explains the intended reading order, and the same sequence is preserved inside the website.
+:::
 
-The homepage and the Shiny App page both point directly to the deployed application at `r shiny_app_url`.
+::: {.landing-final-actions}
+[Launch Deployed Shiny App](`r shiny_app_url`){target="_blank" .btn-home-primary}
+[Open User Guide PDF](./user-guide.html){.btn-home-secondary}
+:::
 
-## Local Run
-
-```bash
-quarto preview
-```
-
-```bash
-Rscript run_app.R 3838
-```
+::: {.landing-runtime}
+<div><span>Local website</span><strong>`quarto preview`</strong></div>
+<div><span>Local Shiny app</span><strong>`Rscript run_app.R 3838`</strong></div>
+<div><span>Shared data backbone</span><strong>`data/raw/visitor_arrivals_full_dataset.xlsx`</strong></div>
+:::
+:::
 :::

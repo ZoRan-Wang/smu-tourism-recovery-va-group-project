@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -75,7 +40,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c9c96dc1be9e9953d7f8aab3bf5559c3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2fa48a1f112ceaa125c4fb2cf43321c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed page-home fullcontent quarto-light">
+<body class="nav-fixed page-home quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -207,12 +172,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -221,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -233,143 +198,176 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="home-stage">
-<div class="home-hero">
-<div class="home-hero-copy">
-<div class="home-eyebrow">
+<div class="landing-home">
+<div class="landing-hero">
+<div class="landing-hero-copy">
+<div class="landing-eyebrow">
 Singapore Tourism Recovery | Visual Analytics Project
 </div>
 <section id="singapore-tourism-recovery" class="level1">
 <h1>Singapore Tourism Recovery</h1>
-<p>This project studies tourism recovery as a comparative time-series problem. The website presents the analytical story, the final PDF user guide explains the full workflow across all three modules, and the deployed Shiny app turns that structure into an interactive workspace for market structure, recovery pattern comparison, and forward projection.</p>
-<div class="home-actions">
+<p>This website presents the project as one connected analytical workflow. Visual Analysis establishes source-market structure. Clustering compares recovery trajectories across countries. Forecasting projects the selected series forward and interprets that projection with tourism-performance context. The live Shiny app, the PDF user guide, and the poster all point to the same three-module structure.</p>
+<div class="landing-actions">
 <p><a href="https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/" class="btn-home-primary" target="_blank">Open Live Shiny App</a> <a href="./user-guide.html" class="btn-home-secondary">Open User Guide PDF</a> <a href="./poster.html" class="btn-home-secondary">View Poster</a></p>
 </div>
-<div class="home-proof">
+<div class="landing-meta">
 <div>
-<span>Live modules</span><strong>Visual Analysis, Clustering, Forecasting</strong>
-</div>
-<div>
-<span>Shared backbone</span><strong>Country-level visitor arrivals</strong>
+<span>Modules</span><strong>Visual Analysis, Clustering, Forecasting</strong>
 </div>
 <div>
-<span>Deployment</span><strong>shinyapps.io linked from this homepage</strong>
+<span>User guide</span><strong>Final PDF embedded on site</strong>
 </div>
+<div>
+<span>Deployment</span><strong>shinyapps.io app linked directly from this page</strong>
 </div>
-<div class="home-hero-note">
-<p>Start with market structure, continue into recovery clustering, and finish with forecasting. The PDF user guide follows that same order and the homepage button opens the deployed app directly.</p>
 </div>
 </section>
 </div>
-<div class="home-hero-media">
-<p><img src="guide-assets/home/clustering-dashboard-hero.png" class="img-fluid"></p>
+<div class="landing-hero-visual">
+<img src="guide-assets/home/clustering-dashboard-hero.png" class="img-fluid">
+<div class="landing-visual-note">
+The clustering workspace is shown here because it is the central comparison surface in the live application.
 </div>
 </div>
-<section id="read-the-recovery-story-in-one-pass" class="level2">
-<h2 class="anchored" data-anchor-id="read-the-recovery-story-in-one-pass">Read The Recovery Story In One Pass</h2>
-<div class="home-sequence">
-<div class="home-sequence-step">
-<div class="home-step-kicker">
+</div>
+<div class="landing-ribbon">
+<div class="landing-section-head">
+<div class="landing-kicker">
+Analytical Flow
+</div>
+<section id="three-stages-one-coherent-story" class="level2">
+<h2 class="anchored" data-anchor-id="three-stages-one-coherent-story">Three stages, one coherent story</h2>
+<p>The project moves from market structure into recovery-pattern comparison and then into projection. Every page on this site supports that reading order.</p>
+</section>
+</div>
+<div class="landing-ribbon-grid">
+<div class="landing-ribbon-item">
+<div class="landing-kicker">
 Stage 1
 </div>
 <section id="market-structure" class="level3">
 <h3 class="anchored" data-anchor-id="market-structure">Market Structure</h3>
-<p>Visual Analysis maps source-market concentration and shows how the leading countries change from the pre-COVID baseline to the recovery window.</p>
+<p>Read the Visual Analysis module first to see which source markets dominate the pre-COVID baseline and how the recovery window reshapes that ranking.</p>
 </section>
 </div>
-<div class="home-sequence-step">
-<div class="home-step-kicker">
+<div class="landing-ribbon-item">
+<div class="landing-kicker">
 Stage 2
 </div>
 <section id="recovery-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="recovery-patterns">Recovery Patterns</h3>
-<p>Clustering groups country trajectories by recovery shape, then places one selected priority market back inside the wider pattern landscape.</p>
+<p>Move to the clustering workspace to compare country trajectories, identify representative recovery groups, and place one focus market back inside the cluster structure.</p>
 </section>
 </div>
-<div class="home-sequence-step">
-<div class="home-step-kicker">
+<div class="landing-ribbon-item">
+<div class="landing-kicker">
 Stage 3
 </div>
 <section id="forward-projection" class="level3">
 <h3 class="anchored" data-anchor-id="forward-projection">Forward Projection</h3>
-<p>Forecasting compares model families on a holdout window, then projects the selected arrivals series forward beside hotel occupancy, stay length, and room revenue context.</p>
+<p>Finish in the forecasting studio to compare model families, inspect diagnostics, and explain the selected forecast with hotel and tourism context indicators.</p>
 </section>
 </div>
 </div>
+</div>
+<div class="landing-modules">
+<div class="landing-section-head">
+<div class="landing-kicker">
+Inside The App
+</div>
+<section id="one-shiny-workspace-three-linked-modules" class="level2">
+<h2 class="anchored" data-anchor-id="one-shiny-workspace-three-linked-modules">One Shiny workspace, three linked modules</h2>
+<p>The live application is organized as a continuous workflow instead of separate demos. Each module answers a different analytical question, and together they form one decision surface.</p>
 </section>
-<section id="one-workflow-three-modules" class="level2">
-<h2 class="anchored" data-anchor-id="one-workflow-three-modules">One Workflow, Three Modules</h2>
-<div class="home-workflow">
-<div class="home-workflow-step">
-<div class="home-step-kicker">
+</div>
+<div class="landing-modules-grid">
+<div class="landing-module">
+<div class="landing-kicker">
 Module 1
 </div>
 <section id="time-series-visual-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="time-series-visual-analysis">Time Series Visual Analysis</h3>
-<p>Start with the market map and the period ranking view. This establishes the source-market structure, the current leaders, and the shift from pre-COVID to recovery.</p>
+<p>Use the map and ranking views to identify the leading visitor markets in the selected period and to compare the pre-COVID structure with the recovery period.</p>
 </section>
 </div>
-<div class="home-workflow-step">
-<div class="home-step-kicker">
+<div class="landing-module">
+<div class="landing-kicker">
 Module 2
 </div>
 <section id="time-series-clustering" class="level3">
 <h3 class="anchored" data-anchor-id="time-series-clustering">Time Series Clustering</h3>
-<p>Move into the guided clustering workspace to inspect pattern quality, representative trajectories, recovery position, and focus-market placement.</p>
+<p>Inspect recovery quality, representative trajectories, recovery position, focus-market placement, and exportable membership tables from one guided interface.</p>
 </section>
 </div>
-<div class="home-workflow-step">
-<div class="home-step-kicker">
+<div class="landing-module">
+<div class="landing-kicker">
 Module 3
 </div>
 <section id="forecasting" class="level3">
 <h3 class="anchored" data-anchor-id="forecasting">Forecasting</h3>
-<p>Finish in the forecasting studio to compare model families, inspect diagnostics, and explain the winning forecast with tourism-performance context.</p>
+<p>Run one forecasting experiment at a time, compare model performance on a holdout window, and read the winning forecast together with diagnostics and context plots.</p>
 </section>
 </div>
 </div>
-</section>
-<section id="what-the-app-delivers" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-app-delivers">What The App Delivers</h2>
-<div class="home-editorial-band">
-<div class="home-editorial-copy">
-<p>The app is designed as one continuous decision surface rather than three isolated demos. The first module establishes market composition. The second module explains recovery behaviour. The third module turns that structure into a forecast narrative. This keeps the website, the Shiny build, and the final poster aligned to one analytical contract.</p>
 </div>
-<div class="home-editorial-proof">
+<div class="landing-resources">
+<div class="landing-section-head">
+<div class="landing-kicker">
+Site Structure
+</div>
+<section id="deliverables-prototypes-and-records" class="level2">
+<h2 class="anchored" data-anchor-id="deliverables-prototypes-and-records">Deliverables, prototypes, and records</h2>
+<p>The website is the documentation layer for the project. The pages below connect the final deliverables with the supporting analytical materials.</p>
+</section>
+</div>
+<div class="landing-resources-grid">
+<div class="landing-resource-column">
+<div class="landing-column-title">
+Final deliverables
+</div>
+<p><a class="landing-resource-link" href="./Proposal/Proposal.html"> <span>Proposal</span> <strong>Project framing, scope, and analytical direction</strong> </a></p>
+<p><a class="landing-resource-link" href="./app-guide.html"> <span>Shiny App</span> <strong>Launch page with direct deployment link and embedded preview</strong> </a></p>
+<p><a class="landing-resource-link" href="./user-guide.html"> <span>User Guide PDF</span> <strong>Final guide embedded on site and available for download</strong> </a></p>
+<p><a class="landing-resource-link" href="./poster.html"> <span>Poster</span> <strong>Final project poster in website form</strong> </a></p>
+</div>
+<div class="landing-resource-column">
+<div class="landing-column-title">
+Prototypes and project records
+</div>
+<p><a class="landing-resource-link" href="./prototype/EDA.html"> <span>EDA prototype</span> <strong>Market structure and pre-COVID versus recovery ranking views</strong> </a></p>
+<p><a class="landing-resource-link" href="./prototype/CDA.html"> <span>CDA prototype</span> <strong>Supporting comparative analysis and contextual diagnostics</strong> </a></p>
+<p><a class="landing-resource-link" href="./prototype/module-cluster.html"> <span>Clustering prototype</span> <strong>Trajectory grouping, recovery position, and cluster summaries</strong> </a></p>
+<p><a class="landing-resource-link" href="./prototype/forecasting.html"> <span>Forecasting prototype</span> <strong>Model comparison, diagnostics, and context interpretation</strong> </a></p>
+<p><a class="landing-resource-link" href="./prototype/ui-storyboard.html"> <span>UI storyboard</span> <strong>Workflow logic and interface planning across the app</strong> </a></p>
+<p><a class="landing-resource-link" href="./Meeting Minutes/first-meeting-record.html"> <span>Meeting records</span> <strong>Task ownership, pivot decisions, and project history</strong> </a></p>
+</div>
+</div>
+</div>
+<div class="landing-final">
+<div class="landing-final-copy">
+<div class="landing-kicker">
+Deployment And Local Run
+</div>
+<section id="launch-the-live-app-or-inspect-the-source-locally" class="level2">
+<h2 class="anchored" data-anchor-id="launch-the-live-app-or-inspect-the-source-locally">Launch the live app or inspect the source locally</h2>
+<p>The homepage button opens the deployed Shiny application directly. The PDF guide explains the intended reading order, and the same sequence is preserved inside the website.</p>
+</section>
+</div>
+<div class="landing-final-actions">
+<p><a href="https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/" class="btn-home-primary" target="_blank">Launch Deployed Shiny App</a> <a href="./user-guide.html" class="btn-home-secondary">Open User Guide PDF</a></p>
+</div>
+<div class="landing-runtime">
 <div>
-<span>Website</span><strong>Proposal, poster, prototypes, and team records</strong>
+<span>Local website</span><strong><code>quarto preview</code></strong>
 </div>
 <div>
-<span>App</span><strong>One integrated Shiny workspace with three linked modules</strong>
+<span>Local Shiny app</span><strong><code>Rscript run_app.R 3838</code></strong>
 </div>
 <div>
-<span>Submission</span><strong>Site pages plus deployed shinyapps.io application</strong>
+<span>Shared data backbone</span><strong><code>data/raw/visitor_arrivals_full_dataset.xlsx</code></strong>
 </div>
 </div>
 </div>
-</section>
-<section id="deliverables-on-this-site" class="level2">
-<h2 class="anchored" data-anchor-id="deliverables-on-this-site">Deliverables On This Site</h2>
-<div class="home-deliverables">
-<p><a class="home-deliverable" href="./Proposal/Proposal.html"> <span>Proposal</span> <strong>Project framing, scope, and analytical direction</strong> </a> <a class="home-deliverable" href="./app-guide.html"> <span>Shiny App</span> <strong>Launch page, deployment target, and embedded preview</strong> </a> <a class="home-deliverable" href="./user-guide.html"> <span>User Guide</span> <strong>Embedded PDF walkthrough across visual analysis, clustering, and forecasting</strong> </a> <a class="home-deliverable" href="./poster.html"> <span>Poster</span> <strong>Final project poster in website form</strong> </a> <a class="home-deliverable" href="./prototype/ui-storyboard.html"> <span>Storyboard</span> <strong>UI story and prototype flow across the app</strong> </a> <a class="home-deliverable" href="./Meeting Minutes/first-meeting-record.html"> <span>Meeting Minutes</span> <strong>Decision trail, task ownership, and pivot history</strong> </a></p>
-</div>
-</section>
-<section id="analysis-pages-and-prototypes" class="level2">
-<h2 class="anchored" data-anchor-id="analysis-pages-and-prototypes">Analysis Pages And Prototypes</h2>
-<div class="home-link-grid">
-<p><a href="./prototype/EDA.html">EDA prototype</a> <a href="./prototype/CDA.html">CDA prototype</a> <a href="./prototype/module-cluster.html">Clustering prototype</a> <a href="./prototype/forecasting.html">Forecasting prototype</a> <a href="./Meeting Minutes/first-meeting-record.html">First meeting record</a> <a href="./Meeting Minutes/second-meeting-record.html">Pivot meeting record</a></p>
-</div>
-</section>
-<section id="data-contract-and-deployment" class="level2">
-<h2 class="anchored" data-anchor-id="data-contract-and-deployment">Data Contract And Deployment</h2>
-<p>The site and the Shiny application are aligned to one shared arrivals backbone. The common arrival series live in <code>data/raw/visitor_arrivals_full_dataset.xlsx</code>, the EDA and ranking views use processed arrivals tables under <code>data/processed/</code>, clustering reads the coordinated clustering artifacts under <code>data/processed/</code>, and forecasting layers in <code>data/raw/tourism_update.xlsx</code> for optional tourism-performance context.</p>
-<p>The homepage and the Shiny App page both point directly to the deployed application at https://zrwang2025mitbsmuedusg.shinyapps.io/singapore-tourism-va/.</p>
-</section>
-<section id="local-run" class="level2">
-<h2 class="anchored" data-anchor-id="local-run">Local Run</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run_app.R 3838</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
 </div>
 
 
