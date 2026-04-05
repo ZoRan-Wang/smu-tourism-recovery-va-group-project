@@ -59,6 +59,8 @@ Open the **Forecasting** tab when you want to project one country-level arrivals
 
 ### 3.1 Configure the controls
 
+Use the left control panel to set up one forecasting run. The panel controls the inputs for the next run; after changing the setup, click **Run Forecasting** to refresh the results shown in the tabs.
+
 Use the left control panel to choose:
 
 1. **Country arrival series**  
@@ -91,9 +93,21 @@ Use the left control panel to choose:
    - `MAE`
    - `MAPE`
 
-After setting the controls, click **Run Forecasting**. The module does not auto-run on page load.
+After setting or changing the controls, click **Run Forecasting**. The module does not auto-run on page load, and updated model choices or ranking rules are applied only when a new run is triggered.
 
-### 3.2 Forecast tab
+### 3.2 What needs a rerun
+
+The following controls affect the forecasting results and therefore require a fresh click on **Run Forecasting**:
+
+- `Country arrival series`
+- `Forecast engine`
+- `Test / forecast horizon`
+- `Models to compare`
+- `Model ranking metric`
+
+If you change the model set or ranking metric, the **Forward forecast** should be interpreted only after rerunning the forecasting workflow. This keeps the future projection aligned with the current best holdout model.
+
+### 3.3 Forecast tab
 
 The **Forecast** tab is the main results page. It contains four panels:
 
@@ -106,23 +120,24 @@ The **Forecast** tab is the main results page. It contains four panels:
 #### Forward forecast
 
 - projects the selected country series into future months,
-- always uses the current best holdout model under the chosen ranking metric,
-- updates when you change the ranking metric or the set of compared models.
+- uses the current best holdout model under the chosen ranking metric **from the most recent forecasting run**,
+- should be refreshed by clicking **Run Forecasting** after you change the ranking metric or the set of compared models.
 
 #### Accuracy summary
 
 - provides a text summary of each model’s `RMSE`, `MAE`, and `MAPE`,
 - ranks the models by the metric chosen in the control panel,
-- makes it easier to compare models without reading a dense data table.
+- makes it easier to compare models without reading a dense data table,
+- should be read together with the selected `Model ranking metric`.
 
 #### Series summary
 
 - reports the observation count,
 - reports the date coverage,
 - confirms that the scope is country-level arrivals,
-- lists the models currently included in the run.
+- lists the models currently included in the most recent run.
 
-### 3.3 Model Studio tab
+### 3.4 Model Studio tab
 
 The **Model Studio** tab is designed to explain *why* one model wins.
 
@@ -132,7 +147,8 @@ It contains:
 
 - ranks candidate models by the selected metric,
 - lets you switch between `RMSE`, `MAE`, and `MAPE`,
-- shows how the ranking changes under different evaluation rules.
+- shows how the ranking changes under different evaluation rules,
+- reflects the latest forecasting run, so rerun the workflow if you change the candidate model set.
 
 #### Holdout residual comparison
 
@@ -146,15 +162,17 @@ It contains:
 - shows the workflow that actually executed,
 - reports whether `fallback` and `modeltime` are available,
 - reports missing packages when `modeltime` is unavailable,
-- explains strict failure when `Require modeltime` is selected.
+- explains strict failure when `Require modeltime` is selected,
+- helps users understand why a run did or did not complete successfully.
 
 #### Model interpretation
 
 - identifies the current winning model,
 - explains the gap to the next candidate under the selected metric,
-- reminds users how to interpret `Seasonal Naive`, `ETS`, and `ARIMA`.
+- reminds users how to interpret `Seasonal Naive`, `ETS`, and `ARIMA`,
+- should be reread after each new forecasting run because the winning model can change with the selected metric.
 
-### 3.4 Diagnostics tab
+### 3.5 Diagnostics tab
 
 The **Diagnostics** tab focuses on the structure of the selected time series.
 
@@ -178,9 +196,10 @@ It includes:
 #### Split summary
 
 - reports how the training and testing windows were divided,
-- confirms the date span and observation counts for each segment.
+- confirms the date span and observation counts for each segment,
+- changes when the holdout horizon changes and you rerun forecasting.
 
-### 3.5 Context tab
+### 3.6 Context tab
 
 The **Context** tab connects the arrivals forecast to broader tourism performance.
 
@@ -190,7 +209,8 @@ It includes:
 
 - overlays the selected arrivals series with hotel occupancy, stay length, and room revenue,
 - normalizes the series so turning points and relative movement can be compared,
-- supports business interpretation rather than direct value comparison.
+- supports business interpretation rather than direct value comparison,
+- updates immediately when the context indicator checkboxes are changed because this panel is driven directly from the selected series and indicator settings.
 
 #### Interpretation guide
 
@@ -204,9 +224,10 @@ This guide reminds users to read the module in the following order:
 ## Interpretation Tips
 
 1. Do not start from the forward forecast alone. Read the holdout comparison first.
-2. Use the selected ranking metric consistently when discussing the best model.
-3. Use diagnostics to explain whether the winning model is driven by trend, seasonality, or irregular variation.
-4. Use the context chart to connect forecast movement with tourism business indicators, rather than treating arrivals in isolation.
+2. If you change the model set or ranking metric, rerun forecasting before discussing the forward forecast.
+3. Use the selected ranking metric consistently when discussing the best model.
+4. Use diagnostics to explain whether the winning model is driven by trend, seasonality, or irregular variation.
+5. Use the context chart to connect forecast movement with tourism business indicators, rather than treating arrivals in isolation.
 
 ## Recommended Presentation Flow
 
@@ -217,8 +238,9 @@ When demonstrating the app:
 3. click **Run Forecasting**,
 4. explain the **Forecast** tab first,
 5. use **Model Studio** to justify the chosen model,
-6. use **Diagnostics** to explain the time-series structure,
-7. finish with **Context** to link the forecast to tourism performance.
+6. if you change the ranking metric or model set, click **Run Forecasting** again before discussing the updated forward projection,
+7. use **Diagnostics** to explain the time-series structure,
+8. finish with **Context** to link the forecast to tourism performance.
 
 ## Summary
 

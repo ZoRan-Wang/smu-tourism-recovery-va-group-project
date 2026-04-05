@@ -180,10 +180,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#step-3-use-the-forecasting-module" id="toc-step-3-use-the-forecasting-module" class="nav-link" data-scroll-target="#step-3-use-the-forecasting-module">Step 3: Use the Forecasting Module</a>
   <ul class="collapse">
   <li><a href="#configure-the-controls" id="toc-configure-the-controls" class="nav-link" data-scroll-target="#configure-the-controls">3.1 Configure the controls</a></li>
-  <li><a href="#forecast-tab" id="toc-forecast-tab" class="nav-link" data-scroll-target="#forecast-tab">3.2 Forecast tab</a></li>
-  <li><a href="#model-studio-tab" id="toc-model-studio-tab" class="nav-link" data-scroll-target="#model-studio-tab">3.3 Model Studio tab</a></li>
-  <li><a href="#diagnostics-tab" id="toc-diagnostics-tab" class="nav-link" data-scroll-target="#diagnostics-tab">3.4 Diagnostics tab</a></li>
-  <li><a href="#context-tab" id="toc-context-tab" class="nav-link" data-scroll-target="#context-tab">3.5 Context tab</a></li>
+  <li><a href="#what-needs-a-rerun" id="toc-what-needs-a-rerun" class="nav-link" data-scroll-target="#what-needs-a-rerun">3.2 What needs a rerun</a></li>
+  <li><a href="#forecast-tab" id="toc-forecast-tab" class="nav-link" data-scroll-target="#forecast-tab">3.3 Forecast tab</a></li>
+  <li><a href="#model-studio-tab" id="toc-model-studio-tab" class="nav-link" data-scroll-target="#model-studio-tab">3.4 Model Studio tab</a></li>
+  <li><a href="#diagnostics-tab" id="toc-diagnostics-tab" class="nav-link" data-scroll-target="#diagnostics-tab">3.5 Diagnostics tab</a></li>
+  <li><a href="#context-tab" id="toc-context-tab" class="nav-link" data-scroll-target="#context-tab">3.6 Context tab</a></li>
   </ul></li>
   <li><a href="#interpretation-tips" id="toc-interpretation-tips" class="nav-link" data-scroll-target="#interpretation-tips">Interpretation Tips</a></li>
   <li><a href="#recommended-presentation-flow" id="toc-recommended-presentation-flow" class="nav-link" data-scroll-target="#recommended-presentation-flow">Recommended Presentation Flow</a></li>
@@ -270,6 +271,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Open the <strong>Forecasting</strong> tab when you want to project one country-level arrivals series forward and compare forecasting models on a time-aware holdout window.</p>
 <section id="configure-the-controls" class="level3">
 <h3 class="anchored" data-anchor-id="configure-the-controls">3.1 Configure the controls</h3>
+<p>Use the left control panel to set up one forecasting run. The panel controls the inputs for the next run; after changing the setup, click <strong>Run Forecasting</strong> to refresh the results shown in the tabs.</p>
 <p>Use the left control panel to choose:</p>
 <ol type="1">
 <li><p><strong>Country arrival series</strong><br>
@@ -305,10 +307,22 @@ Choose which metric decides the winning model:</p>
 <li><code>MAPE</code></li>
 </ul></li>
 </ol>
-<p>After setting the controls, click <strong>Run Forecasting</strong>. The module does not auto-run on page load.</p>
+<p>After setting or changing the controls, click <strong>Run Forecasting</strong>. The module does not auto-run on page load, and updated model choices or ranking rules are applied only when a new run is triggered.</p>
+</section>
+<section id="what-needs-a-rerun" class="level3">
+<h3 class="anchored" data-anchor-id="what-needs-a-rerun">3.2 What needs a rerun</h3>
+<p>The following controls affect the forecasting results and therefore require a fresh click on <strong>Run Forecasting</strong>:</p>
+<ul>
+<li><code>Country arrival series</code></li>
+<li><code>Forecast engine</code></li>
+<li><code>Test / forecast horizon</code></li>
+<li><code>Models to compare</code></li>
+<li><code>Model ranking metric</code></li>
+</ul>
+<p>If you change the model set or ranking metric, the <strong>Forward forecast</strong> should be interpreted only after rerunning the forecasting workflow. This keeps the future projection aligned with the current best holdout model.</p>
 </section>
 <section id="forecast-tab" class="level3">
-<h3 class="anchored" data-anchor-id="forecast-tab">3.2 Forecast tab</h3>
+<h3 class="anchored" data-anchor-id="forecast-tab">3.3 Forecast tab</h3>
 <p>The <strong>Forecast</strong> tab is the main results page. It contains four panels:</p>
 <section id="holdout-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="holdout-comparison">Holdout comparison</h4>
@@ -322,8 +336,8 @@ Choose which metric decides the winning model:</p>
 <h4 class="anchored" data-anchor-id="forward-forecast">Forward forecast</h4>
 <ul>
 <li>projects the selected country series into future months,</li>
-<li>always uses the current best holdout model under the chosen ranking metric,</li>
-<li>updates when you change the ranking metric or the set of compared models.</li>
+<li>uses the current best holdout model under the chosen ranking metric <strong>from the most recent forecasting run</strong>,</li>
+<li>should be refreshed by clicking <strong>Run Forecasting</strong> after you change the ranking metric or the set of compared models.</li>
 </ul>
 </section>
 <section id="accuracy-summary" class="level4">
@@ -331,7 +345,8 @@ Choose which metric decides the winning model:</p>
 <ul>
 <li>provides a text summary of each model’s <code>RMSE</code>, <code>MAE</code>, and <code>MAPE</code>,</li>
 <li>ranks the models by the metric chosen in the control panel,</li>
-<li>makes it easier to compare models without reading a dense data table.</li>
+<li>makes it easier to compare models without reading a dense data table,</li>
+<li>should be read together with the selected <code>Model ranking metric</code>.</li>
 </ul>
 </section>
 <section id="series-summary" class="level4">
@@ -340,12 +355,12 @@ Choose which metric decides the winning model:</p>
 <li>reports the observation count,</li>
 <li>reports the date coverage,</li>
 <li>confirms that the scope is country-level arrivals,</li>
-<li>lists the models currently included in the run.</li>
+<li>lists the models currently included in the most recent run.</li>
 </ul>
 </section>
 </section>
 <section id="model-studio-tab" class="level3">
-<h3 class="anchored" data-anchor-id="model-studio-tab">3.3 Model Studio tab</h3>
+<h3 class="anchored" data-anchor-id="model-studio-tab">3.4 Model Studio tab</h3>
 <p>The <strong>Model Studio</strong> tab is designed to explain <em>why</em> one model wins.</p>
 <p>It contains:</p>
 <section id="model-leaderboard" class="level4">
@@ -353,7 +368,8 @@ Choose which metric decides the winning model:</p>
 <ul>
 <li>ranks candidate models by the selected metric,</li>
 <li>lets you switch between <code>RMSE</code>, <code>MAE</code>, and <code>MAPE</code>,</li>
-<li>shows how the ranking changes under different evaluation rules.</li>
+<li>shows how the ranking changes under different evaluation rules,</li>
+<li>reflects the latest forecasting run, so rerun the workflow if you change the candidate model set.</li>
 </ul>
 </section>
 <section id="holdout-residual-comparison" class="level4">
@@ -371,7 +387,8 @@ Choose which metric decides the winning model:</p>
 <li>shows the workflow that actually executed,</li>
 <li>reports whether <code>fallback</code> and <code>modeltime</code> are available,</li>
 <li>reports missing packages when <code>modeltime</code> is unavailable,</li>
-<li>explains strict failure when <code>Require modeltime</code> is selected.</li>
+<li>explains strict failure when <code>Require modeltime</code> is selected,</li>
+<li>helps users understand why a run did or did not complete successfully.</li>
 </ul>
 </section>
 <section id="model-interpretation" class="level4">
@@ -379,12 +396,13 @@ Choose which metric decides the winning model:</p>
 <ul>
 <li>identifies the current winning model,</li>
 <li>explains the gap to the next candidate under the selected metric,</li>
-<li>reminds users how to interpret <code>Seasonal Naive</code>, <code>ETS</code>, and <code>ARIMA</code>.</li>
+<li>reminds users how to interpret <code>Seasonal Naive</code>, <code>ETS</code>, and <code>ARIMA</code>,</li>
+<li>should be reread after each new forecasting run because the winning model can change with the selected metric.</li>
 </ul>
 </section>
 </section>
 <section id="diagnostics-tab" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostics-tab">3.4 Diagnostics tab</h3>
+<h3 class="anchored" data-anchor-id="diagnostics-tab">3.5 Diagnostics tab</h3>
 <p>The <strong>Diagnostics</strong> tab focuses on the structure of the selected time series.</p>
 <p>It includes:</p>
 <section id="raw-time-series" class="level4">
@@ -412,12 +430,13 @@ Choose which metric decides the winning model:</p>
 <h4 class="anchored" data-anchor-id="split-summary">Split summary</h4>
 <ul>
 <li>reports how the training and testing windows were divided,</li>
-<li>confirms the date span and observation counts for each segment.</li>
+<li>confirms the date span and observation counts for each segment,</li>
+<li>changes when the holdout horizon changes and you rerun forecasting.</li>
 </ul>
 </section>
 </section>
 <section id="context-tab" class="level3">
-<h3 class="anchored" data-anchor-id="context-tab">3.5 Context tab</h3>
+<h3 class="anchored" data-anchor-id="context-tab">3.6 Context tab</h3>
 <p>The <strong>Context</strong> tab connects the arrivals forecast to broader tourism performance.</p>
 <p>It includes:</p>
 <section id="tourism-performance-context" class="level4">
@@ -425,7 +444,8 @@ Choose which metric decides the winning model:</p>
 <ul>
 <li>overlays the selected arrivals series with hotel occupancy, stay length, and room revenue,</li>
 <li>normalizes the series so turning points and relative movement can be compared,</li>
-<li>supports business interpretation rather than direct value comparison.</li>
+<li>supports business interpretation rather than direct value comparison,</li>
+<li>updates immediately when the context indicator checkboxes are changed because this panel is driven directly from the selected series and indicator settings.</li>
 </ul>
 </section>
 <section id="interpretation-guide" class="level4">
@@ -444,6 +464,7 @@ Choose which metric decides the winning model:</p>
 <h2 class="anchored" data-anchor-id="interpretation-tips">Interpretation Tips</h2>
 <ol type="1">
 <li>Do not start from the forward forecast alone. Read the holdout comparison first.</li>
+<li>If you change the model set or ranking metric, rerun forecasting before discussing the forward forecast.</li>
 <li>Use the selected ranking metric consistently when discussing the best model.</li>
 <li>Use diagnostics to explain whether the winning model is driven by trend, seasonality, or irregular variation.</li>
 <li>Use the context chart to connect forecast movement with tourism business indicators, rather than treating arrivals in isolation.</li>
@@ -458,6 +479,7 @@ Choose which metric decides the winning model:</p>
 <li>click <strong>Run Forecasting</strong>,</li>
 <li>explain the <strong>Forecast</strong> tab first,</li>
 <li>use <strong>Model Studio</strong> to justify the chosen model,</li>
+<li>if you change the ranking metric or model set, click <strong>Run Forecasting</strong> again before discussing the updated forward projection,</li>
 <li>use <strong>Diagnostics</strong> to explain the time-series structure,</li>
 <li>finish with <strong>Context</strong> to link the forecast to tourism performance.</li>
 </ol>

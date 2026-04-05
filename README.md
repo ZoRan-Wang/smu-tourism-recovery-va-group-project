@@ -96,6 +96,7 @@ The forecasting user guide has also been expanded in `user-guide.qmd` so that it
 - the left-side forecasting controls,
 - the difference between `Auto`, `Require modeltime`, and `Use lightweight fallback`,
 - how to read the `Forecast`, `Model Studio`, `Diagnostics`, and `Context` tabs,
+- when a fresh click on `Run Forecasting` is required after changing model controls,
 - and the recommended demonstration flow for presenting the forecasting module in the Shiny app.
 
 ## Path Handling
