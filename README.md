@@ -30,37 +30,37 @@ smu-tourism-recovery-va-group-project/
 ├── _quarto.yml
 ├── index.qmd
 ├── app-guide.qmd
-├── user-guide.qmd
+├── user-guide-forecasting.md
 ├── poster.qmd
 ├── Proposal/
 ├── prototype/
-│   ├── EDA.qmd
-│   ├── CDA.qmd
-│   ├── module-cluster.qmd
-│   ├── forecasting.qmd
-│   ├── package-audit.qmd
-│   ├── ui-storyboard.qmd
-│   └── wang-zhuoran-review-report.qmd
+�?  ├── EDA.qmd
+�?  ├── CDA.qmd
+�?  ├── module-cluster.qmd
+�?  ├── forecasting.qmd
+�?  ├── package-audit.qmd
+�?  ├── ui-storyboard.qmd
+�?  └── wang-zhuoran-review-report.qmd
 ├── app/
-│   ├── app.R
-│   ├── R/
-│   │   ├── data_utils.R
-│   │   ├── mod_cluster_ui.R
-│   │   ├── mod_cluster_server.R
-│   │   ├── mod_forecast_ui.R
-│   │   └── mod_forecast_server.R
-│   └── www/
-│       └── app-theme.css
+�?  ├── app.R
+�?  ├── R/
+�?  �?  ├── data_utils.R
+�?  �?  ├── mod_cluster_ui.R
+�?  �?  ├── mod_cluster_server.R
+�?  �?  ├── mod_forecast_ui.R
+�?  �?  └── mod_forecast_server.R
+�?  └── www/
+�?      └── app-theme.css
 ├── scripts/
-│   ├── check_cran_support.R
-│   ├── prepare_clustering_country_data.R
-│   ├── prepare_common_timeseries_data.R
-│   └── prototype_smoke_test.R
+�?  ├── check_cran_support.R
+�?  ├── prepare_clustering_country_data.R
+�?  ├── prepare_common_timeseries_data.R
+�?  └── prototype_smoke_test.R
 ├── styles/
-│   └── poster.css
+�?  └── poster.css
 ├── data/
-│   ├── raw/
-│   └── processed/
+�?  ├── raw/
+�?  └── processed/
 ├── docs/
 └── team/
 ```
@@ -91,13 +91,14 @@ smu-tourism-recovery-va-group-project/
 
 Forecasting Shiny integration on the current `main` base now uses the compact single-page studio layout that was previously confirmed in the forecasting-only refinement branch. The integrated app keeps the shared four-tab structure (`Time Series Visual Analysis`, `Time Series Clustering`, `Forecasting`, `About`) while replacing only the forecasting module UI and server workflow.
 
-The forecasting user guide has also been expanded in `user-guide.qmd` so that it now documents:
+The forecasting user guide is now maintained as a Markdown document in `user-guide-forecasting.md`, with screenshot assets stored under `user-guide-assets/`. It documents:
 
 - the left-side forecasting controls,
 - the difference between `Auto`, `Require modeltime`, and `Use lightweight fallback`,
 - how to read the `Forecast`, `Model Studio`, `Diagnostics`, and `Context` tabs,
 - when a fresh click on `Run Forecasting` is required after changing model controls,
 - and the recommended demonstration flow for presenting the forecasting module in the Shiny app.
+- and screenshot-based callouts that point directly to the controls and tabs users should click.
 
 ## Path Handling
 
@@ -187,3 +188,4 @@ Rscript run_app.R 3838
 2. The app contains the explorer, clustering, and forecasting modules.
 3. The user guide explains the shared arrivals backbone and supporting tourism context.
 4. Validation scripts cover both clustering and forecasting dependencies.
+
