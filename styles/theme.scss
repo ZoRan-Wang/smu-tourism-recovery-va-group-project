@@ -466,6 +466,23 @@ body.page-home main.content {
   color: #4f5f68;
 }
 
+.pdf-frame-wrap {
+  margin: 1.2rem 0 0;
+  border: 1px solid #e4d9c8;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 252, 247, 0.96);
+  box-shadow: 0 16px 30px rgba(24, 42, 45, 0.08);
+}
+
+.pdf-frame {
+  display: block;
+  width: 100%;
+  min-height: 92vh;
+  border: 0;
+  background: #ffffff;
+}
+
 #TOC {
   background: rgba(255, 252, 247, 0.92);
   border: 1px solid #e2d7c7;

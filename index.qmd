@@ -21,11 +21,11 @@ if (!nzchar(shiny_app_url)) {
 
 # Singapore Tourism Recovery
 
-This project studies tourism recovery as a comparative time-series problem. The website presents the analytical story, the merged user guide explains the full workflow across all three modules, and the deployed Shiny app turns that structure into an interactive workspace for market structure, recovery pattern comparison, and forward projection.
+This project studies tourism recovery as a comparative time-series problem. The website presents the analytical story, the final PDF user guide explains the full workflow across all three modules, and the deployed Shiny app turns that structure into an interactive workspace for market structure, recovery pattern comparison, and forward projection.
 
 ::: {.home-actions}
 [Open Live Shiny App](`r shiny_app_url`){target="_blank" .btn-home-primary}
-[Read Merged User Guide](./user-guide.html){.btn-home-secondary}
+[Open User Guide PDF](./user-guide.html){.btn-home-secondary}
 [View Poster](./poster.html){.btn-home-secondary}
 :::
 
@@ -36,7 +36,7 @@ This project studies tourism recovery as a comparative time-series problem. The 
 :::
 
 ::: {.home-hero-note}
-Start with market structure, continue into recovery clustering, and finish with forecasting. The merged user guide follows that same order and the homepage button opens the deployed app directly.
+Start with market structure, continue into recovery clustering, and finish with forecasting. The PDF user guide follows that same order and the homepage button opens the deployed app directly.
 :::
 :::
 
@@ -122,7 +122,7 @@ The app is designed as one continuous decision surface rather than three isolate
 </a>
 <a class="home-deliverable" href="./user-guide.html">
 <span>User Guide</span>
-<strong>Merged walkthrough across visual analysis, clustering, and forecasting</strong>
+<strong>Embedded PDF walkthrough across visual analysis, clustering, and forecasting</strong>
 </a>
 <a class="home-deliverable" href="./poster.html">
 <span>Poster</span>

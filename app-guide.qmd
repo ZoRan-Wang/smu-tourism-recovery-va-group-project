@@ -47,9 +47,9 @@ This page is the website entry point for the Shiny application.
 <div>`r if (has_shiny_target) shiny_app_url else "Not configured"`</div>
 </div>
 <div class="home-deliverable">
-<span>Merged User Guide</span>
-<strong>[Open the full guide](./user-guide.html)</strong>
-<div>One combined walkthrough for visual analysis, clustering, and forecasting.</div>
+<span>User Guide PDF</span>
+<strong>[Open the embedded PDF guide](./user-guide.html)</strong>
+<div>One final PDF walkthrough for visual analysis, clustering, and forecasting.</div>
 </div>
 :::
 
@@ -91,7 +91,7 @@ if (!has_shiny_target) {
 
 ## Expected User Flow
 
-Start in `Time Series Visual Analysis` to understand the market structure. Move to `Time Series Clustering` to compare country recovery trajectories and isolate one priority market. Finish in `Forecasting` to compare model performance and interpret the forward projection with context indicators. The detailed workflow is documented on the [User Guide](./user-guide.html) page.
+Start in `Time Series Visual Analysis` to understand the market structure. Move to `Time Series Clustering` to compare country recovery trajectories and isolate one priority market. Finish in `Forecasting` to compare model performance and interpret the forward projection with context indicators. The detailed workflow is documented on the [User Guide PDF](./user-guide.html) page.
 
 ## Data Contract
 

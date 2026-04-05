@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-43695f5130e950f976cff05b45b405c8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c9c96dc1be9e9953d7f8aab3bf5559c3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,47 +172,12 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
-  <li><a href="#app-structure" id="toc-app-structure" class="nav-link" data-scroll-target="#app-structure">App Structure</a></li>
-  <li><a href="#shared-data-scope" id="toc-shared-data-scope" class="nav-link" data-scroll-target="#shared-data-scope">Shared Data Scope</a></li>
-  <li><a href="#time-series-visual-analysis" id="toc-time-series-visual-analysis" class="nav-link" data-scroll-target="#time-series-visual-analysis">Time Series Visual Analysis</a>
-  <ul class="collapse">
-  <li><a href="#step-1-configure-the-market-structure-view" id="toc-step-1-configure-the-market-structure-view" class="nav-link" data-scroll-target="#step-1-configure-the-market-structure-view">Step 1: Configure the market-structure view</a></li>
-  <li><a href="#step-2-read-the-market-map-first" id="toc-step-2-read-the-market-map-first" class="nav-link" data-scroll-target="#step-2-read-the-market-map-first">Step 2: Read the Market Map first</a></li>
-  <li><a href="#step-3-compare-the-pre-covid-and-recovery-leaders" id="toc-step-3-compare-the-pre-covid-and-recovery-leaders" class="nav-link" data-scroll-target="#step-3-compare-the-pre-covid-and-recovery-leaders">Step 3: Compare the pre-COVID and recovery leaders</a></li>
-  </ul></li>
-  <li><a href="#time-series-clustering" id="toc-time-series-clustering" class="nav-link" data-scroll-target="#time-series-clustering">Time Series Clustering</a>
-  <ul class="collapse">
-  <li><a href="#step-1-configure-the-clustering-run" id="toc-step-1-configure-the-clustering-run" class="nav-link" data-scroll-target="#step-1-configure-the-clustering-run">Step 1: Configure the clustering run</a></li>
-  <li><a href="#step-2-read-the-dashboard-before-the-detailed-views" id="toc-step-2-read-the-dashboard-before-the-detailed-views" class="nav-link" data-scroll-target="#step-2-read-the-dashboard-before-the-detailed-views">Step 2: Read the dashboard before the detailed views</a></li>
-  <li><a href="#step-3-inspect-trajectory-shape-in-pattern-explorer" id="toc-step-3-inspect-trajectory-shape-in-pattern-explorer" class="nav-link" data-scroll-target="#step-3-inspect-trajectory-shape-in-pattern-explorer">Step 3: Inspect trajectory shape in Pattern Explorer</a></li>
-  <li><a href="#step-4-check-the-recovery-position-and-the-selected-k" id="toc-step-4-check-the-recovery-position-and-the-selected-k" class="nav-link" data-scroll-target="#step-4-check-the-recovery-position-and-the-selected-k">Step 4: Check the recovery position and the selected k</a></li>
-  <li><a href="#step-5-trace-one-priority-market-through-its-cluster" id="toc-step-5-trace-one-priority-market-through-its-cluster" class="nav-link" data-scroll-target="#step-5-trace-one-priority-market-through-its-cluster">Step 5: Trace one priority market through its cluster</a></li>
-  <li><a href="#step-6-export-assignments-and-review-the-metrics-tables" id="toc-step-6-export-assignments-and-review-the-metrics-tables" class="nav-link" data-scroll-target="#step-6-export-assignments-and-review-the-metrics-tables">Step 6: Export assignments and review the metrics tables</a></li>
-  </ul></li>
-  <li><a href="#forecasting" id="toc-forecasting" class="nav-link" data-scroll-target="#forecasting">Forecasting</a>
-  <ul class="collapse">
-  <li><a href="#step-1-configure-the-forecasting-run" id="toc-step-1-configure-the-forecasting-run" class="nav-link" data-scroll-target="#step-1-configure-the-forecasting-run">Step 1: Configure the forecasting run</a></li>
-  <li><a href="#step-2-know-what-requires-a-rerun" id="toc-step-2-know-what-requires-a-rerun" class="nav-link" data-scroll-target="#step-2-know-what-requires-a-rerun">Step 2: Know what requires a rerun</a></li>
-  <li><a href="#step-3-read-the-forecast-tab-first" id="toc-step-3-read-the-forecast-tab-first" class="nav-link" data-scroll-target="#step-3-read-the-forecast-tab-first">Step 3: Read the Forecast tab first</a></li>
-  <li><a href="#step-4-use-model-studio-to-explain-why-one-model-wins" id="toc-step-4-use-model-studio-to-explain-why-one-model-wins" class="nav-link" data-scroll-target="#step-4-use-model-studio-to-explain-why-one-model-wins">Step 4: Use Model Studio to explain why one model wins</a></li>
-  <li><a href="#step-5-use-diagnostics-for-structure-checking" id="toc-step-5-use-diagnostics-for-structure-checking" class="nav-link" data-scroll-target="#step-5-use-diagnostics-for-structure-checking">Step 5: Use Diagnostics for structure checking</a></li>
-  <li><a href="#step-6-use-context-for-business-interpretation" id="toc-step-6-use-context-for-business-interpretation" class="nav-link" data-scroll-target="#step-6-use-context-for-business-interpretation">Step 6: Use Context for business interpretation</a></li>
-  </ul></li>
-  <li><a href="#recommended-reading-order" id="toc-recommended-reading-order" class="nav-link" data-scroll-target="#recommended-reading-order">Recommended Reading Order</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -221,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -233,131 +198,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="purpose" class="level2">
-<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>This guide explains how to use the final tourism analytics app as one connected workflow. The three analytical modules share the same country-arrivals backbone, so the intended reading order is to begin with market structure, continue into recovery-pattern comparison, and finish with forward projection.</p>
-</section>
-<section id="app-structure" class="level2">
-<h2 class="anchored" data-anchor-id="app-structure">App Structure</h2>
-<p>The live Shiny app is organised into four top-level tabs: <code>Time Series Visual Analysis</code>, <code>Time Series Clustering</code>, <code>Forecasting</code>, and <code>About</code>. The first three tabs do the analytical work. The <code>About</code> tab summarises the shared data contract and the role of each module inside the integrated build.</p>
-<p><img src="guide-assets/visual-analysis/visual-analysis-navigation.png" class="img-fluid guide-figure"></p>
-<p>Use the top navigation to move between modules. The workflow is designed to be read from left to right. <code>Time Series Visual Analysis</code> establishes market structure, <code>Time Series Clustering</code> compares recovery shapes, and <code>Forecasting</code> turns one selected arrivals series into a forward-looking model comparison.</p>
-</section>
-<section id="shared-data-scope" class="level2">
-<h2 class="anchored" data-anchor-id="shared-data-scope">Shared Data Scope</h2>
-<p>The app uses one coordinated data stack:</p>
-<ul>
-<li><code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
-<li><code>data/processed/arrivals_country_long.csv</code></li>
-<li><code>data/processed/arrivals_country_wide.csv</code></li>
-<li><code>data/processed/clustering_country_wide.csv</code></li>
-<li><code>data/processed/clustering_country_long.csv</code></li>
-<li><code>data/processed/clustering_series_metadata.csv</code></li>
-<li><code>data/raw/tourism_update.xlsx</code> for optional tourism-performance context</li>
-</ul>
-<p>Country-level visitor arrivals remain the common analytical target across visual analysis, clustering, and forecasting.</p>
-</section>
-<section id="time-series-visual-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="time-series-visual-analysis">Time Series Visual Analysis</h2>
-<p>Open the <code>Time Series Visual Analysis</code> tab when you want to establish market structure before moving into clustering or forecasting. This module is the first analytical stop because it shows which source markets dominate each period and how the ranking structure changes between the pre-COVID and recovery windows.</p>
-<p><img src="guide-assets/visual-analysis/visual-analysis-module.png" class="img-fluid guide-figure"></p>
-<section id="step-1-configure-the-market-structure-view" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-configure-the-market-structure-view">Step 1: Configure the market-structure view</h3>
-<p>Start from the control panel. <code>Ranking period</code> determines which analytical window is active. <code>Map year</code> lets you move inside that chosen period. <code>Top markets to show</code> controls the ranking depth used in the comparison page. These three inputs should always be read together because the map and ranking story are designed to stay aligned.</p>
-</section>
-<section id="step-2-read-the-market-map-first" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-read-the-market-map-first">Step 2: Read the Market Map first</h3>
-<p>The <code>Market Map</code> page shows annual country totals on a choropleth map. Read the overview cards first, then use the selected-year insight panel to connect the map leader to the chosen ranking window. This page answers which markets dominate a given year, how concentrated the visible recovery landscape is, and whether the market leader in the selected year is consistent with the wider period story.</p>
-<p><img src="guide-assets/visual-analysis/visual-analysis-top-markets.png" class="img-fluid guide-figure"></p>
-</section>
-<section id="step-3-compare-the-pre-covid-and-recovery-leaders" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-compare-the-pre-covid-and-recovery-leaders">Step 3: Compare the pre-COVID and recovery leaders</h3>
-<p>The <code>Top Markets</code> page compares the pre-COVID and recovery leaders side by side. The ranking charts and interpretation card explain how the leading source markets change between the two periods. Use this page when you need to show whether the same countries still lead in the recovery window, whether the top-ranked market changes across periods, and how concentrated the market structure remains after recovery.</p>
-</section>
-</section>
-<section id="time-series-clustering" class="level2">
-<h2 class="anchored" data-anchor-id="time-series-clustering">Time Series Clustering</h2>
-<p>Open the <code>Time Series Clustering</code> tab when you want to group country trajectories by recovery shape. The clustering unit is a country-level time series, not an individual month, so every result in this module should be read as a recovery-path comparison.</p>
-<section id="step-1-configure-the-clustering-run" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-configure-the-clustering-run">Step 1: Configure the clustering run</h3>
-<p>Start in the left control panel. Select a focused set of country series, choose a priority market, set the year window, choose the normalization mode, and set the working value of <code>k</code>. After the inputs match the comparison you want, click <code>Run clustering</code>.</p>
-<p><img src="guide-assets/clustering/cluster-controls-annotated.png" class="img-fluid guide-figure"></p>
-<p>The <code>Country series</code> input defines the comparison set. The <code>Focus market</code> control tells the module which market to keep visible across the guided pages. The normalization mode changes the analytical emphasis. <code>Indexed (base 100)</code> is the most direct choice when you want to compare relative recovery shape. <code>Z-score</code> is useful when you want the comparison to focus on standardized variation. <code>Raw arrivals</code> keeps the scale in actual arrivals and therefore highlights size differences.</p>
-</section>
-<section id="step-2-read-the-dashboard-before-the-detailed-views" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-read-the-dashboard-before-the-detailed-views">Step 2: Read the dashboard before the detailed views</h3>
-<p>The <code>Dashboard</code> page is the first analytical stop after each run. The summary band reports fit quality, the lead pattern, and the current priority-market position. The <code>Pattern Atlas</code> then shows the representative trajectories for each cluster, while <code>Cluster Profile</code> compresses each pattern into shock depth, ending level, and rebound strength.</p>
-<p><img src="guide-assets/clustering/cluster-dashboard-annotated.png" class="img-fluid guide-figure"></p>
-<p>Use this page to answer three questions. First, is the selected <code>k</code> reasonably stable for the current country set. Second, what are the dominant recovery patterns. Third, where does the focus market sit relative to the strongest and weakest rebound groups.</p>
-</section>
-<section id="step-3-inspect-trajectory-shape-in-pattern-explorer" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-inspect-trajectory-shape-in-pattern-explorer">Step 3: Inspect trajectory shape in Pattern Explorer</h3>
-<p>Move next to <code>Pattern Explorer</code>. This page lays out the representative patterns in detail and adds a compact <code>Pattern Summary</code> block beneath the plot. Hovering any line reveals the country, cluster, month, and indexed level, which makes the grouping interpretable at the individual-series level.</p>
-<p><img src="guide-assets/clustering/cluster-pattern-explorer-annotated.png" class="img-fluid guide-figure"></p>
-<p>This page is useful when you need to explain why two markets were placed into the same cluster. The cluster mean gives the dominant path. The lighter background lines show how much variation remains inside the group. The summary strip underneath tells you which market is most representative of that pattern and what ending level the cluster reaches on average.</p>
-</section>
-<section id="step-4-check-the-recovery-position-and-the-selected-k" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-check-the-recovery-position-and-the-selected-k">Step 4: Check the recovery position and the selected k</h3>
-<p>The <code>Recovery Map</code> page reduces each series to key recovery metrics. The left panel places every market in a two-dimensional recovery space defined by lowest indexed level and final indexed level. The right panel shows the silhouette scan, which is the quickest diagnostic for whether the selected <code>k</code> is still defensible relative to the nearby alternatives.</p>
-<p><img src="guide-assets/clustering/cluster-recovery-map-annotated.png" class="img-fluid guide-figure"></p>
-<p>Read the recovery map as a compact structural summary. Points that finish higher on the vertical axis end the window in a stronger state. Points further to the right experienced a less severe trough in the selected window. The silhouette scan should be interpreted as model-quality evidence, not as the only decision rule, because interpretability and business meaning still matter.</p>
-</section>
-<section id="step-5-trace-one-priority-market-through-its-cluster" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-trace-one-priority-market-through-its-cluster">Step 5: Trace one priority market through its cluster</h3>
-<p>The <code>Focus Market</code> page takes the selected market and places it back inside its own cluster. The left panel compares the focus market against the peers that share its pattern. The right panel summarises the market’s assigned cluster, its ending level, trough level, rebound multiple, and closest peers.</p>
-<p><img src="guide-assets/clustering/cluster-focus-market-annotated.png" class="img-fluid guide-figure"></p>
-<p>This is the best page to use during a presentation when you want to explain one country in context. Instead of reading the focus market in isolation, the module shows whether it is a representative case, a boundary case, or an unusually volatile member of its group.</p>
-</section>
-<section id="step-6-export-assignments-and-review-the-metrics-tables" class="level3">
-<h3 class="anchored" data-anchor-id="step-6-export-assignments-and-review-the-metrics-tables">Step 6: Export assignments and review the metrics tables</h3>
-<p>After the pattern interpretation is clear, move to <code>Membership</code>, <code>Cluster Summary</code>, and <code>Series Metrics</code>. The membership table records the final assignments for each country and provides a download button. The other two tables summarise cluster-level and series-level metrics for reporting and follow-up work.</p>
-<p><img src="guide-assets/clustering/cluster-membership-annotated.png" class="img-fluid guide-figure"></p>
-<p>Use <code>Membership</code> when you need the final output table. Use <code>Cluster Summary</code> when you want a compact comparison of the cluster-level statistics. Use <code>Series Metrics</code> when you need series-level values such as ending index, trough index, rebound multiple, and volatility.</p>
-</section>
-</section>
-<section id="forecasting" class="level2">
-<h2 class="anchored" data-anchor-id="forecasting">Forecasting</h2>
-<p>Open the <code>Forecasting</code> tab when you want to project one country-level arrivals series forward and compare model families on a time-aware holdout window.</p>
-<p><img src="guide-assets/forecasting/forecast-controls-annotated.png" class="img-fluid guide-figure"></p>
-<section id="step-1-configure-the-forecasting-run" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-configure-the-forecasting-run">Step 1: Configure the forecasting run</h3>
-<p>The left control panel sets up one forecasting run. Choose the <code>Country arrival series</code>, the <code>Forecast engine</code>, the <code>Test / forecast horizon</code>, the <code>Models to compare</code>, the optional <code>Context indicators</code>, and the <code>Model ranking metric</code>. The module does not re-run automatically. Click <code>Run Forecasting</code> after you change any of those settings.</p>
-</section>
-<section id="step-2-know-what-requires-a-rerun" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-know-what-requires-a-rerun">Step 2: Know what requires a rerun</h3>
-<p>The following controls affect the forecast results and therefore require a fresh click on <code>Run Forecasting</code>:</p>
-<ul>
-<li><code>Country arrival series</code></li>
-<li><code>Forecast engine</code></li>
-<li><code>Test / forecast horizon</code></li>
-<li><code>Models to compare</code></li>
-<li><code>Model ranking metric</code></li>
-</ul>
-</section>
-<section id="step-3-read-the-forecast-tab-first" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-read-the-forecast-tab-first">Step 3: Read the Forecast tab first</h3>
-<p><img src="guide-assets/forecasting/forecast-tab-overview.png" class="img-fluid guide-figure"></p>
-<p>The <code>Forecast</code> tab is the main results page. <code>Holdout comparison</code> shows how the selected models perform on unseen months. <code>Forward forecast</code> displays the future projection from the best model under the chosen ranking metric from the most recent run. <code>Accuracy summary</code> translates the score table into readable model comparisons. <code>Series summary</code> confirms the date coverage, observation count, and current model scope.</p>
-</section>
-<section id="step-4-use-model-studio-to-explain-why-one-model-wins" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-use-model-studio-to-explain-why-one-model-wins">Step 4: Use Model Studio to explain why one model wins</h3>
-<p><img src="guide-assets/forecasting/model-studio-overview.png" class="img-fluid guide-figure"></p>
-<p>The <code>Model Studio</code> tab explains why one model wins. <code>Model leaderboard</code> ranks the models under <code>RMSE</code>, <code>MAE</code>, or <code>MAPE</code>. <code>Holdout residual comparison</code> shows where forecast errors remain on the holdout window. <code>Engine status</code> reports which engine was requested, which one actually executed, and which packages are missing when the strict <code>Require modeltime</code> path cannot run. <code>Model interpretation</code> turns the ranking result into a plain-language explanation. This page is the fastest way to explain why the selected best model is defensible.</p>
-</section>
-<section id="step-5-use-diagnostics-for-structure-checking" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-use-diagnostics-for-structure-checking">Step 5: Use Diagnostics for structure checking</h3>
-<p><img src="guide-assets/forecasting/diagnostics-overview.png" class="img-fluid guide-figure"></p>
-<p>The <code>Diagnostics</code> tab focuses on time-series structure. <code>Raw time series</code> shows the full historical path. <code>Seasonal pattern</code> reveals month-level recurrence across years. <code>Decomposition</code> separates the series into trend, seasonal, and remainder components. <code>Split summary</code> confirms the training and testing window used in the latest run.</p>
-</section>
-<section id="step-6-use-context-for-business-interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="step-6-use-context-for-business-interpretation">Step 6: Use Context for business interpretation</h3>
-<p><img src="guide-assets/forecasting/context-overview.png" class="img-fluid guide-figure"></p>
-<p>The <code>Context</code> tab places the arrivals series next to hotel occupancy, average length of stay, and room revenue. These context indicators are normalized for comparison, so the chart should be read as a relationship view rather than a direct scale comparison.</p>
-</section>
-</section>
-<section id="recommended-reading-order" class="level2">
-<h2 class="anchored" data-anchor-id="recommended-reading-order">Recommended Reading Order</h2>
-<p>Begin in <code>Time Series Visual Analysis</code> to establish which source markets lead and how concentration shifts across periods. Continue into <code>Time Series Clustering</code> to compare recovery shapes and place a focus market into a structured pattern. Finish in <code>Forecasting</code> to build a forward projection and interpret it with diagnostics and tourism-performance context.</p>
+<section id="user-guide-pdf" class="level2">
+<h2 class="anchored" data-anchor-id="user-guide-pdf">User Guide PDF</h2>
+<p>The final user guide is delivered as a PDF document. Read it in the embedded viewer below, open it in a separate tab with the browser’s PDF controls, or download it directly.</p>
+<p><a href="pdf/App_UserGuide_20260405.pdf" class="btn-home-primary" target="_blank">Open User Guide PDF in a New Tab</a> <a href="pdf/App_UserGuide_20260405.pdf" class="btn-home-secondary" download="App_UserGuide_20260405.pdf">Download User Guide PDF</a></p>
+<div class="pdf-frame-wrap">
+<iframe src="pdf/App_UserGuide_20260405.pdf#view=FitH" title="User Guide PDF" class="pdf-frame">
+</iframe>
+</div>
 
 
 </section>
