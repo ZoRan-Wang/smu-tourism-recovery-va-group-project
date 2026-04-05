@@ -173,11 +173,21 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#app-structure" id="toc-app-structure" class="nav-link" data-scroll-target="#app-structure">App Structure</a></li>
+  <li><a href="#shared-data-scope" id="toc-shared-data-scope" class="nav-link" data-scroll-target="#shared-data-scope">Shared Data Scope</a></li>
   <li><a href="#step-1-explore-the-series" id="toc-step-1-explore-the-series" class="nav-link" data-scroll-target="#step-1-explore-the-series">Step 1: Explore the Series</a></li>
-  <li><a href="#step-2-compare-country-recovery-patterns" id="toc-step-2-compare-country-recovery-patterns" class="nav-link" data-scroll-target="#step-2-compare-country-recovery-patterns">Step 2: Compare Country Recovery Patterns</a></li>
-  <li><a href="#step-3-forecast-future-values" id="toc-step-3-forecast-future-values" class="nav-link" data-scroll-target="#step-3-forecast-future-values">Step 3: Forecast Future Values</a></li>
+  <li><a href="#step-2-compare-recovery-trajectories" id="toc-step-2-compare-recovery-trajectories" class="nav-link" data-scroll-target="#step-2-compare-recovery-trajectories">Step 2: Compare Recovery Trajectories</a></li>
+  <li><a href="#step-3-use-the-forecasting-module" id="toc-step-3-use-the-forecasting-module" class="nav-link" data-scroll-target="#step-3-use-the-forecasting-module">Step 3: Use the Forecasting Module</a>
+  <ul class="collapse">
+  <li><a href="#configure-the-controls" id="toc-configure-the-controls" class="nav-link" data-scroll-target="#configure-the-controls">3.1 Configure the controls</a></li>
+  <li><a href="#forecast-tab" id="toc-forecast-tab" class="nav-link" data-scroll-target="#forecast-tab">3.2 Forecast tab</a></li>
+  <li><a href="#model-studio-tab" id="toc-model-studio-tab" class="nav-link" data-scroll-target="#model-studio-tab">3.3 Model Studio tab</a></li>
+  <li><a href="#diagnostics-tab" id="toc-diagnostics-tab" class="nav-link" data-scroll-target="#diagnostics-tab">3.4 Diagnostics tab</a></li>
+  <li><a href="#context-tab" id="toc-context-tab" class="nav-link" data-scroll-target="#context-tab">3.5 Context tab</a></li>
+  </ul></li>
   <li><a href="#interpretation-tips" id="toc-interpretation-tips" class="nav-link" data-scroll-target="#interpretation-tips">Interpretation Tips</a></li>
-  <li><a href="#data-scope" id="toc-data-scope" class="nav-link" data-scroll-target="#data-scope">Data Scope</a></li>
+  <li><a href="#recommended-presentation-flow" id="toc-recommended-presentation-flow" class="nav-link" data-scroll-target="#recommended-presentation-flow">Recommended Presentation Flow</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -205,57 +215,264 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>This guide explains how to use the final three-module tourism analytics app.</p>
+<p>This guide explains how to use the final tourism analytics app and, in particular, how to work through the <strong>Forecasting</strong> module as an interactive analytical workflow instead of a static chart page.</p>
+</section>
+<section id="app-structure" class="level2">
+<h2 class="anchored" data-anchor-id="app-structure">App Structure</h2>
+<p>The live Shiny app is organised into four top-level tabs:</p>
+<ol type="1">
+<li><strong>Time Series Visual Analysis</strong></li>
+<li><strong>Time Series Clustering</strong></li>
+<li><strong>Forecasting</strong></li>
+<li><strong>About</strong></li>
+</ol>
+<p>The intended reading order is:</p>
+<ol type="1">
+<li>use <strong>Time Series Visual Analysis</strong> to inspect the raw series and metadata,</li>
+<li>use <strong>Time Series Clustering</strong> to compare country recovery trajectories,</li>
+<li>use <strong>Forecasting</strong> to build and interpret a forward projection for one country-level arrivals series.</li>
+</ol>
+</section>
+<section id="shared-data-scope" class="level2">
+<h2 class="anchored" data-anchor-id="shared-data-scope">Shared Data Scope</h2>
+<p>The app uses two coordinated data layers:</p>
+<ul>
+<li>Shared arrivals backbone: <code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
+<li>Shared processed series: <code>data/processed/arrivals_country_long.csv</code>, <code>data/processed/arrivals_country_wide.csv</code></li>
+<li>Shared clustering artifacts: <code>data/processed/clustering_country_wide.csv</code>, <code>data/processed/clustering_country_long.csv</code>, <code>data/processed/clustering_series_metadata.csv</code></li>
+<li>Optional supporting tourism context: <code>data/raw/tourism_update.xlsx</code></li>
+</ul>
+<p>Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation.</p>
 </section>
 <section id="step-1-explore-the-series" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-explore-the-series">Step 1: Explore the Series</h2>
 <p>Open the <strong>Time Series Visual Analysis</strong> tab to:</p>
 <ol type="1">
-<li>Choose a monthly series such as <code>Visitor Arrivals: China</code> or <code>Hotel Room Occupancy Rate</code>.</li>
-<li>Inspect the recent trend with a line chart.</li>
-<li>Confirm the unit and source metadata before moving to deeper analysis.</li>
+<li>choose a monthly tourism series such as <code>Visitor Arrivals: China</code>,</li>
+<li>inspect the recent trend and volatility,</li>
+<li>confirm the source and unit metadata before moving to deeper analysis.</li>
 </ol>
+<p>This tab is intentionally lightweight. It is designed to help users confirm what the target series looks like before they move into clustering or forecasting.</p>
 </section>
-<section id="step-2-compare-country-recovery-patterns" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-compare-country-recovery-patterns">Step 2: Compare Country Recovery Patterns</h2>
+<section id="step-2-compare-recovery-trajectories" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-compare-recovery-trajectories">Step 2: Compare Recovery Trajectories</h2>
 <p>Open the <strong>Time Series Clustering</strong> tab to:</p>
 <ol type="1">
-<li>Select a focused set of country-level visitor-arrivals series.</li>
-<li>Set the year window and choose the normalization mode.</li>
-<li>Pick a working <code>k</code> and run the clustering.</li>
-<li>Read the module in order: <code>Dashboard</code>, <code>Pattern Explorer</code>, <code>Focus Market in Context</code>, <code>Assignments</code>.</li>
+<li>select a focused set of country-level visitor-arrivals series,</li>
+<li>set the year window and choose the normalization mode,</li>
+<li>pick a working <code>k</code> and run the clustering,</li>
+<li>review the module in order: <code>Dashboard</code>, <code>Pattern Explorer</code>, <code>Focus Market in Context</code>, <code>Assignments</code>.</li>
 </ol>
-<p>The clustering unit is a <strong>country trajectory</strong>, not an individual month. The module is designed to answer which markets recovered in similar ways, not to assign each month into a market state.</p>
+<p>The clustering unit is a <strong>country trajectory</strong>, not an individual month. This module answers which markets recovered in similar ways over time.</p>
 </section>
-<section id="step-3-forecast-future-values" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-forecast-future-values">Step 3: Forecast Future Values</h2>
-<p>Open the <strong>Forecasting</strong> tab to:</p>
+<section id="step-3-use-the-forecasting-module" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-use-the-forecasting-module">Step 3: Use the Forecasting Module</h2>
+<p>Open the <strong>Forecasting</strong> tab when you want to project one country-level arrivals series forward and compare forecasting models on a time-aware holdout window.</p>
+<section id="configure-the-controls" class="level3">
+<h3 class="anchored" data-anchor-id="configure-the-controls">3.1 Configure the controls</h3>
+<p>Use the left control panel to choose:</p>
 <ol type="1">
-<li>Select a country-level visitor-arrivals series.</li>
-<li>Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.</li>
-<li>Set the holdout horizon, choose the model set, and click <code>Run Forecasting</code>.</li>
-<li>Compare the seasonal-naive baseline with ETS, ARIMA, or both.</li>
-<li>Review the forecast plot, decomposition views, split summary, and accuracy table.</li>
+<li><p><strong>Country arrival series</strong><br>
+Select the market to forecast, for example <code>Visitor Arrivals: China</code> or <code>Visitor Arrivals: Philippines</code>.</p></li>
+<li><p><strong>Forecast engine</strong><br>
+Three engine modes are available:</p>
+<ul>
+<li><code>Auto (best available)</code>: uses the full <code>modeltime</code> workflow when the package stack is ready; otherwise falls back to the lighter <code>forecast</code> implementation.</li>
+<li><code>Require modeltime</code>: runs only the <code>modeltime</code> workflow. If the required packages are missing, the module reports the failure in the status panel instead of silently falling back.</li>
+<li><code>Use lightweight fallback</code>: always uses the lighter <code>forecast</code> implementation.</li>
+</ul></li>
+<li><p><strong>Test / forecast horizon</strong><br>
+This controls how many trailing months are held out as the test window and how many months are projected forward.</p></li>
+<li><p><strong>Models to compare</strong><br>
+You can compare:</p>
+<ul>
+<li><code>Seasonal Naive</code></li>
+<li><code>ETS</code></li>
+<li><code>ARIMA</code></li>
+</ul></li>
+<li><p><strong>Context indicators</strong><br>
+These optional indicators are used in the context view:</p>
+<ul>
+<li><code>Hotel occupancy</code></li>
+<li><code>Average stay length</code></li>
+<li><code>Room revenue</code></li>
+</ul></li>
+<li><p><strong>Model ranking metric</strong><br>
+Choose which metric decides the winning model:</p>
+<ul>
+<li><code>RMSE</code></li>
+<li><code>MAE</code></li>
+<li><code>MAPE</code></li>
+</ul></li>
 </ol>
-<p>The forecasting module prefers the full <code>modeltime</code> workflow, but it can fall back to a lighter <code>forecast</code> implementation when that dependency chain is unavailable. The model labels and interpretation stay consistent across both paths.</p>
+<p>After setting the controls, click <strong>Run Forecasting</strong>. The module does not auto-run on page load.</p>
+</section>
+<section id="forecast-tab" class="level3">
+<h3 class="anchored" data-anchor-id="forecast-tab">3.2 Forecast tab</h3>
+<p>The <strong>Forecast</strong> tab is the main results page. It contains four panels:</p>
+<section id="holdout-comparison" class="level4">
+<h4 class="anchored" data-anchor-id="holdout-comparison">Holdout comparison</h4>
+<ul>
+<li>compares the selected models on the unseen test window,</li>
+<li>helps you judge whether the model beats the seasonal baseline on recent months,</li>
+<li>should be read before trusting the forward forecast.</li>
+</ul>
+</section>
+<section id="forward-forecast" class="level4">
+<h4 class="anchored" data-anchor-id="forward-forecast">Forward forecast</h4>
+<ul>
+<li>projects the selected country series into future months,</li>
+<li>always uses the current best holdout model under the chosen ranking metric,</li>
+<li>updates when you change the ranking metric or the set of compared models.</li>
+</ul>
+</section>
+<section id="accuracy-summary" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy-summary">Accuracy summary</h4>
+<ul>
+<li>provides a text summary of each model’s <code>RMSE</code>, <code>MAE</code>, and <code>MAPE</code>,</li>
+<li>ranks the models by the metric chosen in the control panel,</li>
+<li>makes it easier to compare models without reading a dense data table.</li>
+</ul>
+</section>
+<section id="series-summary" class="level4">
+<h4 class="anchored" data-anchor-id="series-summary">Series summary</h4>
+<ul>
+<li>reports the observation count,</li>
+<li>reports the date coverage,</li>
+<li>confirms that the scope is country-level arrivals,</li>
+<li>lists the models currently included in the run.</li>
+</ul>
+</section>
+</section>
+<section id="model-studio-tab" class="level3">
+<h3 class="anchored" data-anchor-id="model-studio-tab">3.3 Model Studio tab</h3>
+<p>The <strong>Model Studio</strong> tab is designed to explain <em>why</em> one model wins.</p>
+<p>It contains:</p>
+<section id="model-leaderboard" class="level4">
+<h4 class="anchored" data-anchor-id="model-leaderboard">Model leaderboard</h4>
+<ul>
+<li>ranks candidate models by the selected metric,</li>
+<li>lets you switch between <code>RMSE</code>, <code>MAE</code>, and <code>MAPE</code>,</li>
+<li>shows how the ranking changes under different evaluation rules.</li>
+</ul>
+</section>
+<section id="holdout-residual-comparison" class="level4">
+<h4 class="anchored" data-anchor-id="holdout-residual-comparison">Holdout residual comparison</h4>
+<ul>
+<li>plots <code>actual - predicted</code> residuals on the holdout window,</li>
+<li>helps identify which model stays closer to zero,</li>
+<li>makes month-to-month miss patterns easier to see.</li>
+</ul>
+</section>
+<section id="engine-status" class="level4">
+<h4 class="anchored" data-anchor-id="engine-status">Engine status</h4>
+<ul>
+<li>shows the requested engine,</li>
+<li>shows the workflow that actually executed,</li>
+<li>reports whether <code>fallback</code> and <code>modeltime</code> are available,</li>
+<li>reports missing packages when <code>modeltime</code> is unavailable,</li>
+<li>explains strict failure when <code>Require modeltime</code> is selected.</li>
+</ul>
+</section>
+<section id="model-interpretation" class="level4">
+<h4 class="anchored" data-anchor-id="model-interpretation">Model interpretation</h4>
+<ul>
+<li>identifies the current winning model,</li>
+<li>explains the gap to the next candidate under the selected metric,</li>
+<li>reminds users how to interpret <code>Seasonal Naive</code>, <code>ETS</code>, and <code>ARIMA</code>.</li>
+</ul>
+</section>
+</section>
+<section id="diagnostics-tab" class="level3">
+<h3 class="anchored" data-anchor-id="diagnostics-tab">3.4 Diagnostics tab</h3>
+<p>The <strong>Diagnostics</strong> tab focuses on the structure of the selected time series.</p>
+<p>It includes:</p>
+<section id="raw-time-series" class="level4">
+<h4 class="anchored" data-anchor-id="raw-time-series">Raw time series</h4>
+<ul>
+<li>shows the full historical arrivals path,</li>
+<li>helps identify structural breaks such as the COVID shock and recovery period.</li>
+</ul>
+</section>
+<section id="seasonal-pattern" class="level4">
+<h4 class="anchored" data-anchor-id="seasonal-pattern">Seasonal pattern</h4>
+<ul>
+<li>compares the month-to-month pattern across years,</li>
+<li>helps determine whether the series has stable seasonal behaviour.</li>
+</ul>
+</section>
+<section id="decomposition" class="level4">
+<h4 class="anchored" data-anchor-id="decomposition">Decomposition</h4>
+<ul>
+<li>breaks the series into trend, seasonal, and remainder components,</li>
+<li>supports interpretation of why the forecast behaves the way it does.</li>
+</ul>
+</section>
+<section id="split-summary" class="level4">
+<h4 class="anchored" data-anchor-id="split-summary">Split summary</h4>
+<ul>
+<li>reports how the training and testing windows were divided,</li>
+<li>confirms the date span and observation counts for each segment.</li>
+</ul>
+</section>
+</section>
+<section id="context-tab" class="level3">
+<h3 class="anchored" data-anchor-id="context-tab">3.5 Context tab</h3>
+<p>The <strong>Context</strong> tab connects the arrivals forecast to broader tourism performance.</p>
+<p>It includes:</p>
+<section id="tourism-performance-context" class="level4">
+<h4 class="anchored" data-anchor-id="tourism-performance-context">Tourism performance context</h4>
+<ul>
+<li>overlays the selected arrivals series with hotel occupancy, stay length, and room revenue,</li>
+<li>normalizes the series so turning points and relative movement can be compared,</li>
+<li>supports business interpretation rather than direct value comparison.</li>
+</ul>
+</section>
+<section id="interpretation-guide" class="level4">
+<h4 class="anchored" data-anchor-id="interpretation-guide">Interpretation guide</h4>
+<p>This guide reminds users to read the module in the following order:</p>
+<ol type="1">
+<li>start from <strong>Holdout comparison</strong> to judge model credibility,</li>
+<li>move to <strong>Model Studio</strong> to understand ranking and residual behaviour,</li>
+<li>use <strong>Diagnostics</strong> to interpret the series structure,</li>
+<li>return to <strong>Context</strong> before making business conclusions.</li>
+</ol>
+</section>
+</section>
 </section>
 <section id="interpretation-tips" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation-tips">Interpretation Tips</h2>
 <ol type="1">
-<li>Use the explorer first to understand seasonality and structural breaks.</li>
-<li>Use clustering second to identify which country-arrival trajectories behave similarly.</li>
-<li>Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.</li>
+<li>Do not start from the forward forecast alone. Read the holdout comparison first.</li>
+<li>Use the selected ranking metric consistently when discussing the best model.</li>
+<li>Use diagnostics to explain whether the winning model is driven by trend, seasonality, or irregular variation.</li>
+<li>Use the context chart to connect forecast movement with tourism business indicators, rather than treating arrivals in isolation.</li>
 </ol>
 </section>
-<section id="data-scope" class="level2">
-<h2 class="anchored" data-anchor-id="data-scope">Data Scope</h2>
-<p>The current app uses two coordinated inputs:</p>
+<section id="recommended-presentation-flow" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-presentation-flow">Recommended Presentation Flow</h2>
+<p>When demonstrating the app:</p>
+<ol type="1">
+<li>choose one country series in the control panel,</li>
+<li>set the horizon and model list,</li>
+<li>click <strong>Run Forecasting</strong>,</li>
+<li>explain the <strong>Forecast</strong> tab first,</li>
+<li>use <strong>Model Studio</strong> to justify the chosen model,</li>
+<li>use <strong>Diagnostics</strong> to explain the time-series structure,</li>
+<li>finish with <strong>Context</strong> to link the forecast to tourism performance.</li>
+</ol>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The forecasting module is intended to do more than display a future trend line. It combines:</p>
 <ul>
-<li>Shared arrivals backbone: <code>data/raw/visitor_arrivals_full_dataset.xlsx</code></li>
-<li>Shared clustering artifacts: <code>data/processed/clustering_country_wide.csv</code>, <code>data/processed/clustering_country_long.csv</code>, <code>data/processed/clustering_series_metadata.csv</code></li>
-<li>Optional supporting tourism context: <code>data/raw/tourism_update.xlsx</code></li>
+<li>benchmark and model-based forecasting,</li>
+<li>model comparison,</li>
+<li>residual diagnostics,</li>
+<li>structural decomposition,</li>
+<li>and business-context interpretation</li>
 </ul>
-<p>Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation.</p>
+<p>within one Shiny workflow built on the shared country-arrivals backbone.</p>
 
 
 </section>

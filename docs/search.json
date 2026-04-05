@@ -4,21 +4,21 @@
     "href": "user-guide.html",
     "title": "User Guide",
     "section": "",
-    "text": "This guide explains how to use the final three-module tourism analytics app."
+    "text": "This guide explains how to use the final tourism analytics app and, in particular, how to work through the Forecasting module as an interactive analytical workflow instead of a static chart page."
   },
   {
     "objectID": "user-guide.html#purpose",
     "href": "user-guide.html#purpose",
     "title": "User Guide",
     "section": "",
-    "text": "This guide explains how to use the final three-module tourism analytics app."
+    "text": "This guide explains how to use the final tourism analytics app and, in particular, how to work through the Forecasting module as an interactive analytical workflow instead of a static chart page."
   },
   {
     "objectID": "user-guide.html#step-1-explore-the-series",
     "href": "user-guide.html#step-1-explore-the-series",
     "title": "User Guide",
     "section": "Step 1: Explore the Series",
-    "text": "Step 1: Explore the Series\nOpen the Time Series Visual Analysis tab to:\n\nChoose a monthly series such as Visitor Arrivals: China or Hotel Room Occupancy Rate.\nInspect the recent trend with a line chart.\nConfirm the unit and source metadata before moving to deeper analysis."
+    "text": "Step 1: Explore the Series\nOpen the Time Series Visual Analysis tab to:\n\nchoose a monthly tourism series such as Visitor Arrivals: China,\ninspect the recent trend and volatility,\nconfirm the source and unit metadata before moving to deeper analysis.\n\nThis tab is intentionally lightweight. It is designed to help users confirm what the target series looks like before they move into clustering or forecasting."
   },
   {
     "objectID": "user-guide.html#step-2-compare-country-recovery-patterns",
@@ -39,7 +39,7 @@
     "href": "user-guide.html#interpretation-tips",
     "title": "User Guide",
     "section": "Interpretation Tips",
-    "text": "Interpretation Tips\n\nUse the explorer first to understand seasonality and structural breaks.\nUse clustering second to identify which country-arrival trajectories behave similarly.\nUse forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators."
+    "text": "Interpretation Tips\n\nDo not start from the forward forecast alone. Read the holdout comparison first.\nUse the selected ranking metric consistently when discussing the best model.\nUse diagnostics to explain whether the winning model is driven by trend, seasonality, or irregular variation.\nUse the context chart to connect forecast movement with tourism business indicators, rather than treating arrivals in isolation."
   },
   {
     "objectID": "user-guide.html#data-scope",
@@ -789,5 +789,47 @@
     "title": "Team Onboarding",
     "section": "Team Info Cards",
     "text": "Team Info Cards\n\n\nMember 1\nRole: Visual Analysis Owner\nStatus: Xi Zixun\n\n\nMember 2\nRole: Clustering Owner\nStatus: Wang Zhuoran\n\n\nMember 3\nRole: Forecasting Owner\nStatus: Jin Qinhao"
+  },
+  {
+    "objectID": "user-guide.html#app-structure",
+    "href": "user-guide.html#app-structure",
+    "title": "User Guide",
+    "section": "App Structure",
+    "text": "App Structure\nThe live Shiny app is organised into four top-level tabs:\n\nTime Series Visual Analysis\nTime Series Clustering\nForecasting\nAbout\n\nThe intended reading order is:\n\nuse Time Series Visual Analysis to inspect the raw series and metadata,\nuse Time Series Clustering to compare country recovery trajectories,\nuse Forecasting to build and interpret a forward projection for one country-level arrivals series."
+  },
+  {
+    "objectID": "user-guide.html#shared-data-scope",
+    "href": "user-guide.html#shared-data-scope",
+    "title": "User Guide",
+    "section": "Shared Data Scope",
+    "text": "Shared Data Scope\nThe app uses two coordinated data layers:\n\nShared arrivals backbone: data/raw/visitor_arrivals_full_dataset.xlsx\nShared processed series: data/processed/arrivals_country_long.csv, data/processed/arrivals_country_wide.csv\nShared clustering artifacts: data/processed/clustering_country_wide.csv, data/processed/clustering_country_long.csv, data/processed/clustering_series_metadata.csv\nOptional supporting tourism context: data/raw/tourism_update.xlsx\n\nCountry-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation."
+  },
+  {
+    "objectID": "user-guide.html#step-2-compare-recovery-trajectories",
+    "href": "user-guide.html#step-2-compare-recovery-trajectories",
+    "title": "User Guide",
+    "section": "Step 2: Compare Recovery Trajectories",
+    "text": "Step 2: Compare Recovery Trajectories\nOpen the Time Series Clustering tab to:\n\nselect a focused set of country-level visitor-arrivals series,\nset the year window and choose the normalization mode,\npick a working k and run the clustering,\nreview the module in order: Dashboard, Pattern Explorer, Focus Market in Context, Assignments.\n\nThe clustering unit is a country trajectory, not an individual month. This module answers which markets recovered in similar ways over time."
+  },
+  {
+    "objectID": "user-guide.html#step-3-use-the-forecasting-module",
+    "href": "user-guide.html#step-3-use-the-forecasting-module",
+    "title": "User Guide",
+    "section": "Step 3: Use the Forecasting Module",
+    "text": "Step 3: Use the Forecasting Module\nOpen the Forecasting tab when you want to project one country-level arrivals series forward and compare forecasting models on a time-aware holdout window.\n\n3.1 Configure the controls\nUse the left control panel to choose:\n\nCountry arrival series\nSelect the market to forecast, for example Visitor Arrivals: China or Visitor Arrivals: Philippines.\nForecast engine\nThree engine modes are available:\n\nAuto (best available): uses the full modeltime workflow when the package stack is ready; otherwise falls back to the lighter forecast implementation.\nRequire modeltime: runs only the modeltime workflow. If the required packages are missing, the module reports the failure in the status panel instead of silently falling back.\nUse lightweight fallback: always uses the lighter forecast implementation.\n\nTest / forecast horizon\nThis controls how many trailing months are held out as the test window and how many months are projected forward.\nModels to compare\nYou can compare:\n\nSeasonal Naive\nETS\nARIMA\n\nContext indicators\nThese optional indicators are used in the context view:\n\nHotel occupancy\nAverage stay length\nRoom revenue\n\nModel ranking metric\nChoose which metric decides the winning model:\n\nRMSE\nMAE\nMAPE\n\n\nAfter setting the controls, click Run Forecasting. The module does not auto-run on page load.\n\n\n3.2 Forecast tab\nThe Forecast tab is the main results page. It contains four panels:\n\nHoldout comparison\n\ncompares the selected models on the unseen test window,\nhelps you judge whether the model beats the seasonal baseline on recent months,\nshould be read before trusting the forward forecast.\n\n\n\nForward forecast\n\nprojects the selected country series into future months,\nalways uses the current best holdout model under the chosen ranking metric,\nupdates when you change the ranking metric or the set of compared models.\n\n\n\nAccuracy summary\n\nprovides a text summary of each model’s RMSE, MAE, and MAPE,\nranks the models by the metric chosen in the control panel,\nmakes it easier to compare models without reading a dense data table.\n\n\n\nSeries summary\n\nreports the observation count,\nreports the date coverage,\nconfirms that the scope is country-level arrivals,\nlists the models currently included in the run.\n\n\n\n\n3.3 Model Studio tab\nThe Model Studio tab is designed to explain why one model wins.\nIt contains:\n\nModel leaderboard\n\nranks candidate models by the selected metric,\nlets you switch between RMSE, MAE, and MAPE,\nshows how the ranking changes under different evaluation rules.\n\n\n\nHoldout residual comparison\n\nplots actual - predicted residuals on the holdout window,\nhelps identify which model stays closer to zero,\nmakes month-to-month miss patterns easier to see.\n\n\n\nEngine status\n\nshows the requested engine,\nshows the workflow that actually executed,\nreports whether fallback and modeltime are available,\nreports missing packages when modeltime is unavailable,\nexplains strict failure when Require modeltime is selected.\n\n\n\nModel interpretation\n\nidentifies the current winning model,\nexplains the gap to the next candidate under the selected metric,\nreminds users how to interpret Seasonal Naive, ETS, and ARIMA.\n\n\n\n\n3.4 Diagnostics tab\nThe Diagnostics tab focuses on the structure of the selected time series.\nIt includes:\n\nRaw time series\n\nshows the full historical arrivals path,\nhelps identify structural breaks such as the COVID shock and recovery period.\n\n\n\nSeasonal pattern\n\ncompares the month-to-month pattern across years,\nhelps determine whether the series has stable seasonal behaviour.\n\n\n\nDecomposition\n\nbreaks the series into trend, seasonal, and remainder components,\nsupports interpretation of why the forecast behaves the way it does.\n\n\n\nSplit summary\n\nreports how the training and testing windows were divided,\nconfirms the date span and observation counts for each segment.\n\n\n\n\n3.5 Context tab\nThe Context tab connects the arrivals forecast to broader tourism performance.\nIt includes:\n\nTourism performance context\n\noverlays the selected arrivals series with hotel occupancy, stay length, and room revenue,\nnormalizes the series so turning points and relative movement can be compared,\nsupports business interpretation rather than direct value comparison.\n\n\n\nInterpretation guide\nThis guide reminds users to read the module in the following order:\n\nstart from Holdout comparison to judge model credibility,\nmove to Model Studio to understand ranking and residual behaviour,\nuse Diagnostics to interpret the series structure,\nreturn to Context before making business conclusions."
+  },
+  {
+    "objectID": "user-guide.html#recommended-presentation-flow",
+    "href": "user-guide.html#recommended-presentation-flow",
+    "title": "User Guide",
+    "section": "Recommended Presentation Flow",
+    "text": "Recommended Presentation Flow\nWhen demonstrating the app:\n\nchoose one country series in the control panel,\nset the horizon and model list,\nclick Run Forecasting,\nexplain the Forecast tab first,\nuse Model Studio to justify the chosen model,\nuse Diagnostics to explain the time-series structure,\nfinish with Context to link the forecast to tourism performance."
+  },
+  {
+    "objectID": "user-guide.html#summary",
+    "href": "user-guide.html#summary",
+    "title": "User Guide",
+    "section": "Summary",
+    "text": "Summary\nThe forecasting module is intended to do more than display a future trend line. It combines:\n\nbenchmark and model-based forecasting,\nmodel comparison,\nresidual diagnostics,\nstructural decomposition,\nand business-context interpretation\n\nwithin one Shiny workflow built on the shared country-arrivals backbone."
   }
 ]

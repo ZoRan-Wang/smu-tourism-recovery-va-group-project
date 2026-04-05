@@ -91,6 +91,13 @@ smu-tourism-recovery-va-group-project/
 
 Forecasting Shiny integration on the current `main` base now uses the compact single-page studio layout that was previously confirmed in the forecasting-only refinement branch. The integrated app keeps the shared four-tab structure (`Time Series Visual Analysis`, `Time Series Clustering`, `Forecasting`, `About`) while replacing only the forecasting module UI and server workflow.
 
+The forecasting user guide has also been expanded in `user-guide.qmd` so that it now documents:
+
+- the left-side forecasting controls,
+- the difference between `Auto`, `Require modeltime`, and `Use lightweight fallback`,
+- how to read the `Forecast`, `Model Studio`, `Diagnostics`, and `Context` tabs,
+- and the recommended demonstration flow for presenting the forecasting module in the Shiny app.
+
 ## Path Handling
 
 The live project code is expected to use project-relative paths only.
