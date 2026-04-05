@@ -4,51 +4,28 @@ title: "User Guide"
 
 ## Purpose
 
-This guide explains how to use the final three-module tourism analytics app.
+The purpose of this user guide is to provide users with a clear understanding of the system’s interface, features, and functions. It explains how to navigate between modules and sub-modules, use the available controls, and interpret the visual outputs presented in the dashboard. This guide is intended to help users operate the system efficiently and make effective use of its analytical capabilities.
 
-## Step 1: Explore the Series
+## User Guide - General
 
-Open the **Time Series Visual Analysis** tab to:
+![](Userguide/TASC.png) Users can navigate to different modules using the options boxed at the top of the page.
 
-1. Choose a monthly series such as `Visitor Arrivals: China` or `Hotel Room Occupancy Rate`.
-2. Inspect the recent trend with a line chart.
-3. Confirm the unit and source metadata before moving to deeper analysis.
+## User Guide - Time Series Analysis (Module 1)
 
-## Step 2: Compare Country Recovery Patterns
+![](Userguide/TASC2.png) ![](USerguide/TASC3.png)
 
-Open the **Time Series Clustering** tab to:
+From the Controls Panel The User can select the period range that they want to check on, there will be three options available; First - Pre-covid 2017 \<-\> 2019 \| Second - COVID shock 2020 \<-\> 2021 \| Lastly - Recovery 2022 \<-\> 2025.
 
-1. Select a focused set of country-level visitor-arrivals series.
-2. Set the year window and choose the normalization mode.
-3. Pick a working `k` and run the clustering.
-4. Read the module in order: `Dashboard`, `Pattern Explorer`, `Focus Market in Context`, `Assignments`.
+Base on the period selected The **slider** for Time(Year) Range will be available for user to slide around and check what are the different information. For Example, EDA Overview, Insight and Visitor Arrival By Source Country. As shown in the image below
 
-The clustering unit is a **country trajectory**, not an individual month. The module is designed to answer which markets recovered in similar ways, not to assign each month into a market state.
+![](Userguide/TASC4.png)
 
-## Step 3: Forecast Future Values
+NEXT
 
-Open the **Forecasting** tab to:
+![](Userguide/TASC5.png)
 
-1. Select a country-level visitor-arrivals series.
-2. Compare that arrivals series with hotel occupancy, average length of stay, and room revenue in the context chart.
-3. Set the holdout horizon, choose the model set, and click `Run Forecasting`.
-4. Compare the seasonal-naive baseline with ETS, ARIMA, or both.
-5. Review the forecast plot, decomposition views, split summary, and accuracy table.
+Users can also switch between sub-modules within a module by using the navigation buttons highlighted above.
 
-The forecasting module prefers the full `modeltime` workflow, but it can fall back to a lighter `forecast` implementation when that dependency chain is unavailable. The model labels and interpretation stay consistent across both paths.
+![](Userguide/TASC6.png)
 
-## Interpretation Tips
-
-1. Use the explorer first to understand seasonality and structural breaks.
-2. Use clustering second to identify which country-arrival trajectories behave similarly.
-3. Use forecasting last to project one country-level arrivals series while interpreting it against hotel and stay indicators.
-
-## Data Scope
-
-The current app uses two coordinated inputs:
-
-- Shared arrivals backbone: `data/raw/visitor_arrivals_full_dataset.xlsx`
-- Shared clustering artifacts: `data/processed/clustering_country_wide.csv`, `data/processed/clustering_country_long.csv`, `data/processed/clustering_series_metadata.csv`
-- Optional supporting tourism context: `data/raw/tourism_update.xlsx`
-
-Country-level visitor arrivals remain the common analytical target across explorer, clustering, and forecasting. Hotel occupancy, average length of stay, number of hotels, and total room revenue are used only as optional supporting context for interpretation.
+Moving On to the Top Market Sub-Module. Users can adjust the number of top markets displayed by dragging the “Top markets to show” slider. The selected number will update the charts and ranking table accordingly.
